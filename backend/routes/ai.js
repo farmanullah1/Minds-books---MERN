@@ -9,6 +9,7 @@ router.use(auth);
 // Smart Content Assistant routes
 router.post('/enhance-post', aiController.enhancePost);
 router.post('/suggest-replies', aiController.suggestReplies);
+router.post('/generate-caption', aiController.generateCaption);
 
 // Content Safety Scanner
 router.post('/scan-content', aiController.scanContent);

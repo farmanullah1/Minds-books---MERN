@@ -9,6 +9,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { FiX, FiTrash2, FiSend } from 'react-icons/fi';
+import { motion, PanInfo } from 'framer-motion';
 import { IUserStoryGroup } from '../../types';
 import { getInitials, formatTimeAgo } from '../../utils/helpers';
 import api from '../../services/api';
@@ -198,9 +199,25 @@ const StoryViewer: React.FC<StoryViewerProps> = ({
 
   const emojis = ['❤️', '😂', '😮', '😢', '😡', '👍'];
 
+  const handleDragEnd = (e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    if (info.offset.y > 100 || info.velocity.y > 500) {
+      onClose();
+    }
+  };
+
   return (
     <div className="story-viewer-overlay">
-      <div className="story-viewer-container">
+      <motion.div 
+        className="story-viewer-container"
+        drag="y"
+        dragConstraints={{ top: 0, bottom: 0 }}
+        dragElastic={{ top: 0, bottom: 0.8 }}
+        onDragEnd={handleDragEnd}
+        initial={{ y: '100%', opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: '100%', opacity: 0 }}
+        transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+      >
         
         {/* Progress Bars */}
         <div className="story-progress-container">
@@ -309,7 +326,7 @@ const StoryViewer: React.FC<StoryViewerProps> = ({
           </div>
         )}
 
-      </div>
+      </motion.div>
     </div>
   );
 };

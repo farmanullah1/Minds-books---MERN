@@ -25,6 +25,8 @@ import StoryHighlights from '../../components/Profile/StoryHighlights';
 import AnonymousAsk from '../../components/Profile/AnonymousAsk';
 import AnonymousInbox from '../../components/Profile/AnonymousInbox';
 import PortfolioTab from '../../components/Profile/PortfolioTab';
+import SkillsEndorsements from '../../components/Profile/SkillsEndorsements';
+import WorkHistoryTimeline from '../../components/Profile/WorkHistoryTimeline';
 import { useConversation } from '../../hooks/useConversation';
 import './Profile.css';
 
@@ -480,10 +482,29 @@ const Profile: React.FC = () => {
               </div>
             ) : activeTab === 'about' ? (
               <div className="profile-about-tab">
-                <div className="card p-4">
+                <div className="card p-4 mb-4">
                   <h3 className="mb-3">About {profileUser.name}</h3>
                   <p>{profileUser.bio || 'No bio provided yet.'}</p>
                 </div>
+                
+                {profileUser.work && profileUser.work.length > 0 && (
+                  <WorkHistoryTimeline workHistory={profileUser.work} />
+                )}
+
+                {profileUser.portfolio?.skills && profileUser.portfolio.skills.length > 0 && (
+                  <SkillsEndorsements 
+                    skills={profileUser.portfolio.skills} 
+                    isOwnProfile={isOwnProfile}
+                    onEndorse={async (skillName) => {
+                      if (!currentUser) return;
+                      // Optimistic update handled internally by component,
+                      // Actual API call would go here:
+                      // await api.post(`/users/${id}/endorse`, { skillName });
+                    }}
+                    currentUserAvatar={currentUser?.profilePicture}
+                  />
+                )}
+
                 {isOwnProfile && <AnonymousInbox />}
               </div>
             ) : activeTab === 'portfolio' ? (

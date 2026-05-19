@@ -21,6 +21,8 @@ const MindBot: React.FC = () => {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [unread, setUnread] = useState(0);
+  const [smartReplies, setSmartReplies] = useState<string[]>([]);
+  const [isListening, setIsListening] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -31,11 +33,14 @@ const MindBot: React.FC = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isOpen]);
 
-  const sendMessage = async () => {
-    if (!input.trim() || loading) return;
-    const userMsg: Message = { role: 'user', text: input.trim(), timestamp: new Date() };
+  const sendMessage = async (textToSend?: string) => {
+    const text = textToSend || input;
+    if (!text.trim() || loading) return;
+    
+    const userMsg: Message = { role: 'user', text: text.trim(), timestamp: new Date() };
     setMessages(prev => [...prev, userMsg]);
     setInput('');
+    setSmartReplies([]);
     setLoading(true);
 
     try {
@@ -43,9 +48,20 @@ const MindBot: React.FC = () => {
         message: userMsg.text,
         history: messages.slice(-10).map(m => ({ role: m.role === 'bot' ? 'assistant' : 'user', content: m.text }))
       });
-      const botMsg: Message = { role: 'bot', text: res.data.reply || "I'm thinking... Try again!", timestamp: new Date() };
+      const botReply = res.data.reply || "I'm thinking... Try again!";
+      const botMsg: Message = { role: 'bot', text: botReply, timestamp: new Date() };
       setMessages(prev => [...prev, botMsg]);
       if (!isOpen) setUnread(prev => prev + 1);
+
+      // Fetch smart replies based on bot's response
+      try {
+        const srRes = await api.post('/ai/suggest-replies', { commentText: botReply });
+        if (srRes.data.suggestions) {
+          setSmartReplies(srRes.data.suggestions);
+        }
+      } catch (err) {
+        console.error('Failed to get smart replies', err);
+      }
     } catch {
       setMessages(prev => [...prev, { role: 'bot', text: "Sorry, I'm having trouble connecting. Please try again later!", timestamp: new Date() }]);
     } finally {
@@ -58,6 +74,28 @@ const MindBot: React.FC = () => {
       e.preventDefault();
       sendMessage();
     }
+  };
+
+  const startListening = () => {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Your browser does not support Speech Recognition.");
+      return;
+    }
+    const recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = 'en-US';
+
+    recognition.onstart = () => setIsListening(true);
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript;
+      setInput(prev => prev ? `${prev} ${transcript}` : transcript);
+      setIsListening(false);
+    };
+    recognition.onerror = () => setIsListening(false);
+    recognition.onend = () => setIsListening(false);
+    recognition.start();
   };
 
   return (
@@ -121,22 +159,41 @@ const MindBot: React.FC = () => {
               <div ref={messagesEndRef} />
             </div>
 
-            <div className="mindbot-input-area">
-              <input
-                type="text"
-                placeholder="Ask MindBot anything..."
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                disabled={loading}
-              />
-              <button
-                className="mindbot-send"
-                onClick={sendMessage}
-                disabled={!input.trim() || loading}
-              >
-                <FiSend size={18} />
-              </button>
+            <div className="mindbot-input-area-wrapper">
+              {smartReplies.length > 0 && (
+                <div className="mindbot-smart-replies">
+                  {smartReplies.map((sr, idx) => (
+                    <button key={idx} className="smart-reply-btn" onClick={() => sendMessage(sr)}>
+                      {sr}
+                    </button>
+                  ))}
+                </div>
+              )}
+              <div className="mindbot-input-area">
+                <input
+                  type="text"
+                  placeholder="Ask MindBot anything..."
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  disabled={loading}
+                />
+                <button
+                  className={`mindbot-mic ${isListening ? 'listening' : ''}`}
+                  onClick={startListening}
+                  disabled={loading}
+                  title="Voice Input"
+                >
+                  <FiMic size={18} />
+                </button>
+                <button
+                  className="mindbot-send"
+                  onClick={() => sendMessage()}
+                  disabled={!input.trim() || loading}
+                >
+                  <FiSend size={18} />
+                </button>
+              </div>
             </div>
 
             <div className="mindbot-footer">

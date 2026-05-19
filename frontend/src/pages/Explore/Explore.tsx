@@ -1,17 +1,10 @@
-/**
- * CodeDNA
- * Explore.tsx — Premium Visual Explore & Discover Page (Masonry Discovery Grid)
- * exports: default Explore
- * used_by: App.tsx
- * rules: Yellow theme primary, masonry content grid, active trending tags, direct hover overlays
- */
-
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   FiSearch, FiTrendingUp, FiImage, FiVideo, FiFileText, 
   FiPlusCircle, FiHeart, FiMessageCircle, FiCheckCircle, FiUserPlus 
 } from 'react-icons/fi';
+import Masonry from 'react-masonry-css';
 import './Explore.css';
 
 interface ExploreItem {
@@ -28,16 +21,13 @@ interface ExploreItem {
 }
 
 const Explore: React.FC = () => {
-  // States
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [items, setItems] = useState<ExploreItem[]>([]);
   const [followedCreators, setFollowedCreators] = useState<string[]>([]);
 
-  // Categories list
   const categories = ['All', 'Technology', 'Design', 'Creative', 'Lifestyle', 'Travel'];
 
-  // Trending Topics list
   const trendingTags = [
     { tag: '#NextGenReact', count: '14.2K posts' },
     { tag: '#GoldDesignAccents', count: '8.9K posts' },
@@ -46,7 +36,6 @@ const Explore: React.FC = () => {
     { tag: '#TailwindvsCSS', count: '12.1K posts' }
   ];
 
-  // Mock Explore list items
   useEffect(() => {
     const mockItems: ExploreItem[] = [
       {
@@ -145,6 +134,12 @@ const Explore: React.FC = () => {
     }
   };
 
+  const breakpointColumnsObj = {
+    default: 3,
+    1100: 2,
+    700: 1
+  };
+
   return (
     <div className="explore-page-container">
       <div className="explore-grid-layout">
@@ -178,14 +173,19 @@ const Explore: React.FC = () => {
           </div>
 
           {/* Masonry Discovery Grid */}
-          <div className="masonry-feed-container">
-            {getFilteredItems().map((item) => (
+          <Masonry
+            breakpointCols={breakpointColumnsObj}
+            className="my-masonry-grid"
+            columnClassName="my-masonry-grid_column"
+          >
+            {getFilteredItems().map((item, index) => (
               <motion.div 
                 key={item.id}
                 className="masonry-card"
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: index * 0.06, ease: "easeOut" }}
                 layoutId={`explore-card-${item.id}`}
               >
                 <div className="card-media-wrapper">
@@ -196,6 +196,12 @@ const Explore: React.FC = () => {
                     {getMediaIcon(item.type)}
                     <span>{item.type.toUpperCase()}</span>
                   </span>
+
+                  {item.likes > 4000 && (
+                    <span className="trending-flame-badge">
+                      🔥 Trending
+                    </span>
+                  )}
 
                   {/* Dark micro-hover overlay HUD */}
                   <div className="card-interactive-overlay">
@@ -222,7 +228,7 @@ const Explore: React.FC = () => {
                 </div>
               </motion.div>
             ))}
-          </div>
+          </Masonry>
 
         </div>
 

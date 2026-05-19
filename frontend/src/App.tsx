@@ -14,7 +14,9 @@ import { fetchCurrentUser } from './store/slices/authSlice';
 
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
+import Landing from './pages/Landing/Landing';
 import Home from './pages/Home/Home';
+import NotFound from './pages/NotFound/NotFound';
 import Profile from './pages/Profile/Profile';
 import Messages from './pages/Messages/Messages';
 import GroupsHome from './pages/Groups/GroupsHome';
@@ -50,6 +52,14 @@ import JobDetail from './pages/Jobs/JobDetail';
 import Security from './pages/Settings/Security';
 import Accessibility from './pages/Settings/Accessibility';
 import Shops from './pages/Shops/Shops';
+import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService/TermsOfService';
+import CommunityGuidelines from './pages/CommunityGuidelines/CommunityGuidelines';
+import HelpCenter from './pages/HelpCenter/HelpCenter';
+import MeetCreator from './pages/MeetCreator/MeetCreator';
+import AboutMindbook from './pages/AboutMindbook/AboutMindbook';
+import WhyMindbook from './pages/WhyMindbook/WhyMindbook';
+import Notifications from './pages/Notifications/Notifications';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import MobileBottomNav from './components/Navbar/MobileBottomNav';
 import { FiArrowUp } from 'react-icons/fi';
@@ -189,9 +199,7 @@ const App: React.FC = () => {
         <Route
           path="/"
           element={
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
+            token ? <Home /> : <Landing />
           }
         />
         <Route
@@ -427,6 +435,14 @@ const App: React.FC = () => {
           }
         />
         <Route
+          path="/notifications"
+          element={
+            <ProtectedRoute>
+              <Notifications />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/settings"
           element={
             <ProtectedRoute>
@@ -482,7 +498,50 @@ const App: React.FC = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route
+          path="/privacy-policy"
+          element={
+            <ProtectedRoute>
+              <PrivacyPolicy />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/terms-of-service"
+          element={
+            <ProtectedRoute>
+              <TermsOfService />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/community-guidelines"
+          element={
+            <ProtectedRoute>
+              <CommunityGuidelines />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/help-center"
+          element={
+            <ProtectedRoute>
+              <HelpCenter />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/meet-the-creator"
+          element={
+            <ProtectedRoute>
+              <MeetCreator />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/landing" element={<Landing />} />
+        <Route path="/about-mindbook" element={<AboutMindbook />} />
+        <Route path="/why-mindbook" element={<WhyMindbook />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       {token && <MobileBottomNav />}
       {token && <MindBot />}

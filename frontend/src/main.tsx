@@ -17,12 +17,16 @@ import './index.css';
 import { ThemeProvider } from './context/ThemeContext';
 import { ToastProvider } from './components/Toast/ToastContext';
 
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store}>
       <ThemeProvider>
         <ToastProvider>
-          <App />
+          <ErrorBoundary>
+            <App />
+          </ErrorBoundary>
         </ToastProvider>
       </ThemeProvider>
     </Provider>

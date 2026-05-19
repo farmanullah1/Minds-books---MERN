@@ -123,7 +123,8 @@ const Login: React.FC = () => {
             </div>
 
             <div className="demo-credentials" style={{ textAlign: 'center', margin: '12px 0', fontSize: '13px', color: 'var(--text-secondary)' }}>
-              <p>Demo: demo@example.com / demo1234</p>
+              <p style={{ margin: '4px 0' }}>👨‍💻 Creator: <strong>farman@mindbook.com</strong> / <strong>Password123</strong></p>
+              <p style={{ margin: '4px 0' }}>🛡️ Admin: <strong>admin@mindbook.com</strong> / <strong>Admin@123456</strong></p>
             </div>
 
             <div className="auth-divider">or</div>

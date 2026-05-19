@@ -10,6 +10,7 @@
 import React from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FiX, FiBell } from 'react-icons/fi';
+import { useLocation } from 'react-router-dom';
 import { useAppSelector } from '../../store/hooks';
 import { getInitials } from '../../utils/helpers';
 import './NotificationToast.css';
@@ -19,23 +20,13 @@ const NotificationToast: React.FC = () => {
   const [visible, setVisible] = React.useState(false);
   const [currentNotif, setCurrentNotif] = React.useState<any>(null);
   const prevUnreadCount = React.useRef(unreadCount);
+  const location = useLocation();
 
   React.useEffect(() => {
-    // If unreadCount increased, show the newest notification
-    if (unreadCount > prevUnreadCount.current && items.length > 0) {
-      const latest = items[0];
-      setCurrentNotif(latest);
-      setVisible(true);
-      
-      // Auto hide after 5 seconds
-      const timer = setTimeout(() => {
-        setVisible(false);
-      }, 5000);
-      
-      return () => clearTimeout(timer);
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
     }
-    prevUnreadCount.current = unreadCount;
-  }, [unreadCount, items]);
+  }, []);
 
   const getNotifText = (notif: any) => {
     switch (notif.type) {
@@ -46,6 +37,34 @@ const NotificationToast: React.FC = () => {
       default: return 'interacted with you';
     }
   };
+
+  React.useEffect(() => {
+    // If unreadCount increased, show the newest notification if not on notifications page
+    if (unreadCount > prevUnreadCount.current && items.length > 0) {
+      const latest = items[0];
+      
+      // Desktop push notification
+      if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification(`MindBook Notification`, {
+          body: `${latest.fromUser.name} ${getNotifText(latest)}`,
+          icon: latest.fromUser.profilePicture || undefined
+        });
+      }
+
+      if (location.pathname !== '/notifications') {
+        setCurrentNotif(latest);
+        setVisible(true);
+        
+        // Auto hide after 5 seconds
+        const timer = setTimeout(() => {
+          setVisible(false);
+        }, 5000);
+        
+        return () => clearTimeout(timer);
+      }
+    }
+    prevUnreadCount.current = unreadCount;
+  }, [unreadCount, items, location.pathname]);
 
   return (
     <AnimatePresence>

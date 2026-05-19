@@ -94,39 +94,32 @@ const StoriesFeed: React.FC = () => {
         
         {/* Create Story / Current User Story Card */}
         {currentUserGroup ? (
-          <div className="story-card friend-story-card" onClick={() => setViewerGroupIndex(groupedStories.findIndex(g => g.user._id === user?._id))}>
-              {currentUserGroup.stories[currentUserGroup.stories.length - 1].video ? (
-                <video src={currentUserGroup.stories[currentUserGroup.stories.length - 1].video} className="story-bg-img" muted />
+          <div className="story-circle-wrapper" onClick={() => setViewerGroupIndex(groupedStories.findIndex(g => g.user._id === user?._id))}>
+            <div className="story-circle has-story">
+              {user?.profilePicture ? (
+                <img src={user.profilePicture} alt="You" />
               ) : (
-                <img src={currentUserGroup.stories[currentUserGroup.stories.length - 1].image} alt="Your Story" className="story-bg-img" />
+                <div className="avatar-initials">{user ? getInitials(user.name) : ''}</div>
               )}
-              <div className="story-overlay">
-                <div className="story-avatar">
-                  {user?.profilePicture ? (
-                    <img src={user.profilePicture} alt="You" />
-                  ) : (
-                    <div className="avatar-initials">{user ? getInitials(user.name) : ''}</div>
-                  )}
-                </div>
-                <div className="create-story-btn" onClick={(e) => { e.stopPropagation(); handleCreateStoryClick(); }}>
-                  <FiPlus size={20} />
-                </div>
-                <span className="story-author">Your Story</span>
-              </div>
+            </div>
+            <div className="create-story-btn-small" onClick={(e) => { e.stopPropagation(); handleCreateStoryClick(); }}>
+              <FiPlus size={12} />
+            </div>
+            <span className="story-author">Your Story</span>
           </div>
         ) : (
-          <div className="story-card create-story-card" onClick={handleCreateStoryClick}>
+          <div className="story-circle-wrapper" onClick={handleCreateStoryClick}>
+            <div className="story-circle">
               {user?.profilePicture ? (
-                <img src={user.profilePicture} alt="You" className="story-bg-img blur-bg" />
+                <img src={user.profilePicture} alt="You" />
               ) : (
-                <div className="story-bg-placeholder" />
+                <div className="avatar-initials">{user ? getInitials(user.name) : ''}</div>
               )}
-              <div className="story-overlay create-overlay">
-                <div className="create-story-btn main-btn">
-                  {loading ? <div className="spinner small"></div> : <FiPlus size={24} />}
-                </div>
-                <span className="story-author text-dark">Create Story</span>
-              </div>
+            </div>
+            <div className="create-story-btn-small create-mode">
+              <FiPlus size={12} />
+            </div>
+            <span className="story-author text-dark">Add Story</span>
           </div>
         )}
         
@@ -142,24 +135,16 @@ const StoriesFeed: React.FC = () => {
         {/* Friends' Stories */}
         {otherUsersGroups.map((group) => {
           const groupIdx = groupedStories.findIndex(g => g.user._id === group.user._id);
-          const latestStory = group.stories[group.stories.length - 1];
           return (
-            <div key={group.user._id} className="story-card friend-story-card" onClick={() => setViewerGroupIndex(groupIdx)}>
-              {latestStory.video ? (
-                <video src={latestStory.video} className="story-bg-img" muted />
-              ) : (
-                <img src={latestStory.image} alt={`${group.user.name}'s story`} className="story-bg-img" />
-              )}
-              <div className="story-overlay">
-                <div className="story-avatar has-story">
-                  {group.user.profilePicture ? (
-                    <img src={group.user.profilePicture} alt={group.user.name} />
-                  ) : (
-                    <div className="avatar-initials">{getInitials(group.user.name)}</div>
-                  )}
-                </div>
-                <span className="story-author">{group.user.name}</span>
+            <div key={group.user._id} className="story-circle-wrapper" onClick={() => setViewerGroupIndex(groupIdx)}>
+              <div className="story-circle has-story unread">
+                {group.user.profilePicture ? (
+                  <img src={group.user.profilePicture} alt={group.user.name} />
+                ) : (
+                  <div className="avatar-initials">{getInitials(group.user.name)}</div>
+                )}
               </div>
+              <span className="story-author">{group.user.name.split(' ')[0]}</span>
             </div>
           );
         })}

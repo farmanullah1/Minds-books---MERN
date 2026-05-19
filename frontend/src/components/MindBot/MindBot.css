@@ -163,13 +163,49 @@
   30% { transform: translateY(-6px); opacity: 1; }
 }
 
-/* ─── Input Area ───────────────────────────────── */
+/* ─── Input Area & Smart Replies ───────────────── */
+.mindbot-input-area-wrapper {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border-color);
+}
+
+.mindbot-smart-replies {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px 0 14px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.mindbot-smart-replies::-webkit-scrollbar {
+  display: none;
+}
+
+.smart-reply-btn {
+  background: var(--bg-input);
+  color: var(--brand-primary);
+  border: 1px solid var(--brand-primary);
+  border-radius: 14px;
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.smart-reply-btn:hover {
+  background: var(--brand-primary);
+  color: white;
+}
+
 .mindbot-input-area {
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 10px 14px;
-  border-top: 1px solid var(--border-color);
 }
 
 .mindbot-input-area input {
@@ -185,6 +221,35 @@
 
 .mindbot-input-area input:focus {
   box-shadow: 0 0 0 2px rgba(247, 185, 40, 0.2);
+}
+
+.mindbot-mic {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg-input);
+  color: var(--text-secondary);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.mindbot-mic:hover {
+  color: var(--brand-primary);
+}
+
+.mindbot-mic.listening {
+  color: #e41e3f;
+  animation: pulseMic 1.5s infinite;
+}
+
+@keyframes pulseMic {
+  0% { box-shadow: 0 0 0 0 rgba(228, 30, 63, 0.4); }
+  70% { box-shadow: 0 0 0 6px rgba(228, 30, 63, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(228, 30, 63, 0); }
 }
 
 .mindbot-send {

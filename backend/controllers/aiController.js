@@ -73,6 +73,34 @@ exports.enhancePost = async (req, res) => {
   }
 };
 
+// @route   POST /api/ai/generate-caption
+// @desc    Generate a caption for an uploaded image (mocked since no Vision API hooked yet)
+// @access  Private
+exports.generateCaption = async (req, res) => {
+  try {
+    const { tone = 'Casual' } = req.body;
+    
+    if (!genAI) {
+      return res.json({ caption: "📸 Loving this vibe! #MindBook #Moments" });
+    }
+
+    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const prompt = `Generate a short, engaging social media caption for an image. 
+      Tone: ${tone}. 
+      Include 2-3 relevant hashtags at the end.
+      (Note: Since I cannot provide the image, just write a great generic caption about a beautiful moment, hanging out, or exploring.)`;
+
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const text = response.text();
+
+    res.json({ caption: text });
+  } catch (error) {
+    console.error('AI Caption Generate Error:', error);
+    res.status(500).json({ message: 'Failed to generate caption via AI' });
+  }
+};
+
 // @route   POST /api/ai/suggest-replies
 // @desc    Suggest 3 quick replies to a comment
 // @access  Private
@@ -169,7 +197,13 @@ exports.mindbotChat = async (req, res) => {
     
     const systemPrompt = `You are MindBot, the friendly AI assistant for MindBook — a social media platform. 
 The user's name is ${userName}. Be warm, concise, and helpful. 
-You can help with: navigating the platform, writing posts, finding groups/events, profile tips, and general conversation.
+You can help with: 
+1. Feature help & FAQ (navigating the platform, writing posts).
+2. Content summarizing (if user asks to summarize text).
+3. Friend suggestions (suggest looking for people in tech, art, etc. with brief AI reasoning).
+4. Mood check-in (if the user shares their mood, provide a personalized, empathetic response).
+5. Onboarding wizard (if the user is new or asks for a tour, provide a 5-step guide one step at a time).
+
 Keep responses under 150 words. Use emojis sparingly. Never reveal you are powered by Google Gemini.`;
 
     const contextMessages = history.map(m => `${m.role === 'user' ? 'User' : 'MindBot'}: ${m.content}`).join('\n');

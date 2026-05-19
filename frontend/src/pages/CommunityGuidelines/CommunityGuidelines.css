@@ -1,0 +1,249 @@
+#guidelines-page {
+  display: grid;
+  grid-template-columns: var(--sidebar-l) 1fr;
+  gap: 24px;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 24px 16px;
+  margin-top: var(--navbar-h);
+}
+
+.guidelines-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 40px;
+  box-shadow: var(--shadow-sm);
+  transition: background-color var(--t-base), border-color var(--t-base);
+}
+
+.guidelines-header {
+  text-align: center;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 32px;
+  margin-bottom: 40px;
+}
+
+.header-icon-wrapper {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: var(--brand-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px auto;
+}
+
+.shield-icon {
+  color: var(--brand);
+}
+
+.guidelines-header h1 {
+  font-size: 2.5rem;
+  font-weight: 850;
+  color: var(--text-1);
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+
+.guidelines-meta {
+  font-size: 1.1rem;
+  color: var(--brand);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.guidelines-subtitle {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--text-2);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Allowed vs Prohibited Grid */
+.guidelines-comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 48px;
+}
+
+.comparison-card {
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 24px;
+  background: var(--bg-body);
+  transition: all var(--t-base);
+}
+
+.comparison-card.allowed {
+  border-top: 4px solid var(--success);
+}
+
+.comparison-card.prohibited {
+  border-top: 4px solid var(--error);
+}
+
+.comparison-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.comparison-card .card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.comparison-card h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-1);
+}
+
+.comparison-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.comparison-card li {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-2);
+  position: relative;
+  padding-left: 20px;
+}
+
+.comparison-card.allowed li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--success);
+  font-weight: bold;
+}
+
+.comparison-card.prohibited li::before {
+  content: '✕';
+  position: absolute;
+  left: 0;
+  color: var(--error);
+  font-weight: bold;
+}
+
+.icon-success {
+  color: var(--success);
+}
+
+.icon-error {
+  color: var(--error);
+}
+
+/* Sections */
+.guidelines-section {
+  border-top: 1px solid var(--border);
+  padding-top: 40px;
+  margin-bottom: 40px;
+}
+
+.section-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.guidelines-section h2 {
+  font-size: 1.8rem;
+  font-weight: 750;
+  color: var(--text-1);
+}
+
+.guidelines-section p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text-2);
+  margin-bottom: 24px;
+}
+
+.icon-warn {
+  color: #f0ad4e;
+}
+
+.icon-flag {
+  color: var(--brand);
+}
+
+/* Enforcement Grid */
+.enforcement-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.enforcement-card {
+  background: var(--bg-body);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 20px;
+  transition: all var(--t-fast);
+}
+
+.enforcement-card:hover {
+  border-color: var(--brand);
+  transform: translateY(-2px);
+}
+
+.enforcement-card h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-1);
+  margin-bottom: 8px;
+}
+
+.enforcement-card p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text-2);
+  margin-bottom: 0;
+}
+
+/* Reporting Steps */
+.reporting-steps {
+  padding-left: 20px;
+  color: var(--text-2);
+}
+
+.reporting-steps li {
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 992px) {
+  .guidelines-comparison-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  #guidelines-page {
+    grid-template-columns: 1fr;
+    padding: 16px 8px;
+  }
+
+  .guidelines-container {
+    padding: 24px 16px;
+  }
+
+  .guidelines-header h1 {
+    font-size: 2rem;
+  }
+}

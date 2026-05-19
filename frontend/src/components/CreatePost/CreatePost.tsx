@@ -197,11 +197,13 @@ const CreatePost: React.FC<CreatePostProps> = ({ groupId, activeChannel, onPostC
     }
   };
 
+  const [aiTone, setAiTone] = useState('Professional');
+
   const handleAIEnhance = async () => {
     if (!content.trim()) return;
     setAiEnhancing(true);
     try {
-      const res = await api.post('/ai/enhance-post', { content });
+      const res = await api.post('/ai/enhance-post', { content, tone: aiTone, addHashtags: true });
       setContent(res.data.enhancedContent);
       if (textareaRef.current) {
         textareaRef.current.style.height = 'auto';
@@ -211,6 +213,23 @@ const CreatePost: React.FC<CreatePostProps> = ({ groupId, activeChannel, onPostC
       console.error('Failed to enhance post', err);
     } finally {
       setAiEnhancing(false);
+    }
+  };
+
+  const [generatingCaption, setGeneratingCaption] = useState(false);
+  const handleGenerateCaption = async () => {
+    setGeneratingCaption(true);
+    try {
+      const res = await api.post('/ai/generate-caption', { tone: aiTone });
+      setContent(prev => prev ? `${prev}\n\n${res.data.caption}` : res.data.caption);
+      if (textareaRef.current) {
+        textareaRef.current.style.height = 'auto';
+        textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
+      }
+    } catch (err) {
+      console.error('Failed to generate caption', err);
+    } finally {
+      setGeneratingCaption(false);
     }
   };
 
@@ -589,13 +608,22 @@ const CreatePost: React.FC<CreatePostProps> = ({ groupId, activeChannel, onPostC
 
                   {/* Photo/Video media preview */}
                   {mediaPreview && (
-                    <div className="composer-media-preview-container">
+                    <div className="composer-media-preview-container" style={{ position: 'relative' }}>
                       {mediaType === 'video' ? (
                         <video src={mediaPreview} controls />
                       ) : (
                         <img src={mediaPreview} alt="Preview" />
                       )}
                       <button type="button" className="remove-media-btn" onClick={removeMedia}>✕</button>
+                      <button 
+                        type="button" 
+                        className="btn-generate-caption" 
+                        onClick={handleGenerateCaption}
+                        disabled={generatingCaption}
+                        style={{ position: 'absolute', bottom: '10px', left: '10px', background: 'rgba(0,0,0,0.6)', color: 'white', border: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }}
+                      >
+                        <FiCpu size={14} className={generatingCaption ? 'spin' : ''} /> {generatingCaption ? 'Generating...' : 'AI Caption'}
+                      </button>
                     </div>
                   )}
 
@@ -801,15 +829,28 @@ const CreatePost: React.FC<CreatePostProps> = ({ groupId, activeChannel, onPostC
                   />
 
                   {/* Submit row & actions */}
-                  <div className="composer-submit-row mt-3">
-                    <button 
-                      type="button" 
-                      className="btn-enhance-ai mr-2"
-                      onClick={handleAIEnhance}
-                      disabled={!content.trim() || aiEnhancing}
-                    >
-                      <FiCpu size={16} className={aiEnhancing ? 'spin' : ''} /> {aiEnhancing ? 'Enhancing...' : 'AI Enhance'}
-                    </button>
+                  <div className="composer-submit-row mt-3" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
+                    <div className="ai-enhance-group" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <select 
+                        className="ai-tone-selector" 
+                        value={aiTone} 
+                        onChange={(e) => setAiTone(e.target.value)}
+                        style={{ padding: '6px', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-input)', color: 'var(--text-primary)' }}
+                      >
+                        <option value="Professional">Professional</option>
+                        <option value="Casual">Casual</option>
+                        <option value="Funny">Funny</option>
+                        <option value="Inspirational">Inspirational</option>
+                      </select>
+                      <button 
+                        type="button" 
+                        className="btn-enhance-ai"
+                        onClick={handleAIEnhance}
+                        disabled={!content.trim() || aiEnhancing}
+                      >
+                        <FiCpu size={16} className={aiEnhancing ? 'spin' : ''} /> {aiEnhancing ? 'Enhancing...' : 'AI Enhance'}
+                      </button>
+                    </div>
 
                     <button 
                       type="submit" 

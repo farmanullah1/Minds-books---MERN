@@ -1,9 +1,9 @@
 .reels-page-container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   min-height: calc(100vh - 70px);
-  background-color: #000000; /* Short video feed always looks best in deep dark AMOLED black */
+  background-color: #000000;
   color: #ffffff;
   font-family: 'Inter', sans-serif;
   overflow: hidden;
@@ -11,79 +11,30 @@
 }
 
 .reels-outer-scroller {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: 100%;
   max-width: 480px;
-  height: calc(100vh - 110px);
+  height: calc(100vh - 70px);
+  overflow-y: auto;
   position: relative;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+.reels-outer-scroller::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
 }
 
-.reels-nav-helpers {
-  position: absolute;
-  right: -70px;
+.reels-feed-content {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  z-index: 10;
-}
-
-@media (max-width: 768px) {
-  .reels-nav-helpers {
-    display: none; /* Hide navigation arrows on mobile as users swipe/tap naturally */
-  }
-}
-
-.nav-arrow-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: white;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  backdrop-filter: blur(10px);
-  transition: all 0.2s ease;
-}
-
-.nav-arrow-btn:hover:not(:disabled) {
-  background: var(--brand-primary, #F7B928);
-  color: black;
-  border-color: var(--brand-primary, #F7B928);
-}
-
-.nav-arrow-btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-
-/* Vertical Viewport and Stage */
-.reel-viewer-viewport {
-  width: 100%;
-  height: 100%;
-  background-color: #0f0f0f;
-  border-radius: 20px;
-  overflow: hidden;
-  position: relative;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-}
-
-@media (max-width: 500px) {
-  .reel-viewer-viewport {
-    border-radius: 0;
-  }
 }
 
 .reel-stage {
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 70px);
   position: relative;
   overflow: hidden;
   background-color: black;
+  scroll-snap-align: start;
 }
 
 .reel-video-element {

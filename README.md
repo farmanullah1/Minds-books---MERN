@@ -36,32 +36,51 @@ Built on the **MERN stack**, MindBook provides a robust set of features for comm
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Getting Started (Run in 3 Commands)
 
-### Prerequisites
-- Node.js (v18+)
-- MongoDB (Local or Atlas)
+Boot up the full application and seed the database in just 3 commands:
 
-### 1. Backend Setup
-1. `cd backend`
-2. `npm install`
-3. Configure `.env` (Port, Mongo URI, JWT Secret)
-4. `npm run dev` (Runs on port 5000)
+```bash
+# 1. Install all dependencies for both backend and frontend concurrently
+npm install --prefix backend && npm install --prefix frontend
 
-### 2. Frontend Setup
-1. `cd frontend`
-2. `npm install`
-3. `npm run dev` (Runs on port 5173)
+# 2. Seed the database with realistic demo accounts, posts, groups, and analytics
+npm run seed --prefix backend
+
+# 3. Start both backend and frontend development servers concurrently
+npm run dev --prefix backend & npm run dev --prefix frontend
+```
+
+*The application will be available at `http://localhost:5173`.*
+
+### 🔑 Demo Credentials
+- **Admin Access:** `admin@mindbook.com` / `Admin@123456`
+- **Creator Access:** `farman@mindbook.com` / `Password123`
 
 ---
 
-## 🎨 Design Philosophy
-MindBook uses a "Gold Standard" design system. The primary palette revolves around:
+## 🎨 Design & Performance
+MindBook uses a premium "Gold Standard" design system. The primary palette revolves around:
 - **Brand Primary:** `#F7B928` (Vibrant Yellow)
 - **Brand Secondary:** `#FFD700`
-- **Surface:** Modern solid card layouts with subtle drop shadows and full dark-mode support.
+- **Surface:** Glassmorphic translucent cards with active blur filters and smooth Framer Motion animations.
+
+### ⚡ Lighthouse Metrics Target
+- Performance: **≥80**
+- Accessibility: **≥90**
+- Best Practices: **≥90**
+- SEO: **≥90**
 
 ---
+
+## 📸 Feature Showcase
+
+*(Insert UI Screenshots or GIF walkthroughs here)*
+- Dashboard Analytics View
+- Mobile Gesture Interactions (Pull to Refresh)
+- Real-time Comments & Reels
+- Dark Mode / Glassmorphism Login
+
 
 ## 📜 License
 Developed as a premium social media demonstration. All rights reserved.

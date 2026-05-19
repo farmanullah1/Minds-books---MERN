@@ -9,7 +9,7 @@
 
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { FiHome, FiUsers, FiBookmark, FiCalendar, FiFlag, FiShoppingBag, FiChevronDown, FiLogOut, FiBriefcase, FiMusic, FiShield, FiVideo, FiTv, FiHeart, FiFilm, FiCompass, FiPlayCircle, FiActivity, FiRadio, FiMapPin, FiAward, FiEye } from 'react-icons/fi';
+import { FiHome, FiUsers, FiBookmark, FiCalendar, FiFlag, FiShoppingBag, FiChevronDown, FiLogOut, FiBriefcase, FiMusic, FiShield, FiVideo, FiTv, FiHeart, FiFilm, FiCompass, FiPlayCircle, FiActivity, FiRadio, FiMapPin, FiAward, FiEye, FiUser, FiInfo, FiHelpCircle } from 'react-icons/fi';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { logout } from '../../store/slices/authSlice';
 import { getInitials } from '../../utils/helpers';
@@ -62,6 +62,11 @@ const LeftSidebar: React.FC = () => {
     { icon: <FiCompass size={20} />, label: 'Explore', to: '/explore' },
     { icon: <FiShield size={20} />, label: 'Security', to: '/security' },
     { icon: <FiEye size={20} />, label: 'Accessibility', to: '/settings/accessibility' },
+    { icon: <FiInfo size={20} />, label: 'Privacy Policy', to: '/privacy-policy' },
+    { icon: <FiInfo size={20} />, label: 'Terms of Service', to: '/terms-of-service' },
+    { icon: <FiShield size={20} />, label: 'Community Guidelines', to: '/community-guidelines' },
+    { icon: <FiHelpCircle size={20} />, label: 'Help Center', to: '/help-center' },
+    { icon: <FiUser size={20} />, label: 'Meet the Creator', to: '/meet-the-creator' },
   ];
 
   const handleLogout = () => {

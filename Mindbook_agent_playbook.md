@@ -1,336 +1,282 @@
-# MindBook – Antigravity Agent Prompt Playbook v4.0
+# MindBook – Antigravity Agent Prompt Playbook v6.0 — ULTIMATE EDITION
 
-> **Purpose:** This is the single source of truth for all development instructions for **MindBook** — a next-generation social media platform built on the MERN stack with a yellow `#F7B928` brand theme. Every section is a self-contained, executable prompt. To run any prompt, tell Antigravity: **"Run PROMPT-[ID]"** and the agent will execute it autonomously.
+> **Project:** MindBook — A next-generation, portfolio-grade social media platform.
+> **Developer:** Farman Ullah Ansari | Full Stack Software Engineer
+> **Portfolio:** https://farmanullah1.github.io/My-Portfolio
+> **LinkedIn:** https://www.linkedin.com/in/farmanullah-ansari/
+> **GitHub:** https://github.com/farmanullah1
 >
-> **Critical Rule — Save Progress:** After **every** completed feature, step, component, route, model change, or bug fix, the agent **MUST** append a timestamped entry to `save_progress.md` in the project root. No exceptions. Format: `[ISO TIMESTAMP] PROMPT-XX — [Feature name]: [Brief description of what was done]`. This file is the live audit trail of all work completed. If `save_progress.md` does not exist, create it before writing any other file.
+> **Design Philosophy:** You have FULL PERMISSION to refine, evolve, or completely reimagine the color palette, logo, typography, spacing, and visual language if it results in a more stunning, cohesive, and award-winning user experience. The goal is not to copy Facebook — it is to EXCEED it in every visual and interactive dimension.
 >
-> **Last Updated:** 2026 | **Stack:** MongoDB · Express.js · React (Vite) · Node.js | **Brand Color:** `#F7B928`
+> **Brand Default:** Yellow `#F7B928` — but agent may propose a refined palette.
+>
+> **Stack:** MongoDB · Express.js · React 18 (Vite) · Node.js · Socket.IO · WebRTC
+>
+> **Save Progress Rule:** After EVERY completed sub-prompt, feature, component, route, model change, or bug fix, append a timestamped entry to `save_progress.md`. If this file does not exist, CREATE IT before touching anything else.
 
 ---
 
-## Table of Contents
+## MASTER AGENT EXECUTION LOOP
 
-| # | Section |
-|---|---------|
-| [Agent Rules](#core-agent-rules) | Must-read before executing any prompt |
-| [Save Progress System](#save-progress-system) | How progress tracking works |
-| [Design Tokens](#design-tokens--yellow-theme-critical--never-change) | Brand colors, typography, spacing |
-| [PROMPT-01–20](#prompt-01--project-scaffold) | Core platform build |
-| [PROMPT-21–28](#prompt-21--admin-dashboard) | Admin, AI, wallet, privacy |
-| [PROMPT-29](#prompt-29--full-animation--3d-visual-interaction-system) | Animation & 3D system |
-| [PROMPT-30](#prompt-30--linkedin-style-professional-features) | LinkedIn features |
-| [PROMPT-31](#prompt-31--instagram-style-features) | Instagram features |
-| [PROMPT-32](#prompt-32--youtube--netflix-style-watch-features) | YouTube/Netflix features |
-| [PROMPT-33](#prompt-33--ai-chatbot--virtual-assistant) | AI Chatbot (MindBot) |
-| [PROMPT-34](#prompt-34--complete-messaging-system-rebuild) | Full messaging + voice/video calls |
-| [PROMPT-35](#prompt-35--settings-page--deep-dive) | Settings deep dive |
-| [PROMPT-36](#prompt-36--groups-system--deep-dive) | Groups deep dive |
-| [PROMPT-37](#prompt-37--friends-system--deep-dive) | Friends deep dive |
-| [PROMPT-38](#prompt-38--notifications-system--deep-dive) | Notifications deep dive |
-| [PROMPT-39](#prompt-39--search--discovery-system) | Search & Discovery |
-| [PROMPT-40](#prompt-40--marketplace) | Marketplace |
-| [PROMPT-41](#prompt-41--events-system) | Events system |
-| [PROMPT-42](#prompt-42--memories--flashbacks) | Memories |
-| [PROMPT-43](#prompt-43--live-streaming) | Live streaming |
-| [PROMPT-44](#prompt-44--watch-party) | Watch party |
-| [PROMPT-45](#prompt-45--fundraisers--donations) | Fundraisers |
-| [PROMPT-46](#prompt-46--reels--short-video-feed) | Reels |
-| [PROMPT-47](#prompt-47--explore--discover-page) | Explore/Discover |
-| [PROMPT-48](#prompt-48--complete-error-audit--production-hardening) | Final audit |
-| [PROMPT-49](#prompt-49--unified-video-hub-with-youtube-integration) | 🆕 Video Hub + YouTube Integration |
-| [PROMPT-50](#prompt-50--pixel-perfect-facebook-parity--ui-completeness) | 🆕 Facebook parity polish |
-| [PROMPT-51](#prompt-51--creator-studio--monetization-hub) | 🆕 Creator Studio |
-| [PROMPT-52](#prompt-52--audio-rooms--podcasts--spaces) | 🆕 Audio Rooms / Spaces |
-| [PROMPT-53](#prompt-53--maps--location-features) | 🆕 Maps & Check-ins |
-| [PROMPT-54](#prompt-54--gaming--interactive-features) | 🆕 Games & Challenges |
-| [PROMPT-55](#prompt-55--advanced-accessibility--i18n) | 🆕 Accessibility & i18n |
-| [PROMPT-56](#prompt-56--social-commerce--shops) | 🆕 MindBook Shops |
-| [PROMPT-57](#prompt-57--advanced-post-composer) | 🆕 Rich Post Composer |
-| [PROMPT-58](#prompt-58--complete-mobile-experience) | 🆕 Mobile-first polish |
-| [PROMPT-59](#prompt-59--analytics-dashboard-for-creators) | 🆕 Creator Analytics |
-| [PROMPT-60](#prompt-60--final-launch-readiness) | 🆕 Launch readiness |
-| [Section A–H](#section-a-administrative-dashboard--control-system) | Advanced feature sections |
-| [Agent Notes](#notes-for-antigravity-agents) | Critical reminders |
+For **every single sub-prompt**, follow this exact sequence without exception:
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│  STEP 1 — CHECK:     Read save_progress.md. Is this sub-prompt      │
+│                      already logged as "Completed"?                  │
+│                                                                       │
+│  STEP 2 — VERIFY:    If it is logged as complete, audit the actual  │
+│                      code. Is it truly working? Is the UI good?      │
+│                      Is it responsive? Does it animate correctly?    │
+│                                                                       │
+│  STEP 3 — FIX:       If anything is broken, incomplete, or ugly,    │
+│                      fix ONLY that specific part. Do not recreate.  │
+│                                                                       │
+│  STEP 4 — IMPLEMENT: Execute the exact requirements of this          │
+│                      sub-prompt in full detail.                       │
+│                                                                       │
+│  STEP 5 — ANIMATE:   Apply animations, interactions, and 3D effects  │
+│                      as specified in the Animation Matrix.           │
+│                                                                       │
+│  STEP 6 — SAVE:      Append to save_progress.md with timestamp,     │
+│                      files changed, and what was done.               │
+│                                                                       │
+│  STEP 7 — NEXT:      Only then move to the next sub-prompt.         │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**ABSOLUTE RULES:**
+1. Never remove any existing working feature. Improve it, never delete it.
+2. Never duplicate logic. If it exists, refactor and extend it.
+3. Never hardcode API keys. All secrets live in `.env`.
+4. Never skip the save step.
+5. Every UI must work on 375px (iPhone SE), 768px (iPad), 1280px (laptop), 1440px (desktop).
+6. Every page must have dark mode AND light mode.
+7. Every component must have loading skeleton, empty state, and error state.
 
 ---
 
-## Core Agent Rules
-
-1. **Read this entire playbook before writing any code.**
-2. **Create `save_progress.md` immediately if it does not exist.**
-3. **Read existing `save_progress.md`** to understand what has already been completed. Never redo completed work.
-4. **Perform a delta analysis** — identify exactly which new features, UI changes, or improvements have not yet been implemented.
-5. **Only implement new content for new features.** If a feature exists, improve it.
-6. **After EVERY completed feature, step, component, model change, or route, append a timestamped log entry to `save_progress.md`.**
-7. **After completing any prompt, always run PROMPT-07** to verify no new errors were introduced.
-8. **Never change the yellow brand color `#F7B928` to any other color.**
-9. **All file uploads must go through authenticated routes** (JWT required).
-10. **All admin routes must verify `user.role === 'admin'` server-side.**
-11. **Update `README.md`** to reflect all new features after every major prompt.
-12. Commit message format: `"Feature update: [brief description]"`
-13. **Never remove any existing feature.** If a feature is broken, fix it. Do not delete it.
-14. **All API keys (YouTube, Giphy, Anthropic, Stripe, etc.) must be stored in `.env`** — never hardcoded.
-
----
-
-## Save Progress System
-
-The agent must maintain `save_progress.md` in the project root at all times.
-
-### `save_progress.md` Format
+## save_progress.md Format
 
 ```markdown
 # MindBook — Save Progress Log
-> Auto-generated by Antigravity Agent. Do not edit manually.
+> Auto-maintained by Antigravity Agent
 
-## [2026-01-15T14:32:00Z] — PROMPT-01: Project Scaffold
+---
+
+## [2026-01-15T10:30:00Z] — PROMPT-01.A: Project Audit
 **Status:** Completed
+**Duration:** 12 minutes
 **Files Modified:**
-- backend/server.js — Created Express server with middleware
-- backend/models/User.js — Created User schema
-- frontend/src/App.jsx — Created root component with routing
-**Summary:** Full MERN project scaffold created. Backend running on port 5000, frontend on 5173. MongoDB connected to mindbook database.
-**Notes:** None
+- frontend/src/App.jsx — Added AppLayout wrapper
+- backend/server.js — Added compression middleware
+**Summary:** Audited entire codebase. Found 3 broken imports and 2 unused components. Fixed all. Confirmed all routes render without console errors.
+**Animations Added:** Navbar entrance slide animation.
+**Tests Passed:** Responsive at 375px, 768px, 1440px. Dark mode verified.
+**Notes:** None.
+
 ---
 ```
 
-### When to Save — Every Single One of These
-- After scaffold or project setup
-- After every individual feature within a prompt
-- After every bug fix (even small ones)
-- After every UI component is built
-- After every database model is created or modified
-- After every API endpoint is added
-- After every npm package is installed
-- After every CSS file or style addition
-- At the very end of every prompt regardless of completion state
+---
+
+## Global Animation & Interaction Matrix
+
+*Agent Directive: This matrix applies to ALL components across the entire site. Reference it before finalizing any UI component.*
+
+### Install These Libraries (run once, check if already installed)
+```bash
+# Animation
+npm install framer-motion @react-spring/web gsap @gsap/react lottie-react
+# 3D
+npm install three @react-three/fiber @react-three/drei
+# Smooth Scroll
+npm install @studio-freight/lenis
+# Gestures
+npm install @use-gesture/react
+# Tilt Cards
+npm install react-parallax-tilt
+# Confetti
+npm install canvas-confetti
+# Masonry
+npm install react-masonry-css
+# Intersection Observer
+npm install react-intersection-observer
+# Cursor
+npm install react-animated-cursor
+```
+
+### A. Smooth Lenis Scroll (Apply Globally)
+```javascript
+// frontend/src/main.jsx — initialize Lenis at app root
+import Lenis from '@studio-freight/lenis';
+const lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), direction: 'vertical', smoothWheel: true, wheelMultiplier: 1.0 });
+function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+requestAnimationFrame(raf);
+```
+
+### B. Page Transition Variants (Framer Motion)
+```javascript
+// src/animations/variants.js
+export const page = {
+  initial:  { opacity: 0, y: 16, filter: 'blur(8px)' },
+  animate:  { opacity: 1, y: 0,  filter: 'blur(0px)', transition: { duration: 0.42, ease: [0.22, 1, 0.36, 1] } },
+  exit:     { opacity: 0, y: -10, filter: 'blur(4px)', transition: { duration: 0.24 } }
+};
+export const stagger = (d=0.06) => ({ animate: { transition: { staggerChildren: d } } });
+export const fadeUp  = { initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.22,1,0.36,1] } } };
+export const popIn   = { initial: { opacity: 0, scale: 0.4 }, animate: { opacity: 1, scale: 1, transition: { type:'spring', stiffness:300, damping:20 } } };
+export const modal   = { initial: { opacity:0, scale:0.88, y:24 }, animate: { opacity:1, scale:1, y:0, transition:{ type:'spring', stiffness:280, damping:26 } }, exit: { opacity:0, scale:0.94, y:12, transition:{ duration:0.2 } } };
+export const backdrop = { initial: { opacity:0 }, animate: { opacity:1, transition:{ duration:0.2 } }, exit: { opacity:0, transition:{ duration:0.15 } } };
+```
+
+### C. 3D Scroll Reveals
+```javascript
+// src/hooks/useScrollReveal.js
+import { useSpring } from '@react-spring/web';
+import { useInView } from 'react-intersection-observer';
+export function useScrollReveal(opts = {}) {
+  const { threshold=0.12, delay=0, axis='y', distance=32 } = opts;
+  const [ref, inView] = useInView({ threshold, triggerOnce: true });
+  const style = useSpring({
+    opacity: inView ? 1 : 0,
+    transform: inView ? 'translate3d(0,0px,0) rotateX(0deg)' : `translate3d(${axis==='x'?distance+'px':'0'},${axis==='y'?distance+'px':'0'},0) rotateX(${axis==='y'?'8':'0'}deg)`,
+    delay: inView ? delay : 0,
+    config: { tension:180, friction:22 }
+  });
+  return { ref, style };
+}
+```
+
+### D. Horizontal Scroll Component
+```jsx
+// src/components/HorizontalScrollRow.jsx
+// Momentum-based horizontal scroll. Gradient edge masks. Arrow buttons fade in on hover.
+// Mouse drag support. Touch swipe support. Keyboard arrow support.
+// Used on: story tray, reels preview, video rows, friend suggestions, marketplace, events, groups discover.
+```
+
+### E. Micro-Interaction Specs
+| Element | Animation | Trigger |
+|---------|-----------|---------|
+| Every Button | `scale(1.03)` + yellow glow shadow | hover |
+| Every Button | `scale(0.97)` + ripple | click |
+| Like Heart | Scale 0→1.8→1 + 8 yellow sparks burst | click |
+| Card | `translateY(-5px)` + shadow deepens | hover |
+| Card | 3D tilt 4° max (react-parallax-tilt) | hover |
+| Notification Bell | Swing 3× | new notification |
+| Modal | Spring scale 0.88→1 from origin | open |
+| Modal | Scale 0.94→0.88 + fade | close |
+| Send Button | Paper airplane flies ↗ fades | click |
+| Input | Yellow 3px ring glow | focus |
+| Avatar | Scale 1.06 + ring appears | hover |
+| Dark Mode Toggle | Sun/Moon rotate 360° | toggle |
+| Route Change | blur-fade with y-drift | navigate |
+
+### F. 3D Hero Scenes
+Implement Three.js canvases on:
+- `/login` and `/register` — Floating 3D 'M' logo, metallic gold, rotating, particle field background
+- `/404` — Floating 3D broken link icon with gravity simulation  
+- `/watch` header — 3D play button geometry, rotating slowly
+- `/marketplace` header — 3D shopping bag, floating
+- `/wallet` — 3D coin spinning
+- Empty states — small 3D ghost (no messages), 3D telescope (discover/explore)
+
+### G. Custom Cursor (Desktop Only)
+```jsx
+// 12px yellow dot snaps to cursor instantly
+// 32px translucent ring trails behind (80ms lerp)
+// Ring scales to 2× on hovering links/buttons
+// Ring morphs to vertical bar on hovering text inputs
+// Hidden on touch devices (pointer: coarse)
+```
+
+### H. Background Animations
+- **Auth pages:** Three animated gradient blobs (yellow, gold, cream) — `filter: blur(80px)`, opacity 0.12, drifting slowly with `@keyframes blob-drift`
+- **Feed background:** Repeating diagonal line pattern, opacity 0.02
+- **Navbar on scroll:** Adds `backdrop-filter: blur(12px)` + deepened shadow when page scrolled > 20px
 
 ---
 
-## Design Tokens — Yellow Theme (CRITICAL — Never Change)
+## DESIGN TOKENS (Agent May Refine These)
 
 ```css
 :root {
-  /* ─── Brand ─────────────────────────────────────── */
-  --brand-primary:              #F7B928;
-  --brand-primary-hover:        #E4A11B;
-  --brand-primary-active:       #C98A10;
-  --brand-primary-light:        rgba(247, 185, 40, 0.12);
-  --brand-primary-lighter:      rgba(247, 185, 40, 0.06);
-  --brand-gradient:             linear-gradient(135deg, #F7B928 0%, #FFD700 50%, #F7B928 100%);
-  --brand-gradient-animated:    linear-gradient(270deg, #F7B928, #FFD700, #FFEC8B, #F7B928);
-  --brand-gradient-vertical:    linear-gradient(180deg, #FFD700 0%, #F7B928 100%);
-  --brand-glow:                 0 0 20px rgba(247, 185, 40, 0.40);
-  --brand-glow-strong:          0 0 40px rgba(247, 185, 40, 0.60);
-  --brand-shadow:               0 4px 24px rgba(247, 185, 40, 0.30);
+  /* Agent: you may evolve this palette if it creates a more premium look */
+  --brand:         #F7B928;
+  --brand-hover:   #E4A11B;
+  --brand-active:  #C98A10;
+  --brand-light:   rgba(247,185,40,0.12);
+  --brand-glow:    0 0 0 3px rgba(247,185,40,0.35);
+  --brand-shadow:  0 4px 24px rgba(247,185,40,0.28);
 
-  /* ─── Backgrounds ───────────────────────────────── */
-  --main-background:            #ffffff;
-  --bg-body:                    #f0f2f5;
-  --bg-card:                    #ffffff;
-  --bg-card-hover:              #f7f8fa;
-  --bg-input:                   #f0f2f5;
-  --bg-overlay:                 rgba(0, 0, 0, 0.65);
-  --bg-overlay-light:           rgba(0, 0, 0, 0.30);
-  --bg-sidebar:                 #ffffff;
-  --bg-navbar:                  #ffffff;
-  --bg-modal:                   #ffffff;
-  --bg-dropdown:                #ffffff;
-  --bg-tooltip:                 #1c1e21;
-  --bg-code:                    #f0f2f5;
+  /* Surfaces */
+  --bg-body:    #f0f2f5;
+  --bg-card:    #ffffff;
+  --bg-input:   #f0f2f5;
+  --bg-sidebar: #ffffff;
+  --bg-navbar:  rgba(255,255,255,0.95);
 
-  /* ─── Text ──────────────────────────────────────── */
-  --text-primary:               #050505;
-  --text-secondary:             #65676b;
-  --text-muted:                 #8a8d91;
-  --text-placeholder:           #b0b3b8;
-  --text-inverse:               #ffffff;
-  --text-link:                  #D99A1C;
-  --text-link-hover:            #C98A10;
-  --text-code:                  #e41e3f;
-  --text-on-brand:              #ffffff;
+  /* Text */
+  --text-1: #050505;
+  --text-2: #65676b;
+  --text-3: #8a8d91;
 
-  /* ─── Borders ───────────────────────────────────── */
-  --border-color:               #e4e6eb;
-  --border-color-strong:        #ccd0d5;
-  --border-color-muted:         #f0f2f5;
-  --input-border-color:         #ced0d4;
-  --input-border-focus:         #F7B928;
-  --divider-color:              #e4e6eb;
+  /* Borders & Dividers */
+  --border: #e4e6eb;
 
-  /* ─── Status ────────────────────────────────────── */
-  --color-online:               #31a24c;
-  --color-offline:              #b0b3b8;
-  --color-away:                 #f7b928;
-  --color-error:                #f02849;
-  --color-error-bg:             #fff0f3;
-  --color-warning:              #f7b928;
-  --color-warning-bg:           #fffbe6;
-  --color-success:              #45bd62;
-  --color-success-bg:           #f0fff4;
-  --color-info:                 #1877f2;
-  --color-info-bg:              #f0f4ff;
+  /* Status */
+  --online:  #31a24c;
+  --error:   #f02849;
+  --success: #45bd62;
 
-  /* ─── Reactions ─────────────────────────────────── */
-  --reaction-like:              #F7B928;
-  --reaction-love:              #f33e58;
-  --reaction-haha:              #f7b928;
-  --reaction-wow:               #f7b928;
-  --reaction-sad:               #f7b928;
-  --reaction-angry:             #e9710f;
+  /* Shadows */
+  --shadow-xs:  0 1px 2px rgba(0,0,0,0.06);
+  --shadow-sm:  0 2px 8px rgba(0,0,0,0.10);
+  --shadow-md:  0 4px 16px rgba(0,0,0,0.14);
+  --shadow-lg:  0 8px 32px rgba(0,0,0,0.18);
+  --shadow-xl:  0 16px 48px rgba(0,0,0,0.22);
 
-  /* ─── Shadows ───────────────────────────────────── */
-  --shadow-xs:  0 1px 2px rgba(0,0,0,0.04);
-  --shadow-sm:  0 2px 8px rgba(0,0,0,0.08);
-  --shadow-md:  0 4px 16px rgba(0,0,0,0.12);
-  --shadow-lg:  0 8px 32px rgba(0,0,0,0.16);
-  --shadow-xl:  0 16px 48px rgba(0,0,0,0.20);
-  --shadow-2xl: 0 24px 64px rgba(0,0,0,0.24);
-  --shadow-inset: inset 0 1px 3px rgba(0,0,0,0.08);
-  --shadow-card: 0 1px 2px rgba(0,0,0,0.10);
-  --shadow-card-hover: 0 4px 16px rgba(0,0,0,0.16);
-  --shadow-navbar: 0 2px 4px rgba(0,0,0,0.08), 0 4px 8px rgba(0,0,0,0.04);
+  /* Radius */
+  --r-sm: 8px;  --r-md: 12px;  --r-lg: 16px;
+  --r-xl: 20px; --r-2xl: 24px; --r-full: 9999px;
 
-  /* ─── Border Radius ─────────────────────────────── */
-  --radius-xs:   4px;
-  --radius-sm:   8px;
-  --radius-md:   12px;
-  --radius-lg:   16px;
-  --radius-xl:   20px;
-  --radius-2xl:  24px;
-  --radius-3xl:  32px;
-  --radius-full: 9999px;
+  /* Layout */
+  --navbar-h:      60px;
+  --sidebar-l:     280px;
+  --sidebar-r:     320px;
+  --feed-max:      680px;
+  --page-max:      1400px;
+  --bottom-nav-h:  56px;
 
-  /* ─── Transitions (GPU-safe) ────────────────────── */
-  --transition-instant:  80ms  cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --transition-fast:     150ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --transition-normal:   250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --transition-slow:     400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --transition-spring:   450ms cubic-bezier(0.34, 1.56, 0.64, 1);
-  --transition-bounce:   550ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  --transition-elastic:  700ms cubic-bezier(0.68, -0.6, 0.32, 1.6);
+  /* Motion */
+  --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --t-fast:  150ms;
+  --t-base:  250ms;
+  --t-slow:  400ms;
 
-  /* ─── Z-index Scale ─────────────────────────────── */
-  --z-below:    -1;
-  --z-base:      1;
-  --z-raised:   10;
-  --z-dropdown: 50;
-  --z-sticky:   100;
-  --z-fixed:    150;
-  --z-overlay:  200;
-  --z-modal:    300;
-  --z-popover:  350;
-  --z-toast:    400;
-  --z-tooltip:  450;
-  --z-cursor:   500;
-
-  /* ─── Spacing Scale ─────────────────────────────── */
-  --space-0:  0px;    --space-1:   4px;   --space-2:   8px;
-  --space-3: 12px;    --space-4:  16px;   --space-5:  20px;
-  --space-6: 24px;    --space-8:  32px;   --space-10: 40px;
-  --space-12: 48px;   --space-16: 64px;   --space-20: 80px;
-  --space-24: 96px;   --space-32: 128px;
-
-  /* ─── Typography ────────────────────────────────── */
-  --font-family:          'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-  --font-family-heading:  'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-  --font-family-mono:     'JetBrains Mono', 'Fira Code', monospace;
-  --font-size-xs:    11px;
-  --font-size-sm:    12px;
-  --font-size-base:  15px;
-  --font-size-md:    16px;
-  --font-size-lg:    18px;
-  --font-size-xl:    20px;
-  --font-size-2xl:   24px;
-  --font-size-3xl:   28px;
-  --font-size-4xl:   32px;
-  --font-size-5xl:   40px;
-  --font-weight-normal:   400;
-  --font-weight-medium:   500;
-  --font-weight-semibold: 600;
-  --font-weight-bold:     700;
-  --font-weight-black:    900;
-  --line-height:       1.5;
-  --line-height-tight: 1.25;
-  --line-height-loose: 1.75;
-  --letter-spacing-tight: -0.025em;
-  --letter-spacing-normal: 0em;
-  --letter-spacing-wide:  0.025em;
-
-  /* ─── Layout ────────────────────────────────────── */
-  --navbar-height:        60px;
-  --sidebar-left-width:   280px;
-  --sidebar-right-width:  320px;
-  --content-max-width:    680px;
-  --page-max-width:       1400px;
-  --bottom-nav-height:    56px;
+  /* Font */
+  --font: 'Inter', 'Segoe UI', system-ui, sans-serif;
 }
 
-/* ─── Dark Mode ─────────────────────────────────────── */
 body.dark {
-  --main-background:       #18191a;
-  --bg-body:               #18191a;
-  --bg-card:               #242526;
-  --bg-card-hover:         #3a3b3c;
-  --bg-input:              #3a3b3c;
-  --bg-sidebar:            #242526;
-  --bg-navbar:             #242526;
-  --bg-modal:              #242526;
-  --bg-dropdown:           #3a3b3c;
-  --bg-code:               #3a3b3c;
-  --text-primary:          #e4e6eb;
-  --text-secondary:        #b0b3b8;
-  --text-muted:            #8a8d91;
-  --text-placeholder:      #606770;
-  --border-color:          #3e4042;
-  --border-color-strong:   #4e5055;
-  --border-color-muted:    #3a3b3c;
-  --divider-color:         #3e4042;
-  --shadow-sm:  0 2px 8px rgba(0,0,0,0.50);
-  --shadow-md:  0 4px 16px rgba(0,0,0,0.60);
-  --shadow-lg:  0 8px 32px rgba(0,0,0,0.70);
-  --shadow-card: 0 1px 2px rgba(0,0,0,0.40);
-  --shadow-card-hover: 0 4px 16px rgba(0,0,0,0.60);
-  --bg-body-rgb: 24, 25, 26;
+  --bg-body:    #18191a;
+  --bg-card:    #242526;
+  --bg-input:   #3a3b3c;
+  --bg-sidebar: #242526;
+  --bg-navbar:  rgba(36,37,38,0.95);
+  --text-1:  #e4e6eb;
+  --text-2:  #b0b3b8;
+  --text-3:  #8a8d91;
+  --border:  #3e4042;
 }
 
-/* ─── High Contrast Mode ────────────────────────────── */
-body.high-contrast {
-  --border-color: #000000;
-  --text-secondary: #000000;
-  --bg-input: #ffffff;
-}
-
-/* ─── Typography setup ──────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 html { font-size: 15px; }
-html[data-font-size="small"]  { font-size: 13px; }
-html[data-font-size="large"]  { font-size: 17px; }
-html[data-font-size="xlarge"] { font-size: 19px; }
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font-family); color: var(--text-primary); background: var(--bg-body); overflow-x: hidden; line-height: var(--line-height); -webkit-font-smoothing: antialiased; }
-
-/* ─── Primary Button Standard ───────────────────────── */
-.btn-primary {
-  background: var(--brand-primary);
-  color: var(--text-on-brand);
-  border: none;
-  border-radius: var(--radius-full);
-  padding: 8px 16px;
-  font-weight: var(--font-weight-semibold);
-  font-size: var(--font-size-base);
-  cursor: pointer;
-  transition: background var(--transition-fast), transform var(--transition-spring), box-shadow var(--transition-fast);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-}
-.btn-primary:hover  { background: var(--brand-primary-hover); transform: scale(1.02); box-shadow: var(--brand-shadow); }
-.btn-primary:active { background: var(--brand-primary-active); transform: scale(0.98); }
-.btn-primary:focus-visible { outline: 3px solid var(--brand-primary); outline-offset: 3px; }
-
+*, *::before, *::after { box-sizing: border-box; }
+body { font-family: var(--font); background: var(--bg-body); color: var(--text-1); overflow-x: hidden; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
@@ -338,3034 +284,2210 @@ body { font-family: var(--font-family); color: var(--text-primary); background: 
 
 ---
 
-## PROMPT-01 — Project Scaffold
+---
+
+# PROMPT-01 — Project Audit, Scaffold & Global Layout
 
 **Trigger:** `Run PROMPT-01`
-
-Build a web application called **MindBook** — a functional Facebook clone with yellow `#F7B928` brand theme.
-
-### Architecture
-
-```
-MindBook/
-├── backend/
-│   ├── config/           db.js, cloudinary.js
-│   ├── controllers/      auth, users, posts, messages, groups, stories, notifications, admin, ai, videos, marketplace, events, fundraisers, jobs, articles, reels
-│   ├── middleware/       auth.js, upload.js, rateLimiter.js, adminOnly.js, errorHandler.js, validate.js
-│   ├── models/           User, Post, Comment, Conversation, Message, Group, GroupPost, Story, Notification, Report, Announcement, Wallet, Transaction, Job, Article, Reel, Video, MarketplaceListing, Event, Fundraiser, CallLog, WatchProgress, Playlist, LiveStream
-│   ├── routes/           (mirrors controllers)
-│   ├── services/         ai.js, email.js, notification.js, trending.js, coins.js
-│   ├── sockets/          messageSocket.js, callSocket.js, notificationSocket.js, liveSocket.js, watchPartySocket.js
-│   ├── uploads/          (local storage for dev)
-│   ├── utils/            helpers.js, validators.js, constants.js
-│   ├── server.js
-│   └── package.json
-├── frontend/
-│   ├── public/           favicon.svg, favicon-32.png, favicon-16.png, apple-touch-icon.png, manifest.json, robots.txt, fonts/
-│   └── src/
-│       ├── animations/   variants.js, springs.js, hooks/useScrollReveal.js, hooks/useParallax.js
-│       ├── assets/       icons/, illustrations/, lottie/, 3d-models/
-│       ├── components/   (all shared components — see component list below)
-│       ├── context/      AuthContext, ThemeContext, SocketContext, NotificationContext, CallContext
-│       ├── hooks/        useAuth, useSocket, useInfiniteScroll, useWebRTC, useMediaQuery, useDebounce, useThrottle, useLocalStorage, usePrevious
-│       ├── pages/        (all pages — see page list below)
-│       ├── services/     api.js, socket.js, webrtc.js, youtube.js
-│       ├── store/        (Zustand slices: auth, ui, notifications, calls)
-│       └── styles/       globals.css, animations.css, skeleton.css, reset.css
-│   └── package.json
-├── save_progress.md      ← Agent must maintain this
-└── README.md
-```
-
-### Backend `.env` Template
-
-```env
-# Server
-PORT=5000
-NODE_ENV=development
-CLIENT_URL=http://localhost:5173
-
-# Database
-MONGODB_URI=mongodb://localhost:27017/mindbook
-
-# Auth
-JWT_SECRET=your_super_secret_jwt_key_minimum_32_chars
-JWT_EXPIRES_IN=7d
-BCRYPT_SALT_ROUNDS=12
-
-# Admin
-ADMIN_EMAIL=admin@mindbook.com
-
-# AI (Anthropic Claude)
-ANTHROPIC_API_KEY=your_anthropic_api_key
-
-# YouTube Data API v3
-YOUTUBE_API_KEY=your_youtube_api_key
-YOUTUBE_CLIENT_ID=your_youtube_client_id
-YOUTUBE_CLIENT_SECRET=your_youtube_client_secret
-
-# Giphy API
-GIPHY_API_KEY=your_giphy_api_key
-
-# Email (Nodemailer)
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=your@gmail.com
-SMTP_PASS=your_app_password
-EMAIL_FROM=noreply@mindbook.com
-
-# Storage (local for dev, Cloudinary for prod)
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_cloudinary_key
-CLOUDINARY_API_SECRET=your_cloudinary_secret
-
-# Stripe (payments — scaffold)
-STRIPE_SECRET_KEY=sk_test_your_stripe_key
-STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret
-
-# LinkedIn OAuth
-LINKEDIN_CLIENT_ID=your_linkedin_client_id
-LINKEDIN_CLIENT_SECRET=your_linkedin_client_secret
-
-# Push Notifications (VAPID)
-VAPID_PUBLIC_KEY=your_vapid_public_key
-VAPID_PRIVATE_KEY=your_vapid_private_key
-VAPID_EMAIL=mailto:admin@mindbook.com
-```
-
-**Save Progress:** Create `save_progress.md`, then append entry after scaffold is complete.
+**Goal:** Ensure a perfectly structured project exists with a universal layout shell, consistent navbar, and all global systems initialized.
 
 ---
 
-## PROMPT-02 — Add Features & Fix All Existing Ones
+## PROMPT-01.A — Complete Project Audit
+
+**Before writing a single line of code, perform a full audit:**
+
+- [ ] Open every file in `frontend/src/` — note any broken imports
+- [ ] Open every file in `backend/` — note any missing route registrations
+- [ ] Start both servers — note every console error or warning
+- [ ] Open browser at `localhost:5173` — check every route loads without a white screen
+- [ ] Open DevTools → Network tab — identify any 404 API calls
+- [ ] Open DevTools → Console — note every error and warning
+- [ ] Test at 375px, 768px, 1280px, 1440px — note any overlapping or broken layouts
+- [ ] Toggle dark mode — verify every component respects the theme
+- [ ] Produce an **Audit Report** saved to `audit_report.md` in root
+
+**Output format:**
+```markdown
+# MindBook Audit Report — [TIMESTAMP]
+
+## Broken Imports (N found)
+- file: issue
+
+## Console Errors (N found)
+- error: location
+
+## Broken Routes (N found)
+- route: symptom
+
+## Responsive Issues (N found)
+- page: breakpoint: issue
+
+## Dark Mode Issues (N found)
+- component: issue
+
+## Action Plan
+- [ ] Fix item 1
+- [ ] Fix item 2
+```
+
+**Fix every single item found before moving to PROMPT-01.B.**
+
+*Save Progress after audit and all fixes.*
+
+---
+
+## PROMPT-01.B — Unified App Layout Shell
+
+**Goal:** Every page in the app must be wrapped by `<AppLayout>`, which provides the fixed navbar and the three-column grid. No page should ever render without the navbar.
+
+**Implementation:**
+
+```
+frontend/src/
+├── layouts/
+│   └── AppLayout.jsx       ← universal layout wrapper
+│   └── AuthLayout.jsx      ← for login/register (no sidebar)
+│   └── FullScreenLayout.jsx ← for video player, reels (no sidebars)
+```
+
+**AppLayout.jsx spec:**
+```jsx
+// AppLayout renders:
+// 1. <Navbar /> — fixed top, 60px height
+// 2. .app-grid — CSS grid: [sidebar] [feed] [right-sidebar]
+//    Left sidebar: 280px, sticky, scrolls independently
+//    Center: min-width: 0, flexible
+//    Right sidebar: 320px, sticky
+// 3. <BottomNav /> — only on mobile (≤768px), fixed bottom
+
+// Grid CSS:
+// Desktop (≥1280px): 280px 1fr 320px
+// Laptop (≥1024px):  280px 1fr
+// Tablet (≥768px):   60px 1fr   (icon-only sidebar)
+// Mobile (<768px):   1fr        (no sidebars, bottom nav)
+```
+
+**Lenis smooth scroll initialization** — add to `main.jsx`.
+
+**AnimatePresence** — wrap `<Routes>` with `<AnimatePresence mode="wait">`. Every page component uses `{...page}` Framer Motion spread.
+
+**YouTube-style top loading bar** — appears on every route navigation start (0% → 85%), completes (→ 100%) and fades out on route loaded. Yellow color. GSAP powered.
+
+*Save Progress after layout shell complete.*
+
+---
+
+## PROMPT-01.C — Global UI Component Library
+
+Build these shared components before building any pages:
+
+**Typography:**
+- `<Heading level={1|2|3|4} />` — consistent heading styles
+- `<Text size="sm|base|lg" color="1|2|3" />` — body text
+
+**Inputs:**
+- `<Input />` — yellow focus ring, animated label float, error state with red ring
+- `<Textarea />` — auto-grows, yellow focus ring
+- `<Select />` — custom dropdown with Framer Motion animation
+- `<Checkbox />` — custom yellow checkbox with spring check animation
+- `<Toggle />` — smooth sliding toggle switch
+
+**Buttons:**
+- `<Button variant="primary|secondary|ghost|danger" size="sm|md|lg" loading={bool} />` — all have hover scale + ripple + glow
+- `<IconButton icon={...} tooltip="..." />` — circular, hover scale
+
+**Feedback:**
+- `<Toast />` — slide from right, stack up to 3, auto-dismiss 4s with progress bar
+- `<Modal />` — spring entrance, backdrop blur, drag-to-dismiss on mobile
+- `<Tooltip />` — mouse-follow tooltip with Framer Motion
+
+**Media:**
+- `<Avatar size={24|32|40|48|60|80|120|168} src online={bool} />` — green pulse dot
+- `<ImageGrid images={[]} />` — handles 1-5+ image layouts
+- `<Skeleton />` — shimmer loader that matches component shape
+
+**Skeleton shapes:**
+```
+SkeletonPost, SkeletonAvatar, SkeletonLine, SkeletonCard,
+SkeletonChat, SkeletonNotification, SkeletonVideoCard, SkeletonProfile
+```
+
+*Save Progress after component library complete.*
+
+---
+
+## PROMPT-01.D — Global State & Context Setup
+
+```
+frontend/src/
+├── store/
+│   ├── authStore.js       ← Zustand: user, token, login, logout
+│   ├── uiStore.js         ← Zustand: theme, sidebarOpen, modals, toasts
+│   ├── notifStore.js      ← Zustand: notifications, unreadCount
+│   └── callStore.js       ← Zustand: activeCall, callState, peer
+├── context/
+│   ├── SocketContext.jsx  ← Socket.IO connection, events
+│   └── CallContext.jsx    ← WebRTC signaling state
+```
+
+**Theme persistence:** Read `localStorage.getItem('mb_theme')` on load. Apply `body.dark` class. Toggle syncs to localStorage.
+
+**Socket initialization:** Connect on login, disconnect on logout. Reconnect with exponential backoff.
+
+*Save Progress.*
+
+---
+
+# PROMPT-02 — Authentication & Admin System
 
 **Trigger:** `Run PROMPT-02`
-
-Improve MindBook by adding more features. Ensure all existing and new features are fully functional. Provide updated code and a brief explanation of features added and fixes made. **Save Progress** after each feature.
-
----
-
-## PROMPT-03 — SEO, Favicon & Site-Wide Polish
-
-**Trigger:** `Run PROMPT-03`
-
-1. **SEO** — Meta tags: description, keywords, viewport, Open Graph (title, description, image, url), Twitter Card, canonical URL. Semantic HTML5 throughout (`<main>`, `<nav>`, `<article>`, `<section>`, `<aside>`, `<header>`, `<footer>`). Schema.org JSON-LD for SocialNetworkingService.
-2. **Favicon** — SVG favicon (scales to any size), PNG fallbacks 16×16 / 32×32 / 180×180 / 512×512. Yellow 'M' rounded rectangle matching Facebook's 'F' design language.
-3. **Open Graph image** — 1200×630px preview image for social sharing.
-4. **Performance** — Preload critical fonts, preconnect to Google Fonts, `<link rel="dns-prefetch">` for API domains.
-5. **Error check** — Broken UI, JS errors, backend failures, console warnings, 404s.
-6. **Fix all errors** — Corrected code with explanation.
-
-**Save Progress:** After each improvement, append to `save_progress.md`.
+**Goal:** Beautiful, modern auth pages with full admin system.
 
 ---
 
-## PROMPT-04 — Full User Profile Management System
+## PROMPT-02.A — Login Page Redesign
 
-**Trigger:** `Run PROMPT-04`
+**Visual Design:**
 
-### View Profile (`/profile/:id`)
+Left half: 3D animated scene (Three.js canvas — floating gold 'M' logo, particle field, slow rotation). Hidden on mobile.
 
-**Profile Header:**
-- Cover photo (820×312px, parallax effect on scroll — background-attachment: fixed with IntersectionObserver correction on mobile)
-- Profile picture (168px on desktop, 96px on mobile) — circular, overlaps cover bottom by 50%, golden ring border for verified users
-- Name (bold, 24px) + verified badge (✓ yellow)
-- Bio (max 150 chars, rendered with line breaks + clickable links)
-- Location icon + city/country
-- Work icon + current job title at company
-- Education icon + school
-- Joined date ("Joined January 2025")
-- Website link (clickable, opens in new tab)
-- Friend count (clickable → friends list) · Following count · Followers count
-- Action buttons (changes based on relationship):
-  - Own profile: "Edit Profile" + "View as" (preview how public sees it)
-  - Friend: "Message" (yellow) + "Friends ▾" (dropdown: Unfriend / Unfollow / Snooze)
-  - Not friend / following: "Add Friend" (yellow) + "Follow" + "Message"
-  - Friend request sent: "Pending ▾" (dropdown: Cancel Request)
-  - Incoming request: "Confirm" (yellow) + "Delete"
+Right half: Login form card.
 
-**Profile Tabs (sticky when scrolling):**
-Posts · About · Friends · Photos · Videos · Reels · Portfolio · More ▾
-
-**About Tab sections:** Overview · Work & Education · Places Lived · Contact & Basic Info · Family & Relationships · Details About You · Life Events.
-
-**Posts Tab:** Create post (if own profile) + post feed (owner sees all, others see based on privacy).
-
-**Photos Tab:** Masonry grid of all photos. Albums: Profile Pictures / Cover Photos / Posts / Tagged. Click → lightbox (left/right navigate, download, tag friend, delete if own).
-
-**Friends Tab:** 9-card preview (3×3 grid). "See all friends" → full paginated list with search + sort.
-
-### Extended User Schema
-
-```javascript
-const userSchema = new mongoose.Schema({
-  // ─── Identity ───────────────────────────────────
-  name:             { type: String, required: true, trim: true },
-  firstName:        String,
-  lastName:         String,
-  username:         { type: String, unique: true, sparse: true, lowercase: true, trim: true },
-  email:            { type: String, required: true, unique: true, lowercase: true, trim: true },
-  password:         { type: String, required: true, minlength: 8 },
-  role:             { type: String, enum: ['user','moderator','admin'], default: 'user' },
-
-  // ─── Profile Media ──────────────────────────────
-  profilePicture:   { type: String, default: '/uploads/defaults/avatar.png' },
-  coverPhoto:       { type: String, default: '/uploads/defaults/cover.jpg' },
-  profileFrame:     String,
-
-  // ─── Profile Info ───────────────────────────────
-  bio:              { type: String, maxlength: 150 },
-  pronouns:         String,
-  location:         { city: String, country: String, coordinates: { lat: Number, lng: Number } },
-  website:          String,
-  dateOfBirth:      Date,
-  gender:           { type: String, enum: ['Male','Female','Non-binary','Prefer not to say','Custom'] },
-  genderCustom:     String,
-  relationshipStatus: String,
-
-  // ─── Professional ───────────────────────────────
-  work: [{
-    title: String, company: String, companyLogo: String,
-    description: String, location: String,
-    startYear: Number, startMonth: Number,
-    endYear: Number, endMonth: Number,
-    isCurrent: Boolean, skills: [String]
-  }],
-  education: [{
-    school: String, degree: String, field: String,
-    description: String, activities: String,
-    startYear: Number, endYear: Number, isCurrent: Boolean
-  }],
-  skills: [{
-    name: String,
-    endorsedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
-  }],
-  openToWork:       { type: Boolean, default: false },
-  openToWorkDetails: { roles: [String], jobTypes: [String], locations: [String] },
-
-  // ─── Portfolio Links ────────────────────────────
-  links: {
-    portfolio: String, github: String, linkedin: String,
-    instagram: String, twitter: String, behance: String,
-    medium: String, youtube: String, tiktok: String, website: String
-  },
-  linkedInProfile:  { id: String, accessToken: String, profileUrl: String, connectedAt: Date },
-
-  // ─── Social Graph ───────────────────────────────
-  friends:          [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-  friendRequests: {
-    sent:     [{ user: ObjectId, sentAt: Date }],
-    received: [{ user: ObjectId, receivedAt: Date }]
-  },
-  followers:        [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-  following:        [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-  closeFriends:     [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-  blockedUsers:     [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-  mutedUsers:       [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-
-  // ─── Content ────────────────────────────────────
-  savedPosts:       [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
-  pinnedPost:       { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
-  lifeEvents:       [{ title: String, date: Date, icon: String, description: String }],
-
-  // ─── Coins & Economy ────────────────────────────
-  coins:            { type: Number, default: 0 },
-  totalCoinsEarned: { type: Number, default: 0 },
-  badges:           [{ name: String, icon: String, earnedAt: Date }],
-  achievements:     [{ id: String, completedAt: Date }],
-  creatorLevel:     { type: String, enum: ['none','rising','creator','star','elite'], default: 'none' },
-  followersCount:   { type: Number, default: 0 },
-
-  // ─── Status ─────────────────────────────────────
-  isVerified:       { type: Boolean, default: false },
-  isActive:         { type: Boolean, default: true },
-  isSuspended:      { type: Boolean, default: false },
-  suspendedUntil:   Date,
-  suspensionReason: String,
-  lastActive:       Date,
-  onlineStatus:     { type: String, enum: ['online','away','offline','dnd'], default: 'offline' },
-
-  // ─── Privacy ────────────────────────────────────
-  privacySettings: {
-    whoCanSeeMyPosts:           { type: String, default: 'friends' },
-    whoCanSeeMyFriends:         { type: String, default: 'friends' },
-    whoCanSeeMyPhotos:          { type: String, default: 'friends' },
-    whoCanSeeMyBirthday:        { type: String, default: 'friends' },
-    whoCanSeeMyEmail:           { type: String, default: 'me' },
-    whoCanSeeMyPhone:           { type: String, default: 'me' },
-    whoCanSeeMyWorkHistory:     { type: String, default: 'friends' },
-    whoCanSeeMyEducation:       { type: String, default: 'public' },
-    whoCanSeeMyLocation:        { type: String, default: 'friends' },
-    whoCanSendFriendRequests:   { type: String, default: 'everyone' },
-    whoCanMessage:              { type: String, default: 'friends' },
-    whoCanTagMe:                { type: String, default: 'friends' },
-    searchEngineIndexing:       { type: Boolean, default: true },
-    lookupByEmail:              { type: Boolean, default: true },
-    lookupByPhone:              { type: Boolean, default: false }
-  },
-  customLists: [{
-    name: String, users: [{ type: ObjectId, ref: 'User' }], createdAt: Date
-  }],
-
-  // ─── Notifications ──────────────────────────────
-  notificationSettings: {
-    messages: Boolean, friendRequests: Boolean, postLikes: Boolean,
-    postComments: Boolean, storyReplies: Boolean, groupInvites: Boolean,
-    groupPosts: Boolean, eventReminders: Boolean, birthdays: Boolean,
-    memories: Boolean, jobMatches: Boolean, coinEarned: Boolean,
-    mentions: Boolean, emailNotifs: Boolean, pushNotifs: Boolean,
-    soundEnabled: Boolean, emailFrequency: { type: String, default: 'immediate' }
-  },
-
-  // ─── Wellness ───────────────────────────────────
-  dailyTimeLimit:   Number,
-  bedtimeMode:      { enabled: Boolean, startHour: Number, endHour: Number },
-  focusMode:        { type: Boolean, default: false },
-  moodHistory:      [{ mood: String, emoji: String, date: Date }],
-
-  // ─── Security ───────────────────────────────────
-  twoFactorEnabled: { type: Boolean, default: false },
-  twoFactorSecret:  String,
-  backupCodes:      [String],
-  trustedDevices:   [{ deviceId: String, name: String, addedAt: Date }],
-  loginHistory:     [{ ip: String, device: String, browser: String, location: String, at: Date, success: Boolean }],
-
-  // ─── Appearance ─────────────────────────────────
-  theme:            { type: String, enum: ['light','dark','system'], default: 'system' },
-  fontSize:         { type: String, enum: ['small','default','large','xlarge'], default: 'default' },
-  compactMode:      { type: Boolean, default: false },
-  animationsEnabled:{ type: String, enum: ['full','reduced','none'], default: 'full' },
-
-  // ─── Watch / Video ──────────────────────────────
-  watchHistory:     [{ videoId: String, source: String, watchedAt: Date, progress: Number }],
-  watchLater:       [{ videoId: String, source: String, addedAt: Date }],
-  subscribedChannels: [{ type: ObjectId, ref: 'User' }],
-
-  // ─── Data Requests ──────────────────────────────
-  dataExportRequests: [{ requestedAt: Date, status: String, downloadUrl: String, expiresAt: Date }],
-
-}, { timestamps: true });
-
-// Indexes
-userSchema.index({ email: 1 });
-userSchema.index({ username: 1 });
-userSchema.index({ name: 'text', bio: 'text' });
-userSchema.index({ 'location.city': 1, 'location.country': 1 });
-userSchema.index({ createdAt: -1 });
-userSchema.index({ lastActive: -1 });
-userSchema.index({ isActive: 1, isSuspended: 1 });
+**Login card spec:**
+```
+┌──────────────────────────────────┐
+│  [MindBook SVG logo — 48px]     │
+│  MindBook                        │
+│  "Connect. Create. Belong."      │
+│                                  │
+│  [Email or Username input]       │
+│  [Password input + eye toggle]   │
+│                                  │
+│  [Remember me ☐]  [Forgot? →]   │
+│                                  │
+│  [Log In — full width yellow]    │
+│                                  │
+│  ─────── or ───────              │
+│  [Continue with Google — gray]   │
+│  [Continue with GitHub — gray]   │
+│                                  │
+│  "Don't have an account?         │
+│   Create new account →"          │
+│                                  │
+│  © 2026 MindBook · Privacy ·    │
+│  Terms · Cookies                 │
+└──────────────────────────────────┘
 ```
 
-**Save Progress:** After User model, each route, and each component, append to `save_progress.md`.
-
----
-
-## PROMPT-05 — Progressive Facebook-Like Feature Roadmap
-
-**Trigger:** `Run PROMPT-05`
-
-Implement in priority order, with full frontend + backend code for each. Save after each feature.
-
-1. **Friend Requests** — Send, accept, decline, cancel; pending requests; mutual friend display
-2. **Notifications** — Socket.IO real-time + REST polling fallback
-3. **Post Interactions** — Like/unlike with 6 reactions, comment, delete, nested replies (3 levels)
-4. **Image/Video Uploads** — Multi-file, sharp compression, WebP conversion, thumbnail generation
-5. **Stories** — 24-hour TTL, circular progress ring, reactions, replies
-6. **Groups** — Full CRUD, roles, privacy levels
-7. **Events** — Create, RSVP, calendar view
-8. **Messaging / Chat** — Socket.IO, media sharing, read receipts
-9. **Search** — Full-text MongoDB indexes, suggestions, autocomplete
-10. **News Feed Algorithm** — Weighted scoring with friend/recency/engagement factors
-
----
-
-## PROMPT-06 — Stories Section: Full Improvement
-
-**Trigger:** `Run PROMPT-06`
-
-### Story Tray
-- Horizontal scroll row below navbar (story circles)
-- Own story first (with + add button or edit if stories exist)
-- Each circle: avatar (ring color: yellow = unseen stories, gray = all seen, green = close friends only)
-- Unseen count badge on circle
-- Momentum-based horizontal scroll (CSS scroll-snap + JavaScript velocity tracking)
-- Left/right arrow buttons for desktop (fade in on hover)
-
-### Story Viewer
-- Full-screen overlay (`position: fixed; inset: 0; z-index: var(--z-modal); background: #000`)
-- Top progress bar — multiple segments, one per story, animated `stroke-dashoffset` SVG or CSS width
-- Auto-advance after 5s, pause on press-and-hold (mobile) / mouse-down (desktop)
-- Tap left half → previous story/slide; tap right half → next
-- Swipe left/right → navigate between users' stories
-- Keyboard: ArrowLeft / ArrowRight / Space (pause) / Escape (close)
-- Story content: image (with Ken Burns zoom animation) or video (native `<video>`)
-- Bottom toolbar: Reply input ("Send message" → goes to DM) + React bar (❤️ 😂 😮 😢 😡 👍) + Share button + ··· (Report / Mute / Save image)
-- Creator info top-left: avatar + name + "X hours ago" + privacy icon
-- Viewed-by list (own stories): avatars of viewers with emoji reaction shown
-
-### Story Creation
-- Click own story ring → bottom sheet / modal:
-  - **Photo story:** Upload image → enter edit mode: add text, stickers, GIF sticker, drawing, hashtag sticker, "Add Yours" sticker, "Ask Me" question box sticker, mention sticker (@username), location sticker
-  - **Video story:** Upload or record (max 60s)
-  - **Text story:** Full-screen color background + text (background: solid color or gradient — color picker)
-  - **Boomerang:** Record 2s loop video
-- Caption field + audience selector (Everyone / Friends / Close Friends / Custom)
-- "Post to Story" → success toast + redirects to story viewer showing your new story
-- Preview before posting with "Post" + "Discard" buttons
-
-### Story Model (TTL: 24 hours)
-
-```javascript
-{
-  creator: ObjectId, mediaUrl: String, mediaType: String,
-  thumbnailUrl: String, textContent: String, textStyle: Object,
-  backgroundColor: String, backgroundGradient: String,
-  stickers: [{ type: String, content: String, position: Object, size: Number }],
-  audience: String, caption: String,
-  views:     [{ user: ObjectId, viewedAt: Date }],
-  reactions: [{ user: ObjectId, emoji: String, createdAt: Date }],
-  replies:   [{ user: ObjectId, message: String, createdAt: Date }],
-  allowReplies: Boolean, allowReactions: Boolean,
-  expiresAt: Date, // TTL index
-  createdAt: Date
-}
-```
-
-**Save Progress:** After story tray, viewer, creation, and model, append to `save_progress.md`.
-
----
-
-## PROMPT-07 — Error Check & Fix
-
-**Trigger:** `Run PROMPT-07`
-
-**Checklist:**
-1. Scan all backend routes for missing try/catch
-2. Scan all frontend useEffect hooks for missing cleanup
-3. Check all `useState` + `useEffect` dependency arrays
-4. Verify all socket rooms are cleaned up on disconnect
-5. Check all Multer routes for MIME validation
-6. Verify JWT middleware on all protected routes
-7. Check all API calls have loading states + error handling
-8. Verify no hardcoded colors anywhere
-9. Test all forms for validation
-10. Run Lighthouse audit — target: Performance ≥80, Accessibility ≥90, SEO ≥90
-11. Check mobile responsiveness at 375px / 414px / 768px
-12. Verify dark mode on every page and component
-
-**Save Progress:** Append all fixes and test results to `save_progress.md`.
-
----
-
-## PROMPT-08 — README, SEO, Favicon, Logo & Branding
-
-**Trigger:** `Run PROMPT-08`
-
-### README.md Content
-- Project description + screenshot
-- Feature list (bulleted, comprehensive)
-- Tech stack table
-- Prerequisites (Node ≥18, MongoDB, npm ≥9)
-- Installation (step by step)
-- `.env` setup guide
-- Run locally (concurrently or separate terminals)
-- Build for production
-- API documentation link
-- Contributing guide
-- License (MIT)
-
-### SVG Favicon / Logo
-```svg
-<!-- MindBook 'M' logo — yellow on white, rounded rectangle -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" rx="20" fill="#F7B928"/>
-  <path d="M20 75V35l30 22.5L80 35v40H68V55l-18 13.5L32 55v20H20z" fill="white"/>
-</svg>
-```
-
-**Save Progress:** After README, SEO, and favicon, append to `save_progress.md`.
-
----
-
-## PROMPT-09 — Full Facebook-Like Home Page (News Feed)
-
-**Trigger:** `Run PROMPT-09`
-
-### Three-Column Layout
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  [NAVBAR — fixed, 60px height]                          │
-├──────────────┬──────────────────────┬───────────────────┤
-│ Left Sidebar │     Center Feed      │   Right Sidebar   │
-│   280px      │       1fr            │     320px         │
-│   sticky     │   overflow-y: scroll │    sticky         │
-└──────────────┴──────────────────────┴───────────────────┘
-```
-
-### Left Sidebar (280px, sticky)
-
-**User block:** Avatar + name → links to own profile.
-
-**Navigation links (icon + label, hover yellow bg):**
-- 🏠 Home (active: yellow icon)
-- 👤 Profile
-- 👥 Friends (badge for pending requests)
-- 📺 Watch
-- 🛒 Marketplace
-- 🗓️ Events
-- 🎮 Gaming
-- 📰 News Feed
-- 💼 Jobs
-- 📝 Articles
-- 🎵 Audio Rooms
-- 📦 Your orders
-- 💰 Fundraisers
-- 🕐 Memories
-
-**Shortcuts:** User's recent groups (with cover, name, unread dot).
-
-**Footer:** Privacy · Terms · Cookies · Ads · More · © 2026 MindBook
-
-### Center Feed (680px max-width, auto margin)
-
-**Story Tray:** Horizontal scroll row. (see PROMPT-06)
-
-**Reels Preview Row:** "Reels for you" — horizontal scroll of 4–5 reel thumbnails (play icon, duration, creator). "See all" → `/reels`.
-
-**Video Hub Row:** "Videos" — horizontal scroll mixing MindBook + YouTube videos (source badge). "See all" → `/watch`.
-
-**Create Post Card:** (see Post Creator spec below)
-
-**Feed Posts:** Infinite scroll, IntersectionObserver, 10 posts per batch, skeleton loaders.
-
-### Create Post Card
-
-```
-┌─────────────────────────────────────────────────────────┐
-│ [Avatar]  [What's on your mind, [Name]? — gray, click]  │
-├─────────────────────────────────────────────────────────┤
-│ [📷 Photo/Video] [😊 Feeling]  [🏷️ Tag]  [📍 Location] │
-└─────────────────────────────────────────────────────────┘
-```
-
-**Click to expand:** Full post composer modal (see PROMPT-57).
-
-### Post Card Component (full spec)
-
-**Header row:**
-- Avatar (40px, click → profile)
-- Name (bold, click → profile) · Timestamp (relative: "2 min", "3h", "Mon", "Jan 12") · Privacy icon
-- "Follow" button (if not friends and not own post)
-- "···" dropdown — own post: Edit / Delete / Pin to Profile / Turn off notifications / Embed; others: Follow/Unfollow / Save post / Report / Hide post / Block
-
-**Content:**
-- Text (linkified, hashtagged, @mentioned — each clickable)
-- "See more" after 250 chars
-- Image grid (1 image = full width; 2 = side by side; 3 = left full + right 2 stacked; 4 = 2×2; 5+ = 2×2 + "+N more" overlay)
-- Video (with custom controls, auto-play muted when in viewport)
-- YouTube embed (rendered within post, source badge "YouTube" top-right corner)
-- Article link preview card (thumbnail + title + domain)
-- Location chip (📍 City, Country)
-- Feeling chip (😊 Feeling [emotion])
-- Poll (if poll post)
-- Tagged friends chip ("with [Name] and [N] others")
-
-**Reaction bar (below content):**
-- Reaction summary row: top 3 reaction emojis + total count (clickable → who reacted modal)
-- Comment count + share count
-
-**Action buttons:**
-- 👍 Like — on hover: reaction picker floats up (6 reactions: Like ❤️ Love 😂 Haha 😮 Wow 😢 Sad 😡 Angry)
-- 💬 Comment — click: expands comment section inline
-- ➦ Share — click: share modal
-- 🔖 Save — click: saved posts
-
-**Comment Section (collapsible):**
-- Sort: Most relevant / Newest first / All comments
-- Comment input: avatar + input (auto-grow) + emoji button + image attachment + send (Enter or button)
-- Comment card: avatar + name + comment bubble + relative time + Like ❤️ + Reply
-- Nested replies: up to 3 levels, indented 24px each level, "See X replies" collapsed
-- "Load more comments" button
-
-### Right Sidebar (320px, sticky)
-
-**Sponsored section** (placeholder — "Ads will appear here in a future update")
-
-**Birthdays card:** 🎂 "[Name]'s birthday is today. Send a wish!" — yellow "Send Message" button.
-
-**Friend Suggestions:** 5 cards — avatar + name + "X mutual friends" + "Add Friend" (yellow) + X button.
-
-**Contacts (online friends):** Alphabetical, green dot for online, gray for offline. Search box. Each row: avatar + name + last-active time. Click → opens DM.
-
-**Group Activity:** 3 recent group posts from joined groups — group name + post preview.
-
-**Save Progress:** After each section (left sidebar, create post, feed posts, right sidebar), append to `save_progress.md`.
-
----
-
-## PROMPT-10 — Full Messaging / Chat System Foundation
-
-**Trigger:** `Run PROMPT-10`
-
-*(Foundation layer — see PROMPT-34 for complete rebuild with voice/video calls and all advanced features. Do not skip PROMPT-34.)*
-
-**Implement:** Conversation model, Message model, Socket.IO setup, basic chat list, basic chat window, message bubbles (text only), real-time delivery.
-
-**Save Progress:** After every model, socket event, and component, append to `save_progress.md`.
-
----
-
-## PROMPT-11 — Groups System + Rename to MindBook
-
-**Trigger:** `Run PROMPT-11`
-
-*(Full spec in PROMPT-36. This prompt creates the Group and GroupPost models, all API routes, and basic GroupsHome + GroupPage components. PROMPT-36 fills in all the deep detail.)*
-
-**Rename:** Update "MindBook" everywhere: `<title>`, navbar logo, favicon `<meta name="application-name">`, README, footer, meta tags. Search for any remaining "Minds Books" strings and replace.
-
-**Save Progress:** After models, routes, and each page component, append to `save_progress.md`.
-
----
-
-## PROMPT-12 — Chat Suggestions & Message Button on Profiles
-
-**Trigger:** `Run PROMPT-12`
-
-*(Full spec from v3.0 playbook — implement as specified. Save after each component.)*
-
----
-
-## PROMPT-13 — Stories Reactions, Rich Media Chat, Group Navbar, Friends
-
-**Trigger:** `Run PROMPT-13`
-
-*(Full spec from v3.0 playbook — implement all sub-features. Save after each.)*
-
----
-
-## PROMPT-14 — Base Responsiveness & Dark Mode
-
-**Trigger:** `Run PROMPT-14`
-
-*(PROMPT-29 covers the full animation system. This prompt ensures base responsive breakpoints, dark mode, and CSS variable usage are complete across all existing components.)*
-
-**Breakpoints:**
-
-| Token | Value | Layout |
-|-------|-------|--------|
-| `--bp-xs`  | 480px  | Single column, bottom nav |
-| `--bp-sm`  | 640px  | Single column, drawers |
-| `--bp-md`  | 768px  | Single column |
-| `--bp-lg`  | 1024px | Two columns (left sidebar + feed) |
-| `--bp-xl`  | 1280px | Three columns (full) |
-| `--bp-2xl` | 1400px | Three columns + centered |
-
-**Mobile Bottom Navigation Bar (≤768px):**
-```
-[ 🏠 Home ] [ 👥 Friends ] [ 📺 Watch ] [ 💬 Messages ] [ 🔔 Notifs ]
-```
-Yellow active icon + yellow dot indicator.
-
-**Save Progress:** After each breakpoint and dark mode pass, append to `save_progress.md`.
-
----
-
-## PROMPT-15 — Full Code Analysis, Browser Testing & Error Fixing
-
-**Trigger:** `Run PROMPT-15`
-
-**Test matrix:** Chrome 120+ / Firefox 120+ / Safari 17+ / Edge 120+ / Chrome Android / Mobile Safari.
-
-**Device testing:** 375px (iPhone SE) / 390px (iPhone 14) / 414px (iPhone Plus) / 768px (iPad) / 1024px (iPad Pro / small laptop) / 1440px (desktop) / 1920px (widescreen).
-
-**Feature test checklist:**
-- [ ] Register new account → email validation → password strength → submit
-- [ ] Login → token stored → protected routes accessible
-- [ ] Logout → token cleared → redirected to /login
-- [ ] Profile view (own) → profile view (other user) → mutual friends shown
-- [ ] Edit profile → save → changes reflected immediately
-- [ ] Upload profile pic → upload cover photo → crop/position
-- [ ] Create text post → create image post (4 images) → create video post
-- [ ] Like post → reaction picker → all 6 reactions
-- [ ] Comment → nested reply → delete comment
-- [ ] Share post → all share options
-- [ ] Create story (image + text) → view story → react → reply
-- [ ] Send friend request → accept → appear in friends list
-- [ ] Decline friend request → cancel sent request
-- [ ] Send DM → receive in real-time → media message → voice message → emoji
-- [ ] Video call → audio call → group call
-- [ ] Create group → post in group → join/leave
-- [ ] Create event → RSVP → add to calendar
-- [ ] Search users → search posts → search groups
-- [ ] Dark mode toggle → persists on refresh
-- [ ] Mobile: bottom nav works → drawers open/close → swipe gestures
-
-**Save Progress:** Append full test report to `save_progress.md`.
-
----
-
-## PROMPT-16 — Fix Layout & Sidebar Overlap
-
-**Trigger:** `Run PROMPT-16`
-
-### App Layout CSS (apply globally)
-
-```css
-/* ─── App Layout Shell ──────────────────────────────── */
-#root { min-height: 100vh; display: flex; flex-direction: column; }
-
-.navbar-wrapper { position: fixed; top: 0; left: 0; right: 0; height: var(--navbar-height); z-index: var(--z-fixed); background: var(--bg-navbar); box-shadow: var(--shadow-navbar); }
-
-.app-layout {
-  display: grid;
-  grid-template-areas: "sidebar feed rightbar";
-  grid-template-columns: var(--sidebar-left-width) 1fr var(--sidebar-right-width);
-  gap: var(--space-4);
-  max-width: var(--page-max-width);
-  margin: 0 auto;
-  padding: calc(var(--navbar-height) + var(--space-4)) var(--space-4) var(--space-4);
-  min-height: 100vh;
-}
-
-.left-sidebar {
-  grid-area: sidebar;
-  position: sticky;
-  top: calc(var(--navbar-height) + var(--space-4));
-  height: calc(100vh - var(--navbar-height) - var(--space-8));
-  overflow-y: auto;
-  scrollbar-width: none;
-  flex-shrink: 0;
-}
-
-.main-content { grid-area: feed; min-width: 0; overflow-x: hidden; }
-
-.right-sidebar {
-  grid-area: rightbar;
-  position: sticky;
-  top: calc(var(--navbar-height) + var(--space-4));
-  height: calc(100vh - var(--navbar-height) - var(--space-8));
-  overflow-y: auto;
-  scrollbar-width: none;
-  flex-shrink: 0;
-}
-
-/* ─── Responsive ────────────────────────────────────── */
-@media (max-width: 1279px) {
-  .app-layout {
-    grid-template-columns: 240px 1fr;
-    grid-template-areas: "sidebar feed";
-  }
-  .right-sidebar { display: none; }
-}
-
-@media (max-width: 1023px) {
-  .app-layout {
-    grid-template-columns: 60px 1fr;
-    grid-template-areas: "sidebar feed";
-  }
-  .left-sidebar { overflow: hidden; }
-  .left-sidebar .nav-label { display: none; }
-}
-
-@media (max-width: 767px) {
-  .app-layout {
-    grid-template-columns: 1fr;
-    grid-template-areas: "feed";
-    padding-bottom: calc(var(--bottom-nav-height) + var(--space-4));
-  }
-  .left-sidebar, .right-sidebar { display: none; }
-}
-```
-
-**Remove:** ALL `position: absolute`, `float`, negative margins, hardcoded `margin-left`, `margin-right`, `width: calc(...)` hacks on feed.
-
-**Critical CSS resets (add to globals.css):**
-```css
-*, *::before, *::after { box-sizing: border-box; }
-body, html { margin: 0; padding: 0; overflow-x: hidden; width: 100%; }
-img, video { max-width: 100%; height: auto; display: block; }
-```
-
-**Save Progress:** Append to `save_progress.md`.
-
----
-
-## PROMPT-17 — Comprehensive Bug Fixes & UI Improvements
-
-**Trigger:** `Run PROMPT-17`
-
-Fix all 9 issues from v3.0 plus the following additions:
-
-### Additional Improvements
-
-**10. Post Composer Rich Text**
-- Bold (Ctrl+B), Italic (Ctrl+I), Underline (Ctrl+U) in post text
-- Emoji picker in post composer
-- @mention autocomplete (shows friend list dropdown while typing @)
-- #hashtag autocomplete (shows trending hashtags while typing #)
-- Character counter (5000 max, turns red < 100 remaining)
-
-**11. Reaction Picker Detail**
-- Hover on Like button for 500ms → picker appears (Framer Motion, scale from 0.5 at origin)
-- 6 emojis: 👍 ❤️ 😂 😮 😢 😡
-- Each emoji has tooltip label (Like / Love / Haha / Wow / Sad / Angry)
-- Hover emoji → 1.4× scale animation
-- Click → reaction saved, button changes to selected reaction emoji + color
-- Click same reaction again → unlike
-
-**12. Post Image Grid**
-- 1 image: max 680px wide, rounded corners
-- 2 images: 50/50 split, no gap → rounded outer corners
-- 3 images: 50% left + 25%/25% right stack
-- 4 images: 2×2 grid
-- 5+ images: first 4 shown, last has "+N" overlay, click → lightbox all
-
-**13. Comment Improvements**
-- Gif support in comments (Giphy picker)
-- Like heart on each comment (count shown)
-- Threaded replies (3 levels max)
-- @mention in comments
-
-**14. Skeleton Loaders (define shapes for every page)**
-- Feed: 3× post skeleton (avatar circle + 3 lines + action bar)
-- Chat list: 8× conversation skeleton
-- Profile: header skeleton (cover rect + circle + 3 lines)
-- Group cards: 6× card skeleton
-- Notifications: 10× notification skeleton (circle + 2 lines)
-- Search results: tab bar + 5× result skeleton
-
-**15. Toast / Snackbar System**
-- Position: bottom-left on desktop, top-center on mobile
-- Types: success (green) / error (red) / warning (yellow) / info (blue) / default
-- Auto-dismiss: 4s with progress bar
-- Dismiss on click or swipe
-- Stack: max 3 visible at once (older push down)
-- Each toast: icon + message + optional "Undo" / "View" action link
-
-**Save Progress:** After each improvement, append to `save_progress.md`.
-
----
-
-## PROMPT-18 — Messenger UI Fixes, Discover Groups, Login/Signup
-
-**Trigger:** `Run PROMPT-18`
-
-*(Full spec from v3.0 playbook — implement all sub-items. Save after each page.)*
-
-### Additional Login Page Detail
-
-**Login page layout:**
-- Centered card, max-width 420px, solid white background, `border-radius: var(--radius-2xl)`, `box-shadow: var(--shadow-xl)`
-- Top: MindBook logo (SVG, 56px) + "MindBook" wordmark
-- Tagline: "Connect with friends and the world around you."
-- Input: Email or username — full border, focus glows yellow (`box-shadow: 0 0 0 3px var(--brand-primary-light)`)
-- Input: Password — show/hide toggle (eye icon)
-- "Remember me" checkbox + "Forgot password?" link (right-aligned)
-- Login button: full-width, yellow, loading spinner on submit
-- Divider: "— or —"
-- "Create new account" button: full-width, outlined yellow
-- Footer: "© 2026 MindBook · Privacy · Terms · Cookies"
+**Animations:**
+- Background blobs drift slowly
+- Form slides up from y:32 on mount (spring)
+- Input labels float up on focus (CSS transition)
+- Login button: hover = scale(1.02) + glow; active = scale(0.98); loading = spinner replaces text
+- Error message shakes horizontally (CSS keyframe)
+- Three.js canvas: particle depth of field, ambient occlusion on logo
 
 **Forgot Password flow:**
-`/forgot-password` → email input → submit → "Check your email" confirmation. Token expires 1 hour.
-`/reset-password/:token` → new password + confirm → submit → redirect to login.
+- `/forgot-password` → email input → submit → "Check your inbox" Lottie animation
+- `/reset-password/:token` → new password fields → strength meter → submit → redirect login
 
-**Save Progress:** After each page redesign, append to `save_progress.md`.
+*Save Progress.*
 
 ---
 
-## PROMPT-19 — Complete Media Sharing in Chat
+## PROMPT-02.B — Signup Page Redesign
 
-**Trigger:** `Run PROMPT-19`
+**MANDATORY fields:** Full Name, Email, Password
 
-*(Full spec from v3.0 playbook. Save after backend route, each frontend component.)*
+**OPTIONAL fields (shown in expandable "More details" section with smooth height animation):**
+- Profile Picture (upload or URL — see PROMPT-02.C for full spec)
+- Username (auto-generate suggestion from name, editable)
+- Phone Number (with country code selector)
+- Date of Birth (date picker, stylized)
+- Gender (dropdown: Male / Female / Non-binary / Prefer not to say / Custom)
+- Bio (textarea, 150 char max, live counter)
+- Website URL
 
-### Additional Detail: Upload Progress UI
+**Layout:**
+```
+┌──────────────────────────────────────┐
+│  [MindBook logo + "Join MindBook"]  │
+│  "Free forever. No ads."            │
+│                                      │
+│  [Full Name* ─────────────────────] │
+│  [Email* ──────────────────────────]│
+│  [Password* ───────────────────────]│
+│  [Password Strength Meter]          │
+│  [Confirm Password* ───────────────]│
+│                                      │
+│  [▸ Add more details (optional)]    │  ← accordion
+│    [Profile picture upload]         │
+│    [Username]                       │
+│    [Phone]                          │
+│    [Birthday]                       │
+│    [Gender]                         │
+│    [Bio]                            │
+│    [Website]                        │
+│                                      │
+│  ─────────── Legal text ────────── │
+│  "People who use our service may   │
+│   have uploaded your contact info." │
+│  "By clicking Submit, you agree to  │
+│   MindBook's Terms, Privacy Policy" │
+│                                      │
+│  [Submit — yellow, full width]      │
+│                                      │
+│  "Already have an account? Log in"  │
+└──────────────────────────────────────┘
+```
 
+**Real-time validation:**
+- Name: minimum 2 characters (green checkmark when valid)
+- Email: format validation + real-time "Email already taken" check (debounced 600ms, API call)
+- Password: strength meter (4 segments: weak/fair/good/strong) + requirements checklist
+- Confirm Password: red X if not matching, green ✓ if matching
+
+**Animations:**
+- Each input field entrance: stagger 60ms, slide up from y:16
+- "Add more details" accordion: smooth height animation (Framer Motion height from 0 to auto)
+- Submit button: loading spinner → Lottie checkmark on success → navigate to feed
+- Background: animated gradient mesh
+
+*Save Progress.*
+
+---
+
+## PROMPT-02.C — Profile Picture on Signup
+
+The profile picture field in signup should:
+
+1. Show a placeholder avatar with a "📷 Add photo" circle button
+2. Clicking opens a modal with two tabs:
+   - **Upload File:** drag-and-drop zone + file picker (JPG/PNG/GIF/WEBP, max 5MB) → shows image preview → crop with `react-easy-crop` (circular crop, zoom slider, rotation slider)
+   - **From URL:** input field to paste any image URL → live preview in circle
+3. After selecting: shows preview in the signup form circle, allows re-editing (click to change)
+4. Upload happens on form submit (not immediately), attached as FormData
+
+*Save Progress.*
+
+---
+
+## PROMPT-02.D — Admin System
+
+**Admin Registration:**
+- `/admin/register` — Special signup page (not linked anywhere publicly)
+- Requires: Name, Email, Password, **Admin Secret Key** (set in `.env` as `ADMIN_SECRET_KEY`)
+- If secret key matches → creates user with `role: 'admin'`
+- Shows on page: "Admin registration is restricted." (no hint about the key)
+
+**Admin Login:**
+- Same `/login` page works. Admin users are redirected to `/admin` instead of `/`
+
+**Admin Dashboard (`/admin`):**
+
+Left panel navigation:
+```
+📊 Dashboard (Overview)
+👥 Users
+📝 Content
+🚩 Reports
+📢 Announcements
+📊 Analytics
+🗄️ System Logs
+⚙️ Settings
+```
+
+**A.1 — Overview Dashboard:**
+Animated metric cards (number counts up from 0 on mount with GSAP):
+- Total Users (with 30-day sparkline)
+- Active Today
+- Total Posts
+- Pending Reports (red if > 0)
+- Storage Used
+- Server Status (green/yellow/red dot with pulse animation)
+
+Recharts charts:
+- User growth (line, last 30 days)
+- Daily active users (bar, last 14 days)
+- Content by type (donut: Posts/Reels/Videos/Stories)
+- Reports by category (horizontal bar)
+
+**A.2 — User Management (`/admin/users`):**
+- Data table with: Avatar, Name, Email, Role, Status, Joined, Last Active, Post Count, Report Count
+- Search by name/email; filter by role (user/moderator/admin), status (active/suspended/banned)
+- Sortable columns
+- Bulk actions: Suspend 24h / 7d / 30d / Permanent, Delete, Send Warning, Change Role
+- Row click → Slide-in right panel (user detail): full profile, activity timeline, all admin actions
+- Actions per user: Suspend, Reset Password (generate temp), Warn, Impersonate (opens new tab logged in as user for debugging), Delete All Content, Delete Account
+
+**A.3 — Content Moderation (`/admin/content`):**
+- Report queue table: content preview, report type, reason, reporter, reported user, time, priority (High/Med/Low), status
+- Priority auto-assigned: same content reported 3+ times = High
+- Review button → full moderation modal: see full content, reporter history, reported user history, all reports on this content
+- Decision buttons: Dismiss / Warn User / Delete Content / Delete + Suspend / Permanent Ban
+- All decisions logged with admin ID + timestamp → immutable
+
+**A.4 — Report System (user-side):**
+- ··· menu on every post, comment, story, reel, video, message, group, user profile → "Report" option
+- Report modal: category chips (Spam / Harassment / Hate Speech / Violence / Nudity / Misinformation / Scam / Self-harm / Copyright / Other) → optional detail text (500 chars max)
+- Submit → "Thank you, we'll review this." toast
+- Cannot report same content twice (button grays out with "Reported")
+- User can view own report history at `/my-reports` with status: Pending / Reviewed / Action Taken / Dismissed
+
+**A.5 — Announcements (`/admin/announcements`):**
+- Create announcement: Title + rich text body + optional CTA button (label + URL)
+- Target: All Users / New Users (<30d) / Inactive (>30d) / Specific user IDs/emails
+- Schedule: Now or pick future datetime
+- Delivery: In-app notification + push notification + optional email blast
+- After sending: analytics card → Delivered count / Opened count / CTA clicked count
+
+**A.6 — System Logs (`/admin/logs`):**
+- Three tabs: Error Log / Security Log / Moderation Log
+- Each entry: timestamp, level, message, user (if applicable), IP
+- Filter by level, date range, user
+- Export as CSV
+
+**A.7 — IP Management (`/admin/security`):**
+- IP ban list: add IP → never accept requests from that IP
+- Rate limit override: set custom limits per IP
+- Failed login attempts: table of IPs with failed attempt counts
+
+*Save Progress after each admin section.*
+
+---
+
+# PROMPT-03 — User Profile System
+
+**Trigger:** `Run PROMPT-03`
+**Goal:** A stunning, fully-featured profile page that makes every user proud to share.
+
+---
+
+## PROMPT-03.A — Profile Header Visual Design
+
+**Cover Photo area (820px wide, 312px tall on desktop):**
+- Parallax effect on scroll: cover image moves at 40% of scroll speed (creates depth illusion)
+- Gradient overlay on bottom 30% for text readability
+- **Hover effect:** Camera icon appears center-cover with "Edit cover photo" label
+- Click → opens cover photo modal (see PROMPT-03.C)
+
+**Profile Picture (168px circle on desktop, 96px on mobile):**
+- Overlaps cover bottom by 50%
+- 4px white border around circle
+- Verified users: animated golden ring (SVG stroke-dasharray animation, slowly cycles)
+- **Hover effect:** Darkens slightly + camera icon appears + "Update" label
+- Click → opens profile picture modal (see PROMPT-03.C)
+
+**Name, Bio, Stats row:**
+- Name (bold, 24px) + optional verified badge (✓)
+- Pronouns (if set, subtle gray text)
+- Bio (max 150 chars, linkified, line-breaks preserved)
+- Intro icons row: 💼 Current job @ Company · 🎓 School · 📍 City, Country · 🔗 Website · 📅 Joined Month Year
+- Stats: [N Friends] · [N Following] · [N Followers] — each clickable
+
+**Action Buttons row** (changes based on relationship):
+- Own profile: `Edit Profile` (outlined yellow) + `View As` (ghost) + `Add to story`
+- Friend: `Message` (yellow) + `Friends ▾` (dropdown: Unfriend / Unfollow / Snooze 30d / Add to Close Friends)
+- Not friend, following: `Add Friend` (yellow) + `Following ✓` (outlined) + `Message`
+- Not friend, not following: `Add Friend` (yellow) + `Follow` + `Message`
+- Friend request sent: `Pending ▾` (dropdown: Cancel request) + `Message`
+- Incoming request: `Confirm` (yellow) + `Delete`
+
+**Developer Links section** (shown on the demo account / creator profile):
 ```jsx
-// MediaPreviewModal.jsx
-// Shows before sending:
-// - Thumbnail preview (image/video first frame)
-// - File name + file size
-// - Caption input
-// - Send button → shows circular progress (0–100%)
-// - Error state: "Upload failed. Try again."
+// Add to profile sidebar or About tab for creator's profile
+<DeveloperLinks>
+  <a href="https://farmanullah1.github.io/My-Portfolio" target="_blank">🌐 Portfolio</a>
+  <a href="https://www.linkedin.com/in/farmanullah-ansari/" target="_blank">LinkedIn</a>
+  <a href="https://github.com/farmanullah1" target="_blank">GitHub</a>
+</DeveloperLinks>
 ```
 
-### File Icons by Type
+**Profile entrance animation:** Cover fades in (0.4s). Profile picture scales up from 0.8→1 with spring (delay 200ms). Name and buttons slide up with stagger (60ms each).
 
-| MIME Type | Icon Color | Icon |
-|-----------|-----------|------|
-| PDF | Red | 📄 |
-| Word (DOC/DOCX) | Blue | 📝 |
-| Excel (XLS/XLSX) | Green | 📊 |
-| PowerPoint | Orange | 📊 |
-| ZIP/RAR | Yellow | 🗜️ |
-| Text | Gray | 📃 |
-
-**Save Progress:** After backend upload route, Multer config, each media component, append to `save_progress.md`.
+*Save Progress.*
 
 ---
 
-## PROMPT-20 — Fix All Broken Media Messaging Features
+## PROMPT-03.B — Profile Tabs System
 
-**Trigger:** `Run PROMPT-20`
+**Tab bar** (sticky when scrolled past header, highlights yellow active tab):
+```
+Posts | About | Friends | Photos | Videos | Reels | Portfolio | Articles | More ▾
+```
 
-*(Full diagnostic + fix spec from v3.0 playbook. Save after each fix.)*
+More dropdown contains: Achievements · Saved · Audio · Groups · Events · Check-ins
 
-**Additional verifications:**
-- [ ] Socket.IO reconnects automatically after network drop
-- [ ] All media URLs use absolute paths or Vite proxy config
-- [ ] `Content-Type: multipart/form-data` set correctly by axios
-- [ ] File input accepts correct MIME types via `accept` attribute
-- [ ] GIF picker API key loaded from env, not hardcoded
-- [ ] Voice recorder checks `navigator.mediaDevices` availability before use
-- [ ] All error messages displayed to user (no silent failures)
+**Active tab transitions:** Tab content fades and slides in from right (Framer Motion `slideLeft` variant).
 
-**Save Progress:** After each fix verified, append to `save_progress.md`.
+**Posts Tab:**
+- Create post box (if own profile)
+- Pinned post (if any) — shown first with 📌 badge
+- Remaining posts in reverse chronological order
+- Infinite scroll, skeleton loaders
+
+**About Tab:**
+Left column: Overview card (bio, intro items)
+Right column: Work & Education timeline (animated SVG vertical line, spring-reveal each entry)
+
+**Friends Tab:**
+- 9-card grid preview (3×3). "See all friends" → full searchable list
+- Mutual friends section (when viewing other user)
+
+**Photos Tab:**
+- Albums row: Profile Pictures / Cover Photos / Posts / Tagged / user-created albums
+- Masonry grid of all photos (react-masonry-css)
+- Lightbox on click: full screen, left/right nav, download, tag, delete (own)
+
+**Videos Tab:**
+- Grid of uploaded videos (16:9 thumbnails)
+- Click → opens video player
+
+**Portfolio Tab** (LinkedIn-inspired):
+- Work Samples: project cards with image, title, description, links
+- Skills: with endorser avatars + endorsement count
+- Certifications: with expiry dates
+- Resume download button (generates from profile data via jsPDF)
+- Developer links: Portfolio / LinkedIn / GitHub
+
+*Save Progress.*
 
 ---
 
-## PROMPT-21 — Admin Dashboard
+## PROMPT-03.C — Profile & Cover Photo Update System (CRITICAL)
 
-**Trigger:** `Run PROMPT-21`
-*(Full spec in Section A — implement exactly as specified. Save after each sub-section A.1–A.6.)*
+**This must be a flawless, delightful experience.**
+
+### Profile Picture Modal:
+
+**Trigger:** Click camera icon on profile picture (visible on own profile).
+
+**Modal layout:**
+```
+┌─── Update Profile Picture ─────── ✕ ┐
+│                                      │
+│  [Tabs: Upload File | From URL]     │
+│                                      │
+│  === Upload File Tab ===            │
+│  [Drag & drop zone]                 │
+│   or                                │
+│  [Choose from device — yellow btn]  │
+│                                      │
+│  [After file chosen:]               │
+│  [─── Crop UI ──────────────────] │
+│  [Circular crop area]              │
+│  [Zoom slider ●──────────────]    │
+│  [Rotate buttons ↺  ↻]            │
+│                                      │
+│  === From URL Tab ===              │
+│  [https://paste-image-url-here..]  │
+│  [Preview circle]                   │
+│                                      │
+│  [Cancel] [Save — yellow]           │
+└──────────────────────────────────────┘
+```
+
+**Technical details:**
+- `react-easy-crop` library for cropping
+- `Cropper.getCroppedCanvas()` → convert to Blob → POST to `/api/users/upload-profile-pic` (Multer)
+- Sharp resizes to 400×400px, converts to WebP, saves to `/uploads/profile-pics/`
+- On URL tab: fetch image through backend proxy (to avoid CORS), validate it's an image, allow user to crop it too
+- Loading state during upload: circular progress ring over the preview
+- Success: profile picture updates immediately everywhere on the page (Zustand store update)
+- Animated: modal opens with spring, crop area zooms in subtly on load
+
+### Cover Photo Modal:
+
+**Trigger:** Click camera icon on cover photo area (visible on own profile).
+
+**Modal layout:**
+```
+┌─── Update Cover Photo ─────────── ✕ ┐
+│                                      │
+│  [Tabs: Upload File | From URL]     │
+│                                      │
+│  [After file chosen:]               │
+│  [16:9 crop area — landscape]       │
+│  [Drag image to reposition]         │
+│  [Zoom slider]                       │
+│                                      │
+│  [From URL tab:]                    │
+│  [URL input + live preview]         │
+│                                      │
+│  [Cancel] [Save]                    │
+└──────────────────────────────────────┘
+```
+
+- Landscape crop ratio 16:9 forced
+- Allow drag-to-reposition (drag image within crop frame)
+- Sharp resizes to 1640×624px (2× retina), converts to WebP
+- Cover photo updates on profile immediately after save
+
+**Icon visibility:** The camera icons on both profile pic and cover should:
+- Be invisible by default
+- Fade in with a semi-transparent dark background when hovering that area
+- Have a camera icon (white, 24px) centered
+- Include the label "Edit" or "Update photo"
+- Use CSS transition (opacity 0→1, background rgba(0,0,0,0)→rgba(0,0,0,0.4))
+
+*Save Progress.*
 
 ---
 
-## PROMPT-22 — AI-Powered Features
+## PROMPT-03.D — Edit Profile Modal
 
-**Trigger:** `Run PROMPT-22`
-*(Full spec in Section B — implement exactly as specified. Save after each AI feature B.1–B.8.)*
+**Trigger:** "Edit Profile" button on own profile.
 
----
+**Modal sections (scrollable within modal):**
 
-## PROMPT-23 — Innovative Social Features
+1. **Photos:** Profile pic + cover photo (links to respective modals above)
+2. **Name & Bio:** First name, Last name, Pronouns, Bio (150 char counter), Username
+3. **Contact:** Email (shows masked), Phone number (with country code)
+4. **Intro:** Current city, Hometown, Relationship status
+5. **Work:** Add/edit/delete work entries (job title, company, description, start/end, current toggle, skills used)
+6. **Education:** Add/edit/delete education entries (school, degree, field, start/end)
+7. **Websites & Social:** Portfolio URL, GitHub, LinkedIn, Instagram, Twitter, YouTube, TikTok
+8. **Life Events:** Add milestone (got married, had a child, moved to new city, started new job, etc.)
 
-**Trigger:** `Run PROMPT-23`
-*(Full spec in Section C — implement exactly as specified. Save after each feature C.1–C.10.)*
+**Save:** Each section has its own Save button (inline). Shows success checkmark animation on save.
 
----
-
-## PROMPT-24 — Wallet & Digital Economy
-
-**Trigger:** `Run PROMPT-24`
-*(Full spec in Section D — implement exactly as specified. Save after each economy feature.)*
-
----
-
-## PROMPT-25 — Portfolio & Professional Networking
-
-**Trigger:** `Run PROMPT-25`
-*(Full spec in Section E + PROMPT-30 — implement exactly as specified. Save after each feature.)*
+*Save Progress.*
 
 ---
 
-## PROMPT-26 — Advanced Privacy & Safety
+# PROMPT-04 — Complete Messaging & WebRTC System
 
-**Trigger:** `Run PROMPT-26`
-*(Full spec in Section F — implement exactly as specified. Save after each privacy feature.)*
-
----
-
-## PROMPT-27 — Technical Improvements
-
-**Trigger:** `Run PROMPT-27`
-*(Full spec in Section G — implement exactly as specified. Save after each improvement.)*
+**Trigger:** `Run PROMPT-04`
+**Goal:** A messaging experience that rivals — and surpasses — Facebook Messenger.
 
 ---
 
-## PROMPT-28 — LinkedIn & Portfolio Integration
+## PROMPT-04.A — Messenger Layout & Chat List
 
-**Trigger:** `Run PROMPT-28`
-*(Full spec in Section H — implement exactly as specified. Save after LinkedIn OAuth and portfolio links.)*
+**Route:** `/messages` and `/messages/:conversationId`
+
+**Desktop layout:**
+```
+┌─────────────────────────────────────────────────────────────┐
+│  NAVBAR (fixed)                                             │
+├──────────────────────┬──────────────────────┬──────────────┤
+│  LEFT PANEL (360px)  │  CHAT WINDOW (flex)  │  INFO PANEL  │
+│  ─────────────────  │  ────────────────────  │  (320px,     │
+│  Search bar          │  Chat header          │  collapsible)│
+│  Active Now row      │  Messages area        │              │
+│  New Chat button (+) │  Typing indicator     │  Profile info│
+│  Chat list items     │  Input area           │  Shared media│
+│                      │                       │  Shared files│
+└──────────────────────┴──────────────────────┴──────────────┘
+```
+
+**Mobile layout:** Full-screen chat list OR full-screen chat window (back button to return to list). Swipe right to go back.
+
+**Chat List Item spec:**
+- Avatar (50px) with online dot (bottom-right, green pulse)
+- Bold name (unread) or normal name (read)
+- Last message preview: truncated 35 chars. Shows `[Photo]`, `[Video]`, `[Voice message]`, `[Sticker]`, `You: [text]` for sent
+- Timestamp: "now" → "2m" → "1h" → "Mon" → "Jan 12"
+- Unread badge: yellow circle, "99+" max
+- Hover: gray background with opacity transition; shows "···" options icon (Archive / Mute / Mark unread / Delete)
+- Active conversation: yellow left border + slightly highlighted background
+
+**Active Now horizontal scroll row:**
+- Shows friends who are currently online
+- Avatar (40px) with green ring + name below (truncated 8 chars)
+- Horizontal scroll with momentum
+- Scroll arrows fade in on hover
+
+**Chat Search:**
+- As user types: instant filter of conversation list (no API call needed, filter from loaded list)
+- Shows "People" section (search all users), "Messages" section (search within conversations)
+
+*Save Progress.*
 
 ---
 
----
+## PROMPT-04.B — Chat Window (Full Specification)
 
-## PROMPT-29 — Full Animation & 3D Visual Interaction System
-
-**Trigger:** `Run PROMPT-29`
-
-Build the complete animation and interaction layer. Every element should feel alive, purposeful, and smooth.
-
-### Dependencies
-
-```bash
-npm install framer-motion @react-spring/web @react-three/fiber @react-three/drei three gsap @gsap/react lottie-react react-parallax-tilt @use-gesture/react react-intersection-observer react-use canvas-confetti
-```
-
-### A. Global Animation Foundation
-
-**`src/animations/variants.js`** — Framer Motion shared variants:
-
-```javascript
-export const fadeUp      = { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -10 } };
-export const fadeIn      = { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 } };
-export const scaleIn     = { initial: { opacity: 0, scale: 0.9 }, animate: { opacity: 1, scale: 1 }, exit: { opacity: 0, scale: 0.95 } };
-export const slideRight  = { initial: { opacity: 0, x: -20 }, animate: { opacity: 1, x: 0 }, exit: { opacity: 0, x: -20 } };
-export const slideLeft   = { initial: { opacity: 0, x: 20 }, animate: { opacity: 1, x: 0 }, exit: { opacity: 0, x: 20 } };
-export const slideDown   = { initial: { opacity: 0, y: -16 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -16 } };
-export const popIn       = { initial: { opacity: 0, scale: 0.5 }, animate: { opacity: 1, scale: 1, transition: { type: 'spring', stiffness: 300, damping: 20 } }, exit: { opacity: 0, scale: 0.5 } };
-export const staggerContainer = (stagger = 0.06) => ({ animate: { transition: { staggerChildren: stagger } } });
-export const blurFade    = { initial: { opacity: 0, filter: 'blur(8px)', y: 10 }, animate: { opacity: 1, filter: 'blur(0px)', y: 0 }, exit: { opacity: 0, filter: 'blur(4px)', y: -5 } };
-
-export const pageTransition = {
-  initial:  { opacity: 0, y: 14, filter: 'blur(6px)' },
-  animate:  { opacity: 1, y: 0,  filter: 'blur(0px)', transition: { duration: 0.38, ease: [0.22, 1, 0.36, 1] } },
-  exit:     { opacity: 0, y: -8, filter: 'blur(2px)', transition: { duration: 0.22 } }
-};
-
-export const modalBackdrop = {
-  initial:  { opacity: 0 },
-  animate:  { opacity: 1, transition: { duration: 0.2 } },
-  exit:     { opacity: 0, transition: { duration: 0.15 } }
-};
-
-export const modalContent = {
-  initial:  { opacity: 0, scale: 0.92, y: 20 },
-  animate:  { opacity: 1, scale: 1,    y: 0,  transition: { type: 'spring', stiffness: 280, damping: 26 } },
-  exit:     { opacity: 0, scale: 0.95, y: 10, transition: { duration: 0.18 } }
-};
-```
-
-**`src/animations/springs.js`** — React Spring configs:
-
-```javascript
-export const springs = {
-  gentle:  { tension: 120, friction: 14 },
-  wobbly:  { tension: 180, friction: 12 },
-  stiff:   { tension: 210, friction: 20 },
-  slow:    { tension: 280, friction: 60 },
-  snap:    { tension: 400, friction: 28 },
-  elastic: { tension: 200, friction: 8  }
-};
-```
-
-**`useScrollReveal` hook:**
-```javascript
-import { useSpring } from '@react-spring/web';
-import { useInView } from 'react-intersection-observer';
-
-export const useScrollReveal = (options = {}) => {
-  const { threshold = 0.12, delay = 0, direction = 'up' } = options;
-  const [ref, inView] = useInView({ threshold, triggerOnce: true });
-  const offsets = { up: { from: 'translateY(28px)', to: 'translateY(0px)' }, left: { from: 'translateX(-28px)', to: 'translateX(0px)' }, right: { from: 'translateX(28px)', to: 'translateX(0px)' } };
-  const { from, to } = offsets[direction] || offsets.up;
-  const style = useSpring({ opacity: inView ? 1 : 0, transform: inView ? to : from, delay: inView ? delay : 0, config: { tension: 180, friction: 22 } });
-  return { ref, style };
-};
-```
-
-### B. Page Transitions
-
-Wrap `<Routes>` in `<AnimatePresence mode="wait">`. Every page component:
-```jsx
-import { motion } from 'framer-motion';
-import { pageTransition } from '../animations/variants';
-
-export default function PageName() {
-  return <motion.div {...pageTransition}> ... </motion.div>;
-}
-```
-
-### C. Horizontal Scroll Sections
-
-**`HorizontalScrollRow` component:**
-```jsx
-// Used for: story tray, reels row, video hub row, friend suggestions, group cards discover, events, trending topics
-// Features: scroll snap, arrow buttons (fade in on hover), mouse drag, touch swipe, momentum scroll
-// After scroll end: arrows update visibility based on scroll position
-
-const HorizontalScrollRow = ({ children, title, seeAllLink }) => {
-  const containerRef = useRef(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-  // Bind drag gesture with @use-gesture/react
-  // Update arrows on scroll
-  // Smooth scroll with requestAnimationFrame easing
-};
-```
-
-**Apply to every horizontal row on the site** — story tray, reels, videos, friend suggestions, marketplace category row, event cards, group discover row, trending hashtags, explore sections, watch rows.
-
-### D. 3D Tilt Cards
-
-```jsx
-// Apply to: PostCard, GroupCard, JobCard, ArticleCard, MarketplaceCard, EventCard, VideoCard
-import Tilt from 'react-parallax-tilt';
-
-<Tilt tiltMaxAngleX={4} tiltMaxAngleY={4} glareEnable tiltAngleXInitial={0}
-      glareMaxOpacity={0.06} scale={1.015} transitionSpeed={500} perspective={1200}>
-  <div className="card">...</div>
-</Tilt>
-```
-
-Post cards: max tilt 4°, group cards: 6°, video cards: 5°.
-
-### E. 3D Hero Scenes (Three.js)
-
-Add animated 3D scenes to:
-
-**Login / Register pages:**
-```jsx
-// Floating 3D MindBook 'M' logo
-// Material: MeshStandardMaterial, color: #F7B928, metalness: 0.7, roughness: 0.25
-// Float: speed 1.5, rotationIntensity 0.4, floatIntensity 0.6
-// Background: particle field (1000 yellow/white dots, slow drift)
-// Orbit: auto-rotate, no zoom, no pan
-```
-
-**404 Page:** Floating 3D speech bubble with "?" inside, bouncing with gravity simulation.
-
-**Explore Page header:** Rotating 3D network graph (nodes connected by lines, nodes = user profile bubbles).
-
-**Watch Page header:** 3D play button (▶️ geometry) rotating slowly in yellow metallic material.
-
-**Marketplace hero:** Floating 3D shopping bag with yellow material.
-
-**Empty state illustrations:** 3D ghost (no messages), 3D telescope (discover), 3D locked box (private group).
-
-### F. Micro-Interactions (Every Element)
-
-| Element | Animation | Implementation |
-|---------|-----------|---------------|
-| Like button click | Heart pops: 0→1.6→1 (spring) + 8 particle sparks (yellow) radiate outward, fade | Framer Motion + canvas-confetti |
-| Send message button | Paper airplane flies to top-right, shrinks, fades | GSAP MotionPath |
-| Add Friend | Morph: "Add Friend"→spinner→"✓ Friends" | Framer Motion layout animations |
-| Notification bell | Swings 3× on new notification (CSS @keyframes) | CSS + JS class toggle |
-| Story ring | SVG circle stroke-dashoffset countdown | React controlled SVG |
-| Dark mode toggle | Sun rotates 360° out, moon rotates 360° in | Framer Motion rotate + opacity |
-| Post create expand | Height expands with spring physics | Framer Motion height animation |
-| Delete post card | Slides left + fades + gap closes | Framer Motion layout |
-| Reaction picker | Emojis pop up with stagger (40ms each), each bounces | popIn variant + stagger |
-| Coin earned | "+N 🪙" floats up from source + fades | Framer Motion custom animation |
-| Online dot | Soft pulse: scale 1→1.35→1, 2.4s loop | CSS keyframe `pulse-dot` |
-| Modal open | Scale 0.92→1 + fade + backdrop blur in | Framer Motion |
-| Toast appear | Slide from right: x 100%→0 with spring | Framer Motion x animation |
-| Comment submit | Checkmark SVG draws itself (stroke-dashoffset → 0) | CSS transition |
-| Upload progress | Circular arc + percentage counter counts up | React controlled SVG + requestAnimationFrame |
-| Follow button | "Follow"→"Following ✓" with color transition | Framer Motion color |
-| Scroll to top | Floating button fades in at 300px scroll, click shoots to top | IntersectionObserver + Framer Motion |
-| Image load | Blur-up: blurred placeholder → sharp image | CSS filter transition |
-| Card hover | `translateY(-4px) + shadow deepens` | CSS transition |
-| Button hover | `scale(1.03)` + glow | CSS transition |
-| Avatar hover | Ring appears + scale(1.06) | CSS transition |
-| Input focus | Border turns yellow + glow ring | CSS focus-within |
-| Dropdown open | Scale + fade from origin point | Framer Motion |
-| Page load progress | YouTube-style slim bar top (fixed) | GSAP |
-| Sidebar item click | Ripple effect + background fill | CSS after pseudo-element animation |
-
-### G. Skeleton Loaders (Full Specification)
-
-```css
-/* ─── Shimmer keyframe ───────────────────────────────── */
-@keyframes shimmer {
-  0%   { background-position: -100vw 0; }
-  100% { background-position:  100vw 0; }
-}
-
-.skeleton-base {
-  background: linear-gradient(90deg,
-    var(--border-color) 25%,
-    var(--bg-card-hover) 37%,
-    var(--border-color) 63%
-  );
-  background-size: 400% 100%;
-  animation: shimmer 1.4s ease-in-out infinite;
-  border-radius: var(--radius-sm);
-}
-
-/* Apply dark mode override */
-body.dark .skeleton-base {
-  background: linear-gradient(90deg, #3a3b3c 25%, #4a4b4c 37%, #3a3b3c 63%);
-  background-size: 400% 100%;
-}
-```
-
-**Skeleton shapes — define all:**
-- `<SkeletonAvatar size={40|50|60|80|168} />` — circle
-- `<SkeletonLine width="60%|80%|100%" height={12|14|16} />` — rectangle
-- `<SkeletonRect width height borderRadius />` — generic
-- `<SkeletonPost />` — full post card skeleton
-- `<SkeletonConversation />` — chat list item skeleton
-- `<SkeletonProfile />` — profile header skeleton
-- `<SkeletonGroupCard />` — group card skeleton
-- `<SkeletonVideoCard />` — video card skeleton (16:9 rect + lines)
-- `<SkeletonNotification />` — notification row skeleton
-- `<SkeletonStory />` — story circle skeleton
-
-### H. Loading States
-
-**YouTube-style top progress bar:**
-```jsx
-// NProgress-style bar, yellow, fixed top, z-index: 9999
-// On route change start: appear at 0%, animate to 85% over 2s
-// On route change complete: shoot to 100% then fade out
-// Implement with GSAP + React Router useNavigation hook
-```
-
-**Lottie empty states (download from LottieFiles.com):**
-- No posts in feed → "empty-feed.json"
-- No messages → "empty-messages.json"
-- No friends → "empty-friends.json"
-- No notifications → "empty-notifications.json"
-- No search results → "empty-search.json"
-- No groups → "empty-groups.json"
-- Upload complete → "success-checkmark.json"
-- Error → "error-broken.json"
-
-### I. Background Animations
-
-**Auth pages animated background:**
-```css
-/* Animated gradient mesh blobs */
-.auth-bg-blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.15;
-  animation: blob-drift 8s ease-in-out infinite alternate;
-}
-.blob-1 { width: 500px; height: 500px; background: #F7B928; top: -100px; left: -100px; animation-delay: 0s; }
-.blob-2 { width: 400px; height: 400px; background: #FFD700; top: 200px; right: -80px; animation-delay: -3s; }
-.blob-3 { width: 350px; height: 350px; background: #FFEC8B; bottom: -50px; left: 40%; animation-delay: -6s; }
-
-@keyframes blob-drift {
-  0%   { transform: translate(0, 0) scale(1); }
-  50%  { transform: translate(30px, -30px) scale(1.08); }
-  100% { transform: translate(-20px, 20px) scale(0.95); }
-}
-```
-
-**Home feed subtle background texture:**
-Very low opacity (0.025) diagonal line pattern on `--bg-body` using CSS `repeating-linear-gradient`.
-
-**Navbar scroll behavior:**
-```javascript
-// On scroll > 10px: add class .scrolled → add box-shadow + slight background blur (backdrop-filter: blur(8px))
-```
-
-### I. Mouse / Cursor System
-
-**Custom cursor (desktop, pointer devices only):**
-```jsx
-// components/CustomCursor.jsx
-// Outer ring (32px): follows cursor with 80ms delay (lerp)
-// Inner dot (8px): snaps to cursor position directly
-// On hover interactive elements: outer ring scales to 2× + brand color border
-// On click: both scale down to 0.8
-// On text hover: outer ring morphs to thin vertical line (I-beam style)
-// Cursor hidden on touch devices (media: (pointer: coarse))
-```
-
-### J. Entrance Animations (Leading Animations)
-
-Sequence:
-1. Navbar slides down (300ms, delay 0ms)
-2. Left sidebar items cascade in (50ms stagger, delay 200ms)
-3. First 3 stories pop in (scale 0.8→1, 60ms stagger, delay 300ms)
-4. Create post card fades up (delay 400ms)
-5. First 5 posts fade up with stagger (60ms each, delay 500ms)
-6. Right sidebar fades in (delay 600ms)
-
-Only run on initial page load. Use sessionStorage flag `mb_entrance_done` to skip on subsequent navigation.
-
-### K. Physics-Based Gestures
-
-**Pull-to-Refresh (mobile feed):**
-```jsx
-// useDrag from @use-gesture/react
-// Drag down > 80px threshold → show spinner, trigger refresh
-// Spring back to 0 on release
-// Prevent pull when scroll position > 0
-```
-
-**Swipe to dismiss (modals on mobile):**
-```jsx
-// Drag modal down > 30% of its height → dismiss with spring exit
-// Velocity-based: fast swipe always dismisses regardless of distance
-```
-
-**Chat bubble spring:**
-New messages animate in: sender → slides from right (x: 20→0, spring); receiver → slides from left.
-
-**Save Progress:** After each animation sub-section (A–K), append to `save_progress.md`.
-
----
-
-## PROMPT-30 — LinkedIn-Style Professional Features
-
-**Trigger:** `Run PROMPT-30`
-
-*(Full spec from v3.0 — implement as specified with the following additions.)*
-
-### Additional Detail
-
-**Work Timeline on Profile:**
-Animated SVG timeline (vertical line, circles at each entry) on the About tab. Each entry appears on scroll with a spring animation. Current job has a pulsing yellow dot.
-
-**Skills Endorsement Animation:**
-When endorsing a skill: progress bar fills + count increments + "+1" floats up. Toast: "You endorsed [Name]'s [Skill] skill."
-
-**Article Rich Text Editor (TipTap):**
-Toolbar: Bold · Italic · Underline · Strikethrough · H1 · H2 · H3 · Quote · Code · Code Block · Bullet List · Numbered List · To-do List · Table · Image (upload) · Link · Horizontal Rule · YouTube embed · Undo · Redo. Word count displayed. Autosave draft every 30 seconds.
-
-**Job Board Kanban Animation:**
-Drag-and-drop between columns uses `@dnd-kit/core`. When card drops into new column → spring bounce into position + column count badge animates.
-
-**Save Progress:** After each LinkedIn feature, append to `save_progress.md`.
-
----
-
-## PROMPT-31 — Instagram-Style Features
-
-**Trigger:** `Run PROMPT-31`
-
-*(Full spec from v3.0 — implement as specified with the following additions.)*
-
-### Additional Detail
-
-**Photo Filters Technical Implementation:**
-```javascript
-const filters = {
-  Original: '',
-  Warm:     'brightness(1.05) saturate(1.3) sepia(0.15)',
-  Cool:     'brightness(1.02) saturate(0.9) hue-rotate(15deg)',
-  Vintage:  'contrast(0.85) brightness(0.9) sepia(0.35) saturate(1.2)',
-  Fade:     'brightness(1.1) contrast(0.85) saturate(0.8)',
-  Chrome:   'contrast(1.15) brightness(1.05) saturate(1.4)',
-  Noir:     'grayscale(1) contrast(1.2) brightness(0.9)',
-  Vivid:    'contrast(1.1) brightness(1.05) saturate(1.6)',
-  Golden:   'brightness(1.05) saturate(1.2) sepia(0.25) hue-rotate(-10deg)'
-};
-```
-
-**Reels Full-Screen UX:**
-- Scroll snap vertical (one reel at a time)
-- Auto-mute but show "🔇 Tap for sound" hint overlay for 3 seconds
-- Progress bar at top (thin, playing → filling)
-- Double-tap to like (heart animates at tap point)
-- Hold to pause (video pauses, dim overlay)
-
-**Masonry Grid (Explore + Photos):**
-Use CSS columns or `react-masonry-css`:
-```jsx
-import Masonry from 'react-masonry-css';
-const breakpoints = { default: 3, 1100: 3, 700: 2, 500: 1 };
-<Masonry breakpointCols={breakpoints} className="masonry-grid" columnClassName="masonry-column">
-  {items.map(item => <ExploreCard key={item._id} item={item} />)}
-</Masonry>
-```
-
-**Save Progress:** After each Instagram feature, append to `save_progress.md`.
-
----
-
-## PROMPT-32 — YouTube & Netflix-Style Watch Features
-
-**Trigger:** `Run PROMPT-32`
-
-*(Full spec from v3.0 — implement as specified with the following additions.)*
-
-### Additional Detail
-
-**Custom Video Player Controls:**
-```jsx
-// VideoPlayer.jsx — custom HTML5 video player
-// Controls: play/pause, volume slider, mute, current time / total time, seek bar (click + drag),
-//           playback speed selector, quality selector, fullscreen, picture-in-picture,
-//           theatre mode, download (if enabled), cast (Chromecast API scaffold)
-// Keyboard shortcuts: Space (play/pause), M (mute), F (fullscreen),
-//                     Left/Right arrows (+/- 10s), Up/Down (volume ±5%)
-// Progress bar: shows buffer progress (gray) + played progress (yellow)
-// On hover: controls slide up from bottom (Framer Motion y animation)
-```
-
-**Netflix-Style Row Hover (Desktop):**
-Video card hovered → expands with scale(1.08), shows preview video (muted autoplay), shows quick action buttons: Play ▶ / Add to Watch Later + / Like ❤ / More info ···. Animation: expand card + slightly overlap adjacent cards.
-
-**Continue Watching Progress Bar:**
-Under thumbnail: thin yellow line showing watch percentage.
-
-**Save Progress:** After each Watch feature, append to `save_progress.md`.
-
----
-
-## PROMPT-33 — AI Chatbot & Virtual Assistant (MindBot)
-
-**Trigger:** `Run PROMPT-33`
-
-*(Full spec from v3.0 — implement as specified with the following additions.)*
-
-### Additional MindBot Features
-
-**8. Voice Input for MindBot:**
-Microphone button in MindBot chat → Web Speech API → transcribe → send as text message.
-
-**9. MindBot Onboarding Wizard (new users):**
-After register → MindBot starts conversation: "Welcome to MindBook, [Name]! I'm MindBot 👋 Let me help you get started..." → step by step: upload profile pic → find friends → join a group → create first post. Progress: 5 steps shown at top.
-
-**10. Daily Wellness Check-In Notification:**
-Every day at 9 AM (user's timezone): notification "How are you feeling today? [Check in →]" → opens MindBot mood check-in. After check-in: MindBot responds with personalized affirmation.
-
-**11. MindBot Floating Widget:**
-```jsx
-// Position: bottom-right, z-index: var(--z-toast)
-// Collapsed: yellow circle with 'M' bot icon, pulse animation, unread badge if any responses
-// Expanded: chat panel (320px wide, 460px tall), slides up from button with spring
-// Chat history stored in component state (not DB) + localStorage for persistence
-// "Powered by Claude AI" caption at bottom
-```
-
-**Backend proxy (never expose API key to frontend):**
-```javascript
-// All MindBot requests go through backend
-// Rate limit: 30 requests per user per hour
-// Add conversation history (last 10 messages) for context continuity
-// System prompt includes: user name, mutual friends count, recent activity summary
-```
-
-**Save Progress:** After each MindBot feature, append to `save_progress.md`.
-
----
-
-## PROMPT-34 — Complete Messaging System Rebuild
-
-**Trigger:** `Run PROMPT-34`
-
-*(Full spec from v3.0 — implement every element specified. Below is expanded detail on the most complex parts.)*
-
-### Chat Header (Full Detail)
+**Chat Header:**
 ```jsx
 <ChatHeader>
-  <BackButton />                   // mobile only
-  <Avatar size={36} online={true} />
+  <BackButton />        // mobile only, spring animation
+  <Avatar online />
   <div>
-    <Name onClick={→ profile} />
-    <Status>Active now</Status>   // or "Active 3 min ago" / "Active today" / "Active yesterday"
+    <Name />            // click → profile
+    <Status />          // "Active now" | "Active 3 min ago" | "Active today"
   </div>
-  <IconButton icon={Phone} onClick={startAudioCall} tooltip="Audio call" />
-  <IconButton icon={Video} onClick={startVideoCall} tooltip="Video call" />
-  <IconButton icon={Info} onClick={toggleInfoDrawer} tooltip="Conversation info" />
-  <IconButton icon={Search} onClick={openMessageSearch} tooltip="Search" />
+  <PhoneCallBtn />      // audio call
+  <VideoCallBtn />      // video call
+  <SearchBtn />         // search in conversation → filter messages
+  <InfoBtn />           // toggle right info panel
 </ChatHeader>
 ```
 
-### Message Input Area (Full Detail)
+**Messages Area:**
+- `display: flex; flex-direction: column-reverse` — newest messages at bottom, old ones scroll up
+- Virtualized list (`react-window`) for performance on long conversations
+- Date separators between different days: "Today" / "Yesterday" / "Mon, Jan 12"
+- Message grouping: consecutive messages from same sender within 2 minutes → grouped (only first shows avatar, rest indented)
+- Scroll-to-bottom button: appears when user scrolled up, shows unread count badge
+- Infinite scroll: load older messages when scrolled to top
 
-```jsx
-// Layout: flex row, wraps gracefully
-// Left side: attachment + media + audio buttons
-// Center: textarea (min 1 row, max 4 rows auto-grow, placeholder "Aa")
-//         While typing: right side shows SEND button (replaces voice button)
-//         While empty: right side shows VOICE RECORD button
-// Right side: emoji picker toggle | send | voice record
+**Message Bubble Specifications:**
 
-// Keyboard: Enter → send, Shift+Enter → new line
-// Auto-grow: CSS resize: none + JS adjust textarea height
-// Paste image: if pasted content is image → show preview + send
+Sent (right side):
+```css
+background: var(--brand);
+color: white;
+border-radius: 18px 18px 4px 18px;
+max-width: 70%;
+box-shadow: 0 1px 2px rgba(0,0,0,0.12);
 ```
 
-### Voice/Video Call — Full Detail
+Received (left side):
+```css
+background: var(--bg-input);
+color: var(--text-1);
+border-radius: 18px 18px 18px 4px;
+max-width: 70%;
+```
 
-**Audio Call Window:**
+**Bubble entrance animation:** Sent bubbles slide from right (x: 20→0, spring). Received from left (x: -20→0, spring).
+
+**Bubble right-click / long-press context menu:**
+```
+┌──────────────────┐
+│ 😀 Add Reaction  │ → opens emoji row (6 emojis + more)
+│ ↩️  Reply         │ → shows quote bar in input
+│ ➡️  Forward       │ → conversation picker
+│ 📋 Copy Text     │
+│ 📌 Pin Message   │ (admin/owner)
+│ ✏️  Edit          │ (own, within 5 min)
+│ 🗑️  Delete for Me│
+│ 🗑️  Delete for All│ (own, within 10 min)
+│ ⚡ React          │
+│ 🚩 Report        │
+└──────────────────┘
+```
+Appears with Framer Motion `popIn` from click/long-press origin point.
+
+**Message Types rendering:**
+
+| Type | Component | Interaction |
+|------|-----------|-------------|
+| Text | Yellow/gray bubble, linkified | Copy |
+| Image | Rounded thumbnail (300px max) | Lightbox (pinch-zoom on mobile) |
+| Multiple images | 2×2 grid collage | Lightbox carousel |
+| Video | Thumbnail + ▶ + duration | Inline player |
+| Audio | Waveform bars + play/pause + timer | Plays inline |
+| Voice | Same as audio + "Voice message" label | Plays inline |
+| Document | File icon (colored by type) + name + size + download | Download |
+| GIF | Auto-plays, loops | — |
+| Sticker | 200×200px transparent PNG, no bubble bg | — |
+| Link preview | Thumbnail + title + domain card | Opens link |
+| Emoji only (1-3) | Displayed at 3× size, no bubble background | — |
+| Story reply | Special card: preview of story + "Replied to your story" | — |
+| Call ended | Call icon + "Voice/Video call · Xm Xs" | — |
+| System | Centered gray text (e.g., "You are now connected") | — |
+
+**Reactions on messages:**
+- Small emoji appears bottom-right of bubble with count
+- Click reaction → reaction details modal (who reacted with what)
+
+**Read receipts:**
+- Single gray tick: sent to server
+- Double gray tick: delivered to device
+- Double blue tick: read by recipient
+- Only show on last sent message (not every bubble)
+
+**Typing indicator:**
+- Shows "[Name] is typing..." with three animated dots (wave animation)
+- For group: "[Name1] and [Name2] are typing..." or "Several people are typing..."
+- Disappears 4s after last keystroke from sender
+
+*Save Progress.*
+
+---
+
+## PROMPT-04.C — Message Input Area
+
+**Full spec:**
+```
+[+]  [🖼️]  [🎵]  [📎]  [😀]  [🎤]     [  Aa — textarea  ]     [➤ Send]
+                                         (auto-grows, max 4 rows)
+```
+
+- When textarea is empty: right side shows microphone (voice record) button
+- When typing: right side switches to Send button (Framer Motion `AnimatePresence`)
+- `Enter` = send, `Shift+Enter` = new line
+
+**+ button (Attachment menu):** Opens upward sticker-card menu:
+```
+[📷 Photo/Video] [📄 Document] [📍 Location] [💰 Coin Gift] [🎁 Sticker Pack]
+```
+
+**Image/Video button:** Opens file picker filtered to images/videos. Selected files show preview row above input. Each preview has × to remove. Supports paste from clipboard (auto-detects image paste).
+
+**Document button:** File picker. Returns: file icon + name + size in preview.
+
+**Emoji picker:** Opens above input with Framer Motion `scaleIn`. Full emoji picker (emoji-picker-react). Search emojis. Click appends to textarea cursor position.
+
+**GIF picker:** Giphy integration. Search bar → grid of GIFs → click to send directly.
+
+**Sticker picker:** Built-in sticker packs (custom designed SVG stickers in 4 packs: Emotions, Fun, Reactions, MindBook Exclusive). Click to send.
+
+**Voice recorder:**
+```
+Initial: mic icon button (hold to record)
+Recording state:
+  [🔴 0:00] ━━━━━━━━━━━━━━━━━━ [Waveform — animated bars] ━━━━━ [✕ Cancel] [✓ Send]
+  Swipe left → cancel
+  Swipe up → lock (record hands-free without holding)
+  Release → send
+  Maximum: 2 minutes, countdown warning at 10s remaining
+```
+Uses `navigator.mediaDevices.getUserMedia({ audio: true })` and MediaRecorder API.
+
+**Link preview:**
+When user pastes a URL into textarea:
+- Debounce 1s → fetch OG metadata from `/api/preview-link?url=...` (backend fetches, returns title/description/image/domain)
+- Preview card appears above input: thumbnail + title + domain
+- × button to remove preview
+- Sends as message with `mediaType: 'link-preview'`
+
+*Save Progress.*
+
+---
+
+## PROMPT-04.D — Voice & Video Calls (WebRTC)
+
+**Architecture:**
+```
+Socket.IO for signaling (offer/answer/ICE candidates/call events)
+WebRTC RTCPeerConnection for actual media
+STUN servers: stun.l.google.com:19302 (free, no auth required)
+```
+
+**Call Flow:**
+
+Caller side:
+1. Click phone/video icon → `startCall(userId, type)` 
+2. Get local media stream (`getUserMedia`)
+3. Show "Calling [Name]..." screen with pulsing avatar ring animation
+4. Emit `call-offer` via Socket.IO with SDP offer
+5. If no answer within 30s → auto-cancel, show "No answer" toast
+
+Recipient side:
+1. Socket receives `call-incoming` event
+2. Show incoming call modal (full-screen overlay, or top-banner if already in chat)
+3. Ringtone audio plays (HTML5 Audio, stop on action)
+4. Three buttons: Accept (green ▶) / Decline (red ✕) / Reply with message (💬)
+
+Connected call:
+1. ICE candidates exchanged via Socket.IO events
+2. RTCPeerConnection established
+3. Remote stream displayed, local stream shown in PiP
+
+**Audio Call Window (`<AudioCallModal />`):**
 ```jsx
-<CallWindow type="audio">
-  <div className="call-avatar-wrapper">
-    <Avatar size={120} src={callee.profilePicture} />
-    <PulseRing className="ringing-animation" />  // animate while connecting
-  </div>
+<div className="call-window audio">
+  <div className="call-bg" />          // blurred avatar background
+  <Avatar size={120} />
+  <PulseRing />                        // yellow animated rings expand outward while connecting
   <Name />
-  <CallTimer />                    // 0:00:00, counts up on connect
-  <CallStatus />                   // "Calling..." / "Connected" / "On hold"
+  <CallStatus />                       // "Connecting..." → "00:04:21" (timer)
+
   <div className="call-controls">
-    <ControlBtn icon={Mic} label="Mute" onClick={toggleMic} active={muted} />
-    <ControlBtn icon={Phone} label="End" onClick={endCall} variant="danger" />
-    <ControlBtn icon={Speaker} label="Speaker" onClick={toggleSpeaker} />
-    <ControlBtn icon={Volume} label="More" dropdown={[
-      "Add to call", "Switch to video", "Record", "Keyboard"
-    ]} />
+    <ControlBtn icon="Mic"       label="Mute"      active={muted}    />
+    <ControlBtn icon="PhoneOff"  label="End"       variant="danger"  onClick={endCall} />
+    <ControlBtn icon="Speaker"   label="Speaker"   active={speaker}  />
+    <ControlBtn icon="Video"     label="Switch"    onClick={switchToVideo} />
+    <ControlBtn icon="Add"       label="Add"       onClick={addParticipant} />
   </div>
-</CallWindow>
+</div>
 ```
 
-**Video Call Window:**
+**Video Call Window (`<VideoCallModal />`):**
 ```jsx
-<VideoCallWindow>
-  <video id="remote-video" autoPlay />          // full screen
-  <video id="self-video" className="pip" draggable /> // bottom-right, draggable
-  <div className="video-controls">
-    <ControlBtn icon={Mic} active={muted} />
-    <ControlBtn icon={Camera} active={cameraOff} />
-    <ControlBtn icon={ScreenShare} onClick={shareScreen} />
-    <ControlBtn icon={Phone} onClick={endCall} variant="danger" label="End" />
-    <ControlBtn icon={Expand} onClick={toggleFullscreen} />
-    <ControlBtn icon={PiP} onClick={enterPiP} />
-  </div>
-</VideoCallWindow>
+<div className="call-window video fullscreen">
+  <video id="remote" autoPlay playsinline />    // full screen, object-fit: cover
+  <video id="local" className="pip" draggable /> // 120×160px, bottom-right, draggable via @use-gesture/react
+
+  <AnimatedControlBar>  // auto-hides after 3s of no movement, re-appears on move/tap
+    <ControlBtn icon="Mic"         active={muted}     />
+    <ControlBtn icon="Video"       active={cameraOff} />
+    <ControlBtn icon="ScreenShare" onClick={shareScreen} />
+    <ControlBtn icon="Expand"      onClick={fullscreen} />
+    <ControlBtn icon="PiP"         onClick={enterPiP}   />
+    <ControlBtn icon="PhoneOff"    variant="danger" label="End" onClick={endCall} />
+  </AnimatedControlBar>
+</div>
 ```
 
-**Incoming Call Modal:**
-```jsx
-<IncomingCallModal>
-  <Avatar size={80} src={caller.profilePicture} />
-  <Name />
-  <CallType />  // "MindBook Voice Call" or "MindBook Video Call"
-  <div className="incoming-actions">
-    <RoundButton icon={Phone} color="green" onClick={acceptCall} label="Accept" />
-    <RoundButton icon={MessageSquare} color="gray" onClick={replyWithMessage} label="Message" />
-    <RoundButton icon={PhoneOff} color="red" onClick={declineCall} label="Decline" />
-  </div>
-</IncomingCallModal>
+**Group Calls (up to 8):**
+- Tiled grid: 1=full, 2=side-by-side, 3-4=2×2, 5-6=2+4 mix, 7-8=3×3 with active speaker larger
+- Active speaker: detected by audio level → yellow border pulse animation
+- Add participant button in call → friend picker
+
+**Call History:**
+- Saved to `CallLog` model: type, participants, duration, startedAt, endedAt, status (answered/missed/declined)
+- Shown in chat as system message bubble
+- `/calls` page: list of recent calls with call back button
+
+**Socket.IO Events:**
+```
+call-offer       → { to, offer, type }
+call-answer      → { to, answer }
+ice-candidate    → { to, candidate }
+call-declined    → { to }
+call-ended       → { to }
+call-busy        → { to }
+call-incoming    → { from, fromName, fromAvatar, type }
 ```
 
-### Message Bubble Right-Click / Long-Press Context Menu
-
-```
-┌────────────────────┐
-│ 😀 React           │  → shows emoji picker row
-│ ↩️  Reply           │
-│ ➡️  Forward         │
-│ 📋 Copy text       │
-│ 📌 Pin message     │  (if conversation admin)
-│ ✏️  Edit           │  (own, within 5min)
-│ 🗑️  Delete for me  │
-│ 🗑️  Delete for all │  (own, within 10min)
-│ 🚩 Report          │
-└────────────────────┘
-```
-
-Appears with Framer Motion scale animation from the point of right-click/long-press.
-
-### Real-time Typing Indicator
-
-```jsx
-// TypingIndicator.jsx
-// Three dots, each scales 0.6→1.0 with staggered spring
-// "[Name] is typing..." — name shown for group chats
-// Disappears after 5s of no keystrokes from sender
-// Socket events: typing-start / typing-stop
-// Debounce: emit typing-start on keydown if not already typing, emit typing-stop 3s after last keydown
-```
-
-**Save Progress:** After each messaging sub-section, append to `save_progress.md`.
+*Save Progress after each call subsystem.*
 
 ---
 
-## PROMPT-35 — Settings Page — Deep Dive
+## PROMPT-04.E — Media Sharing in Chat (Complete)
 
-**Trigger:** `Run PROMPT-35`
-
-*(Full spec from v3.0 — implement all 10 sections. Additional detail below.)*
-
-### Settings Page Layout
-
-```jsx
-<SettingsPage>
-  <SettingsSidebar>          // 260px, sticky, scrollable
-    {sections.map(section => (
-      <SettingsSidebarItem
-        key={section.id}
-        icon={section.icon}
-        label={section.label}
-        active={activeSection === section.id}
-        onClick={() => navigate(`/settings/${section.id}`)}
-        badge={section.badge}  // e.g., "2FA" warning badge
-      />
-    ))}
-  </SettingsSidebar>
-  <SettingsContent>          // flex: 1, max-width: 680px
-    <Outlet />               // React Router nested routes
-  </SettingsContent>
-</SettingsPage>
-```
-
-### Section Animations
-Each settings section slides in from right on first open (Framer Motion `slideLeft` variant).
-
-### Password Strength Meter
-```jsx
-// Colors: red (weak) → orange (fair) → yellow (good) → green (strong)
-// Checks: length≥8, uppercase, lowercase, number, special char
-// Visual: 4-segment colored bar + label text
-// Only show if current password field has been touched
-```
-
-### 2FA Setup Flow
-
-```
-Step 1: Click "Set up Two-Factor Authentication"
-Step 2: Modal shows QR code + setup key (for manual entry)
-Step 3: User enters 6-digit code from authenticator app
-Step 4: Verified → show 8 one-time backup codes (downloadable)
-Step 5: Prompt: "Save these backup codes in a safe place"
-Step 6: 2FA enabled badge shows in Security section
-```
-
-### Active Sessions Table
-
-| Column | Content |
-|--------|---------|
-| Device | Browser icon + OS icon + "Chrome on Windows" |
-| Location | "Karachi, Sindh, PK" |
-| Last active | "Just now" / "3 hours ago" / "Yesterday" |
-| IP Address | Partially masked "203.88.xxx.xxx" |
-| Action | "Log out" button (red, with confirmation) |
-| Current | Green "Current session" badge |
-
-**Save Progress:** After each settings section, append to `save_progress.md`.
-
----
-
-## PROMPT-36 — Groups System — Deep Dive
-
-**Trigger:** `Run PROMPT-36`
-
-*(Full spec from v3.0 — implement everything. Additional detail below.)*
-
-### Group Card (Discover Grid)
-
-```jsx
-<GroupCard>
-  <CoverImage src={group.coverPhoto} fallback={<GradientPlaceholder color="#F7B928" />} />
-  <div className="group-card-body">
-    <PrivacyBadge privacy={group.privacy} />  // 🔓 Public / 🔒 Private
-    <GroupName />
-    <MemberCount />                           // "12,450 members"
-    <MutualMembers />                         // "3 mutual members" (avatars)
-    <Description lines={2} />
-    <JoinButton state={joinState} />          // Join / Requested / Joined ✓
-  </div>
-</GroupCard>
-```
-
-**Hover animation:** Card lifts + shadow deepens (CSS) + cover image slightly zooms (scale 1→1.05, CSS transition).
-
-### Group Post Types (inside group feed)
-
-- **Regular post** — text, images, video
-- **Poll** — question + options + vote bars (animated yellow fill)
-- **Event** — event card within feed
-- **File share** — document icon + name + size + download
-- **Announcement** — 📌 pinned at top, yellow left border
-- **Welcome post** — auto-generated: "Welcome [NewMember] to the group!" with confetti animation
-
-### Group Scheduled Posts (Admin)
-
-Calendar view at `/groups/:id/manage/scheduled`. Posts appear on their scheduled date/time. Admin can edit/delete/reschedule scheduled posts.
-
-### Group Insights Charts (Recharts)
-
-- Member growth: Line chart (last 30 days)
-- Post engagement: Bar chart (likes + comments per post, last 10 posts)
-- Top contributors: Horizontal bar (top 5 posters)
-- Active hours heatmap: 7-day × 24-hour grid, intensity = post count
-
-**Save Progress:** After each group sub-section, append to `save_progress.md`.
-
----
-
-## PROMPT-37 — Friends System — Deep Dive
-
-**Trigger:** `Run PROMPT-37`
-
-*(Full spec from v3.0 — implement everything. Additional detail below.)*
-
-### Friend Card Animation
-
-On hover: card lifts (translateY: -4px), shadow deepens, "Message" button slides in from right.
-
-### Birthday Card
-
-```jsx
-// Birthday confetti animation on "Send Wishes" click
-// canvas-confetti: yellow + white confetti burst
-// Pre-composed "Happy Birthday!" post with birthday emoji and balloon animations
-```
-
-### Mutual Friends Modal
-
-Click "X mutual friends" → modal slides in with list of mutual friends. Each row: avatar + name + "View Profile" + "Message".
-
-### Friend Suggestions Algorithm (Backend)
+**Backend upload route (`POST /api/messages/upload`):**
 
 ```javascript
-// Score = mutual_friends × 10 + same_group × 5 + same_school × 3 + same_city × 2 + same_company × 3
-// Filter out: already friends, pending requests, blocked users, self
-// Return top 30 sorted by score, shuffled within same-score groups for freshness
-// Cache per user: 2 hours (invalidate when new friendship formed)
+// Multer config:
+// Destination: uploads/messages/
+// Max file size: 50MB
+// Allowed types: images (jpg/png/gif/webp), videos (mp4/mov/avi/webm),
+//                audio (mp3/m4a/ogg/wav), documents (pdf/doc/docx/xls/xlsx/ppt/txt/zip)
+// Returns: { mediaUrl, mediaType, metadata: { fileName, fileSize, mimeType, width, height, duration } }
+
+// Image: use sharp to create thumbnail (300×300, WebP)
+// Video: use fluent-ffmpeg to extract first frame as thumbnail
+// Audio: return duration via ffprobe
+// Document: return file icon based on extension
 ```
 
-**Save Progress:** After each friends section, append to `save_progress.md`.
-
----
-
-## PROMPT-38 — Notifications System — Deep Dive
-
-**Trigger:** `Run PROMPT-38`
-*(Full spec from v3.0 — implement everything. Save after each notification type.)*
-
-### Notification Dropdown Animation
-
-Bell icon click → dropdown slides down from top with scale origin at top-right. Each notification row fades in with stagger (40ms). Unread notifications have yellow left border + slightly off-white background.
-
-**Save Progress:** After notification system, append to `save_progress.md`.
-
----
-
-## PROMPT-39 — Search & Discovery System
-
-**Trigger:** `Run PROMPT-39`
-*(Full spec from v3.0 — implement. Save after each search feature.)*
-
-### Live Search Suggestions
-
+**Upload progress UI:**
 ```jsx
-// As user types (debounce 250ms):
-// API: GET /api/search/suggest?q=...
-// Returns: { people: [...], groups: [...], hashtags: [...], pages: [...] }
-// Dropdown appears below search bar with sections
-// Arrow keys navigate suggestions, Enter selects
-// Esc closes dropdown
-// Click outside closes dropdown
-// Recent searches shown when input is empty (from localStorage)
+// MediaPreviewModal.jsx
+// Before sending:
+// - Shows thumbnail preview (or file icon for documents)
+// - File name + formatted file size
+// - Optional caption input
+// - "Send" button → shows circular SVG progress ring (0–100%)
+//   progress calculated from axios onUploadProgress callback
+// - "Cancel" button → aborts upload (axios CancelToken)
+// Error state: shake animation + "Upload failed. Retry?"
 ```
 
-**Save Progress:** After each search feature, append to `save_progress.md`.
+**File type icons:** Use lucide-react icons colored by type:
+- PDF → red FileText
+- DOC/DOCX → blue FileText
+- XLS/XLSX → green FileSpreadsheet
+- PPT/PPTX → orange Presentation
+- ZIP/RAR → yellow Archive
+- MP3/Audio → purple Music
+- Other → gray File
+
+*Save Progress.*
 
 ---
 
-## PROMPT-40 — Marketplace
+## PROMPT-04.F — Group Chats
 
-**Trigger:** `Run PROMPT-40`
-*(Full spec from v3.0 — implement as specified. Save after each marketplace section.)*
+**Create Group Chat flow:**
+1. Press "+" in left panel → "New Group Chat"
+2. Step 1: Search and select friends (click adds chip, click chip removes)
+3. Step 2: Set group name (required) + group icon (upload or choose from emoji picker)
+4. Create → enters group chat immediately
+5. System message: "Group created by [Name]"
 
-### Listing Card Hover
+**Group Info Drawer (right panel):**
+- Group name (editable by admin) + group icon (editable by admin)
+- Member count + "Add people" button (opens friend picker)
+- Pinned messages (up to 3)
+- Member list: each shows avatar + name + role badge (Admin/Mod) + Remove button (admin only)
+- Shared media grid (images/videos sent in group)
+- Shared files list
+- Leave Group button / Delete Group button (admin)
 
-Image zoom (scale 1→1.08 on `img` element) + save button slides in from top-right corner.
+**Group Admin Features:**
+- Rename group
+- Change group icon
+- Add/remove members
+- Promote to admin/mod
+- Demote admin/mod
+- Kick member (remove without ban)
+- Pin message (up to 3)
+- Mute member (can't send for 24h / 7d / indefinitely)
 
-**Save Progress:** After each marketplace page and component, append to `save_progress.md`.
-
----
-
-## PROMPT-41 — Events System
-
-**Trigger:** `Run PROMPT-41`
-*(Full spec from v3.0 — implement as specified. Save after each events section.)*
-
-### Calendar View
-
-React-based monthly calendar grid. Days with events show yellow dot below date number. Hover day → tooltip showing event names. Click day → filter events list to that date.
-
-**Save Progress:** After each events section, append to `save_progress.md`.
-
----
-
-## PROMPT-42 — Memories & Flashbacks
-
-**Trigger:** `Run PROMPT-42`
-*(Full spec from v3.0 — implement as specified. Save after each memories feature.)*
-
-**Memory Card Design:**
-
-Polaroid-style: white frame, slight rotation (-2° or +2°, alternating), drop shadow, "N years ago today" caption in handwriting-style font.
-
-**Save Progress:** Append to `save_progress.md`.
+*Save Progress.*
 
 ---
 
-## PROMPT-43 — Live Streaming
+## PROMPT-04.G — Message Requests Tab
 
-**Trigger:** `Run PROMPT-43`
-*(Full spec from v3.0 — implement as specified. Save after each live feature.)*
+**Separate section in left panel — "Message Requests" link:**
+- Non-friends who message you land here
+- Shows preview: avatar + name + first message (blurred text for privacy)
+- One-message limit: non-friend can only send 1 message before acceptance
+- Actions per request: Accept (moves to main inbox) / Delete / Block
+- Batch actions: Accept All / Delete All
+- Banner in chat window: "[Name] wants to send you a message. You can accept or decline."
 
-**Emoji Rain during live:** Viewer reacts → animated emoji floats up from bottom of screen, fades at top. Multiple emojis simultaneously, each with slight random horizontal drift. (CSS animation + dynamic DOM insertion.)
-
-**Save Progress:** Append to `save_progress.md`.
-
----
-
-## PROMPT-44 — Watch Party
-
-**Trigger:** `Run PROMPT-44`
-*(Full spec from v3.0 — implement as specified. Save after each watch party feature.)*
-
-**Save Progress:** Append to `save_progress.md`.
+*Save Progress.*
 
 ---
 
-## PROMPT-45 — Fundraisers & Donations
+## PROMPT-04.H — Advanced Chat Features
 
-**Trigger:** `Run PROMPT-45`
-*(Full spec from v3.0 — implement as specified. Save after each fundraiser feature.)*
+**Message Search (within conversation):**
+- Click search icon in chat header → search bar slides down
+- Type to filter messages (highlights matching text in yellow)
+- Navigation arrows (↑↓) to jump between results
+- "N results" counter
+- ESC to close search, restore normal view
 
-**Progress Bar Animation:** On page load, animate from 0% to actual percentage with a 1-second spring animation (easing: easeOutExpo).
+**Pinned Messages:**
+- Up to 3 messages pinnable per conversation
+- Banner at top of chat: "📌 [Pinned message preview] ▸" (collapsible)
+- Click banner → scrolls to pinned message (with yellow highlight flash)
+- Multiple pins: click banner → side panel showing all pinned messages
 
-**Save Progress:** Append to `save_progress.md`.
+**Jump to Date:**
+- In conversation options menu → "Jump to date" → date picker → scrolls to nearest message
 
----
+**Chat Themes:**
+- Conversation options menu → "Change theme"
+- Options: Default (yellow) / Midnight / Ocean / Sunset / Forest / Monochrome
+- Sent bubble color changes with theme
+- Chat background pattern changes with theme
+- Animated transition between themes
 
-## PROMPT-46 — Reels & Short Video Feed
+**Disappearing Messages:**
+- Conversation options → "Disappearing messages" → toggle (1 hour / 1 day / 7 days / Off)
+- Messages auto-delete on all devices after the set time
+- Small ⏱️ icon appears on messages in disappearing mode
 
-**Trigger:** `Run PROMPT-46`
-*(Full spec from v3.0 — implement as specified. Save after each reels feature.)*
-
-**Double-tap like:** On double-tap → large yellow heart appears at tap position, floats up, fades. Post like count increments with "+1" animation.
-
-**Save Progress:** Append to `save_progress.md`.
-
----
-
-## PROMPT-47 — Explore & Discover Page
-
-**Trigger:** `Run PROMPT-47`
-*(Full spec from v3.0 — implement as specified. Save after each explore feature.)*
-
-**Save Progress:** Append to `save_progress.md`.
-
----
-
-## PROMPT-48 — Complete Error Audit & Production Hardening
-
-**Trigger:** `Run PROMPT-48`
-*(Full spec from v3.0 — implement as specified. Save audit results to `save_progress.md`.)*
+*Save Progress.*
 
 ---
 
+# PROMPT-05 — Unified Video Hub with YouTube Integration
+
+**Trigger:** `Run PROMPT-05`
+**Goal:** A world-class video experience combining MindBook-native content with YouTube, distinguished clearly by source badges.
+
 ---
 
-## PROMPT-49 — Unified Video Hub with YouTube Integration
+## PROMPT-05.A — Video Hub Architecture
 
-**Trigger:** `Run PROMPT-49`
+**Route structure:**
+```
+/watch                    → Hub home (mixed feed)
+/watch/trending           → Trending videos (mixed)
+/watch/mindbook           → MindBook-only videos
+/watch/youtube            → YouTube-only videos
+/watch/subscriptions      → From followed users + followed YT channels
+/watch/history            → Watch history (both sources)
+/watch/saved              → Watch later list (both sources)
+/watch/playlists          → User playlists
+/watch/video/:id          → MindBook native video player
+/watch/yt/:youtubeId      → YouTube embedded player with MindBook layer
+/watch/live               → Live streams
+/channel/:userId          → User's channel page
+```
 
-Build a unified Video Hub where YouTube videos, MindBook-uploaded videos, and user-uploaded videos all appear together in the same feed with clear source badges.
+**Video Hub Sidebar (240px, desktop only):**
+```
+🏠 Home
+🔥 Trending
+📺 Subscriptions
+🕐 History
+🔖 Watch Later
+👍 Liked Videos
+📁 Playlists
+── Your Channel ──
+📤 Upload Video
+📊 Creator Analytics
+```
 
-### Overview & Design Philosophy
+*Save Progress.*
 
-The Video Hub is MindBook's equivalent of a personalized video feed. It combines:
-- **MindBook Originals** — videos uploaded directly to MindBook by users
-- **YouTube Videos** — embedded via YouTube Data API v3 (subscriptions, trending, search)
-- **User Uploads** — videos posted by friends/followed users on MindBook
+---
 
-Each video card prominently shows its source so users always know where it comes from.
+## PROMPT-05.B — Source Badge System
 
-### Source Badges
+**Every single video card and player page must show a source badge. No exceptions.**
 
 ```jsx
-// Source badge — appears top-right corner of every video card and in the player
-const SourceBadge = ({ source }) => {
-  const badges = {
-    mindbook: { label: 'MindBook', icon: MindBookLogo,  color: '#F7B928',  bg: 'rgba(247,185,40,0.15)' },
-    youtube:  { label: 'YouTube',  icon: YouTubeIcon,   color: '#FF0000',  bg: 'rgba(255,0,0,0.12)' },
-    user:     { label: null,       icon: null,          color: null,       bg: null },  // shows creator avatar instead
-  };
-  // Render: icon + label, styled pill badge, semi-transparent background
+const SOURCE_CONFIG = {
+  mindbook: {
+    label: 'MindBook',
+    logo: <MindBookIcon />,     // yellow 'M' mark
+    color: '#F7B928',
+    bg: 'rgba(247,185,40,0.18)',
+    border: 'rgba(247,185,40,0.4)'
+  },
+  youtube: {
+    label: 'YouTube',
+    logo: <YouTubeIcon />,      // red YouTube play button
+    color: '#FF0000',
+    bg: 'rgba(255,0,0,0.14)',
+    border: 'rgba(255,0,0,0.3)'
+  },
+  user: {
+    label: null,
+    logo: <UserAvatar />,       // uploader's avatar
+    color: null,
+    bg: 'rgba(0,0,0,0.5)',
+    border: 'transparent'
+  }
 };
+
+// Badge position: top-right corner of thumbnail
+// Style: rounded pill, semi-transparent bg, icon + label
+// Size: small on grid cards, large in player header
 ```
 
-### Pages
+*Save Progress.*
 
-`/watch` (hub home) · `/watch/mindbook` · `/watch/youtube` · `/watch/trending` · `/watch/subscriptions` · `/watch/history` · `/watch/saved` · `/watch/video/:id` (MindBook video) · `/watch/youtube/:youtubeId` (YouTube embed player) · `/watch/live` · `/channel/:userId`
+---
 
-### Video Hub Home (`/watch`)
-
-**Left Sidebar (desktop, 240px):**
-- 🏠 Home
-- 🔥 Trending
-- 📺 Subscriptions
-- 🕑 History
-- 🔖 Watch Later
-- 👍 Liked Videos
-- 📁 Playlists
-- ── Your Channel
-- 📤 Upload Video
-- 📊 Analytics
-
-**Main Content — Sections:**
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  [SEARCH BAR]  [Filter chips: All | MindBook | YouTube | Live | Today]
-├─────────────────────────────────────────────────────────┤
-│  ▶ CONTINUE WATCHING          [horizontal scroll →]     │
-│  [card1] [card2] [card3]                                │
-├─────────────────────────────────────────────────────────┤
-│  🔥 TRENDING NOW              [horizontal scroll →]     │
-│  [YT badge] [MB badge] [MB badge] [YT badge]           │
-├─────────────────────────────────────────────────────────┤
-│  📺 FROM PEOPLE YOU FOLLOW    [horizontal scroll →]     │
-├─────────────────────────────────────────────────────────┤
-│  📺 YOUTUBE — FOR YOU         [horizontal scroll →]     │
-├─────────────────────────────────────────────────────────┤
-│  ─────────── Full Grid (mixed sources) ──────────────── │
-│  [card] [card] [card] [card]                            │
-│  [card] [card] [card] [card]                            │
-│  [infinite scroll]                                      │
-└─────────────────────────────────────────────────────────┘
-```
-
-### Video Card Component
+## PROMPT-05.C — Video Card Component
 
 ```jsx
 <VideoCard source="youtube|mindbook|user">
-  <div className="thumbnail-wrapper">
+  <div className="thumbnail" onMouseEnter={startPreview} onMouseLeave={stopPreview}>
     <img src={thumbnailUrl} alt={title} loading="lazy" />
-    <video muted loop className="preview-video" />  // plays on hover (desktop)
-    <DurationBadge duration={duration} />           // "12:34" bottom-right
-    <SourceBadge source={source} />                 // top-right corner
-    {isLive && <LiveBadge />}                       // "🔴 LIVE" top-left
-    {watchProgress > 0 && <ProgressBar percent={watchProgress} />}  // yellow bottom bar
-    <WatchLaterButton />                            // top-right on hover
+    <video ref={previewRef} src={previewUrl} muted loop /> // starts after 800ms hover on desktop
+    <DurationBadge>{formatDuration(duration)}</DurationBadge> // bottom-right
+    <SourceBadge source={source} />                           // top-right
+    {isLive && <LiveBadge>LIVE</LiveBadge>}                   // top-left, pulsing red dot
+    {watchProgress > 0 && (
+      <ProgressBar percent={watchProgress} />  // thin yellow line at bottom
+    )}
+    <WatchLaterBtn className="appear-on-hover" />
   </div>
-  <div className="video-card-info">
-    <Avatar size={36} src={channelAvatar} />        // YouTube: channel avatar | MindBook: user avatar
-    <div>
-      <Title lines={2} />
-      <ChannelName verified={isVerified} />
-      <Meta>
-        <ViewCount /> · <RelativeTime /> · <SourceLabel />
-      </Meta>
+  <div className="card-info">
+    <Avatar size={36} src={channelAvatar} onClick={→ channel} />
+    <div className="meta">
+      <Title lines={2}>{title}</Title>
+      <ChannelName verified={isVerified}>{channelName}</ChannelName>
+      <MetaRow>
+        <span>{formatViews(viewCount)} views</span>
+        <span>·</span>
+        <span>{timeAgo(publishedAt)}</span>
+        <span>·</span>
+        <SourceLabel source={source} />
+      </MetaRow>
     </div>
-    <MoreButton dropdown={['Not interested', 'Save to Watch Later', 'Add to playlist', 'Report']} />
+    <MoreBtn dropdown={[
+      'Not interested',
+      'Don\'t recommend channel',
+      'Save to Watch Later',
+      'Add to playlist',
+      'Share',
+      'Report'
+    ]} />
   </div>
 </VideoCard>
 ```
 
-**Hover behavior (desktop):**
-- Thumbnail zooms slightly (scale 1→1.04)
-- Preview video starts playing (muted, loop) after 800ms hover
-- Card lifts (translateY -4px) + shadow deepens
+**Hover animation (desktop):**
+- Thumbnail: `scale(1.04)` smooth
+- Preview video starts (muted, loop)
+- Card: `translateY(-4px)` + shadow deepens
+- WatchLater button slides in from top-right
 
-### YouTube API Integration
+**Netflix row hover (horizontal scroll rows):**
+- Hovered card expands: `scale(1.08)` + quick-action buttons appear below thumbnail (▶ Play / + Watch Later / ❤ Like / ··· More)
+- Adjacent cards slightly compress
 
-**Backend service (`/backend/services/youtube.js`):**
+*Save Progress.*
+
+---
+
+## PROMPT-05.D — YouTube API Integration
+
+**Backend Service (`backend/services/youtube.js`):**
 
 ```javascript
 const { google } = require('googleapis');
 const youtube = google.youtube({ version: 'v3', auth: process.env.YOUTUBE_API_KEY });
 
+// In-memory cache (replace with Redis in production)
+const cache = new Map();
+const getCache = (key, ttl) => { const e = cache.get(key); return (e && Date.now()-e.t < ttl) ? e.d : null; };
+const setCache = (key, data) => cache.set(key, { d: data, t: Date.now() });
+
 class YouTubeService {
-  // Get trending videos (country code configurable via env)
-  async getTrending(regionCode = 'US', maxResults = 20, pageToken = null) {
-    const res = await youtube.videos.list({
-      part: ['snippet', 'contentDetails', 'statistics'],
-      chart: 'mostPopular',
-      regionCode, maxResults, pageToken,
-      videoCategoryId: '0'
-    });
-    return { videos: res.data.items.map(this.formatVideo), nextPageToken: res.data.nextPageToken };
+  async getTrending(regionCode='US', maxResults=20, pageToken=null) {
+    const ck = `trending-${regionCode}-${pageToken}`;
+    const cached = getCache(ck, 15*60*1000); // 15min TTL
+    if (cached) return cached;
+    const res = await youtube.videos.list({ part:['snippet','contentDetails','statistics'], chart:'mostPopular', regionCode, maxResults, pageToken });
+    const result = { videos: res.data.items.map(v => this.format(v)), nextPageToken: res.data.nextPageToken };
+    setCache(ck, result);
+    return result;
   }
 
-  // Search YouTube videos
-  async search(query, maxResults = 20, pageToken = null) {
-    const res = await youtube.search.list({
-      part: ['snippet'], q: query, type: ['video'], maxResults, pageToken,
-      safeSearch: 'moderate', relevanceLanguage: 'en'
-    });
-    return { results: res.data.items.map(this.formatSearchResult), nextPageToken: res.data.nextPageToken };
+  async search(q, maxResults=20, pageToken=null) {
+    const ck = `search-${q}-${pageToken}`;
+    const cached = getCache(ck, 5*60*1000); // 5min TTL
+    if (cached) return cached;
+    const res = await youtube.search.list({ part:['snippet'], q, type:['video'], maxResults, pageToken, safeSearch:'moderate' });
+    const result = { items: res.data.items.map(i => this.formatSearch(i)), nextPageToken: res.data.nextPageToken };
+    setCache(ck, result);
+    return result;
   }
 
-  // Get video details
   async getVideo(videoId) {
-    const res = await youtube.videos.list({
-      part: ['snippet', 'contentDetails', 'statistics', 'player'],
-      id: [videoId]
-    });
-    return this.formatVideo(res.data.items[0]);
+    const ck = `video-${videoId}`;
+    const cached = getCache(ck, 60*60*1000); // 1hr TTL
+    if (cached) return cached;
+    const res = await youtube.videos.list({ part:['snippet','contentDetails','statistics'], id:[videoId] });
+    const result = this.format(res.data.items[0]);
+    setCache(ck, result);
+    return result;
   }
 
-  // Get channel videos
-  async getChannelVideos(channelId, maxResults = 20) {
-    const res = await youtube.search.list({
-      part: ['snippet'], channelId, type: ['video'],
-      order: 'date', maxResults
-    });
-    return res.data.items.map(this.formatSearchResult);
+  async getChannelVideos(channelId, maxResults=20) {
+    const res = await youtube.search.list({ part:['snippet'], channelId, type:['video'], order:'date', maxResults });
+    return res.data.items.map(i => this.formatSearch(i));
   }
 
-  // Format video object
-  formatVideo(item) {
+  format(item) {
+    const d = item.contentDetails?.duration;
     return {
-      source:        'youtube',
-      youtubeId:     item.id?.videoId || item.id,
-      title:         item.snippet.title,
-      description:   item.snippet.description,
-      thumbnailUrl:  item.snippet.thumbnails?.maxres?.url || item.snippet.thumbnails?.high?.url,
-      channelTitle:  item.snippet.channelTitle,
-      channelId:     item.snippet.channelId,
-      channelAvatar: null,  // fetch separately if needed
-      publishedAt:   item.snippet.publishedAt,
-      duration:      item.contentDetails?.duration,  // ISO 8601
-      viewCount:     parseInt(item.statistics?.viewCount || 0),
-      likeCount:     parseInt(item.statistics?.likeCount || 0),
-      embedUrl:      `https://www.youtube.com/embed/${item.id?.videoId || item.id}`,
-      isLive:        item.snippet.liveBroadcastContent === 'live'
+      source: 'youtube',
+      youtubeId: item.id?.videoId || item.id,
+      title: item.snippet?.title,
+      description: item.snippet?.description?.slice(0, 300),
+      thumbnailUrl: item.snippet?.thumbnails?.maxres?.url || item.snippet?.thumbnails?.high?.url,
+      channelTitle: item.snippet?.channelTitle,
+      channelId: item.snippet?.channelId,
+      publishedAt: item.snippet?.publishedAt,
+      duration: d ? this.parseDuration(d) : null,
+      viewCount: parseInt(item.statistics?.viewCount || 0),
+      likeCount: parseInt(item.statistics?.likeCount || 0),
+      isLive: item.snippet?.liveBroadcastContent === 'live',
+      embedUrl: `https://www.youtube.com/embed/${item.id?.videoId || item.id}?autoplay=1&rel=0`
     };
+  }
+
+  formatSearch(item) { return this.format({ ...item, id: item.id.videoId }); }
+
+  parseDuration(iso) {
+    const m = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+    return (parseInt(m[1]||0)*3600 + parseInt(m[2]||0)*60 + parseInt(m[3]||0));
   }
 }
 
 module.exports = new YouTubeService();
 ```
 
-**API Endpoints:**
-
+**API Routes:**
 ```
-GET  /api/youtube/trending?regionCode=US&pageToken=...
-GET  /api/youtube/search?q=...&pageToken=...
-GET  /api/youtube/video/:youtubeId
-GET  /api/youtube/channel/:channelId/videos
-GET  /api/youtube/categories
+GET /api/youtube/trending?region=US&pageToken=...
+GET /api/youtube/search?q=...&pageToken=...
+GET /api/youtube/video/:youtubeId
+GET /api/youtube/channel/:channelId/videos
 ```
 
-**Rate Limiting:** YouTube API has daily quota (10,000 units/day). Cache all responses in Redis (or in-memory cache) with TTL: trending = 15min, search = 5min, video details = 1hr.
+**Rate limit protection:** YouTube API quota = 10,000 units/day. Each `videos.list` = 1 unit. `search.list` = 100 units. Cache aggressively. Log quota usage daily. Alert admin when usage > 80%.
 
-```javascript
-// Simple in-memory cache for dev (replace with Redis in prod)
-const cache = new Map();
-const getCached = (key, ttlMs) => {
-  const entry = cache.get(key);
-  if (entry && Date.now() - entry.timestamp < ttlMs) return entry.data;
-  return null;
-};
-const setCache = (key, data) => cache.set(key, { data, timestamp: Date.now() });
+*Save Progress.*
+
+---
+
+## PROMPT-05.E — Video Hub Home Page (`/watch`)
+
+**Layout:** Left sidebar + main content. No right sidebar (more space for videos).
+
+**Main content sections:**
+
+```
+[Search bar — "Search MindBook and YouTube"] [Filter chips: All | MindBook | YouTube | Live | Today]
+
+▶ CONTINUE WATCHING                                           [See all →]
+[card w/ progress bar] [card] [card] [card] ─── horizontal scroll
+
+🔥 TRENDING NOW — Mixed sources                              [See all →]
+[YT badge card] [MB badge card] [MB] [YT] [MB] ─── horizontal scroll
+
+📺 FROM PEOPLE YOU FOLLOW                                    [See all →]
+[user card] [user card] [user card] ─── horizontal scroll
+
+🎯 YOUTUBE — FOR YOU                                         [See all →]
+[YT card] [YT card] [YT card] [YT card] ─── horizontal scroll
+
+🆕 NEW FROM MINDBOOK                                         [See all →]
+[MB card] [MB card] [MB card] [MB card] ─── horizontal scroll
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  MAIN GRID — Mixed sources, 4 columns desktop / 3 tablet / 2 mobile / 1 smallest
+  [card] [card] [card] [card]
+  [card] [card] [card] [card]
+  [infinite scroll, load 20 more on intersection]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-### YouTube Video Player Page (`/watch/youtube/:youtubeId`)
+**3D Three.js header animation (desktop):**
+- Slowly rotating 3D play button (triangle geometry, yellow metallic material)
+- Floating particle field behind it
+- Canvas overlaid on header area, z-index below content
+
+*Save Progress.*
+
+---
+
+## PROMPT-05.F — Video Player Pages
+
+**MindBook Native Video Player (`/watch/video/:id`):**
+
+Custom HTML5 video player:
+```jsx
+<VideoPlayer>
+  <video ref={videoRef} src={videoUrl} />
+
+  <Controls className="controls-bar">  // auto-hide 3s after no mouse move, Framer Motion y animation
+    <PlayPause />          // Space key shortcut
+    <SeekBar>              // shows buffer (gray) + played (yellow) + hover timestamp tooltip
+      <BufferProgress />
+      <PlayedProgress />
+      <HoverTimestamp />
+    </SeekBar>
+    <Volume>               // M key = mute; scroll on volume = adjust ±5%
+      <MuteBtn />
+      <VolumeSlider />
+    </Volume>
+    <Duration />           // "1:24 / 5:32"
+    <Spacer />
+    <QualitySelector />    // Auto / 1080p / 720p / 480p / 360p
+    <SpeedSelector />      // 0.25× / 0.5× / 0.75× / 1× / 1.25× / 1.5× / 2×
+    <CaptionsBtn />
+    <TheatreMode />        // expands player width, shrinks sidebar
+    <PiPBtn />             // native browser Picture-in-Picture API
+    <FullscreenBtn />      // F key shortcut
+  </Controls>
+</VideoPlayer>
+```
+
+Keyboard shortcuts:
+- Space / K = play/pause
+- M = mute
+- F = fullscreen
+- T = theatre mode
+- I = picture-in-picture
+- Arrow left/right = ±10 seconds (± 5s with Shift)
+- Arrow up/down = volume ±5%
+- 0-9 = jump to 0%-90%
+- C = toggle captions
+
+**Below player:**
+```jsx
+<VideoMeta>
+  <Title />
+  <MetaRow>
+    <ViewCount /> · <PublishedDate />
+    <SourceBadge source="mindbook" size="large" />
+  </MetaRow>
+  <ActionBar>
+    <LikeBtn count={likeCount} />
+    <DislikeBtn />   // hidden count, only feedback
+    <ShareBtn />     // share modal
+    <SaveBtn />      // add to Watch Later or playlist
+    <DownloadBtn />  // if creator allowed downloads
+    <ReportBtn />
+  </ActionBar>
+  <ChannelInfo>
+    <Avatar /><ChannelName /><SubscribeBtn />
+    <SubscriberCount />
+  </ChannelInfo>
+  <Description expandable maxLines={3} />
+</VideoMeta>
+
+<MindBookComments videoId={id} source="mindbook" />
+
+<RelatedVideos />  // 3-col sidebar on desktop, below on mobile
+```
+
+**YouTube Video Player (`/watch/yt/:youtubeId`):**
 
 ```jsx
 <YouTubeVideoPage>
-  <YouTubePlayer videoId={youtubeId} />   // <iframe> embed, responsive 16:9
-  <SourceBadge source="youtube" large />
-  <VideoTitle />
-  <VideoMeta>
-    <ViewCount /> · <PublishedDate />
-    <SourceLink href={`https://youtube.com/watch?v=${youtubeId}`} target="_blank">
-      Watch on YouTube ↗
-    </SourceLink>
-  </VideoMeta>
-  <div className="video-actions">
-    <LikeButton />          // likes stored in MindBook DB (not YouTube)
-    <SaveButton />          // saves to Watch Later in MindBook
-    <ShareButton />         // share MindBook link + option to share YouTube link
-    <AddToPlaylist />       // add to MindBook playlist
+  <div className="yt-player-wrapper">  // 16:9, responsive
+    <iframe
+      src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1`}
+      allow="autoplay; fullscreen"
+      allowFullScreen
+    />
   </div>
+  <SourceBadge source="youtube" size="large" />  // prominent
+  <VideoTitle />
+  <MetaRow>
+    <ViewCount /> · <PublishedDate />
+    <ExternalLink href={`https://youtube.com/watch?v=${youtubeId}`}>
+      Watch on YouTube ↗
+    </ExternalLink>
+  </MetaRow>
+  <ActionBar>
+    <LikeBtn />    // stored in MindBook DB
+    <SaveBtn />    // MindBook Watch Later
+    <ShareBtn />   // share MindBook URL + option to share YouTube URL
+    <PlaylistBtn />
+  </ActionBar>
   <ChannelInfo channelId={channelId} />
-  <Description expandable />
-  <MindBookComments videoId={youtubeId} source="youtube" />  // MindBook's own comments
-  <RelatedVideos source="mixed" />                           // mix of YouTube + MindBook
+  <MindBookComments videoId={youtubeId} source="youtube" />  // MindBook-native comments
+  <RelatedVideos source="mixed" />
 </YouTubeVideoPage>
 ```
 
-**Important:** The YouTube `<iframe>` embed is the primary player. MindBook adds its own Like/Save/Share/Comments layer on top. Original YouTube likes/comments are not shown (to avoid API complexity), but a "View on YouTube" link is always present.
-
-### Unified Feed Algorithm (Mixed Sources)
-
-```javascript
-// GET /api/watch/feed — unified mixed video feed
-router.get('/feed', authMiddleware, async (req, res) => {
-  const { page = 1, limit = 20, source = 'all' } = req.query;
-  const user = await User.findById(req.user.id);
-
-  let mbVideos = [], ytVideos = [];
-
-  // Fetch MindBook videos (from followed users + trending)
-  if (source === 'all' || source === 'mindbook') {
-    mbVideos = await Video.find({ uploader: { $in: [...user.following, ...user.friends] }, isPublic: true })
-      .sort({ createdAt: -1 }).limit(20).populate('uploader', 'name profilePicture isVerified');
-    mbVideos = mbVideos.map(v => ({ ...v.toObject(), source: 'mindbook' }));
-  }
-
-  // Fetch YouTube videos (cached trending + personalized)
-  if (source === 'all' || source === 'youtube') {
-    ytVideos = await youtubeService.getTrending('US', 20);
-    ytVideos = ytVideos.videos; // already formatted with source: 'youtube'
-  }
-
-  // Interleave: every 3 MindBook videos → 2 YouTube videos
-  const interleaved = interleaveVideos(mbVideos, ytVideos, 3, 2);
-
-  res.json({ videos: interleaved.slice((page-1)*limit, page*limit), hasMore: interleaved.length > page*limit });
-});
-```
-
-### Search — Unified Video Search
-
-`GET /api/watch/search?q=...` → searches both:
-1. MindBook videos (MongoDB full-text)
-2. YouTube (YouTube API search)
-
-Results merged, duplicates removed (by title similarity), sorted by relevance score.
-
-Results page has tab filter: **All** · **MindBook** · **YouTube** · **Live**
-
-Each result shows source badge prominently.
-
-### Watch Later / Saved Videos
-
-Works for both YouTube and MindBook videos. Stored in User model `watchLater` array as `{ videoId, source, addedAt }`. `/watch/saved` page shows unified list.
-
-### Playlists
-
-Playlists support mixed sources: each playlist item = `{ videoId, source, title, thumbnail, addedAt }`. Playlist player auto-plays next video, handles source-switching (MindBook video → YouTube video in same playlist).
-
-### Subscriptions (YouTube Channel Follow)
-
-Users can "Follow" YouTube channels on MindBook. This doesn't use YouTube OAuth (no auth needed — just store channel ID). MindBook polls `GET /api/youtube/channel/:channelId/videos` and shows new videos in `subscriptions` feed.
-
-`User.subscribedChannels = [{ channelId: String, channelTitle: String, channelThumbnail: String, followedAt: Date }]`
-
-### Comments on YouTube Videos
-
-MindBook provides its own comment section for YouTube videos (identified by `videoId + source = 'youtube'`). Uses the existing Comment model with `videoId` and `source` fields. This is separate from YouTube's native comments.
-
-### Video Notifications
-
-- Friend uploads new video → notification to followers
-- New video from followed YouTube channel → "New video: [Title] on [Channel]" notification
-- Trending video (high views/hour) → "Trending: [Title]" notification (opt-in)
-
-### Model Additions
-
-```javascript
-// Video model (MindBook-native videos)
-const videoSchema = new mongoose.Schema({
-  uploader:    { type: ObjectId, ref: 'User', required: true },
-  title:       { type: String, required: true, maxlength: 200 },
-  description: { type: String, maxlength: 5000 },
-  videoUrl:    { type: String, required: true },
-  thumbnailUrl:{ type: String, required: true },
-  source:      { type: String, default: 'mindbook', enum: ['mindbook'] },
-  duration:    Number,   // seconds
-  fileSize:    Number,   // bytes
-  views:       { type: Number, default: 0 },
-  watchTime:   { type: Number, default: 0 },  // total seconds watched across all users
-  likes:       [{ type: ObjectId, ref: 'User' }],
-  dislikes:    [{ type: ObjectId, ref: 'User' }],
-  comments:    [{ type: ObjectId, ref: 'Comment' }],
-  tags:        [String],
-  hashtags:    [String],
-  category:    String,
-  isPublic:    { type: Boolean, default: true },
-  isProcessed: { type: Boolean, default: false },
-  quality:     [{ resolution: String, url: String, fileSize: Number }],
-  thumbnails:  [String],  // multiple thumbnail options
-  captions:    [{ language: String, url: String }],
-  watchProgress: [{ user: ObjectId, progress: Number, updatedAt: Date }],  // % watched
-  allowDownload: { type: Boolean, default: false },
-  allowComments: { type: Boolean, default: true },
-  allowRatings:  { type: Boolean, default: true },
-  scheduledAt:   Date,
-  publishedAt:   Date,
-  createdAt:     { type: Date, default: Date.now }
-});
-
-videoSchema.index({ uploader: 1, createdAt: -1 });
-videoSchema.index({ title: 'text', description: 'text', tags: 'text' });
-videoSchema.index({ isPublic: 1, createdAt: -1 });
-videoSchema.index({ views: -1 });
-videoSchema.index({ isProcessed: 1 });
-```
-
-### Components
-
-`VideoHub.jsx` · `VideoHubSidebar.jsx` · `VideoCard.jsx` · `SourceBadge.jsx` · `HorizontalVideoRow.jsx` · `VideoPlayer.jsx` · `YouTubePlayer.jsx` · `VideoPage.jsx` · `YouTubeVideoPage.jsx` · `UnifiedSearchResults.jsx` · `VideoComments.jsx` · `ChannelPage.jsx` · `WatchLaterPage.jsx` · `PlaylistPage.jsx` · `SubscriptionsPage.jsx` · `WatchHistoryPage.jsx` · `VideoUploadModal.jsx` · `VideoProcessingStatus.jsx` · `TrendingVideos.jsx`
-
-**Save Progress:** After YouTube API service, each route, unified feed, player pages, and each component, append to `save_progress.md`.
+*Save Progress.*
 
 ---
 
-## PROMPT-50 — Pixel-Perfect Facebook Parity & UI Completeness
+## PROMPT-05.G — Unified Video Search
 
-**Trigger:** `Run PROMPT-50`
+**`GET /api/watch/search?q=...&source=all|mindbook|youtube&page=1`**
 
-Audit every page against Facebook's actual UI and fill in any missing details.
+Backend logic:
+1. If source=all or source=mindbook: query MindBook `Video` collection full-text search (`$text: { $search: q }`)
+2. If source=all or source=youtube: call `youtubeService.search(q)`
+3. Merge results, add `source` field to each
+4. Sort by relevance (MindBook results use MongoDB score, YouTube results use YouTube's ranking)
+5. Return paginated merged array
 
-### Navbar (Pixel-Perfect)
+**Frontend search results page:**
+- Tabs: **All** · **MindBook** · **YouTube** · **Live**
+- Each result card shows source badge prominently
+- Filter chips: relevance / date / view count
+
+*Save Progress.*
+
+---
+
+# PROMPT-06 — Perfect News Feed (Facebook Parity)
+
+**Trigger:** `Run PROMPT-06`
+**Goal:** A news feed that is functionally identical to Facebook's but visually superior.
+
+---
+
+## PROMPT-06.A — Navbar (Pixel Perfect)
 
 ```
-Left:    [MindBook Logo] [Search bar — gray, expandable]
-Center:  [Home] [Watch] [Groups] [Reels] [Marketplace]   ← icon tabs with active yellow underline
-Right:   [Create +] [Messenger 💬] [Notifications 🔔] [Account avatar ▾]
+LEFT:   [M logo 40px]  [🔍 Search — expands to 380px on click]
+CENTER: [🏠 Home] [📺 Watch] [👥 Groups] [🎮 Gaming] [🎵 Marketplace]
+        ↑ each 50px wide, hover=gray bg, active=yellow 3px underline (smooth sliding indicator)
+RIGHT:  [+ Create] [💬 Messenger] [🔔 Notifications] [⚙️ Account avatar ▾]
 ```
 
-- Logo: Yellow 'M' mark (40px) + "MindBook" wordmark (hidden on small screens)
-- Search: expands on click, 240px→380px with animation
-- Center tabs: 48px width each, hover: gray bg, active: yellow 4px underline
-- Active tab indicator: smooth sliding animation between tabs
-- Right icons: 36px circle buttons, red badge for unread counts
-- Account dropdown: avatar thumbnail → dropdown (Profile / Settings / Help / Display & Accessibility / Log out)
+- Logo: SVG inline, yellow 'M' on white/transparent background
+- Active tab indicator: `position: absolute; bottom: 0; height: 3px; background: var(--brand); border-radius: 2px 2px 0 0;` — slides horizontally with `motion.div` `layoutId`
+- Search: AnimatePresence for expand/collapse
+- Messenger icon: shows unread bubble count (red, yellow for ≥1 message)
+- Notification bell: shows count; swings CSS animation on new notification (`@keyframes bell-swing`)
+- Account dropdown (click avatar):
+  ```
+  [Avatar] [Name] [See your profile]
+  ─────────────────────────────────
+  [⚙️ Settings & privacy]
+  [❓ Help & support]
+  [🌙 Display & Accessibility]
+  [🚪 Log out]
+  ```
+  Opens with Framer Motion `scaleIn` from top-right origin.
 
-### Post Composer — "What's on your mind" Popup Modal
+**Navbar scroll behavior:**
+- On scroll > 20px: add `backdrop-filter: blur(12px); box-shadow: var(--shadow-md);`
+- Smooth CSS transition: 200ms
 
-When user clicks the gray "What's on your mind?" box → full modal opens:
+*Save Progress.*
 
+---
+
+## PROMPT-06.B — Three-Column Feed Layout
+
+```css
+/* Exact layout implementation */
+.app-grid {
+  display: grid;
+  grid-template-areas: "left center right";
+  grid-template-columns: var(--sidebar-l) 1fr var(--sidebar-r);
+  gap: 16px;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: calc(var(--navbar-h) + 16px) 16px 16px;
+}
+.sidebar-left  { grid-area: left;   position: sticky; top: calc(var(--navbar-h) + 16px); height: calc(100vh - var(--navbar-h) - 32px); overflow-y: auto; scrollbar-width: none; }
+.feed-center   { grid-area: center; min-width: 0; }
+.sidebar-right { grid-area: right;  position: sticky; top: calc(var(--navbar-h) + 16px); height: calc(100vh - var(--navbar-h) - 32px); overflow-y: auto; scrollbar-width: none; }
+
+@media (max-width: 1279px) { .app-grid { grid-template-columns: var(--sidebar-l) 1fr; grid-template-areas: "left center"; } .sidebar-right { display: none; } }
+@media (max-width: 1023px) { .app-grid { grid-template-columns: 60px 1fr; } }
+@media (max-width: 767px)  { .app-grid { grid-template-columns: 1fr; grid-template-areas: "center"; padding-bottom: calc(var(--bottom-nav-h) + 16px); } .sidebar-left { display: none; } }
 ```
-┌────────── Create Post ────────────── ✕ ┐
+
+**Left Sidebar items** (icon + label, icon-only on 60px collapse):
+```
+[Avatar + Name → profile] 
+──────────────────────────
+🏠 Home
+👤 Profile
+👥 Friends [badge]
+💬 Messages [badge]
+📺 Watch
+🛒 Marketplace
+🎮 Gaming
+🗓️ Events
+📝 Articles
+🎵 Audio Rooms
+💼 Jobs
+💰 Fundraisers
+🕐 Memories
+📦 Saved
+──────────────────────────
+[Your Groups shortcut — up to 5]
+──────────────────────────
+⚙️ Settings
+🌙 Dark Mode [toggle]
+──────────────────────────
+[Developer links section:]
+🌐 Portfolio  ← farmanullah1.github.io/My-Portfolio
+in LinkedIn   ← linkedin.com/in/farmanullah-ansari
+🐙 GitHub     ← github.com/farmanullah1
+──────────────────────────
+Privacy · Terms · © 2026 MindBook
+```
+
+**Sidebar entrance animation:** Items cascade in with 50ms stagger, slide from x:-20 (only on first page load, flag in sessionStorage).
+
+*Save Progress.*
+
+---
+
+## PROMPT-06.C — Post Composer (Full Detail)
+
+**Step 1 — Mini composer card (always visible in feed):**
+```
+┌────────────────────────────────────────────────────────┐
+│ [Avatar]  [What's on your mind, [Name]? — click]      │
+├────────────────────────────────────────────────────────┤
+│ [🖼️ Photo/Video]  [😊 Feeling/Activity]  [📍 Location]│
+└────────────────────────────────────────────────────────┘
+```
+Clicking anywhere opens the full composer modal.
+
+**Step 2 — Full composer modal:**
+```
+┌──────── Create Post ─────────────── ✕ ─┐
+│                                         │
 │ [Avatar] [Name]  [🌍 Friends ▾]        │
-│ ─────────────────────────────────      │
-│ [What's on your mind, [Name]?        ] │
-│ [                                    ] │
-│ [           textarea auto-grow        ] │
-│                                        │
-│ [Add to your post:]                    │
+│           audience selector dropdown    │
+│                                         │
+│ [Tabs: 📝Post | 📷Photo | 📹Video | 🔴Live | 😊Feeling | 📍Check in]
+│                                         │
+│ ─────────────────────────────────────── │
+│ [textarea — "What's on your mind?"    ] │
+│ [  auto-grows, min 120px, max 320px   ] │
+│ [  linkified, @mention, #hashtag      ] │
+│ [  Ctrl+B bold, Ctrl+I italic         ] │
+│ [  character counter — 5000 max       ] │
+│ ─────────────────────────────────────── │
+│ [background color picker row:]          │
+│ [⬜] [🟡] [🟠] [🔴] [🟣] [🔵] [⬛]  │
+│ (text-only posts can have colored bg)   │
+│ ─────────────────────────────────────── │
+│ [Media preview grid — up to 4 images]  │
+│ ─────────────────────────────────────── │
+│ [Add to your post:]                     │
 │ [📷 Photo/Video] [😊 Feeling/Activity] │
 │ [📍 Check in] [🏷️ Tag People]         │
-│ [📅 Life Event] [🔒 Privacy]           │
-│                                        │
-│ [Background Color picker row]          │
-│                                        │
-│ [─── Post button (yellow, full width)─]│
-└────────────────────────────────────────┘
+│ [📅 Life Event] [📊 Poll]              │
+│ [🎨 Background] [⏰ Schedule]          │
+│ ─────────────────────────────────────── │
+│ [Audience: 🌍 Friends ▾]  [Schedule 📅]│
+│ [     Post (yellow, full width)       ] │
+└─────────────────────────────────────────┘
 ```
 
-### Missing Small UI Details Audit
-
-Check and implement every one of these:
-- [ ] "Sponsored" label on placeholder ad cards
-- [ ] "Suggested for you" labels on friend suggestions
-- [ ] "People you may know" section in right sidebar
-- [ ] Post "Embed" option in dropdown
-- [ ] "Turn off notifications for this post" option
-- [ ] Story "Archive" (stories saved after 24h to user's archive)
-- [ ] "Add a frame" to profile picture
-- [ ] "Feeling/Activity" emoji selector (10 categories, 50+ options)
-- [ ] "Check in" (location input, shows map pin in post)
-- [ ] "Tag people" in post (typing @name in photo or caption)
-- [ ] "Life event" post type (job change, relationship, moved to new city, etc.)
-- [ ] Post "Background color" (solid colors + gradients for text-only posts)
-- [ ] "Create album" option in photo upload
-- [ ] "Celebrate something" post type
-- [ ] Comment "Top comments" sort + "Most recent" sort
-- [ ] "View [N] more comments" pagination (load 3 at a time)
-- [ ] Profile "5-star" review system (remove — Facebook removed this too; keep clean)
-- [ ] Profile "Intro" card with icons for bio/work/education/location/links
-- [ ] "Add to story" button on posts (share post to your own story)
-- [ ] "Copy link to post" option
-- [ ] Post timestamp links to `/posts/:id` (permalink)
-- [ ] Group "Invite by link" (generate shareable join link)
-- [ ] Event "Invite by link" option
-- [ ] "Snooze [Name] for 30 days" on friend's post (hides their posts temporarily)
-- [ ] "Hide all from [Name]" option
-- [ ] "Why am I seeing this post?" info
-
-**Save Progress:** After each parity fix, append to `save_progress.md`.
-
----
-
-## PROMPT-51 — Creator Studio & Monetization Hub
-
-**Trigger:** `Run PROMPT-51`
-
-Build a dedicated Creator Studio at `/creator-studio`.
-
-### Sections
-
-**Overview Dashboard:**
-- Total followers + growth (last 30 days)
-- Total views (all videos) + average watch time
-- Total post reach + engagement rate
-- Total coins earned from tips
-- Creator level badge (Rising / Creator / Star / Elite)
-
-**Content Manager:**
-- All posts in a table: title/preview, type, reach, engagement, date, status (published/draft/scheduled)
-- Bulk actions: delete, archive, change privacy
-- Sort by: newest, most reached, most engaged
-
-**Video Manager:**
-- All videos: thumbnail + title + views + watch time + likes + date
-- Upload new video button
-- Video analytics per video (click → detailed analytics)
-
-**Analytics (PROMPT-59 for full detail):**
-- Audience insights: demographics (age range, gender, location, device)
-- Content performance: top posts, top videos, top reels
-- Growth chart: followers over time
-- Engagement timeline: reactions, comments, shares per day
-- Revenue: coins earned from tips + breakdown
-
-**Monetization:**
-- Enable tips (requires 100+ followers)
-- Set up "Support" button on profile
-- Payout history (coins → reward conversion)
-- "Apply for Creator Badge" form (verified creator)
-
-**Schedule:**
-- Calendar showing all scheduled posts, videos, stories
-- "New scheduled post" CTA
-
-**Save Progress:** After each Creator Studio section, append to `save_progress.md`.
-
----
-
-## PROMPT-52 — Audio Rooms & Podcasts (Spaces-Like)
-
-**Trigger:** `Run PROMPT-52`
-
-Inspired by Twitter Spaces and Clubhouse.
-
-### Audio Rooms (`/audio-rooms`)
-
-**Room Card:** Room name + host avatar + listener count + topic tags + "Join" button.
-
-**Create Audio Room:**
-- Room name + description + topic tags + privacy (Public / Friends / Invite only)
-- Schedule: start now or pick time
-- "Go Live" → enters room as host
-
-**Audio Room UI (inside room):**
-```
-┌─── [Room Title] ──────────────────────── 🔴 LIVE ──┐
-│ [Host avatar + "HOST" badge]   12 listeners        │
-│ Speakers row (up to 8):                            │
-│   [Speaker 1 🎤] [Speaker 2 🎤] [Speaker 3 🎤]    │
-│   Active speaker: yellow animated ring             │
-│ ────────────────────────────────────────────────── │
-│ [Listeners grid — avatars, 5 rows of 6]            │
-│ ────────────────────────────────────────────────── │
-│ Bottom: [✋ Raise Hand] [😀 React] [Share] [Leave] │
-└────────────────────────────────────────────────────┘
-```
-
-**Host controls:** Mute/unmute speakers, invite listeners to speak, remove speakers, end room.
-
-**Technical:** WebRTC audio with SFU (Selective Forwarding Unit). MVP: use existing WebRTC peer connections, limit to 8 speakers. Scale: integrate with mediasoup or livekit (scaffold).
-
-**Podcast Upload:**
-- Upload MP3/M4A episode (max 200MB)
-- Set title, description, episode number, show name, cover art
-- Auto-transcription (Whisper API scaffold)
-- Episodes listed on profile "Podcasts" tab
-- Appears in Audio Rooms discovery section
-
-**Save Progress:** After each audio feature, append to `save_progress.md`.
-
----
-
-## PROMPT-53 — Maps & Location Features
-
-**Trigger:** `Run PROMPT-53`
-
-### Check-In Feature
-
-**In post composer:** "📍 Check in" button → location search modal.
-- Auto-detect location (Geolocation API) → reverse geocode → suggest nearby places
-- Manual search: type location name
-- Popular place types: Restaurant / Café / Airport / Hotel / Stadium / Home / Work
-- Selected: shows 📍 [Place Name, City] chip in post
-
-### Location-Based Discovery
-
-**Events near you:** Uses user's location (stored with permission) to show events sorted by distance.
-
-**Marketplace near you:** Shows listings within configurable radius.
-
-**Groups near you:** Shows local groups in Discover section.
-
-**Friends near you:** Optional "check-in" feature — friends who check into same location notified (with privacy controls).
-
-### Map Integration (Leaflet.js — no API key required)
-
-```jsx
-// Use Leaflet + OpenStreetMap (free, no API key)
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-
-// Use on: event location preview, marketplace listing location, check-in modal
-// Marker: yellow custom marker pin icon
-// Interaction: click to set location, drag pin to adjust
-```
-
-**No Google Maps** (avoid billing). Use Leaflet + OpenStreetMap for all map features.
-
-**Save Progress:** After each location feature, append to `save_progress.md`.
-
----
-
-## PROMPT-54 — Gaming & Interactive Features
-
-**Trigger:** `Run PROMPT-54`
-
-### Mini-Games
-
-Simple browser-based mini-games accessible at `/gaming`:
-
-**1. MindSnap (Memory Card Game):**
-- 16 cards (MindBook-themed emojis), flip to match pairs
-- Timer + move counter
-- Share score to feed
-- Leaderboard (top scores this week)
-- Earn coins: complete in < 60s → +10 coins
-
-**2. Emoji Quiz:**
-- Guess the word/phrase from emoji sequence
-- 10 rounds, 30 seconds each
-- Score shared to feed optionally
-- +5 coins for perfect score
-
-**3. Daily Word Challenge:**
-- 5-letter word, 6 attempts (Wordle-style)
-- Resets daily, same word for all users
-- Share result (colored grid) to feed
-- Streak counter (+1 coin per day streak)
-
-**Gaming Dashboard (`/gaming`):**
-- Game cards grid
-- Your scores + achievements
-- Weekly leaderboard
-- Friends' recent scores
-
-**Challenges Feed:**
-
-```jsx
-// C.10 from Section C
-// Create challenge: name + description + challenge type (photo/video/text/quiz) + duration (7/14/30 days)
-// Challenge card: cover + name + creator + participant count + days remaining + progress bar
-// Join challenge → user submits their entry (post/photo/video)
-// Challenge feed: all submissions from joined challenge
-// Winner announced (most likes on submission)
-```
-
-**Save Progress:** After each gaming feature, append to `save_progress.md`.
-
----
-
-## PROMPT-55 — Advanced Accessibility & i18n
-
-**Trigger:** `Run PROMPT-55`
-
-### Accessibility (WCAG 2.1 AA)
-
-**Color contrast:** All text meets AA ratio (4.5:1 for normal text, 3:1 for large text). Run automated check with `axe-core`.
-
-**Keyboard navigation:**
-- All interactive elements focusable with Tab
-- Modals trap focus (focus-trap-react)
-- Modals close on Escape
-- Dropdowns navigate with arrow keys
-- Skip-to-main-content link (visually hidden, visible on focus)
-
-**Screen reader support:**
-- All images have meaningful `alt` text
-- `aria-label` on icon-only buttons
-- `role="dialog"` + `aria-labelledby` on modals
-- Live regions (`aria-live="polite"`) for toast notifications
-- `aria-expanded` on dropdowns and accordions
-
-**Focus indicators:**
-- All focused elements show 3px yellow ring (`outline: 3px solid var(--brand-primary); outline-offset: 3px;`)
-- No `outline: none` anywhere (use `:focus-visible` instead of `:focus`)
-
-**Reduced motion:**
-- `@media (prefers-reduced-motion: reduce)` disables all animations
-- Replaces transitions with instant state changes
-
-**High contrast mode:**
-- `body.high-contrast` class (manually toggled or `@media (prefers-contrast: high)`)
-- Solid borders, high-contrast text, no transparency
-
-### Internationalization (i18n — Scaffold)
-
-```bash
-npm install react-i18next i18next i18next-browser-languagedetector
-```
-
-Set up i18n framework even if only English is implemented:
-```javascript
-// src/i18n.js — scaffold for future translations
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import en from './locales/en/translation.json';
-
-i18n.use(initReactI18next).init({
-  resources: { en: { translation: en } },
-  lng: 'en', fallbackLng: 'en',
-  interpolation: { escapeValue: false }
-});
-```
-
-Every user-facing string in the UI must use `t('key')` so future translations are drop-in.
-
-**Language selector in `/settings/accessibility`:**
-- Dropdown of 10 major languages (even if only English is available)
-- Shows native language name: "English", "العربية", "اردو", "中文", "Español", "Français", "Deutsch", "हिंदी", "বাংলা", "Türkçe"
-
-**RTL support scaffold:** `dir="rtl"` attribute on `<html>` when Arabic/Urdu selected. Use logical CSS properties (`margin-inline-start` instead of `margin-left`).
-
-**Save Progress:** After accessibility audit and i18n scaffold, append to `save_progress.md`.
-
----
-
-## PROMPT-56 — Social Commerce & MindBook Shops
-
-**Trigger:** `Run PROMPT-56`
-
-Lighter version of Facebook Shops — creators and businesses can set up a simple shop on their profile.
-
-### Shop Setup
-
-- Profile → ··· menu → "Create Shop"
-- Shop name, description, banner image, category
-- Shop appears as new tab on profile: "Shop"
-
-### Product Listing
-
-- Product name + description + price + currency + category
-- Up to 10 photos per product
-- Stock availability toggle
-- "Message to buy" (no direct checkout in MVP — connects to DM)
-- "Book now" for services
-
-### Shop Discovery
-
-- Marketplace → "Shops" tab → grid of shops
-- Shop card: banner + avatar + name + product count + category
-- Follow shop → new products appear in feed
-
-### Product Card in Feed
-
-When creator adds new product → optional "Share to feed" toggle → appears as special product post type:
-```
-[Product photo 1:1]
-[Product name — Price]
-[Shop name]
-[View Product] [💬 Message Shop]
-```
-
-**Save Progress:** After each shop feature, append to `save_progress.md`.
-
----
-
-## PROMPT-57 — Advanced Post Composer
-
-**Trigger:** `Run PROMPT-57`
-
-Build a fully-featured post creation modal that matches Facebook's composer.
-
-### Post Composer Modal (Full Spec)
-
-```
-┌──── Create Post ──────────────── ✕ ─┐
-│ [Avatar]  [Name]                    │
-│           [🌍 Friends ▾] selector  │
-│ ─────────────────────────────────── │
-│ Tabs: [📝 Post] [📷 Photo] [📹 Video] [🔴 Live] [😊 Feeling] [📍 Check in]
-│ ─────────────────────────────────── │
-│ [Text area — auto-grow, min 6 lines]│
-│ [Hashtag + mention autocomplete]    │
-│ [Character count (5000 max)]        │
-│ ─────────────────────────────────── │
-│ [Media preview grid (if any)]       │
-│ ─────────────────────────────────── │
-│ [Add to your post:]                 │
-│ [📷 Photo/Video] [😊 Feeling]      │
-│ [📍 Check in] [🏷️ Tag friends]     │
-│ [📅 Life event] [🔗 Link preview]  │
-│ [🎨 Background] [📊 Poll]          │
-│ ─────────────────────────────────── │
-│ [Privacy: 🌍 Friends ▾] [Schedule 📅]
-│ [Post ─── yellow, full width ──────]│
-└─────────────────────────────────────┘
-```
-
-### Background Color Post
-
-Text-only post with colored background. Color strip picker:
-- White (default)
-- Gradient options: Sunset / Ocean / Forest / Galaxy / Fire / Ice / Mindful Yellow (brand gradient)
-- Solid colors: Black / Navy / Purple / Dark Green
-
-Text auto-centers on colored backgrounds. Text color auto-adjusts for contrast.
-
-### Poll Post Type
-
-```jsx
-<PollComposer>
-  <PollQuestion placeholder="Ask a question..." />
-  <PollOption label="Option 1" />
-  <PollOption label="Option 2" />
-  <AddOption /> // up to 5 options
-  <PollSettings>
-    <Duration options={['1 day', '3 days', '1 week', '2 weeks']} />
-    <MultipleChoice toggle />
-    <Anonymous toggle />
-    <ShowResults options={['After voting', 'After poll ends', 'Always']} />
-  </PollSettings>
-</PollComposer>
-```
-
-### Schedule Post
-
-"Schedule post" option → date/time picker → post queued → appears in Creator Studio "Scheduled" tab.
-
-### Post Visibility (Audience Selector)
-
+**Audience selector dropdown:**
 ```
 🌍 Public — Anyone
-👥 Friends — Your friends
-👥 Friends except... — Choose people to exclude
-👤 Specific friends — Choose who can see
+👥 Friends — Your friends only
+👥 Friends except... — Exclude specific people
+👤 Specific friends — Show only to selected people
 🔒 Only me
-📋 [Custom list name] — if user has created lists
+📋 [List name] — if custom lists exist
 ```
 
-**Save Progress:** After each post composer feature, append to `save_progress.md`.
+**Poll tab:**
+- Question input
+- Up to 5 option inputs (Add Option button)
+- Duration: 1d / 3d / 1 week / 2 weeks
+- Multiple choice toggle
+- Anonymous voting toggle
+
+**Check-in tab:**
+- Auto-detect location (Geolocation API) → suggests nearby places (Nominatim/OpenStreetMap)
+- Manual search input
+- Shows map pin preview (Leaflet.js)
+
+**@mention autocomplete:**
+- As user types `@` → shows friends dropdown filtered by what follows
+- Arrow keys navigate, Enter selects, ESC closes
+- Selected mentions are highlighted in yellow in the textarea
+
+**#hashtag autocomplete:**
+- As user types `#` → shows trending hashtags
+- AI-suggested hashtags appear as chips below textarea (debounced, API call to Claude)
+
+**Post submission:**
+1. Click Post → show loading overlay on button (spinner)
+2. POST to `/api/posts`
+3. On success: modal closes, new post slides into feed at top (Framer Motion: y:-40→0, opacity 0→1, height 0→auto)
+4. Toast: "Post published ✓"
+
+*Save Progress.*
 
 ---
 
-## PROMPT-58 — Complete Mobile Experience
-
-**Trigger:** `Run PROMPT-58`
-
-Ensure every single page and interaction is perfect on mobile (375px–414px screens).
-
-### Mobile Bottom Navigation Bar
+## PROMPT-06.D — Post Card (Full Specification)
 
 ```jsx
-// Fixed at bottom, 56px height, above safe area (env(safe-area-inset-bottom))
-<BottomNav>
-  <NavItem icon={Home}     label="Home"     path="/"          active={path==='/'} />
-  <NavItem icon={Users}    label="Friends"  path="/friends"   badge={requestCount} />
-  <NavItem icon={Plus}     label=""         onClick={openCreatePostModal} special />  // yellow circle
-  <NavItem icon={Video}    label="Watch"    path="/watch" />
-  <NavItem icon={Bell}     label="Notifs"   path="/notifications" badge={notifCount} />
-</BottomNav>
+<PostCard post={post}>
+  <PostHeader>
+    <Avatar size={40} src={post.user.profilePicture} onClick={→ profile} />
+    <div>
+      <Name onClick={→ profile}>{post.user.name}</Name>
+      <MetaRow>
+        <Timestamp>{timeAgo(post.createdAt)}</Timestamp>
+        <Dot />
+        <PrivacyIcon privacy={post.privacy} />
+        {post.feeling && <span>— feeling {post.feeling.emoji} {post.feeling.label}</span>}
+        {post.location && <span>📍 {post.location.name}</span>}
+      </MetaRow>
+    </div>
+    {!isOwn && !isFriend && <FollowBtn userId={post.user._id} />}
+    <PostOptionsMenu>
+      {isOwn ? [
+        'Edit post',
+        'Delete post',
+        'Pin to profile',
+        'Add to story',
+        'Turn off notifications',
+        'Change audience',
+        'Embed post'
+      ] : [
+        'Save post',
+        'Follow [Name]',
+        'Hide post',
+        'Snooze [Name] for 30 days',
+        'Hide all from [Name]',
+        'Report post',
+        'Why am I seeing this?',
+        'Copy link to post'
+      ]}
+    </PostOptionsMenu>
+  </PostHeader>
+
+  <PostContent>
+    <TextContent>{linkify(hashtagify(mentionify(post.content)))}</TextContent>
+    {post.content.length > 300 && <SeeMoreBtn />}
+    <MediaGrid images={post.images} videos={post.videos} />
+    {post.poll && <PollWidget poll={post.poll} />}
+    {post.linkPreview && <LinkPreviewCard data={post.linkPreview} />}
+    {post.youtubeId && <YouTubeEmbed id={post.youtubeId} badge />}
+    {post.backgroundColor && <div style={{ background: post.backgroundColor }}>text</div>}
+    {post.taggedFriends?.length > 0 && <TaggedFriends friends={post.taggedFriends} />}
+    {post.lifeEvent && <LifeEventCard event={post.lifeEvent} />}
+  </PostContent>
+
+  <PostStats>
+    <ReactionSummary>
+      <TopReactionEmojis count={3} />
+      <TotalCount>{post.reactions.total}</TotalCount>
+    </ReactionSummary>
+    <CommentShareCount>
+      <span>{post.comments.length} comments</span>
+      <span>{post.shares} shares</span>
+    </CommentShareCount>
+  </PostStats>
+
+  <PostActions>
+    <LikeBtn
+      reacted={userReaction}
+      onHover={showReactionPicker}   // 500ms hover delay
+      onClick={toggleLike}
+    />
+    <CommentBtn onClick={expandComments} />
+    <ShareBtn onClick={openShareModal} />
+    <SaveBtn onClick={savePost} />
+  </PostActions>
+
+  <ReactionPicker visible={pickerVisible}>  // Framer Motion: scales from Like button origin
+    {['👍','❤️','😂','😮','😢','😡'].map(emoji => (
+      <EmojiBtn key={emoji} emoji={emoji} label={...} onHover={scale(1.4)} onClick={react} />
+    ))}
+  </ReactionPicker>
+
+  <CommentSection visible={commentsOpen}>
+    <CommentsView comments={post.comments} />
+    <CommentInput />
+  </CommentSection>
+</PostCard>
 ```
 
-The center "+" button is a yellow circle (56px), raises above the bar, opens full-screen create post modal.
-
-### Mobile Drawer Sidebars
-
-Left sidebar collapses to a hamburger drawer (slides in from left, full-height overlay).
-
-### Mobile-Specific Interactions
-
-**Pull to refresh (feed):**
+**3D tilt on hover (react-parallax-tilt):**
 ```jsx
-// useDrag hook — drag down > 80px: show circular spinner, trigger refresh
-// Haptic feedback: navigator.vibrate(20) on trigger (where supported)
+<Tilt tiltMaxAngleX={3} tiltMaxAngleY={3} glareEnable glareMaxOpacity={0.05} scale={1.01} transitionSpeed={500}>
+  <PostCard ... />
+</Tilt>
 ```
 
-**Swipe to go back:**
-20px touch target on left edge → swipe right → navigate back (React Router -1).
+**Scroll reveal animation:**
+```jsx
+const { ref, style } = useScrollReveal({ threshold: 0.1, delay: index * 60 });
+<animated.div ref={ref} style={style}><PostCard ... /></animated.div>
+```
 
-**Long press on post:**
-Long press (500ms) → context menu (same as desktop right-click).
-
-**Pinch to zoom (images):**
-In lightbox: pinch gesture zooms image. Double-tap: zoom 2×. Double-tap again: reset.
-
-**Bottom sheet modals:**
-On mobile, all dropdown modals (share, reactions, options) open as bottom sheets (slide up from bottom, drag handle at top, dismiss by dragging down).
-
-### Mobile Story Creator
-
-Full-screen modal:
-- Camera button (capture live) + gallery picker
-- Drawing tool (finger draw with color + stroke width picker)
-- Text tool (tap to place, drag to move, pinch to resize)
-- Sticker tray (scrollable horizontal strip)
-- Timer: 5s / 10s / 15s exposure before auto-advance
-
-### Mobile Performance
-
-- Virtual list (`react-window`) for feed, chat list, notification list, friends list, any list > 20 items
-- Images use `loading="lazy"` + `decoding="async"`
-- Avoid layout shifts: skeleton loaders match final content dimensions
-- No `position: fixed` elements other than navbar and bottom nav (prevent scroll performance issues on iOS)
-- Font loading: `font-display: swap`
-
-**Save Progress:** After each mobile feature and each page's mobile audit, append to `save_progress.md`.
+*Save Progress.*
 
 ---
 
-## PROMPT-59 — Analytics Dashboard for Creators
+## PROMPT-06.E — Reactions System
 
-**Trigger:** `Run PROMPT-59`
+**6 reactions:** 👍 Like · ❤️ Love · 😂 Haha · 😮 Wow · 😢 Sad · 😡 Angry
 
-Build a comprehensive analytics system for content creators at `/creator-studio/analytics`.
+**Reaction picker animation:**
+1. User hovers Like button for 500ms → picker appears
+2. Framer Motion: `scaleX: 0→1, opacity: 0→1` from Like button origin (transform-origin: bottom-left)
+3. Each emoji springs in with stagger (40ms)
+4. Hovering emoji: `scale: 1.5` with spring, label appears above
+5. Click emoji: reaction saved, picker dismisses, Like button changes to chosen reaction emoji + brand color
+6. Click same reaction again: unlike (button returns to default gray)
+7. Long-press on mobile = picker (500ms hold threshold)
 
-### Available Analytics
+**Like animation on click:**
+- Heart icon: scale 0 → 1.8 → 1 (spring), color fills
+- 8 yellow particle sparks burst from center outward, fade (canvas-confetti)
+- Like count increments optimistically (immediate, syncs to server)
 
-**Overview (last 30 days):**
-- Total Reach: number of unique people who saw your content
-- Total Impressions: total times content was shown
-- Engagement Rate: (likes + comments + shares) / reach × 100%
-- Profile visits: people who visited your profile
-- New followers: followers gained
-- Video views: total views across all videos
-- Watch time: total minutes watched
+**Reaction summary:**
+- Row of top 3 reaction emojis (colored) + total count
+- Click → "Reactions" modal: tabs per reaction type + "All" tab, each showing avatar + name
 
-**Content Performance:**
-- Best performing post (highest reach)
-- Top video (most watched)
-- Most shared content
-- Best day/time to post (heatmap: day × hour, colored by engagement)
-
-**Audience:**
-- Followers over time (line chart)
-- Age groups (bar chart, anonymized)
-- Gender distribution (donut chart)
-- Top countries / cities (horizontal bar)
-- Device breakdown: Mobile / Desktop / Tablet
-- Top referrers: Feed / Profile / Search / Explore / Share
-
-**Video Analytics:**
-- Average view duration + percentage
-- Audience retention curve (x=time, y=% watching)
-- Click-through rate for thumbnails
-- Traffic sources
-
-**Charts:** All charts use Recharts. Color scheme: yellow primary color for all bars/lines. Tooltips styled with MindBook design tokens. Charts animate in on mount (Recharts built-in animation).
-
-**Export:** Download analytics report as PDF (jsPDF) or CSV.
-
-**API:**
-```
-GET /api/analytics/overview?period=30d
-GET /api/analytics/content?type=posts|videos|reels&period=30d
-GET /api/analytics/audience?period=30d
-GET /api/analytics/videos/:id?period=30d
-```
-
-**Save Progress:** After each analytics section and chart, append to `save_progress.md`.
+*Save Progress.*
 
 ---
 
-## PROMPT-60 — Final Launch Readiness
+## PROMPT-06.F — Comment System
 
-**Trigger:** `Run PROMPT-60`
+**Comment section (expands inline below post):**
 
-Final pass to ensure MindBook is 100% ready to be showcased in a portfolio.
+```jsx
+<CommentSection>
+  <SortSelector>Most relevant | Newest | All comments</SortSelector>
 
-### Portfolio Presentation Checklist
+  {comments.map(comment => (
+    <Comment key={comment._id}>
+      <Avatar size={32} />
+      <CommentBubble>
+        <AuthorName /> <Text>{comment.text}</Text>
+      </CommentBubble>
+      <CommentActions>
+        <Timestamp />
+        <LikeBtn count={comment.likes} />
+        <ReplyBtn onClick={openReply} />
+        <MoreBtn />
+      </CommentActions>
 
-- [ ] Landing page at `/` if not logged in — showcase page showing MindBook features with screenshots/screenshots carousel. "Get Started" + "Log In" CTAs.
-- [ ] Demo account created with seed data (50 posts, 20 friends, 10 groups, realistic content)
-- [ ] README includes live demo link (if deployed) or instructions to run locally in 3 commands
-- [ ] README includes feature showcase GIF or screenshots
-- [ ] All console.log/console.error removed or guarded behind NODE_ENV === 'development'
-- [ ] Error boundaries on all top-level page components
-- [ ] 404 page (beautiful, with 3D animation, links back home)
-- [ ] Loading states on every single data-fetching operation
-- [ ] Empty states on every list (never a blank page)
-- [ ] All forms have proper validation + clear error messages
-- [ ] All success actions show feedback (toast / animation)
-- [ ] Responsive: tested at 375 / 768 / 1024 / 1440 / 1920px
-- [ ] Dark mode: every page and component correctly themed
-- [ ] Lighthouse scores: ≥80 Performance, ≥90 Accessibility, ≥90 Best Practices, ≥90 SEO
-- [ ] No broken images, no broken links, no 404 API calls
-- [ ] Page titles correct on every route (`<title>MindBook - [Page Name]</title>`)
-- [ ] Favicon displayed correctly in browser tab + bookmarks
+      {comment.replies?.length > 0 && (
+        <RepliesSection indent={24}>
+          <ShowRepliesToggle count={comment.replies.length} />
+          {showReplies && comment.replies.map(reply => <Comment reply ... />)}
+        </RepliesSection>
+      )}
+    </Comment>
+  ))}
 
-### Seed Data Script (`backend/scripts/seed.js`)
+  <LoadMoreBtn>View more comments</LoadMoreBtn>
+
+  <CommentInput>
+    <Avatar size={32} />
+    <input placeholder="Write a comment..." onKeyDown={enter=submit} />
+    <EmojiBtn />
+    <GifBtn />
+    <ImageBtn />
+  </CommentInput>
+</CommentSection>
+```
+
+- Comments load 5 at a time ("View more comments" pagination)
+- Replies: up to 3 levels deep, indented 24px per level
+- Each comment has: like (heart with count), reply, more (report/delete if own)
+- Comment like: same heart pop animation as post like
+- GIF comments: Giphy picker → sends GIF URL → renders as small GIF image in comment
+- Image comments: upload small image → renders in comment bubble
+
+*Save Progress.*
+
+---
+
+## PROMPT-06.G — Right Sidebar
+
+```jsx
+<RightSidebar>
+  <BirthdayCard />          // "[Name]'s birthday is today 🎂"
+  <FriendSuggestions />     // 5 cards: avatar + name + mutual count + "Add Friend"
+  <SponsoredSection />      // "Sponsored by MindBook ✓" placeholder
+  <ContactsList />          // online friends, alphabetical, green dots
+  <GroupActivity />         // 3 posts from joined groups
+</RightSidebar>
+```
+
+**Contacts list:** Search input. Green dot for online. "Active 2 min ago" for recently active. Click → opens DM. Smooth scroll within contacts list.
+
+*Save Progress.*
+
+---
+
+# PROMPT-07 — Groups, Friends & Settings Deep Dive
+
+**Trigger:** `Run PROMPT-07`
+
+---
+
+## PROMPT-07.A — Groups System (Complete)
+
+*(See full spec in previous versions — implement all group features with these additions:)*
+
+**Group discovery horizontal scroll:** In `/groups` home, show "Suggested for you" as a horizontal scroll row (HorizontalScrollRow component) before the main grid. Cards use 3D tilt on hover.
+
+**Group posts — all types must be implemented:**
+- Text, images, videos, polls, events, announcements, file shares
+- Welcome post (auto-generated on join)
+- Polls: animated yellow progress bars fill on vote
+
+**Group scheduled posts (admin):** Calendar view, posts queued.
+
+**Group insights (admin-only charts):** All Recharts charts with yellow color scheme and entrance animation.
+
+*Save Progress after each group section.*
+
+---
+
+## PROMPT-07.B — Friends System (Complete)
+
+*(See full spec in previous versions — implement all with these animations:)*
+
+**Friend suggestion card hover:** Card lifts, "Message" button slides in from right with spring.
+
+**Send friend request animation:** "Add Friend" button morphs → loading spinner → "✓ Pending" (Framer Motion layoutId morph).
+
+**Accept friend request:** Trigger yellow confetti burst (canvas-confetti, 2 seconds), show "You're now friends with [Name]!" toast.
+
+**Mutual friends modal:** Opens with `modal` variant, mutual friend avatars tile in with stagger.
+
+*Save Progress.*
+
+---
+
+## PROMPT-07.C — Settings (All Sections)
+
+*(See full spec in PROMPT-35 from v4.0 — implement ALL 10 sections. Highlight below:)*
+
+**Settings page animations:**
+- Left sidebar nav items: highlight slides (motion.div `layoutId` for active indicator)
+- Each section slides in from right on first select (`slideLeft` variant)
+- Password strength meter: 4 colored segments, each segment fills with spring animation
+
+**2FA Setup:** QR code displays with `popIn` animation. Backup codes appear one by one with stagger.
+
+**Active Sessions table:** Row hover lifts slightly. "Log out" button animates to confirmation state before executing.
+
+**Data Export:** "Download Your Information" modal with animated zip icon and progress.
+
+*Save Progress after each settings section.*
+
+---
+
+# PROMPT-08 — Portfolio, CV & Personal Branding Pages
+
+**Trigger:** `Run PROMPT-08`
+
+---
+
+## PROMPT-08.A — Developer Links Integration
+
+**Add a permanent "Created by" section to the site in three locations:**
+
+1. **Left sidebar footer** (visible on every page):
+```jsx
+<div className="developer-credit">
+  <p>Created by <strong>Farman Ullah Ansari</strong></p>
+  <div className="dev-links">
+    <a href="https://farmanullah1.github.io/My-Portfolio" target="_blank" rel="noopener noreferrer">
+      🌐 Portfolio
+    </a>
+    <a href="https://www.linkedin.com/in/farmanullah-ansari/" target="_blank" rel="noopener noreferrer">
+      LinkedIn
+    </a>
+    <a href="https://github.com/farmanullah1" target="_blank" rel="noopener noreferrer">
+      🐙 GitHub
+    </a>
+  </div>
+</div>
+```
+
+2. **Footer of every page** (below right sidebar): Same links with copyright.
+
+3. **The Creator's MindBook profile** (admin/demo account): Portfolio tab prominently shows all links with styled cards.
+
+*Save Progress.*
+
+---
+
+## PROMPT-08.B — "About MindBook" Page (`/about-mindbook`)
+
+**A stunning showcase page explaining the platform:**
+
+**Hero section:**
+- Large heading: "The Social Platform Reimagined"
+- Sub-heading: "Built by Farman Ullah Ansari, Full Stack Software Engineer"
+- 3D floating 'M' logo (Three.js) in background
+- "Explore MindBook" + "View on GitHub" CTAs
+
+**Features showcase section:**
+- 6 feature cards in alternating layout (image left/right)
+- Each card has icon, feature name, description, and "Learn more" link
+- Features: Real-time Messaging / YouTube Integration / Voice & Video Calls / AI Chatbot / Creator Studio / Admin Dashboard
+- Scroll reveals with useScrollReveal hook
+
+**Tech stack section:**
+- "Built with" heading
+- Animated tech icons (MongoDB leaf, React atom, Node.js hexagon, Express, Socket.IO) floating gently
+- Each icon: hover shows tooltip with brief description
+- 3D rotating tech logo icons using Three.js
+
+**Architecture section:**
+- Animated SVG diagram showing frontend → API → backend → database flow
+- Arrows animate in sequence (Framer Motion path drawing)
+- Text descriptions appear alongside
+
+*Save Progress.*
+
+---
+
+## PROMPT-08.C — "Why I Created MindBook" Page (`/why-mindbook`)
+
+**A personal narrative page:**
+
+**Opening section:**
+- Large pull quote: *"I set out to prove that a solo developer can build a world-class social platform."*
+- Author photo placeholder + name + title
+
+**Story sections (alternating text/visual):**
+1. **The Challenge** — "Facebook-level features. Zero team. One developer."
+2. **The Process** — Engineering decisions, tech stack choices, challenges overcome
+3. **The Features** — What was built and why each matters
+4. **The Skills Demonstrated** — Full stack development, real-time systems, WebRTC, AI integration, cloud architecture, performance optimization, UI/UX design
+5. **Future Plans** — Mobile app, international expansion, creator monetization
+
+**CTA section:**
+- "Want to see how it was built?"
+- Links: GitHub repo / Portfolio / LinkedIn / Contact
+
+**Animations:** Each section scrolls in with cinematic entrance (blur-fade + y-drift). Pull quotes use large animated text (GSAP SplitText-style, characters animate in one by one).
+
+*Save Progress.*
+
+---
+
+## PROMPT-08.D — Platform Landing Page (`/landing`)
+
+**Shown to logged-out users at `/` (redirect logged-in users to `/feed`).**
+
+**Hero:**
+- Full-viewport height
+- Heading: "MindBook" large, animated character-by-character (GSAP)
+- Subheading: "Connect. Create. Belong."
+- "Get Started" (yellow) + "Log In" (outlined) CTAs
+- Background: Three.js scene — network of connected nodes floating (user avatars connected by lines)
+- Subtle animated gradient mesh
+
+**Feature showcase rows (Netflix-style):**
+Each row shows an animated mockup/screenshot of the feature:
+- "Your world in one feed" — feed mockup
+- "Watch everything in one place" — video hub with source badges
+- "Real-time conversations" — chat mockup with video call
+- "Grow professionally" — LinkedIn features mockup
+
+**Social proof section:**
+- "Built with enterprise-grade technology"
+- Tech logos: MongoDB / React / Node / Socket.IO / WebRTC / YouTube API / Claude AI
+
+**Footer:** All developer links + platform pages
+
+*Save Progress.*
+
+---
+
+# PROMPT-09 — LinkedIn Professional Features
+
+**Trigger:** `Run PROMPT-09`
+
+*(Implement full spec from PROMPT-30 in v4.0 plus:)*
+
+## PROMPT-09.A — Skills & Endorsements
+
+**Skill endorsement animation:**
+1. Click "Endorse" on someone's skill
+2. Button shows: loading → "+1 endorser"
+3. Floating "+1" animates upward from button, fades
+4. Endorser count increments with spring number animation
+5. Endorser avatars: new avatar slides in from right
+
+## PROMPT-09.B — Work History Timeline
+
+**Animated SVG timeline on profile About tab:**
+- Vertical yellow line
+- Each entry: white circle on line, fades in on scroll
+- Current job: pulsing yellow dot on circle
+- Entries slide in from alternating sides (left/right) with spring
+
+## PROMPT-09.C — Job Board (`/jobs`)
+
+**Application tracker:** Full Kanban board with `@dnd-kit/core`. Cards drag between columns with spring physics. Column count badges animate on change.
+
+*Save Progress after each professional section.*
+
+---
+
+# PROMPT-10 — Instagram Features (Reels, Explore, Stories)
+
+**Trigger:** `Run PROMPT-10`
+
+## PROMPT-10.A — Reels Feed (`/reels`)
+
+*(Full spec from PROMPT-46 v4.0 plus:)*
+
+**Double-tap like:** Large yellow heart appears at exact tap position, floats upward, fades. Like count increments with spring.
+
+**Scroll physics:** Lenis + custom snap logic. Smooth deceleration on swipe, snaps to one reel at a time. Velocity-based: fast swipe = skip multiple.
+
+**Creator follow from reel:** "Follow" button in reel overlay. Tap → instant update (optimistic) + brief confirmation animation.
+
+## PROMPT-10.B — Explore Page (`/explore`)
+
+*(Full spec from PROMPT-47 v4.0 plus:)*
+
+**Masonry grid (react-masonry-css):** Items stagger in (60ms each) using useScrollReveal. Hover shows overlay with like count + comment count.
+
+**Trending algorithm visualization:** Trending badge shows "🔥 Trending" with subtle flame animation (CSS keyframe).
+
+*Save Progress.*
+
+---
+
+# PROMPT-11 — AI MindBot Chatbot
+
+**Trigger:** `Run PROMPT-11`
+
+*(Full spec from PROMPT-33 v4.0 plus:)*
+
+## PROMPT-11.A — Floating Widget
+
+**Animation spec:**
+- Collapsed: 56px yellow circle, 'M' bot icon, breathing pulse animation
+- Open: expands to 340×480px chat panel (spring: scaleY 0→1 from bottom)
+- Message arrival: bubble springs in from bottom-left (received) or bottom-right (sent)
+- Typing indicator: three dots with wave animation
+
+**Claude API integration:**
+```javascript
+// POST /api/mindbot/chat
+// Rate limit: 30 messages/user/hour (express-rate-limit)
+// Conversation history: last 10 messages stored in req.session (or JWT-based session store)
+// System prompt includes: user's name, follower count, recent activity
+// Model: claude-sonnet-4-20250514, max_tokens: 600
+```
+
+## PROMPT-11.B — MindBot Capabilities (all)
+
+1. Feature help & FAQ
+2. Post writing assistant (tone selector: Professional/Casual/Funny/Inspirational)
+3. Smart reply suggestions in chat (3 options above input, click to insert)
+4. Content summarizer
+5. Friend suggestions with AI reasoning
+6. Mood check-in with personalized response
+7. Voice input (Web Speech API → transcribe → send)
+8. Onboarding wizard (new users only, 5-step guide)
+9. AI caption generator for uploaded images
+10. Hashtag suggestions (real-time as user types post)
+
+*Save Progress.*
+
+---
+
+# PROMPT-12 — Notifications System
+
+**Trigger:** `Run PROMPT-12`
+
+*(Full spec from PROMPT-38 v4.0 plus:)*
+
+## PROMPT-12.A — Real-Time Delivery
 
 ```javascript
-// Creates:
-// - 1 admin user (admin@mindbook.com / Admin@123456)
-// - 5 regular users with realistic profiles
-// - 50 posts (various types: text, image, video, poll)
-// - 10 groups (various categories)
-// - 20 friend relationships
-// - 30 comments
-// - 10 stories (some expired, some active)
-// - 5 events
-// - 3 fundraisers
-// - 10 marketplace listings
-// Run: cd backend && node scripts/seed.js
+// Socket.IO event: 'notification'
+// On receive:
+// 1. Add to notifStore (Zustand)
+// 2. Update badge count in navbar
+// 3. Swing bell animation (CSS class toggle, 3 swings)
+// 4. Show toast notification (slide from right, 5s auto-dismiss)
+//    if user is NOT on /notifications page
+// 5. Desktop push notification via Web Push API
+//    (if permission granted)
 ```
 
-### Final `save_progress.md` Entry
+## PROMPT-12.B — Notification Center (`/notifications`)
 
-After PROMPT-60:
-```markdown
-## [TIMESTAMP] — PROMPT-60: Final Launch Readiness
-**Status:** Completed
-**Summary:** All features implemented, tested, and production-hardened. MindBook is ready for portfolio showcase. Seed data created. README updated with demo instructions. All Lighthouse scores meet targets.
-**Final Stats:**
-- Total pages implemented: [N]
-- Total API endpoints: [N]
-- Total React components: [N]
-- Total database models: [N]
----
-```
+**Each notification row:** avatar + text + thumbnail (if post/video) + timestamp + actions.
 
-**Save Progress:** This entry closes the `save_progress.md` log for v4.0.
+**Grouping:** Multiple likes on same post → "Name1, Name2, and 3 others liked your post."
+
+**Entrance animation:** Each notification fades in with stagger (40ms). Unread rows have yellow left border.
+
+*Save Progress.*
 
 ---
 
----
-
-# SECTION A: ADMINISTRATIVE DASHBOARD & CONTROL SYSTEM
-
-## PROMPT-21 — Build Full Admin Dashboard & Control System
-
-**Trigger:** `Run PROMPT-21`
-
-*(Full spec from v3.0 playbook — implement all sections A.1–A.6 exactly as specified, including:)*
-
-- **A.1** Super Admin Dashboard with animated metric cards (Framer Motion number counter animation on load), Recharts line/bar/pie/horizontal-bar charts, quick actions bar
-- **A.2** User Management Panel with searchable/sortable table, bulk actions, slide-in user detail modal with all action buttons
-- **A.3** Content Moderation Queue with report table, moderation modal, auto-moderation rules, filter system
-- **A.4** Report System (for all users) with report button on every piece of content, report modal, user report history at `/my-reports`
-- **A.5** Admin Announcement System with rich text, targeting, scheduling, delivery analytics
-- **A.6** System Logs with three log types, filter by level, CSV export
-
-**Additional A.7 — IP Management:**
-- IP ban list (add/remove IPs from ban list)
-- Rate limit override per IP
-- Geographic restriction toggle (block signups from specific countries — opt-in per admin)
-
-**Additional A.8 — Data Management:**
-- Storage usage breakdown by type (profile pics / cover photos / post media / message media / video)
-- Old file cleanup scheduler (delete unused uploads older than 30 days)
-- Database backup trigger (runs mongodump to a designated folder)
-
-**Save Progress:** After each admin section (A.1–A.8), append to `save_progress.md`.
-
----
-
-# SECTION B: AI-POWERED FEATURES
-
-## PROMPT-22 — Implement AI-Powered Features
-
-**Trigger:** `Run PROMPT-22`
-
-*(Full spec from v3.0 playbook — implement all B.1–B.8. Additional below.)*
-
-**B.9 — AI Image Caption Generator:**
-When uploading image to post, offer "Generate caption" button. Sends image to backend → uses Claude vision to describe → inserts as caption/post text.
-
-```javascript
-// POST /api/ai/generate-caption
-// Body: { imageUrl: string }
-// Response: { caption: string, hashtags: string[] }
-const systemPrompt = `You are a social media caption writer. Given an image, write a friendly, engaging caption suitable for a social media post. Keep it under 150 characters. Also suggest 5 relevant hashtags.`;
-```
-
-**B.10 — Trending Post Predictor:**
-Before posting: "Your post has a [High/Medium/Low] chance of trending based on current platform activity, time of day, and content type." Small info card below post composer.
-
-**B.11 — Smart Hashtag Suggestions:**
-As user types post text: AI suggests relevant hashtags in a chip row below the textarea. Click to add. Debounce 1s, only trigger if post is >50 characters.
-
-**Save Progress:** After each AI feature (B.1–B.11), append to `save_progress.md`.
-
----
-
-# SECTION C: INNOVATIVE SOCIAL FEATURES
-
-## PROMPT-23 — Build Innovative Social Features
-
-**Trigger:** `Run PROMPT-23`
-
-*(Full spec from v3.0 playbook — implement C.1–C.10. Additional below.)*
-
-**C.11 — "What are you listening to?" Micro-Post:**
-Users can share currently playing song (manual entry: song + artist + album art URL). Appears in feed as a special music card with album art thumbnail + "🎵 [Song] — [Artist]" + Like / React buttons.
-
-**C.12 — Countdown Timer Posts:**
-Create a countdown to an upcoming event. Countdown card in feed: event name + animated live countdown (days/hours/minutes/seconds updating in real-time). Viewers can RSVP interest.
-
-**C.13 — "Ask Me Anything" (AMA) Post:**
-Post creator marks a post as AMA. Followers can submit questions in comments (with upvote system). Creator can "Answer" a question (reply pinned below question). AMA posts have special badge + sorted by upvotes.
-
-**Save Progress:** After each feature (C.1–C.13), append to `save_progress.md`.
-
----
-
-# SECTION D: WALLET & DIGITAL ECONOMY
-
-## PROMPT-24 — Build Wallet & Digital Economy System
-
-**Trigger:** `Run PROMPT-24`
-
-*(Full spec from v3.0 playbook — implement exactly. Additional:)*
-
-**D.3 — Daily Rewards:**
-Every day at midnight (user's timezone): push notification "Your daily reward is ready! 🪙". Click → opens wallet → animated coin drop + "+5 coins" (or bonus amount on streak days).
-
-**D.4 — Coin Store (`/wallet/store`):**
-Shop items purchasable with coins:
-- Profile frames (animated border around avatar) — 150 coins
-- Custom story reactions (exclusive emoji set) — 100 coins
-- Post background themes — 75 coins
-- "Super Like" (highlighted reaction visible to all) — 10 coins each
-- Chat themes — 200 coins
-- Verified-style badge (community verified, not official) — 500 coins
-
-**Save Progress:** After each economy feature, append to `save_progress.md`.
-
----
-
-# SECTION E: PORTFOLIO & PROFESSIONAL NETWORKING
-
-## PROMPT-25 — Build Portfolio & Professional Networking
-
-**Trigger:** `Run PROMPT-25`
-
-*(Full spec from v3.0 playbook + PROMPT-30 — implement all features. Save after each.)*
-
-**Additional:**
-
-**E.3 — Referral System:**
-Users can refer contacts to MindBook. Unique referral link in Settings → Share section. Successful signup = +50 coins for referrer. Track in DB and wallet transactions.
-
-**E.4 — Verified Creator Program:**
-Users with 1000+ followers can apply for Creator Badge (gold checkmark). Application form → admin reviews → badge awarded. Badge shown on profile, posts, comments, video cards.
-
-**Save Progress:** After each feature, append to `save_progress.md`.
-
----
-
-# SECTION F: ADVANCED PRIVACY & SAFETY
-
-## PROMPT-26 — Implement Advanced Privacy & Safety
-
-**Trigger:** `Run PROMPT-26`
-
-*(Full spec from v3.0 playbook — implement everything. Additional:)*
-
-**F.4 — Content Warning System:**
-Posts can be marked as "Sensitive content" by the creator. Shows blur overlay with "This post may contain sensitive content. [View]" button. Categories: Graphic content / Disturbing news / Spoilers / Political content / Other.
-
-**F.5 — Safety Check Feature:**
-During real-world crisis events (admin can activate): banner at top of app: "Safety Check: [Event Name]. Are you safe?" → "I'm safe" button → posts safety status to friends, friends notified.
-
-**Save Progress:** After each privacy/safety feature, append to `save_progress.md`.
-
----
-
-# SECTION G: TECHNICAL IMPROVEMENTS
-
-## PROMPT-27 — Technical Improvements
-
-**Trigger:** `Run PROMPT-27`
-
-*(Full spec from v3.0 playbook — implement all items. Additional:)*
-
-**G.4 — API Response Compression:**
-```javascript
-const compression = require('compression');
-app.use(compression({ filter: (req, res) => {
-  if (req.headers['x-no-compression']) return false;
-  return compression.filter(req, res);
-}, level: 6 }));
-```
-
-**G.5 — Request Deduplication:**
-For repeated identical API calls within 100ms (e.g., multiple components mounting and requesting the same user data): implement request deduplication on the frontend using a simple in-flight request cache in `api.js`.
-
-**G.6 — Optimistic Updates:**
-For Like, React, Follow, Add Friend buttons: update UI instantly (optimistic), then sync with server. On server error: revert UI + show error toast. Implement using React Query or custom hook.
-
-**G.7 — Service Worker (Workbox):**
-```javascript
-// Cache strategy:
-// App Shell (HTML/CSS/JS): CacheFirst
-// API requests: NetworkFirst with 5s timeout, fallback to cache
-// Images: CacheFirst with 30-day expiry
-// YouTube thumbnails: CacheFirst with 7-day expiry
-// Register SW in main.jsx on production build only
-```
-
-**Save Progress:** After each technical improvement, append to `save_progress.md`.
-
----
-
-# SECTION H: LINKEDIN & PORTFOLIO INTEGRATION
-
-## PROMPT-28 — LinkedIn & Portfolio Integration
-
-**Trigger:** `Run PROMPT-28`
-
-*(Full spec from v3.0 playbook — implement all features. Save after each.)*
-
-**H.3 — GitHub Activity Widget:**
-If user has linked their GitHub, profile shows recent contribution graph (fetch GitHub public API: `https://api.github.com/users/:username/events/public`). Displays as mini green squares grid (like GitHub's contribution graph but yellow-themed).
-
-**H.4 — Resume Builder:**
-Users can generate a PDF resume from their MindBook profile (work, education, skills, portfolio links). `/profile/resume/generate` → jsPDF renders a professional resume template. Download as PDF.
-
-**Save Progress:** After each integration feature, append to `save_progress.md`.
+# PROMPT-13 — Additional Features (PROMPT 13-20)
+
+**Trigger:** `Run PROMPT-13` through `Run PROMPT-20` (one at a time)
+
+Execute these one sub-prompt at a time, following the Master Execution Loop:
+
+## PROMPT-13 — Marketplace
+*(Full spec PROMPT-40 v4.0)*
+- 3D shopping bag hero (Three.js)
+- Masonry listing grid
+- Listing card hover: image zooms, save button slides in
+- Offer flow with modal
+
+## PROMPT-14 — Events & Calendar
+*(Full spec PROMPT-41 v4.0)*
+- Monthly calendar grid (react-calendar or custom)
+- Leaflet.js map for event locations
+- RSVP animation: button morphs to "Going ✓"
+
+## PROMPT-15 — Memories & Flashbacks
+*(Full spec PROMPT-42 v4.0)*
+- Polaroid-style memory cards (slight rotation, drop shadow)
+- "N years ago" sepia overlay on flashback stories
+- Confetti on sharing memory
+
+## PROMPT-16 — Live Streaming
+*(Full spec PROMPT-43 v4.0)*
+- Emoji rain: dynamic DOM insertion, CSS upward float animation
+- "LIVE" badge with pulsing red dot
+- WebRTC MediaRecorder for basic streaming
+
+## PROMPT-17 — Audio Rooms (Spaces-Style)
+*(Full spec PROMPT-52 v4.0)*
+- Active speaker: yellow animated ring around speaking avatar
+- Raise hand: hand icon bounces in, queue list shows
+- WebRTC audio only
+
+## PROMPT-18 — Creator Studio & Analytics
+*(Full spec PROMPT-51 + PROMPT-59 v4.0)*
+- All Recharts charts with yellow color + entrance animation
+- Metric cards count up from 0 on mount (GSAP)
+- PDF export button with jsPDF
+
+## PROMPT-19 — Wallet, Coins & Economy
+*(Full spec PROMPT-24 v4.0 + D sections)*
+- 3D coin (Three.js) on wallet page
+- Coin earn animation: "+N 🪙" floats up from action, fades
+- Daily reward claim: coin drop animation (GSAP MotionPath)
+
+## PROMPT-20 — Final QA, Accessibility & Lighthouse
+*(Full spec PROMPT-48 + PROMPT-55 + PROMPT-60 v4.0)*
+- WCAG 2.1 AA compliance check
+- All keyboard navigation tested
+- Lighthouse target: ≥80 Performance, ≥90 Accessibility, ≥90 Best Practices, ≥90 SEO
+- Seed data script
+- Portfolio landing page complete
 
 ---
 
 ---
 
-## Notes for Antigravity Agents
+# EXTRA PAGES
 
-> **Read every word of this section before executing any prompt. These are hard rules.**
+Create these additional pages (linked from footer and left sidebar):
 
-### The Golden Rules
+## `/about-mindbook`
+*(Implemented in PROMPT-08.B above)*
 
-1. 🟡 **Yellow = `#F7B928`. Always. No exceptions. Never change this.**
-2. 📝 **Create `save_progress.md` first** if it doesn't exist.
-3. 📝 **Read `save_progress.md` before starting** — never redo completed work.
-4. 📝 **Append to `save_progress.md` after EVERY single step** — components, routes, models, fixes, installs.
-5. 🔍 **Delta analysis before writing any code** — what hasn't been done yet?
-6. ♻️ **If a feature exists, improve it** — never recreate from scratch.
-7. 🧪 **Run PROMPT-07 after every prompt** to catch errors early.
-8. 🚫 **Never hardcode API keys** — always from `.env`.
-9. 🚫 **Never remove existing features** — fix broken ones.
-10. 📱 **Every UI component must be responsive** — test at 375px, 768px, 1024px, 1440px.
+## `/why-mindbook`
+*(Implemented in PROMPT-08.C above)*
 
-### Tech Stack
+## `/privacy-policy`
+Standard privacy policy page with:
+- What data we collect
+- How we use it
+- Your rights (GDPR)
+- Contact information (Farman Ullah Ansari)
+- Styled with proper typography, table of contents sidebar
 
-| Layer | Primary | Alternative |
-|-------|---------|-------------|
-| Frontend Framework | React 18 + Vite | — |
-| Routing | React Router v6 | — |
-| State Management | Zustand | React Context |
-| Styling | CSS Modules + CSS Variables | — |
-| Animation | Framer Motion | GSAP, React Spring |
-| 3D | @react-three/fiber + drei | — |
-| HTTP Client | Axios | — |
-| Real-time | Socket.IO | — |
-| Backend | Node.js + Express | — |
-| Database | MongoDB + Mongoose | — |
-| Auth | JWT + bcrypt | — |
-| File Upload | Multer + Sharp | Cloudinary (prod) |
-| Email | Nodemailer | SendGrid (prod) |
-| AI | Anthropic Claude API | — |
-| YouTube | YouTube Data API v3 | — |
-| GIFs | Giphy API | Tenor |
-| Maps | Leaflet + OpenStreetMap | — |
-| WebRTC | Native browser API + Socket.IO | LiveKit (scale) |
-| PWA | Workbox | — |
-| PDF | jsPDF | Puppeteer |
-| Charts | Recharts | — |
-| Rich Text | TipTap | Quill.js |
-| Drag & Drop | @dnd-kit/core | — |
-| Virtual List | react-window | react-virtual |
-| Gestures | @use-gesture/react | — |
-| Lottie | lottie-react | — |
-| Confetti | canvas-confetti | — |
-| Masonry | react-masonry-css | CSS columns |
-| i18n | react-i18next | — |
-| Testing | Jest + RTL | Vitest |
+## `/terms-of-service`
+Standard TOS page with same styling.
 
-### All Pages (Complete List)
+## `/community-guidelines`
+- What's allowed, what's not
+- Reporting process
+- Enforcement policy
+- Illustrated with MindBook-branded icons (Lottie animations)
 
-| Path | Page |
-|------|------|
-| `/` | Home (News Feed) |
+## `/help-center`
+- Search bar
+- FAQ sections: Account / Privacy / Messaging / Videos / Billing / Safety
+- Each FAQ uses accordion (Framer Motion height animation)
+- Contact Support form at bottom
+
+## `/meet-the-creator`
+- Beautiful single-page profile of Farman Ullah Ansari
+- Professional headshot placeholder
+- Title: "Full Stack Software Engineer"
+- Bio, skills stack, what this project demonstrates
+- Portfolio / LinkedIn / GitHub CTAs
+- "Download Resume" button (jsPDF generated from profile data)
+
+---
+
+# ALL PAGES COMPLETE LIST
+
+| Route | Page |
+|-------|------|
+| `/` | Landing (logged out) or Feed (logged in) |
+| `/feed` | News Feed |
 | `/login` | Login |
-| `/register` | Register |
+| `/register` | Signup |
 | `/forgot-password` | Forgot Password |
 | `/reset-password/:token` | Reset Password |
 | `/profile/:id` | User Profile |
-| `/profile/:id/about` | About |
-| `/profile/:id/friends` | Friends |
-| `/profile/:id/photos` | Photos |
-| `/profile/:id/videos` | Videos |
-| `/profile/:id/reels` | Reels |
-| `/profile/:id/portfolio` | Portfolio |
+| `/profile/:id/about` | About tab |
+| `/profile/:id/friends` | Friends tab |
+| `/profile/:id/photos` | Photos tab |
+| `/profile/:id/videos` | Videos tab |
+| `/profile/:id/reels` | Reels tab |
+| `/profile/:id/portfolio` | Portfolio tab |
 | `/messages` | Messenger |
-| `/messages/:conversationId` | Chat Window |
+| `/messages/:id` | Chat Window |
+| `/calls` | Call History |
 | `/friends` | Friends Home |
 | `/friends/requests` | Friend Requests |
 | `/friends/find` | Find Friends |
@@ -3382,40 +2504,38 @@ Users can generate a PDF resume from their MindBook profile (work, education, sk
 | `/groups/:id/manage` | Group Manage |
 | `/explore` | Explore / Discover |
 | `/reels` | Reels Feed |
-| `/watch` | Video Hub |
+| `/watch` | Video Hub Home |
+| `/watch/trending` | Trending Videos |
 | `/watch/mindbook` | MindBook Videos |
 | `/watch/youtube` | YouTube Videos |
-| `/watch/trending` | Trending |
 | `/watch/subscriptions` | Subscriptions |
 | `/watch/history` | Watch History |
 | `/watch/saved` | Watch Later |
-| `/watch/video/:id` | MindBook Video Player |
-| `/watch/youtube/:youtubeId` | YouTube Video Player |
+| `/watch/video/:id` | Native Video Player |
+| `/watch/yt/:youtubeId` | YouTube Player |
 | `/watch/live` | Live Streams |
 | `/channel/:userId` | User Channel |
 | `/events` | Events |
 | `/events/:id` | Event Detail |
 | `/events/create` | Create Event |
-| `/events/my-events` | My Events |
 | `/marketplace` | Marketplace |
-| `/marketplace/item/:id` | Listing Detail |
+| `/marketplace/:id` | Listing Detail |
 | `/marketplace/sell` | Create Listing |
-| `/marketplace/my-listings` | My Listings |
+| `/marketplace/mine` | My Listings |
 | `/fundraisers` | Fundraisers |
 | `/fundraisers/:id` | Fundraiser Detail |
-| `/fundraisers/create` | Create Fundraiser |
 | `/memories` | Memories |
 | `/archive` | Archive |
 | `/articles` | Articles Hub |
-| `/articles/new` | Create Article |
-| `/articles/:id` | Article View |
+| `/articles/new` | Write Article |
+| `/articles/:id` | Read Article |
 | `/jobs` | Job Board |
-| `/jobs/applications` | Application Tracker |
 | `/jobs/:id` | Job Detail |
+| `/jobs/applications` | My Applications |
 | `/network` | Professional Network |
 | `/audio-rooms` | Audio Rooms |
-| `/gaming` | Gaming |
-| `/wallet` | Wallet |
+| `/gaming` | Gaming Hub |
+| `/wallet` | Wallet & Coins |
 | `/wallet/store` | Coin Store |
 | `/your-time` | Wellness Dashboard |
 | `/mindbot` | AI Chatbot |
@@ -3424,30 +2544,93 @@ Users can generate a PDF resume from their MindBook profile (work, education, sk
 | `/creator-studio` | Creator Studio |
 | `/creator-studio/analytics` | Creator Analytics |
 | `/settings` | Settings |
-| `/settings/account` | Account Settings |
-| `/settings/security` | Security |
+| `/settings/account` | Account |
+| `/settings/security` | Security & Login |
 | `/settings/privacy` | Privacy |
-| `/settings/notifications` | Notification Settings |
-| `/settings/profile` | Profile Settings |
+| `/settings/notifications` | Notifications |
+| `/settings/profile` | Profile |
 | `/settings/appearance` | Appearance |
 | `/settings/accessibility` | Accessibility |
 | `/settings/data` | Data & Privacy |
 | `/settings/help` | Help & Support |
-| `/settings/ads` | Ads Preferences |
 | `/security` | Login & Security |
-| `/download-your-data` | GDPR Export |
+| `/download-your-data` | Data Export |
 | `/admin` | Admin Dashboard |
+| `/admin/register` | Admin Registration |
 | `/admin/users` | User Management |
-| `/admin/reports` | Moderation Queue |
-| `/admin/logs` | System Logs |
+| `/admin/content` | Content Moderation |
+| `/admin/reports` | Report Queue |
 | `/admin/announcements` | Announcements |
+| `/admin/logs` | System Logs |
+| `/admin/security` | Security Tools |
 | `/search` | Search Results |
 | `/hashtag/:tag` | Hashtag Feed |
+| `/landing` | Marketing Landing |
+| `/about-mindbook` | About Page |
+| `/why-mindbook` | Why I Built This |
+| `/meet-the-creator` | Creator Profile |
+| `/privacy-policy` | Privacy Policy |
+| `/terms-of-service` | Terms of Service |
+| `/community-guidelines` | Guidelines |
+| `/help-center` | Help Center |
 | `/404` | Not Found |
 
 ---
 
-*MindBook Agent Playbook — Version 4.0 | Updated 2026*
-*Stack: MongoDB · Express.js · React 18 (Vite) · Node.js*
-*Brand: `#F7B928` | AI: Anthropic Claude API | Video: YouTube Data API v3 | WebRTC: Native + Socket.IO*
-*Progress: Every step saves to `save_progress.md` — no exceptions.*
+# Final Notes for Antigravity Agent
+
+## The Non-Negotiable Rules
+
+1. 🟡 **Brand color `#F7B928` is the default — you have permission to refine the palette but maintain yellow as the primary action color.**
+2. 📝 **`save_progress.md` before anything else.** Create it if it doesn't exist.
+3. 🔄 **Read `save_progress.md` before every sub-prompt.** Never redo completed work.
+4. 💾 **Save after every step.** No exceptions.
+5. 🚫 **Never delete features.** Fix broken ones.
+6. 🚫 **Never hardcode API keys.**
+7. 📱 **Test every component at 375px, 768px, 1280px, 1440px.**
+8. 🌙 **Verify dark mode on every component.**
+9. 🎭 **Every interaction must be animated.**
+10. ⚡ **Performance matters: React.memo, useCallback, useMemo, virtual lists.**
+11. 🔗 **Developer links must appear on the site:**
+    - Portfolio: `https://farmanullah1.github.io/My-Portfolio`
+    - LinkedIn: `https://www.linkedin.com/in/farmanullah-ansari/`
+    - GitHub: `https://github.com/farmanullah1`
+
+## Tech Stack Summary
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | React 18, Vite |
+| Routing | React Router v6 |
+| State | Zustand |
+| Styling | CSS Modules + CSS Variables (NO Tailwind) |
+| Animation | Framer Motion + GSAP + React Spring |
+| 3D | Three.js (@react-three/fiber + drei) |
+| Smooth Scroll | Lenis |
+| Gestures | @use-gesture/react |
+| Real-time | Socket.IO |
+| Backend | Node.js + Express |
+| Database | MongoDB + Mongoose |
+| Auth | JWT + bcrypt |
+| Upload | Multer + Sharp |
+| AI | Anthropic Claude API |
+| YouTube | YouTube Data API v3 |
+| GIFs | Giphy API |
+| Maps | Leaflet.js + OpenStreetMap |
+| WebRTC | Native + Socket.IO signaling |
+| PWA | Workbox |
+| Charts | Recharts |
+| Rich Text | TipTap |
+| DnD | @dnd-kit/core |
+| Virtual Lists | react-window |
+| PDF | jsPDF |
+| Confetti | canvas-confetti |
+| Lottie | lottie-react |
+| i18n | react-i18next |
+
+---
+
+*MindBook Agent Playbook — Version 6.0 ULTIMATE EDITION | 2026*
+*Created by: Farman Ullah Ansari | Full Stack Software Engineer*
+*Portfolio: farmanullah1.github.io/My-Portfolio*
+*Progress Tracking: save_progress.md — append after every step, no exceptions.*

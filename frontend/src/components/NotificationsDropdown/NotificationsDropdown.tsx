@@ -18,9 +18,11 @@ import './NotificationsDropdown.css';
 
 const NotificationsDropdown: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isSwinging, setIsSwinging] = React.useState(false);
   const dispatch = useAppDispatch();
   const { items, unreadCount } = useAppSelector((state) => state.notifications);
   const dropdownRef = React.useRef<HTMLDivElement>(null);
+  const prevUnreadCount = React.useRef(unreadCount);
 
   React.useEffect(() => {
     dispatch(fetchNotifications());
@@ -30,6 +32,16 @@ const NotificationsDropdown: React.FC = () => {
     }, 30000);
     return () => clearInterval(interval);
   }, [dispatch]);
+
+  React.useEffect(() => {
+    if (unreadCount > prevUnreadCount.current) {
+      setIsSwinging(true);
+      const timer = setTimeout(() => setIsSwinging(false), 6000); // 3 swings (3 * 2s or we can customize keyframes)
+      prevUnreadCount.current = unreadCount;
+      return () => clearTimeout(timer);
+    }
+    prevUnreadCount.current = unreadCount;
+  }, [unreadCount]);
 
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -76,7 +88,7 @@ const NotificationsDropdown: React.FC = () => {
   return (
     <div className="nav-item notifications-wrapper" ref={dropdownRef}>
       <button 
-        className={`icon-btn ${isOpen ? 'active' : ''}`}
+        className={`icon-btn ${isOpen ? 'active' : ''} ${isSwinging ? 'swing-bell' : ''}`}
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Notifications"
       >
@@ -111,47 +123,53 @@ const NotificationsDropdown: React.FC = () => {
                   <p>No notifications yet.</p>
                 </div>
               ) : (
-                items.map((notif, index) => (
-                  <motion.div
-                    key={notif._id}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.04, duration: 0.2 }}
-                  >
-                    <Link 
-                      to={getNotificationLink(notif.type, notif.fromUser._id)} 
-                      className={`notification-item ${!notif.read ? 'unread' : ''}`}
-                      onClick={() => { if (!notif.read) dispatch(markAsRead(notif._id)) }}
+                items.map((notif, index) => {
+                  const fromUser = notif.fromUser || { _id: 'deleted', name: 'Deleted User', profilePicture: '' };
+                  return (
+                    <motion.div
+                      key={notif._id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.04, duration: 0.2 }}
                     >
-                      <div className="notification-avatar">
-                        {notif.fromUser.profilePicture ? (
-                          <img src={notif.fromUser.profilePicture} alt={notif.fromUser.name} />
-                        ) : (
-                          <div className="avatar-initials">{getInitials(notif.fromUser.name)}</div>
+                      <Link 
+                        to={getNotificationLink(notif.type, fromUser._id)} 
+                        className={`notification-item ${!notif.read ? 'unread' : ''}`}
+                        onClick={() => { if (!notif.read) dispatch(markAsRead(notif._id)) }}
+                      >
+                        <div className="notification-avatar">
+                          {fromUser.profilePicture ? (
+                            <img src={fromUser.profilePicture} alt={fromUser.name} />
+                          ) : (
+                            <div className="avatar-initials">{getInitials(fromUser.name)}</div>
+                          )}
+                        </div>
+                        <div className="notification-content">
+                          <p>
+                            <strong>{fromUser.name}</strong>{' '}
+                            {getNotificationText(notif.type, notif.post, notif.text)}
+                          </p>
+                          <span className="notification-time">
+                            {new Date(notif.createdAt).toLocaleDateString()}
+                          </span>
+                        </div>
+                        {!notif.read && (
+                          <button 
+                            className="mark-read-icon" 
+                            onClick={(e) => handleMarkAsRead(notif._id, e)}
+                            title="Mark as read"
+                          >
+                            <FiCheck />
+                          </button>
                         )}
-                      </div>
-                      <div className="notification-content">
-                        <p>
-                          <strong>{notif.fromUser.name}</strong>{' '}
-                          {getNotificationText(notif.type, notif.post, notif.text)}
-                        </p>
-                        <span className="notification-time">
-                          {new Date(notif.createdAt).toLocaleDateString()}
-                        </span>
-                      </div>
-                      {!notif.read && (
-                        <button 
-                          className="mark-read-icon" 
-                          onClick={(e) => handleMarkAsRead(notif._id, e)}
-                          title="Mark as read"
-                        >
-                          <FiCheck />
-                        </button>
-                      )}
-                    </Link>
-                  </motion.div>
-                ))
+                      </Link>
+                    </motion.div>
+                  );
+                })
               )}
+            </div>
+            <div className="notifications-dropdown-footer">
+              <Link to="/notifications" onClick={() => setIsOpen(false)}>See all notifications</Link>
             </div>
           </motion.div>
         )}
