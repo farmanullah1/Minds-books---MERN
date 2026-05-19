@@ -1,0 +1,266 @@
+/**
+ * CodeDNA
+ * Accessibility.css — High-contrast ratios, focus borders, and accessibility toggles styling
+ * exports: none
+ * used_by: Accessibility.tsx
+ * rules: Custom keyboard outline markers, WCAG text contrast colors, custom switch transitions
+ */
+
+.accessibility-settings-page {
+  padding-top: 80px;
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.accessibility-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 24px;
+}
+
+.accessibility-header {
+  margin-bottom: 32px;
+}
+
+.accessibility-header h1 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin: 12px 0 8px 0;
+  background: linear-gradient(to right, #FFF, #F7B928);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.acc-pill {
+  display: inline-block;
+  background: rgba(74, 222, 128, 0.15);
+  color: #4ade80;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+/* Accessibility settings Grid split */
+.accessibility-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
+  gap: 24px;
+}
+
+.accessibility-section {
+  padding: 24px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.acc-accent-icon {
+  color: var(--brand-primary);
+  font-size: 1.25rem;
+}
+
+.section-title h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.section-desc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+/* Settings toggles list layout */
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.option-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.item-details h5 {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.item-details p {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+/* Custom toggles checkboxes styling */
+.toggle-switch {
+  position: relative;
+  width: 48px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-switch label {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: var(--bg-hover);
+  border-radius: 24px;
+  transition: background-color 0.25s ease;
+  border: 1px solid var(--border-color);
+}
+
+.toggle-switch label::before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.toggle-switch input:checked + label {
+  background-color: var(--brand-primary);
+  border-color: var(--brand-primary);
+}
+
+.toggle-switch input:checked + label::before {
+  transform: translateX(24px);
+  background-color: #000;
+}
+
+/* Dropdown selections locale styles */
+.language-selector-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.language-selector-box label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.acc-dropdown-selector {
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  padding: 12px;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.9375rem;
+  width: 100%;
+}
+
+.acc-dropdown-selector:focus {
+  border-color: var(--brand-primary);
+  outline: none;
+}
+
+.i18n-info-panel {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: rgba(247, 185, 40, 0.05);
+  border: 1px solid rgba(247, 185, 40, 0.15);
+  padding: 12px;
+  border-radius: 8px;
+  color: var(--brand-primary);
+  font-size: 0.8125rem;
+  margin-top: 8px;
+}
+
+/* Screen reader HUD Companion button */
+.companion-hud-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  color: var(--brand-primary);
+  font-weight: 700;
+  padding: 12px;
+  border-radius: 8px;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.companion-hud-btn:hover {
+  background: var(--brand-primary);
+  color: #000;
+}
+
+.companion-hud-box {
+  margin-top: 16px;
+  padding: 16px;
+}
+
+.companion-hud-box h4 {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--brand-primary);
+}
+
+.companion-hud-box p {
+  font-size: 0.8125rem;
+  margin-bottom: 12px;
+}
+
+.companion-hud-box ul {
+  padding-left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+/* HIGH CONTRAST SPECIFIC VARIABLE STYLES */
+body.high-contrast {
+  --bg-primary: #000000;
+  --bg-secondary: #000000;
+  --border-color: #ffffff;
+  --text-primary: #ffffff;
+  --text-secondary: #ffffff;
+  --brand-primary: #ffff00; /* High contrast yellow highlight */
+}
+
+body.high-contrast .card {
+  border: 2px solid #ffffff !important;
+  background: #000000 !important;
+}
+
+body.high-contrast button, body.high-contrast input, body.high-contrast select {
+  border: 2px solid #ffffff !important;
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* REDUCED MOTION SPECIFIC LAYOUT STYLES */
+body.reduced-motion * {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* KEYBOARD ACCESSIBILITY indicator highlight */
+body.custom-focus-indicators *:focus-visible {
+  outline: 3px solid #ffff00 !important;
+  outline-offset: 3px !important;
+}

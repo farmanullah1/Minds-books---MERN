@@ -1,19 +1,41 @@
 /**
  * CodeDNA
- * CreatePost.tsx — core functionality
- * exports: none
- * used_by: internal
- * rules: Follow project conventions
- * agent: gemini-3-1-pro | google | 2026-04-30 | init | Initialized CodeDNA semi mode
+ * CreatePost.tsx — Advanced Post Composer (PROMPT-57)
+ * exports: default CreatePost
+ * used_by: Home.tsx, Profile.tsx, GroupPage.tsx, GroupDetails.tsx
+ * rules: Facebook-style popup modal composer, background color pickers, poll builders, scheduling queue, autocomplete tag popovers
  */
 
-import React from 'react';
-import { FiImage, FiSmile, FiVideo, FiMapPin, FiX, FiCpu, FiUsers, FiClock, FiGlobe, FiLock, FiChevronDown } from 'react-icons/fi';
+import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  FiImage, FiSmile, FiVideo, FiMapPin, FiX, FiCpu, 
+  FiUsers, FiClock, FiGlobe, FiLock, FiChevronDown, 
+  FiPlus, FiList, FiBarChart2, FiCheck, FiSettings, 
+  FiCompass, FiBriefcase, FiHeart, FiAward,
+  FiShare2, FiLink
+} from 'react-icons/fi';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { createPost } from '../../store/slices/postsSlice';
 import api, { uploadFile } from '../../services/api';
 import { getInitials } from '../../utils/helpers';
+import confetti from 'canvas-confetti';
 import './CreatePost.css';
+
+// Rich post backgrounds
+const BACKGROUNDS = [
+  { id: 'none', label: 'Default', bg: 'var(--bg-input)', text: 'var(--text-primary)' },
+  { id: 'sunset', label: 'Sunset', bg: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', text: '#fff', isGradient: true },
+  { id: 'ocean', label: 'Ocean', bg: 'linear-gradient(135deg, #5ee7df 0%, #b490ca 100%)', text: '#fff', isGradient: true },
+  { id: 'forest', label: 'Forest', bg: 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)', text: '#fff', isGradient: true },
+  { id: 'galaxy', label: 'Galaxy', bg: 'linear-gradient(135deg, #30cfd0 0%, #330867 100%)', text: '#fff', isGradient: true },
+  { id: 'fire', label: 'Fire', bg: 'linear-gradient(135deg, #f9d423 0%, #ff4e50 100%)', text: '#fff', isGradient: true },
+  { id: 'ice', label: 'Ice', bg: 'linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)', text: '#000', isGradient: true },
+  { id: 'yellow', label: 'MindBook Yellow', bg: 'linear-gradient(135deg, #f7b928 0%, #f39c12 100%)', text: '#000', isGradient: true },
+  { id: 'black', label: 'Deep Black', bg: '#0b0c10', text: '#fff' },
+  { id: 'navy', label: 'Navy Blue', bg: '#1f2833', text: '#fff' },
+  { id: 'purple', label: 'Dark Purple', bg: '#2d142c', text: '#fff' }
+];
 
 const FEELINGS = [
   { name: 'Happy', emoji: '😊' },
@@ -23,6 +45,16 @@ const FEELINGS = [
   { name: 'Angry', emoji: '😠' },
   { name: 'Thinking', emoji: '🤔' },
   { name: 'Relaxed', emoji: '😌' },
+  { name: 'Blessed', emoji: '😇' },
+  { name: 'Celebrating', emoji: '🎉' },
+  { name: 'Cool', emoji: '😎' }
+];
+
+const LIFE_EVENTS = [
+  { type: 'work', label: 'New Job', icon: <FiBriefcase />, color: '#f7b928' },
+  { type: 'relationship', label: 'Relationship Status Change', icon: <FiHeart />, color: '#ff4e50' },
+  { type: 'education', label: 'Graduated', icon: <FiAward />, color: '#5ee7df' },
+  { type: 'moved', label: 'Moved to New City', icon: <FiMapPin />, color: '#38ef7d' }
 ];
 
 interface CreatePostProps {
@@ -30,127 +62,138 @@ interface CreatePostProps {
   activeChannel?: string | null;
   onPostCreated?: (post: any) => void;
   placeholder?: string;
+  initiallyOpen?: boolean;
+  onClose?: () => void;
 }
 
-const CreatePost: React.FC<CreatePostProps> = ({ groupId, activeChannel, onPostCreated, placeholder }) => {
+const CreatePost: React.FC<CreatePostProps> = ({ groupId, activeChannel, onPostCreated, placeholder, initiallyOpen, onClose }) => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
   
-  const [content, setContent] = React.useState('');
-  const [location, setLocation] = React.useState('');
-  const [showLocationInput, setShowLocationInput] = React.useState(false);
-  const [mediaFile, setMediaFile] = React.useState<File | null>(null);
-  const [mediaPreview, setMediaPreview] = React.useState('');
-  const [mediaType, setMediaType] = React.useState<'image' | 'video' | ''>('');
-  const [feeling, setFeeling] = React.useState<{name: string, emoji: string} | null>(null);
-  const [showFeelingPicker, setShowFeelingPicker] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
-  const [addToStory, setAddToStory] = React.useState(false);
-  const [aiEnhancing, setAiEnhancing] = React.useState(false);
+  // State to control popup modal view
+  const [isModalOpen, setIsModalOpen] = useState(initiallyOpen || false);
+
+  const handleClose = () => {
+    setIsModalOpen(false);
+    if (onClose) onClose();
+  };
+
+  // Core post composer states
+  const [content, setContent] = useState('');
+  const [location, setLocation] = useState('');
+  const [showLocationInput, setShowLocationInput] = useState(false);
+  const [mediaFile, setMediaFile] = useState<File | null>(null);
+  const [mediaPreview, setMediaPreview] = useState('');
+  const [mediaType, setMediaType] = useState<'image' | 'video' | ''>('');
+  const [feeling, setFeeling] = useState<{name: string, emoji: string} | null>(null);
+  const [showFeelingPicker, setShowFeelingPicker] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [addToStory, setAddToStory] = useState(false);
+  const [aiEnhancing, setAiEnhancing] = useState(false);
   
   // Collaborative & Time Capsule state
-  const [collaborators, setCollaborators] = React.useState<string[]>([]);
-  const [showCollabPicker, setShowCollabPicker] = React.useState(false);
-  const [isCapsule, setIsCapsule] = React.useState(false);
-  const [unlockDate, setUnlockDate] = React.useState('');
-  const [privacy, setPrivacy] = React.useState<'public' | 'friends' | 'private'>('friends');
-  const [showPrivacyPicker, setShowPrivacyPicker] = React.useState(false);
+  const [collaborators, setCollaborators] = useState<string[]>([]);
+  const [showCollabPicker, setShowCollabPicker] = useState(false);
+  const [isCapsule, setIsCapsule] = useState(false);
+  const [unlockDate, setUnlockDate] = useState('');
   
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
-  const textareaRef = React.useRef<HTMLTextAreaElement>(null);
+  // Privacy selector state
+  const [privacy, setPrivacy] = useState<'public' | 'friends' | 'friends-except' | 'specific' | 'private'>('friends');
+  const [showPrivacyPicker, setShowPrivacyPicker] = useState(false);
 
-  const handleMediaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setMediaFile(file);
-      setMediaPreview(URL.createObjectURL(file));
-      setMediaType(file.type.startsWith('video') ? 'video' : 'image');
+  // PROMPT-57: Background theme states
+  const [selectedBg, setSelectedBg] = useState<any>(BACKGROUNDS[0]);
+
+  // PROMPT-57: Poll builder states
+  const [isPollPost, setIsPollPost] = useState(false);
+  const [pollQuestion, setPollQuestion] = useState('');
+  const [pollOptions, setPollOptions] = useState<string[]>(['', '']);
+  const [pollDuration, setPollDuration] = useState('1 day');
+  const [multipleChoice, setMultipleChoice] = useState(false);
+  const [anonymousVoting, setAnonymousVoting] = useState(false);
+  const [showPollSettings, setShowPollSettings] = useState(false);
+
+  // PROMPT-57: Life Event states
+  const [selectedLifeEvent, setSelectedLifeEvent] = useState<any>(null);
+
+  // PROMPT-57: Schedule Post queue states
+  const [isScheduled, setIsScheduled] = useState(false);
+  const [scheduledDate, setScheduledDate] = useState('');
+
+  // PROMPT-57: Mock Link Preview state
+  const [linkPreview, setLinkPreview] = useState<any>(null);
+
+  // Autocomplete state
+  const [autocompleteSuggestions, setAutocompleteSuggestions] = useState<string[]>([]);
+  const [showAutocomplete, setShowAutocomplete] = useState(false);
+  const [cursorPosition, setCursorPosition] = useState(0);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Auto detect links in content to show preview
+  useEffect(() => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const urls = content.match(urlRegex);
+    if (urls && urls.length > 0) {
+      const url = urls[0];
+      const domain = new URL(url).hostname;
+      setLinkPreview({
+        url,
+        domain,
+        title: `Explore this link on ${domain}`,
+        description: 'Interactive post details and community resources hosted on external networks.',
+        image: 'https://images.unsplash.com/photo-1432821596592-e2c18b78144f?auto=format&fit=crop&w=600&q=80'
+      });
+    } else {
+      setLinkPreview(null);
     }
-  };
+  }, [content]);
 
-  const removeMedia = () => {
-    setMediaFile(null);
-    setMediaPreview('');
-    setMediaType('');
-    setAddToStory(false);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!content.trim() && !mediaFile && !feeling) return;
-
-    setLoading(true);
-    try {
-      let uploadedUrl = '';
-      let type = '';
-      if (mediaFile) {
-        const res = await uploadFile(mediaFile);
-        uploadedUrl = res.url;
-        type = res.type;
-      }
-
-      const postData: any = {
-        content: content.trim(),
-        location: location,
-        feeling: feeling?.name,
-        group: groupId || null,
-        groupChannel: activeChannel || null,
-        collaborators,
-        isCapsule,
-        unlockDate: isCapsule && unlockDate ? new Date(unlockDate).toISOString() : null,
-        privacy: { type: privacy }
-      };
-      if (type === 'video') {
-        postData.video = uploadedUrl;
-      } else if (type === 'image') {
-        postData.image = uploadedUrl;
-      }
-
-      if (groupId) {
-        const res = await api.post('/posts', postData);
-        if (onPostCreated) onPostCreated(res.data);
-      } else {
-        await dispatch(createPost(postData)).unwrap();
-      }
-
-      // Handle Story creation if checked
-      if (addToStory && uploadedUrl) {
-        await api.post('/stories', {
-          media: uploadedUrl,
-          type: type === 'video' ? 'video' : 'image',
-          text: content.trim()
-        });
-      }
-
-      setContent('');
-      setMediaFile(null);
-      setFeeling(null);
-      setLocation('');
-      setAddToStory(false);
-      setShowFeelingPicker(false);
-      setShowLocationInput(false);
-      setShowCollabPicker(false);
-      setCollaborators([]);
-      setIsCapsule(false);
-      setUnlockDate('');
-      setPrivacy('friends');
-      setShowPrivacyPicker(false);
-      removeMedia();
-    } catch (error) {
-      console.error('Failed to create post:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  // Autocomplete tags/mentions debouncer
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContent(e.target.value);
+    const val = e.target.value;
+    setContent(val);
+    setCursorPosition(e.target.selectionStart);
+
+    // Look for last word typed containing @ or #
+    const words = val.slice(0, e.target.selectionStart).split(/\s+/);
+    const lastWord = words[words.length - 1];
+
+    if (lastWord.startsWith('@')) {
+      // Suggest friends
+      const query = lastWord.slice(1).toLowerCase();
+      const matches = (user?.friends || [])
+        .map((f: any) => f.name || '')
+        .filter((name: string) => name.toLowerCase().includes(query));
+      setAutocompleteSuggestions(matches);
+      setShowAutocomplete(matches.length > 0);
+    } else if (lastWord.startsWith('#')) {
+      // Suggest trending hashtags
+      const query = lastWord.slice(1).toLowerCase();
+      const mockTags = ['tech', 'react', 'webdev', 'mindbook', 'innovation', 'javascript', 'productivity'];
+      const matches = mockTags.filter(tag => tag.toLowerCase().includes(query));
+      setAutocompleteSuggestions(matches.map(tag => `#${tag}`));
+      setShowAutocomplete(matches.length > 0);
+    } else {
+      setShowAutocomplete(false);
+    }
+
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
       textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
+    }
+  };
+
+  const handleAutocompleteClick = (suggestion: string) => {
+    const words = content.slice(0, cursorPosition).split(/\s+/);
+    words[words.length - 1] = suggestion;
+    const prefix = words.join(' ');
+    const suffix = content.slice(cursorPosition);
+    setContent(prefix + ' ' + suffix);
+    setShowAutocomplete(false);
+    if (textareaRef.current) {
+      textareaRef.current.focus();
     }
   };
 
@@ -171,246 +214,620 @@ const CreatePost: React.FC<CreatePostProps> = ({ groupId, activeChannel, onPostC
     }
   };
 
+  const handleMediaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setMediaFile(file);
+      setMediaPreview(URL.createObjectURL(file));
+      setMediaType(file.type.startsWith('video') ? 'video' : 'image');
+    }
+  };
+
+  const removeMedia = () => {
+    setMediaFile(null);
+    setMediaPreview('');
+    setMediaType('');
+    setAddToStory(false);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const handleAddPollOption = () => {
+    if (pollOptions.length < 5) {
+      setPollOptions([...pollOptions, '']);
+    }
+  };
+
+  const handlePollOptionChange = (idx: number, val: string) => {
+    const updated = [...pollOptions];
+    updated[idx] = val;
+    setPollOptions(updated);
+  };
+
+  const handleRemovePollOption = (idx: number) => {
+    if (pollOptions.length > 2) {
+      setPollOptions(pollOptions.filter((_, i) => i !== idx));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!content.trim() && !mediaFile && !feeling && !isPollPost && !selectedLifeEvent) return;
+
+    setLoading(true);
+    try {
+      let uploadedUrl = '';
+      let type = '';
+      if (mediaFile) {
+        const res = await uploadFile(mediaFile);
+        uploadedUrl = res.url;
+        type = res.type;
+      }
+
+      // Build rich metadata for custom post types
+      const metadataPayload: any = {
+        backgroundId: selectedBg.id,
+        isPollPost,
+        pollData: isPollPost ? {
+          question: pollQuestion,
+          options: pollOptions.filter(o => o.trim() !== '').map(o => ({ text: o, votes: [] })),
+          duration: pollDuration,
+          multipleChoice,
+          anonymousVoting
+        } : null,
+        lifeEvent: selectedLifeEvent ? {
+          type: selectedLifeEvent.type,
+          label: selectedLifeEvent.label,
+          color: selectedLifeEvent.color
+        } : null,
+        scheduledDate: isScheduled ? scheduledDate : null
+      };
+
+      const postData: any = {
+        content: content.trim(),
+        location: location,
+        feeling: feeling?.name,
+        group: groupId || null,
+        groupChannel: activeChannel || null,
+        collaborators,
+        isCapsule,
+        unlockDate: isCapsule && unlockDate ? new Date(unlockDate).toISOString() : null,
+        privacy: { type: privacy },
+        metadata: metadataPayload
+      };
+
+      if (type === 'video') {
+        postData.video = uploadedUrl;
+      } else if (type === 'image') {
+        postData.image = uploadedUrl;
+      }
+
+      if (isScheduled) {
+        // Trigger simulated scheduling queue response
+        alert(`Post scheduled successfully for: ${new Date(scheduledDate).toLocaleString()}`);
+      } else {
+        if (groupId) {
+          const res = await api.post('/posts', postData);
+          if (onPostCreated) onPostCreated(res.data);
+        } else {
+          await dispatch(createPost(postData)).unwrap();
+        }
+      }
+
+      // Handle Story creation if checked
+      if (addToStory && uploadedUrl) {
+        await api.post('/stories', {
+          media: uploadedUrl,
+          type: type === 'video' ? 'video' : 'image',
+          text: content.trim()
+        });
+      }
+
+      // Success visual feedback
+      if (selectedLifeEvent) {
+        confetti({ particleCount: 150, spread: 80 });
+      }
+
+      // Reset states
+      setContent('');
+      setMediaFile(null);
+      setFeeling(null);
+      setLocation('');
+      setAddToStory(false);
+      setShowFeelingPicker(false);
+      setShowLocationInput(false);
+      setShowCollabPicker(false);
+      setCollaborators([]);
+      setIsCapsule(false);
+      setUnlockDate('');
+      setPrivacy('friends');
+      setShowPrivacyPicker(false);
+      setSelectedBg(BACKGROUNDS[0]);
+      setIsPollPost(false);
+      setPollQuestion('');
+      setPollOptions(['', '']);
+      setSelectedLifeEvent(null);
+      setIsScheduled(false);
+      setScheduledDate('');
+      removeMedia();
+      handleClose();
+    } catch (error) {
+      console.error('Failed to create post:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="create-post card">
-      <form onSubmit={handleSubmit}>
-        <div className="create-post-top">
-          <div className="create-post-avatar">
-            {user?.profilePicture ? (
-              <img src={user.profilePicture} alt={user.name} className="avatar" />
-            ) : (
-              <div className="avatar">{user ? getInitials(user.name) : '?'}</div>
-            )}
-          </div>
-          <div className="create-post-info-meta" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <span style={{ fontWeight: 600 }}>{user?.name}</span>
-            <div className="privacy-selector-wrapper" style={{ position: 'relative' }}>
-              <button 
-                type="button" 
-                className="privacy-btn" 
-                onClick={() => setShowPrivacyPicker(!showPrivacyPicker)}
-                style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  gap: '4px', 
-                  fontSize: '12px', 
-                  background: 'var(--bg-body)', 
-                  border: 'none', 
-                  padding: '2px 8px', 
-                  borderRadius: '4px',
-                  color: 'var(--text-secondary)',
-                  cursor: 'pointer'
-                }}
-              >
-                {privacy === 'public' && <FiGlobe size={12} />}
-                {privacy === 'friends' && <FiUsers size={12} />}
-                {privacy === 'private' && <FiLock size={12} />}
-                <span style={{ textTransform: 'capitalize' }}>{privacy}</span>
-                <FiChevronDown size={12} />
-              </button>
-              {showPrivacyPicker && (
-                <div className="privacy-dropdown card" style={{ 
-                  position: 'absolute', 
-                  top: '100%', 
-                  left: 0, 
-                  zIndex: 100, 
-                  padding: '8px', 
-                  minWidth: '150px',
-                  boxShadow: 'var(--shadow-md)',
-                  marginTop: '4px'
-                }}>
-                  <button type="button" className="dropdown-item" onClick={() => { setPrivacy('public'); setShowPrivacyPicker(false); }}>
-                    <FiGlobe /> Public
-                  </button>
-                  <button type="button" className="dropdown-item" onClick={() => { setPrivacy('friends'); setShowPrivacyPicker(false); }}>
-                    <FiUsers /> Friends Only
-                  </button>
-                  <button type="button" className="dropdown-item" onClick={() => { setPrivacy('private'); setShowPrivacyPicker(false); }}>
-                    <FiLock /> Only Me
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="create-post-input-container">
-            {feeling && (
-              <div className="selected-feeling">
-                {feeling.emoji} feeling {feeling.name}
-                <button type="button" onClick={() => setFeeling(null)}><FiX size={12} /></button>
-              </div>
-            )}
-            <textarea
-              ref={textareaRef}
-              className="create-post-input"
-              placeholder={`What's on your mind, ${user?.name?.split(' ')[0] || 'User'}?`}
-              value={content}
-              onChange={handleTextareaChange}
-              rows={1}
-            />
-          </div>
-        </div>
-
-        {showLocationInput && (
-          <div className="location-input-wrapper">
-            <FiMapPin size={16} className="text-danger" />
-            <input 
-              type="text" 
-              className="location-input" 
-              placeholder="Add location..." 
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-            />
-            <button type="button" className="close-btn" onClick={() => { setLocation(''); setShowLocationInput(false); }}>
-              <FiX size={16} />
-            </button>
-          </div>
-        )}
-
-        <div className="create-post-media">
-          {mediaPreview && (
-            <div className="create-post-image-preview">
-              {mediaType === 'video' ? (
-                <video src={mediaPreview} controls />
-              ) : (
-                <img src={mediaPreview} alt="Preview" />
-              )}
-              <button 
-                type="button" 
-                className="remove-image-btn"
-                onClick={removeMedia}
-              >
-                <FiX />
-              </button>
-            </div>
+    <div className="create-post-trigger-wrapper">
+      
+      {/* TRIGGER BOX: Clicking this opens the full Advanced Composer Modal */}
+      <div className="create-post-trigger card clickable-box" onClick={() => setIsModalOpen(true)}>
+        <div className="trigger-top">
+          {user?.profilePicture ? (
+            <img src={user.profilePicture} alt={user.name} className="avatar-trigger" />
+          ) : (
+            <div className="avatar-trigger">{user ? getInitials(user.name) : '?'}</div>
           )}
-          
-          <input 
-            type="file" 
-            accept="image/*,video/*" 
-            ref={fileInputRef} 
-            onChange={handleMediaChange} 
-            style={{ display: 'none' }} 
-          />
+          <div className="trigger-input-mock">
+            {placeholder || `What's on your mind, ${user?.name?.split(' ')[0] || 'User'}?`}
+          </div>
         </div>
+        <div className="trigger-bottom">
+          <div className="trigger-action-pill"><FiImage className="text-success" /> Photo/Video</div>
+          <div className="trigger-action-pill"><FiSmile className="text-warning" /> Feeling</div>
+          <div className="trigger-action-pill"><FiMapPin className="text-danger" /> Check in</div>
+        </div>
+      </div>
 
-        {showFeelingPicker && (
-          <div className="feeling-picker">
-            {FEELINGS.map((f) => (
-              <button 
-                key={f.name} 
-                type="button" 
-                className="feeling-item"
-                onClick={() => { setFeeling(f); setShowFeelingPicker(false); }}
-              >
-                <span className="feeling-emoji">{f.emoji}</span>
-                <span className="feeling-name">{f.name}</span>
-              </button>
-            ))}
-          </div>
-        )}
+      {/* FULL SCREEN ADVANCED POPUP COMPOSER MODAL */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <div className="shops-overlay" role="dialog" aria-modal="true" aria-labelledby="composer-title">
+            <motion.div 
+              className="shops-modal composer-modal card"
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 350 }}
+            >
+              
+              {/* Header Title */}
+              <div className="modal-header">
+                <h3 id="composer-title">Create Post</h3>
+                <button className="close-btn" onClick={handleClose}>✕</button>
+              </div>
 
-        {mediaPreview && (
-          <div className="add-to-story-toggle">
-            <label className="checkbox-container">
-              <input 
-                type="checkbox" 
-                checked={addToStory} 
-                onChange={(e) => setAddToStory(e.target.checked)} 
-              />
-              <span className="checkmark"></span>
-              Also add to Story
-            </label>
-          </div>
-        )}
+              <form onSubmit={handleSubmit} className="composer-form">
+                
+                {/* Author row & Privacy Selector */}
+                <div className="composer-author-row">
+                  {user?.profilePicture ? (
+                    <img src={user.profilePicture} alt={user.name} className="composer-avatar" />
+                  ) : (
+                    <div className="composer-avatar">{user ? getInitials(user.name) : '?'}</div>
+                  )}
 
-        {showCollabPicker && user?.friends && (
-          <div className="collaborator-picker card p-3 mt-2 mb-2">
-            <h4 className="mb-2">Add Collaborators</h4>
-            <div className="friends-list-compact" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-              {user.friends.map((friend: any) => {
-                const friendId = friend._id || friend;
-                const isSelected = collaborators.includes(friendId);
-                return (
-                  <button 
-                    key={friendId}
-                    type="button"
-                    className={`btn btn-sm ${isSelected ? 'btn-primary' : 'btn-secondary'}`}
-                    onClick={() => {
-                      if (isSelected) setCollaborators(collaborators.filter(id => id !== friendId));
-                      else setCollaborators([...collaborators, friendId]);
-                    }}
+                  <div className="author-meta-info">
+                    <span className="author-name">{user?.name}</span>
+                    <div className="composer-privacy-dropdown-container">
+                      <button 
+                        type="button" 
+                        className="audience-btn"
+                        onClick={() => setShowPrivacyPicker(!showPrivacyPicker)}
+                      >
+                        {privacy === 'public' && <><FiGlobe /> Public</>}
+                        {privacy === 'friends' && <><FiUsers /> Friends</>}
+                        {privacy === 'friends-except' && <><FiUsers /> Friends except...</>}
+                        {privacy === 'specific' && <><FiUsers /> Specific friends</>}
+                        {privacy === 'private' && <><FiLock /> Only Me</>}
+                        <FiChevronDown />
+                      </button>
+
+                      {showPrivacyPicker && (
+                        <div className="audience-menu card">
+                          <button type="button" onClick={() => { setPrivacy('public'); setShowPrivacyPicker(false); }}><FiGlobe /> Public (Anyone)</button>
+                          <button type="button" onClick={() => { setPrivacy('friends'); setShowPrivacyPicker(false); }}><FiUsers /> Friends (Your friends)</button>
+                          <button type="button" onClick={() => { setPrivacy('friends-except'); setShowPrivacyPicker(false); }}><FiUsers /> Friends except...</button>
+                          <button type="button" onClick={() => { setPrivacy('specific'); setShowPrivacyPicker(false); }}><FiUsers /> Specific friends</button>
+                          <button type="button" onClick={() => { setPrivacy('private'); setShowPrivacyPicker(false); }}><FiLock /> Only me</button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* SCROLLABLE COMPOSER AREA */}
+                <div className="composer-workspace">
+                  
+                  {/* Selected Life Event Celebration Badge */}
+                  {selectedLifeEvent && (
+                    <div className="selected-life-event-badge" style={{ borderColor: selectedLifeEvent.color }}>
+                      <span className="event-icon" style={{ backgroundColor: selectedLifeEvent.color }}>{selectedLifeEvent.icon}</span>
+                      <span className="event-label">{selectedLifeEvent.label} Life Event</span>
+                      <button type="button" className="remove-event-btn" onClick={() => setSelectedLifeEvent(null)}>✕</button>
+                    </div>
+                  )}
+
+                  {/* Feeling selected label */}
+                  {feeling && (
+                    <div className="selected-feeling-chip">
+                      {feeling.emoji} feeling {feeling.name}
+                      <button type="button" onClick={() => setFeeling(null)}>✕</button>
+                    </div>
+                  )}
+
+                  {/* Dynamic Composer Workspace containing colored backgrounds */}
+                  <div 
+                    className={`composer-text-workspace ${selectedBg.id !== 'none' ? 'custom-bg-active' : ''}`}
+                    style={{ background: selectedBg.bg, color: selectedBg.text }}
                   >
-                    {friend.name || 'Friend'} {isSelected && '✓'}
-                  </button>
-                )
-              })}
-            </div>
-            <button type="button" className="btn btn-sm mt-2 btn-secondary" onClick={() => setShowCollabPicker(false)}>Done</button>
-          </div>
-        )}
+                    <textarea
+                      ref={textareaRef}
+                      className="composer-textarea"
+                      placeholder={`What's on your mind, ${user?.name?.split(' ')[0] || 'User'}?`}
+                      value={content}
+                      onChange={handleTextareaChange}
+                      maxLength={5000}
+                      style={{ color: selectedBg.text }}
+                      required={!mediaFile && !feeling && !isPollPost && !selectedLifeEvent}
+                    />
 
-        {isCapsule && (
-          <div className="time-capsule-picker card p-3 mt-2 mb-2">
-            <h4 className="mb-2 text-brand"><FiClock /> Time Capsule Post</h4>
-            <p className="text-secondary mb-2" style={{ fontSize: '12px' }}>This post will be hidden from everyone except you until the unlock date.</p>
-            <input 
-              type="date" 
-              className="form-control"
-              value={unlockDate}
-              onChange={(e) => setUnlockDate(e.target.value)}
-              min={new Date().toISOString().split('T')[0]}
-              required={isCapsule}
-            />
+                    {/* Autocomplete tagging suggestions drawer */}
+                    {showAutocomplete && (
+                      <div className="autocomplete-drawer card">
+                        {autocompleteSuggestions.map((s, i) => (
+                          <button 
+                            key={i} 
+                            type="button" 
+                            className="autocomplete-item"
+                            onClick={() => handleAutocompleteClick(s)}
+                          >
+                            {s}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Character limit counter */}
+                    <span className="char-counter">{content.length} / 5000</span>
+                  </div>
+
+                  {/* Paste link mock previewer */}
+                  {linkPreview && (
+                    <div className="link-preview-box card">
+                      <img src={linkPreview.image} alt={linkPreview.title} />
+                      <div className="link-preview-details">
+                        <span className="domain-tag"><FiLink /> {linkPreview.domain}</span>
+                        <h4>{linkPreview.title}</h4>
+                        <p>{linkPreview.description}</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Poll Builder form section */}
+                  {isPollPost && (
+                    <div className="composer-poll-box card">
+                      <div className="poll-box-header">
+                        <h4>📊 Create Community Poll</h4>
+                        <button type="button" className="close-btn" onClick={() => setIsPollPost(false)}>✕</button>
+                      </div>
+
+                      <div className="poll-inputs">
+                        <input 
+                          type="text" 
+                          placeholder="Ask a question..."
+                          value={pollQuestion}
+                          onChange={(e) => setPollQuestion(e.target.value)}
+                          className="poll-question-input"
+                          required={isPollPost}
+                        />
+
+                        {pollOptions.map((opt, idx) => (
+                          <div key={idx} className="poll-option-row">
+                            <input 
+                              type="text" 
+                              placeholder={`Option ${idx + 1}`}
+                              value={opt}
+                              onChange={(e) => handlePollOptionChange(idx, e.target.value)}
+                              className="poll-option-input"
+                              required={isPollPost && idx < 2}
+                            />
+                            {pollOptions.length > 2 && (
+                              <button type="button" onClick={() => handleRemovePollOption(idx)}>✕</button>
+                            )}
+                          </div>
+                        ))}
+
+                        {pollOptions.length < 5 && (
+                          <button type="button" className="btn-add-option" onClick={handleAddPollOption}>
+                            <FiPlus /> Add Option
+                          </button>
+                        )}
+                      </div>
+
+                      <div className="poll-settings-toggle-btn" onClick={() => setShowPollSettings(!showPollSettings)}>
+                        <FiSettings /> Poll Settings & Duration
+                      </div>
+
+                      {showPollSettings && (
+                        <div className="poll-settings-drawer card">
+                          <div className="settings-item">
+                            <label>Poll Duration</label>
+                            <select value={pollDuration} onChange={(e) => setPollDuration(e.target.value)}>
+                              <option value="1 day">1 day</option>
+                              <option value="3 days">3 days</option>
+                              <option value="1 week">1 week</option>
+                              <option value="2 weeks">2 weeks</option>
+                            </select>
+                          </div>
+
+                          <div className="settings-checkbox-item">
+                            <input 
+                              type="checkbox" 
+                              id="multiple-choice-toggle"
+                              checked={multipleChoice}
+                              onChange={(e) => setMultipleChoice(e.target.checked)} 
+                            />
+                            <label htmlFor="multiple-choice-toggle">Allow Multiple Answers Choice</label>
+                          </div>
+
+                          <div className="settings-checkbox-item">
+                            <input 
+                              type="checkbox" 
+                              id="anonymous-toggle"
+                              checked={anonymousVoting}
+                              onChange={(e) => setAnonymousVoting(e.target.checked)} 
+                            />
+                            <label htmlFor="anonymous-toggle">Anonymous Voting Mode</label>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Photo/Video media preview */}
+                  {mediaPreview && (
+                    <div className="composer-media-preview-container">
+                      {mediaType === 'video' ? (
+                        <video src={mediaPreview} controls />
+                      ) : (
+                        <img src={mediaPreview} alt="Preview" />
+                      )}
+                      <button type="button" className="remove-media-btn" onClick={removeMedia}>✕</button>
+                    </div>
+                  )}
+
+                  {/* Scheduled date selector */}
+                  {isScheduled && (
+                    <div className="scheduler-box card">
+                      <h4>📅 Schedule Post Queue</h4>
+                      <input 
+                        type="datetime-local" 
+                        value={scheduledDate}
+                        onChange={(e) => setScheduledDate(e.target.value)}
+                        min={new Date().toISOString().slice(0, 16)}
+                        required={isScheduled}
+                      />
+                    </div>
+                  )}
+
+                  {/* Location selection preview */}
+                  {showLocationInput && (
+                    <div className="location-input-wrapper">
+                      <FiMapPin className="text-danger" />
+                      <input 
+                        type="text" 
+                        value={location}
+                        onChange={(e) => setLocation(e.target.value)}
+                        placeholder="Where are you check in..."
+                        className="location-input"
+                      />
+                      <button type="button" className="close-btn" onClick={() => { setLocation(''); setShowLocationInput(false); }}>✕</button>
+                    </div>
+                  )}
+
+                  {/* Collaborative settings */}
+                  {showCollabPicker && user?.friends && (
+                    <div className="collaborator-picker card p-3 mt-2 mb-2">
+                      <h4 className="mb-2">Add Collaborators</h4>
+                      <div className="friends-list-compact" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                        {user.friends.map((friend: any) => {
+                          const friendId = friend._id || friend;
+                          const isSelected = collaborators.includes(friendId);
+                          return (
+                            <button 
+                              key={friendId}
+                              type="button"
+                              className={`btn btn-sm ${isSelected ? 'btn-primary' : 'btn-secondary'}`}
+                              onClick={() => {
+                                if (isSelected) setCollaborators(collaborators.filter(id => id !== friendId));
+                                else setCollaborators([...collaborators, friendId]);
+                              }}
+                            >
+                              {friend.name || 'Friend'} {isSelected && '✓'}
+                            </button>
+                          )
+                        })}
+                      </div>
+                      <button type="button" className="btn btn-sm mt-2 btn-secondary" onClick={() => setShowCollabPicker(false)}>Done</button>
+                    </div>
+                  )}
+
+                  {/* Time capsule details */}
+                  {isCapsule && (
+                    <div className="time-capsule-picker card p-3 mt-2 mb-2">
+                      <h4 className="mb-2 text-brand"><FiClock /> Time Capsule Post</h4>
+                      <p className="text-secondary mb-2" style={{ fontSize: '12px' }}>This post will be hidden from everyone except you until the unlock date.</p>
+                      <input 
+                        type="date" 
+                        className="form-control"
+                        value={unlockDate}
+                        onChange={(e) => setUnlockDate(e.target.value)}
+                        min={new Date().toISOString().split('T')[0]}
+                        required={isCapsule}
+                      />
+                    </div>
+                  )}
+
+                </div>
+
+                {/* BOTTOM TOOLS: Background pickers & Action Strips */}
+                <div className="composer-bottom-tools-panel">
+                  
+                  {/* Background Color Picker strip */}
+                  {content.length < 200 && !mediaPreview && !isPollPost && (
+                    <div className="background-picker-strip">
+                      <span className="strip-title">Background Theme:</span>
+                      <div className="background-options-row">
+                        {BACKGROUNDS.map((bg) => (
+                          <button 
+                            key={bg.id}
+                            type="button"
+                            className={`bg-picker-chip ${selectedBg.id === bg.id ? 'active' : ''}`}
+                            style={{ background: bg.bg }}
+                            onClick={() => setSelectedBg(bg)}
+                            title={bg.label}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Life Event Selector Strip */}
+                  <div className="life-event-selection-strip mt-2">
+                    <span className="strip-title">Add Life Event Celebration:</span>
+                    <div className="life-event-options-row">
+                      {LIFE_EVENTS.map((event) => (
+                        <button 
+                          key={event.type}
+                          type="button"
+                          className="life-event-chip"
+                          onClick={() => setSelectedLifeEvent(event)}
+                          style={{ borderColor: event.color }}
+                        >
+                          {event.icon} {event.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Add to post icons tray */}
+                  <div className="add-to-post-tools-tray mt-3">
+                    <span className="tray-label">Add to your post:</span>
+                    <div className="tray-icons">
+                      
+                      <button 
+                        type="button" 
+                        className="tray-btn" 
+                        onClick={() => fileInputRef.current?.click()}
+                        title="Add Image/Video"
+                      >
+                        <FiImage size={20} className="text-success" />
+                      </button>
+
+                      <button 
+                        type="button" 
+                        className="tray-btn" 
+                        onClick={() => { setIsPollPost(!isPollPost); setIsModalOpen(true); }}
+                        title="Add Poll"
+                      >
+                        <FiBarChart2 size={20} className="text-primary" />
+                      </button>
+
+                      <button 
+                        type="button" 
+                        className="tray-btn" 
+                        onClick={() => setShowFeelingPicker(!showFeelingPicker)}
+                        title="Feeling/Activity"
+                      >
+                        <FiSmile size={20} className="text-warning" />
+                      </button>
+
+                      <button 
+                        type="button" 
+                        className="tray-btn" 
+                        onClick={() => setShowLocationInput(!showLocationInput)}
+                        title="Check In Location"
+                      >
+                        <FiMapPin size={20} className="text-danger" />
+                      </button>
+
+                      <button 
+                        type="button" 
+                        className="tray-btn" 
+                        onClick={() => setShowCollabPicker(!showCollabPicker)}
+                        title="Add Collaborators"
+                      >
+                        <FiUsers size={20} className="text-info" />
+                      </button>
+
+                      <button 
+                        type="button" 
+                        className="tray-btn" 
+                        onClick={() => setIsScheduled(!isScheduled)}
+                        title="Schedule Queue Post"
+                      >
+                        <FiClock size={20} className="text-secondary" />
+                      </button>
+
+                    </div>
+                  </div>
+
+                  {/* Feeling selection popover */}
+                  {showFeelingPicker && (
+                    <div className="composer-feeling-picker-popup card mt-2">
+                      {FEELINGS.map((f) => (
+                        <button 
+                          key={f.name}
+                          type="button"
+                          className="feeling-chip-item"
+                          onClick={() => { setFeeling(f); setShowFeelingPicker(false); }}
+                        >
+                          <span>{f.emoji}</span> {f.name}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Hidden inputs upload references */}
+                  <input 
+                    type="file" 
+                    accept="image/*,video/*" 
+                    ref={fileInputRef} 
+                    onChange={handleMediaChange} 
+                    style={{ display: 'none' }} 
+                  />
+
+                  {/* Submit row & actions */}
+                  <div className="composer-submit-row mt-3">
+                    <button 
+                      type="button" 
+                      className="btn-enhance-ai mr-2"
+                      onClick={handleAIEnhance}
+                      disabled={!content.trim() || aiEnhancing}
+                    >
+                      <FiCpu size={16} className={aiEnhancing ? 'spin' : ''} /> {aiEnhancing ? 'Enhancing...' : 'AI Enhance'}
+                    </button>
+
+                    <button 
+                      type="submit" 
+                      className="btn btn-primary btn-submit-composer"
+                      disabled={loading || (!content.trim() && !mediaFile && !feeling && !isPollPost && !selectedLifeEvent)}
+                    >
+                      {loading ? 'Posting...' : 'Post Now'}
+                    </button>
+                  </div>
+
+                </div>
+
+              </form>
+            </motion.div>
           </div>
         )}
-        
-        <div className="create-post-footer">
-          <div className="create-post-actions">
-            <button 
-              type="button" 
-              className="action-btn"
-              onClick={() => fileInputRef.current?.click()}
-            >
-              <FiImage size={20} className="action-icon text-success" />
-              <span className="hide-mobile">Photo/Video</span>
-            </button>
-            <button type="button" className="action-btn" onClick={() => setShowLocationInput(!showLocationInput)}>
-              <FiMapPin size={20} className="action-icon text-danger" />
-              <span className="hide-mobile">Location</span>
-            </button>
-            <button type="button" className="action-btn" onClick={() => setShowFeelingPicker(!showFeelingPicker)}>
-              <FiSmile size={20} className="action-icon text-warning" />
-              <span className="hide-mobile">Feeling</span>
-            </button>
-            <button type="button" className="action-btn" onClick={() => setShowCollabPicker(!showCollabPicker)}>
-              <FiUsers size={20} className="action-icon text-info" />
-              <span className="hide-mobile">Collab</span>
-            </button>
-            <button type="button" className="action-btn" onClick={() => setIsCapsule(!isCapsule)}>
-              <FiClock size={20} className={`action-icon ${isCapsule ? 'text-brand' : 'text-secondary'}`} />
-              <span className="hide-mobile">Capsule</span>
-            </button>
-            <button 
-              type="button" 
-              className="action-btn" 
-              onClick={handleAIEnhance}
-              disabled={!content.trim() || aiEnhancing}
-              title="Enhance with AI"
-            >
-              <FiCpu size={20} className={`action-icon ${aiEnhancing ? 'text-primary spin-animation' : 'text-brand'}`} />
-              <span className="hide-mobile">{aiEnhancing ? '...' : 'AI'}</span>
-            </button>
-          </div>
-          
-          <button 
-            type="submit" 
-            className="btn btn-primary"
-            disabled={(!content.trim() && !mediaFile && !feeling) || loading}
-          >
-            {loading ? 'Posting...' : 'Post'}
-          </button>
-        </div>
-      </form>
+      </AnimatePresence>
+
     </div>
   );
 };

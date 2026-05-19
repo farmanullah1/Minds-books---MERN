@@ -117,6 +117,7 @@ const playlistRoutes = require('./routes/playlists');
 const giftRoutes = require('./routes/gifts');
 const challengeRoutes = require('./routes/challenges');
 const memoryRoutes = require('./routes/memories');
+const analyticsRoutes = require('./routes/analytics');
 
 
 app.use('/api/auth', authRoutes);
@@ -142,6 +143,7 @@ app.use('/api/challenges', challengeRoutes);
 app.use('/api/memories', memoryRoutes);
 app.use('/api/jobs', require('./routes/jobs'));
 app.use('/api/data-export', require('./routes/dataExport'));
+app.use('/api/analytics', analyticsRoutes);
 
 
 app.get('/api/health', (req, res) => {

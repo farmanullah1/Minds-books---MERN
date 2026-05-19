@@ -283,6 +283,25 @@
   color: var(--text-secondary);
 }
 
+/* Mobile Menu Button style defaults (hidden on desktop) */
+.mobile-menu-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  transition: background 0.2s ease;
+}
+
+.mobile-menu-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
   .nav-tab { width: 60px; }
@@ -290,6 +309,9 @@
 }
 
 @media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: flex;
+  }
   .navbar-center { display: none; }
   .navbar-inner {
     grid-template-columns: 1fr auto;

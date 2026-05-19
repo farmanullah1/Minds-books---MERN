@@ -1,0 +1,311 @@
+.reels-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 70px);
+  background-color: #000000; /* Short video feed always looks best in deep dark AMOLED black */
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+  position: relative;
+}
+
+.reels-outer-scroller {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 480px;
+  height: calc(100vh - 110px);
+  position: relative;
+}
+
+.reels-nav-helpers {
+  position: absolute;
+  right: -70px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 10;
+}
+
+@media (max-width: 768px) {
+  .reels-nav-helpers {
+    display: none; /* Hide navigation arrows on mobile as users swipe/tap naturally */
+  }
+}
+
+.nav-arrow-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: white;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
+}
+
+.nav-arrow-btn:hover:not(:disabled) {
+  background: var(--brand-primary, #F7B928);
+  color: black;
+  border-color: var(--brand-primary, #F7B928);
+}
+
+.nav-arrow-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Vertical Viewport and Stage */
+.reel-viewer-viewport {
+  width: 100%;
+  height: 100%;
+  background-color: #0f0f0f;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+}
+
+@media (max-width: 500px) {
+  .reel-viewer-viewport {
+    border-radius: 0;
+  }
+}
+
+.reel-stage {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: black;
+}
+
+.reel-video-element {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+/* Sound Indicator */
+.sound-toggle-toast {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 8px 16px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  z-index: 10;
+  transition: background 0.2s;
+}
+
+.sound-toggle-toast:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+/* Floating double-tap heart (PROMPT-46) */
+.floating-tap-heart {
+  position: absolute;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  filter: drop-shadow(0 0 15px rgba(247, 185, 40, 0.6));
+}
+
+/* Overlay details (HUD at the bottom) */
+.reel-details-hud {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 80px 80px 24px 24px; /* Room for the sidebar on the right */
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.4) 60%, transparent 100%);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.creator-profile-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: auto;
+}
+
+.reel-creator-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid var(--brand-primary, #F7B928);
+}
+
+.creator-handle {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.reel-follow-btn {
+  background-color: var(--brand-primary, #F7B928);
+  color: #1a1a1a;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.reel-follow-btn.followed {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+.reel-description-text {
+  font-size: 13px;
+  line-height: 1.4;
+  margin: 0;
+  max-height: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* Music marquee sound waves */
+.music-marquee {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.music-title-track {
+  width: 150px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.music-title-track span {
+  display: inline-block;
+  animation: marquee 8s linear infinite;
+  padding-left: 100%;
+}
+
+@keyframes marquee {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-100%, 0, 0); }
+}
+
+/* Right Side overlay actions */
+.reel-side-actions {
+  position: absolute;
+  right: 12px;
+  bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  z-index: 5;
+}
+
+.action-button-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.side-action-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.side-action-btn:hover {
+  transform: scale(1.08);
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.side-action-btn.like {
+  border-color: rgba(247, 185, 40, 0.2);
+}
+
+.action-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+}
+
+/* Floating +1 Like Count Animation (PROMPT-46) */
+.floating-plus-one {
+  position: absolute;
+  top: -24px;
+  color: var(--brand-primary, #F7B928);
+  font-weight: 900;
+  font-size: 16px;
+  text-shadow: 0 0 10px rgba(247, 185, 40, 0.8);
+  pointer-events: none;
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Rotating Vinyl Record for music */
+.rotating-music-disc-wrapper {
+  margin-top: 10px;
+}
+
+.vinyl-record-disc {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #111;
+  border: 6px solid #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: rotate-vinyl 4s linear infinite;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+.vinyl-record-disc img {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+@keyframes rotate-vinyl {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

@@ -24,6 +24,12 @@ import './Home.css';
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();
   const { posts, loading, currentPage, totalPages } = useAppSelector((state) => state.posts);
+  
+  // Pull to refresh states
+  const [pullOffset, setPullOffset] = React.useState(0);
+  const [refreshing, setRefreshing] = React.useState(false);
+  const touchStartRef = React.useRef(0);
+
   const { ref, inView } = useInView({
     threshold: 0,
     triggerOnce: false
@@ -40,13 +46,74 @@ const Home: React.FC = () => {
     }
   }, [inView, loading, currentPage, totalPages, dispatch]);
 
+  // Pull to refresh touch handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (window.scrollY === 0) {
+      touchStartRef.current = e.touches[0].clientY;
+    } else {
+      touchStartRef.current = 0;
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (touchStartRef.current === 0 || refreshing) return;
+    const currentY = e.touches[0].clientY;
+    const deltaY = currentY - touchStartRef.current;
+    if (deltaY > 0) {
+      // Adding resistance tension
+      setPullOffset(Math.min(90, deltaY * 0.4));
+    }
+  };
+
+  const handleTouchEnd = async () => {
+    if (touchStartRef.current === 0 || refreshing) return;
+    if (pullOffset > 60) {
+      setRefreshing(true);
+      setPullOffset(40); // hold position in viewport
+      if (navigator.vibrate) {
+        navigator.vibrate(15); // haptic confirmation!
+      }
+      try {
+        await dispatch(fetchFeedPosts(1)).unwrap();
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setTimeout(() => {
+          setRefreshing(false);
+          setPullOffset(0);
+        }, 500);
+      }
+    } else {
+      setPullOffset(0);
+    }
+    touchStartRef.current = 0;
+  };
+
   return (
     <>
       <Navbar />
       <div className="app-layout" id="home-page">
         <LeftSidebar />
         <main className="main-content">
-          <div className="feed-container">
+          <div 
+            className="feed-container pull-to-refresh-container"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            {/* Pull to Refresh Spinner Indicator */}
+            {(pullOffset > 0 || refreshing) && (
+              <div 
+                className="pull-refresh-indicator" 
+                style={{ 
+                  transform: `translateY(${pullOffset}px) scale(${Math.min(1, pullOffset / 50)})`,
+                  opacity: Math.min(1, pullOffset / 40)
+                }}
+              >
+                <div className={`circular-spinner ${refreshing ? 'spinning' : ''}`} />
+              </div>
+            )}
+
             <StoriesFeed />
             <CreatePost />
             <DailyChallengeBanner />

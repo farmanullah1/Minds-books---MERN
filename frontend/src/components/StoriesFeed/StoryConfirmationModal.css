@@ -1,43 +1,213 @@
-/*
+/**
  * CodeDNA
- * StoryConfirmationModal.css — core functionality
+ * StoryConfirmationModal.css — Mobile Story Creator visual styles (PROMPT-58)
  * exports: none
- * used_by: internal
- * rules: Follow project conventions
- * agent: gemini-3-1-pro | google | 2026-04-30 | init | Initialized CodeDNA semi mode
+ * used_by: StoryConfirmationModal.tsx
+ * rules: Glassmorphism container overlays, drawing brush custom cursors, sticker grids, control panel tabs
  */
 
-.story-confirm-modal {
-  max-width: 400px;
-  width: 90%;
+.mobile-story-creator.story-confirm-modal {
+  max-width: 450px !important;
+  width: 95%;
+  background: rgba(10, 10, 10, 0.96) !important;
+  border: 1px solid rgba(247, 185, 40, 0.25) !important;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8) !important;
 }
 
-.story-confirm-body {
+.layout-mobile-flex {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
-  padding-bottom: var(--space-4);
+  gap: 12px;
 }
 
-.story-preview-container {
-  width: 100%;
-  height: 400px;
-  background-color: var(--background-default);
+.mobile-creator-board {
+  height: 380px !important;
+  background-color: #050505 !important;
   border-radius: var(--radius-md);
   overflow: hidden;
+  position: relative;
+  border: 1px solid var(--border-color);
+}
+
+.creator-media-base {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Touch Draw Layer Canvas */
+.draw-layer-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  cursor: crosshair;
+}
+
+.draw-layer-canvas.brush-active {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="4" fill="%23f7b928"/></svg>') 10 10, crosshair;
+}
+
+/* Draggable & placed layers styles */
+.draggable-story-text {
+  z-index: 12;
+  user-select: none;
+  animation: popText 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.draggable-story-sticker {
+  z-index: 12;
+  user-select: none;
+  animation: popText 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popText {
+  from { transform: translate(-50%, -50%) scale(0.6); opacity: 0; }
+  to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+/* Quick Creative Action Bar */
+.story-creative-action-toolbar {
+  display: flex;
+  justify-content: space-around;
+  background: var(--bg-input);
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.toolbar-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.story-preview-media {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+.toolbar-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
 }
 
-.story-caption-input {
-  min-height: 80px;
-  resize: vertical;
+.toolbar-btn.active {
+  background: var(--brand-primary);
+  color: #000;
+  box-shadow: 0 0 10px rgba(247, 185, 40, 0.4);
+}
+
+.clear-all-layers-btn:hover {
+  background: rgba(239, 68, 68, 0.15) !important;
+  color: #ef4444 !important;
+}
+
+/* Control Panel drawers */
+.bg-tool-drawer {
+  background: rgba(20, 20, 20, 0.95);
+  border: 1px dashed rgba(247, 185, 40, 0.2);
+  padding: 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.flex-column-panel {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.control-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.color-palette-row {
+  display: flex;
+  gap: 8px;
+}
+
+.color-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.color-dot:hover {
+  transform: scale(1.2);
+}
+
+.color-dot.active {
+  border-color: #fff;
+  box-shadow: 0 0 8px #fff;
+}
+
+.text-tool-input {
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  color: #fff;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+}
+
+/* Stickers tray */
+.stickers-tray-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  flex: 1;
+}
+
+.sticker-btn-emoji {
+  font-size: 1.8rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.sticker-btn-emoji:hover {
+  transform: scale(1.25) rotate(5deg);
+}
+
+/* Timer */
+.select-timer-dropdown {
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.camera-icon-brand {
+  color: var(--brand-primary);
+}
+
+.duration-pill-indicator {
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: rgba(247, 185, 40, 0.15);
+  color: var(--brand-primary);
+  padding: 4px 8px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
 }

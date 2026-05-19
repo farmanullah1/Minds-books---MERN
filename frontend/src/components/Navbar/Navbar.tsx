@@ -9,7 +9,7 @@
 
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { FiSearch, FiHome, FiUsers, FiMessageSquare, FiBell, FiLogOut, FiMenu, FiCalendar, FiGrid, FiSun, FiMoon } from 'react-icons/fi';
+import { FiSearch, FiHome, FiUsers, FiMessageSquare, FiBell, FiLogOut, FiMenu, FiCalendar, FiGrid, FiSun, FiMoon, FiPlayCircle, FiFilm, FiShoppingBag, FiPlus } from 'react-icons/fi';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { logout } from '../../store/slices/authSlice';
 import api from '../../services/api';
@@ -87,6 +87,14 @@ const Navbar: React.FC = () => {
       <div className="navbar-inner">
         {/* Left Section */}
         <div className="navbar-left">
+          <button 
+            type="button" 
+            className="mobile-menu-btn" 
+            onClick={() => window.dispatchEvent(new CustomEvent('toggle-mobile-sidebar'))}
+            aria-label="Toggle Navigation Drawer"
+          >
+            <FiMenu size={22} />
+          </button>
           <Link to="/" className="navbar-logo">
             <div className="logo-icon">
               <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
@@ -162,14 +170,17 @@ const Navbar: React.FC = () => {
           <Link to="/" className={`nav-tab ${isActive('/') ? 'active' : ''}`} title="Home">
             <FiHome size={22} />
           </Link>
+          <Link to="/watch" className={`nav-tab ${isActive('/watch') ? 'active' : ''}`} title="Watch">
+            <FiPlayCircle size={22} />
+          </Link>
           <Link to="/groups" className={`nav-tab ${isActive('/groups') ? 'active' : ''}`} title="Groups">
             <FiGrid size={22} />
           </Link>
-          <Link to="/friends" className={`nav-tab ${isActive('/friends') ? 'active' : ''}`} title="Friends">
-            <FiUsers size={22} />
+          <Link to="/watch/reels" className={`nav-tab ${isActive('/watch/reels') ? 'active' : ''}`} title="Reels">
+            <FiFilm size={22} />
           </Link>
-          <Link to="/messages" className={`nav-tab ${isActive('/messages') ? 'active' : ''}`} title="Messages">
-            <FiMessageSquare size={22} />
+          <Link to="/marketplace" className={`nav-tab ${isActive('/marketplace') ? 'active' : ''}`} title="Marketplace">
+            <FiShoppingBag size={22} />
           </Link>
         </div>
 
@@ -178,6 +189,14 @@ const Navbar: React.FC = () => {
           <button className="nav-icon-btn theme-toggle" onClick={toggleTheme} title="Toggle Dark Mode">
             {theme === 'light' ? <FiMoon size={20} /> : <FiSun size={20} />}
           </button>
+
+          <Link to="/" className="nav-icon-btn facebook-create-btn" title="Create Post">
+            <FiPlus size={20} />
+          </Link>
+
+          <Link to="/messages" className="nav-icon-btn facebook-messenger-btn" title="Messenger">
+            <FiMessageSquare size={20} />
+          </Link>
           
           <NotificationsDropdown />
           

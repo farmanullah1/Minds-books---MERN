@@ -1,0 +1,595 @@
+/**
+ * CodeDNA
+ * Gaming.css — Neon gold-yellow Arcade & Interactive Gaming styling
+ * exports: none
+ * used_by: Gaming.tsx
+ * rules: Dark cyber gradients, glowing gaming cards, active matched flip cards, Wordle tiles
+ */
+
+.gaming-page-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 80px auto 0 auto;
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+/* Glass Gaming Hero Banner */
+.gaming-top-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, rgba(247, 185, 40, 0.1) 0%, rgba(20, 20, 20, 0.4) 100%);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(247, 185, 40, 0.2);
+  padding: 32px;
+  border-radius: 16px;
+  margin-bottom: 24px;
+  gap: 24px;
+}
+
+.hero-text-block h1 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin: 8px 0;
+  background: linear-gradient(to right, #FFF, #F7B928);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gaming-pill-indicator {
+  display: inline-block;
+  background: var(--brand-primary);
+  color: #000;
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+}
+
+.arcade-coins-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 24px;
+  border: 1px solid rgba(247, 185, 40, 0.3);
+  box-shadow: 0 0 15px rgba(247, 185, 40, 0.1);
+  min-width: 180px;
+  text-align: center;
+}
+
+.arcade-coins-badge span {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.arcade-coins-badge h3 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--brand-primary);
+  text-shadow: 0 0 8px rgba(247,185,40,0.4);
+}
+
+/* Tabs list styling */
+.gaming-tabs-bar {
+  display: flex;
+  gap: 12px;
+  background: rgba(20, 20, 20, 0.3);
+  padding: 8px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 24px;
+  overflow-x: auto;
+}
+
+.gaming-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.gaming-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--brand-primary);
+}
+
+.gaming-tab-btn.active {
+  background: var(--brand-primary);
+  color: #000;
+  box-shadow: 0 4px 12px rgba(247, 185, 40, 0.2);
+}
+
+/* Main Dashboard panels split */
+.hud-three-split {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+}
+
+.game-grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+  margin-top: 16px;
+}
+
+.game-card {
+  padding: 24px;
+  cursor: pointer;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.game-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(247, 185, 40, 0.3);
+}
+
+.card-emoji-glow {
+  font-size: 2.5rem;
+  margin-bottom: 8px;
+}
+
+.game-card h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.game-card p {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  flex: 1;
+}
+
+.play-mini-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.05);
+  color: var(--brand-primary);
+  border: 1px solid var(--brand-primary);
+  font-weight: 700;
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.game-card:hover .play-mini-btn {
+  background: var(--brand-primary);
+  color: #000;
+}
+
+/* Leaderboards Weekly columns */
+.leaderboard-col {
+  padding: 24px;
+  height: fit-content;
+}
+
+.leaderboard-col .header-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.trophy-gold {
+  color: var(--brand-primary);
+}
+
+.leader-board-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.leader-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.leader-row.first-place {
+  border-color: var(--brand-primary);
+  background: rgba(247, 185, 40, 0.05);
+}
+
+.leader-row.second-place {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.leader-row .rank {
+  font-weight: 800;
+  width: 32px;
+}
+
+.leader-row.first-place .rank {
+  color: var(--brand-primary);
+}
+
+.leader-row .name {
+  flex: 1;
+  font-weight: 600;
+}
+
+.leader-row .score {
+  font-weight: 700;
+  color: var(--brand-primary);
+}
+
+/* MINDSNAP MEMORY MATCH styles */
+.mindsnap-game-view {
+  padding: 32px;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.game-header-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+}
+
+.game-metrics {
+  display: flex;
+  gap: 16px;
+  font-size: 0.9375rem;
+}
+
+.restart-btn {
+  background: var(--brand-primary);
+  color: #000;
+  font-weight: 700;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.game-landing-stage {
+  text-align: center;
+  padding: 40px;
+}
+
+.big-start-btn {
+  background: var(--brand-gradient);
+  color: #000;
+  font-weight: 800;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-size: 1.125rem;
+  cursor: pointer;
+  margin-top: 16px;
+  box-shadow: 0 4px 15px rgba(247, 185, 40, 0.25);
+}
+
+.memory-board-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.memory-tile {
+  aspect-ratio: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.memory-tile:hover {
+  border-color: var(--brand-primary);
+  transform: scale(1.02);
+}
+
+.memory-tile.flipped {
+  background: rgba(247, 185, 40, 0.08);
+  border-color: var(--brand-primary);
+  transform: rotateY(180deg);
+}
+
+.tile-content {
+  font-size: 2.25rem;
+}
+
+.memory-tile.matched {
+  background: rgba(74, 222, 128, 0.1);
+  border-color: #4ade80;
+  opacity: 0.8;
+}
+
+/* Victory overlay box */
+.victory-overlay {
+  text-align: center;
+  padding: 32px;
+  background: rgba(0,0,0,0.9);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: 12px;
+}
+
+.award-success {
+  font-size: 1.25rem;
+  color: var(--brand-primary);
+  font-weight: 700;
+}
+
+/* DAILY WORDLE STYLINGS */
+.wordle-game-view {
+  padding: 32px;
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.wordle-grid-board {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 24px 0;
+  align-items: center;
+}
+
+.wordle-row {
+  display: flex;
+  gap: 8px;
+}
+
+.wordle-cell {
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+/* Wordle correct, present, absent color highlights */
+.wordle-cell.correct {
+  background: #10b981;
+  border-color: #10b981;
+  color: #fff;
+}
+
+.wordle-cell.present {
+  background: #f59e0b;
+  border-color: #f59e0b;
+  color: #fff;
+}
+
+.wordle-cell.absent {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.1);
+  color: var(--text-secondary);
+}
+
+.wordle-input-form {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.wordle-input-form input {
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  padding: 12px;
+  border-radius: 8px;
+  color: #fff;
+  width: 160px;
+  text-align: center;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.wordle-submit-btn {
+  background: var(--brand-primary);
+  color: #000;
+  font-weight: 700;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.wordle-warning {
+  color: #f87171;
+  margin-top: 12px;
+}
+
+/* EMOJI QUIZ styles */
+.quiz-game-view {
+  padding: 32px;
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.quiz-sequence-glow {
+  font-size: 3rem;
+  margin: 32px 0;
+  letter-spacing: 8px;
+  filter: drop-shadow(0 0 10px rgba(247,185,40,0.3));
+}
+
+.quiz-input-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.quiz-input-form input {
+  width: 100%;
+  max-width: 320px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  padding: 12px;
+  border-radius: 8px;
+  color: #fff;
+  text-align: center;
+}
+
+.quiz-btn {
+  background: var(--brand-primary);
+  color: #000;
+  font-weight: 700;
+  border: none;
+  padding: 12px 32px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.quiz-feedback-text {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-top: 20px;
+}
+
+/* CHALLENGES TAB styles */
+.challenges-grid-split {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 24px;
+}
+
+.challenge-form-card {
+  padding: 24px;
+  height: fit-content;
+}
+
+.challenge-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.form-group-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group-item label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.form-group-item input, .form-group-item select {
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  padding: 12px;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.challenge-btn {
+  background: var(--brand-primary);
+  color: #000;
+  font-weight: 700;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+/* Tournament listing card styles */
+.challenges-list-scroll {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.challenge-row-card {
+  padding: 20px;
+}
+
+.card-top-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.card-top-line h4 {
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+
+.days-left {
+  font-size: 0.75rem;
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.creator-text {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.progress-bar-track {
+  height: 6px;
+  background: var(--bg-hover);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--brand-gradient);
+  border-radius: 3px;
+}
+
+.part-count {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* Responsiveness */
+@media (max-width: 1024px) {
+  .hud-three-split { grid-template-columns: 1fr; }
+  .challenges-grid-split { grid-template-columns: 1fr; }
+}

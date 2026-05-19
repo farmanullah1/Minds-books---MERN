@@ -34,10 +34,22 @@ import Settings from './pages/Settings/Settings';
 import AdminDashboard from './pages/Admin/AdminDashboard';
 import Store from './pages/Store/Store';
 import Memories from './pages/Memories/Memories';
+import LiveStream from './pages/Watch/LiveStream';
+import WatchParty from './pages/Watch/WatchParty';
+import Fundraisers from './pages/Fundraisers/Fundraisers';
+import Reels from './pages/Watch/Reels';
+import Explore from './pages/Explore/Explore';
+import VideoHub from './pages/Watch/VideoHub';
+import CreatorStudio from './pages/CreatorStudio/CreatorStudio';
+import AudioRooms from './pages/AudioRooms/AudioRooms';
+import LocationDiscovery from './pages/LocationDiscovery/LocationDiscovery';
+import Gaming from './pages/Gaming/Gaming';
 import Jobs from './pages/Jobs/Jobs';
 import CreateJob from './pages/Jobs/CreateJob';
 import JobDetail from './pages/Jobs/JobDetail';
 import Security from './pages/Settings/Security';
+import Accessibility from './pages/Settings/Accessibility';
+import Shops from './pages/Shops/Shops';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import MobileBottomNav from './components/Navbar/MobileBottomNav';
 import { FiArrowUp } from 'react-icons/fi';
@@ -97,6 +109,38 @@ const App: React.FC = () => {
     window.addEventListener('scroll', checkScrollTop);
     return () => window.removeEventListener('scroll', checkScrollTop);
   }, [showScroll]);
+
+  // Swipe to Go Back Touch gesture handler
+  React.useEffect(() => {
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (touchStartX === 0) return;
+      const touchEndX = e.changedTouches[0].clientX;
+      const touchEndY = e.changedTouches[0].clientY;
+      const deltaX = touchEndX - touchStartX;
+      const deltaY = Math.abs(touchEndY - touchStartY);
+
+      // Swipe right from left edge (touchStartX < 35px)
+      if (touchStartX < 35 && deltaX > 80 && deltaY < 40) {
+        window.history.back();
+      }
+      touchStartX = 0;
+    };
+
+    window.addEventListener('touchstart', handleTouchStart);
+    window.addEventListener('touchend', handleTouchEnd);
+    return () => {
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, []);
 
   const scrollTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -295,6 +339,94 @@ const App: React.FC = () => {
           }
         />
         <Route
+          path="/watch/live"
+          element={
+            <ProtectedRoute>
+              <LiveStream />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/watch/party"
+          element={
+            <ProtectedRoute>
+              <WatchParty />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/fundraisers"
+          element={
+            <ProtectedRoute>
+              <Fundraisers />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/watch/reels"
+          element={
+            <ProtectedRoute>
+              <Reels />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/watch"
+          element={
+            <ProtectedRoute>
+              <VideoHub />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/explore"
+          element={
+            <ProtectedRoute>
+              <Explore />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/creator-studio"
+          element={
+            <ProtectedRoute>
+              <CreatorStudio />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/audio-rooms"
+          element={
+            <ProtectedRoute>
+              <AudioRooms />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/local-discovery"
+          element={
+            <ProtectedRoute>
+              <LocationDiscovery />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/gaming"
+          element={
+            <ProtectedRoute>
+              <Gaming />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/shops"
+          element={
+            <ProtectedRoute>
+              <Shops />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/settings"
           element={
             <ProtectedRoute>
@@ -339,6 +471,14 @@ const App: React.FC = () => {
           element={
             <ProtectedRoute>
               <Security />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings/accessibility"
+          element={
+            <ProtectedRoute>
+              <Accessibility />
             </ProtectedRoute>
           }
         />
