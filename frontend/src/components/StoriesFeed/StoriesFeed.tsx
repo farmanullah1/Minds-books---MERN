@@ -68,10 +68,10 @@ const StoriesFeed: React.FC = () => {
       await api.post('/stories', storyData);
       fetchStories(); // Refresh stories
       setSelectedFile(null);
-      showToast('success', 'Story published successfully!');
+      showToast('Story published successfully!', 'success');
     } catch (error) {
       console.error('Failed to create story', error);
-      showToast('error', 'Failed to upload story');
+      showToast('Failed to upload story', 'error');
     } finally {
       setLoading(false);
     }

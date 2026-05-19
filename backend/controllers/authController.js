@@ -10,6 +10,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const LoginSession = require('../models/LoginSession');
 
 const generateToken = (userId) => {
   return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: '7d' });
@@ -74,6 +75,15 @@ const login = async (req, res) => {
 
     const token = generateToken(user._id);
 
+    // Create login session
+    await LoginSession.create({
+      user: user._id,
+      ipAddress: req.ip || '127.0.0.1',
+      userAgent: req.headers['user-agent'],
+      device: req.headers['user-agent']?.includes('Mobile') ? 'Mobile Device' : 'Desktop Browser',
+      browser: req.headers['user-agent']?.split(' ')[0] || 'Unknown'
+    });
+
     const userResponse = user.toObject();
     delete userResponse.password;
 
@@ -97,6 +107,22 @@ const getMe = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Daily login reward check (5 coins)
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    if (!user.lastLoginReward || user.lastLoginReward < today) {
+      user.coins += 5;
+      user.lastLoginReward = today;
+      // Reset daily activity counters
+      user.dailyActivity = {
+        posts: 0,
+        comments: 0,
+        lastReset: new Date()
+      };
+      await user.save();
     }
 
     res.json(user);
@@ -131,4 +157,25 @@ const changePassword = async (req, res) => {
   }
 };
 
-module.exports = { register, login, getMe, changePassword };
+const getSessions = async (req, res) => {
+  try {
+    const sessions = await LoginSession.find({ user: req.user.id, isActive: true }).sort({ createdAt: -1 });
+    res.json(sessions);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+const revokeSession = async (req, res) => {
+  try {
+    await LoginSession.findOneAndUpdate(
+      { _id: req.params.id, user: req.user.id },
+      { isActive: false }
+    );
+    res.json({ message: 'Session revoked' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+module.exports = { register, login, getMe, changePassword, getSessions, revokeSession };

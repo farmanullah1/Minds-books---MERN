@@ -16,6 +16,7 @@ import { useToast } from '../../components/Toast/ToastContext';
 import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 import Navbar from '../../components/Navbar/Navbar';
+import { motion, AnimatePresence } from 'framer-motion';
 import './Settings.css';
 
 type Tab = 'general' | 'security' | 'notifications' | 'appearance';
@@ -170,14 +171,23 @@ const Settings: React.FC = () => {
         </aside>
 
         <main className="settings-main">
-          {/* General Tab */}
-          {activeTab === 'general' && (
-            <div className="settings-card">
-              <div className="settings-card-header">
-                <h2>General Information</h2>
-                <p className="text-secondary">Update your personal details.</p>
-              </div>
-              <div className="settings-form">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              style={{ width: '100%' }}
+            >
+              {/* General Tab */}
+              {activeTab === 'general' && (
+                <div className="settings-card">
+                  <div className="settings-card-header">
+                    <h2>General Information</h2>
+                    <p className="text-secondary">Update your personal details.</p>
+                  </div>
+                  <div className="settings-form">
                 <div className="form-row">
                   <div className="form-group">
                     <label>First Name *</label>
@@ -292,6 +302,45 @@ const Settings: React.FC = () => {
                         {showNewPw ? <FiEyeOff size={16} /> : <FiEye size={16} />}
                       </button>
                     </div>
+                    {newPassword && (
+                      <div className="password-strength-meter" style={{ marginTop: '8px' }}>
+                        <div style={{ display: 'flex', gap: '4px', marginBottom: '4px' }}>
+                          {[1, 2, 3, 4].map((level) => {
+                            let score = 0;
+                            if (newPassword.length >= 8) score++;
+                            if (/[A-Z]/.test(newPassword)) score++;
+                            if (/[a-z]/.test(newPassword) && /[0-9]/.test(newPassword)) score++;
+                            if (/[^A-Za-z0-9]/.test(newPassword)) score++;
+                            
+                            const isActive = score >= level;
+                            const colors = ['#ff4b2b', '#ff9800', '#f7b928', '#4caf50'];
+                            return (
+                              <div 
+                                key={level} 
+                                style={{ 
+                                  height: '4px', 
+                                  flex: 1, 
+                                  backgroundColor: isActive ? colors[score - 1] : 'var(--divider-color)',
+                                  borderRadius: '2px',
+                                  transition: 'all 0.3s'
+                                }} 
+                              />
+                            );
+                          })}
+                        </div>
+                        <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
+                          {(() => {
+                            let score = 0;
+                            if (newPassword.length >= 8) score++;
+                            if (/[A-Z]/.test(newPassword)) score++;
+                            if (/[a-z]/.test(newPassword) && /[0-9]/.test(newPassword)) score++;
+                            if (/[^A-Za-z0-9]/.test(newPassword)) score++;
+                            const labels = ['Weak', 'Weak', 'Fair', 'Good', 'Strong'];
+                            return labels[score];
+                          })()}
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <div className="form-group">
                     <label>Confirm New Password</label>
@@ -404,6 +453,8 @@ const Settings: React.FC = () => {
               </div>
             </div>
           )}
+            </motion.div>
+          </AnimatePresence>
         </main>
       </div>
     </div>

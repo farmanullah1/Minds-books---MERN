@@ -225,6 +225,22 @@
   flex-direction: column;
   gap: 8px;
   margin-top: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.friend-card .btn-message {
+  position: absolute;
+  bottom: 0;
+  right: -100%;
+  transition: right 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  opacity: 0;
+  width: calc(100% - 24px); /* assuming padding */
+}
+
+.friend-card:hover .btn-message {
+  right: 12px;
+  opacity: 1;
 }
 
 /* Responsive */

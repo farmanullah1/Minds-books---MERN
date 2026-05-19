@@ -9,7 +9,7 @@
 
 const express = require('express');
 const router = express.Router();
-const auth = require('../middleware/auth');
+const { auth } = require('../middleware/auth');
 const {
   createGroup,
   getGroups,
@@ -24,7 +24,9 @@ const {
   pinPost,
   unpinPost,
   getDiscoverGroups,
-  getGroupMedia
+  getGroupMedia,
+  createChannel,
+  getChannels
 } = require('../controllers/groupController');
 
 router.get('/', auth, getGroups);
@@ -41,5 +43,7 @@ router.get('/:id/feed', auth, getGroupFeed);
 router.post('/:id/manage-member', auth, manageMember);
 router.post('/:id/pin', auth, pinPost);
 router.post('/:id/unpin', auth, unpinPost);
+router.post('/:id/channels', auth, createChannel);
+router.get('/:id/channels', auth, getChannels);
 
 module.exports = router;

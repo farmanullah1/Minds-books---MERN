@@ -9,7 +9,7 @@
 
 const express = require('express');
 const router = express.Router();
-const auth = require('../middleware/auth');
+const { auth } = require('../middleware/auth');
 const {
   createPost,
   getFeedPosts,
@@ -23,7 +23,9 @@ const {
   getSavedPosts,
   toggleSavePost,
   likeComment,
-  replyToComment
+  replyToComment,
+  handleCollaborator,
+  boostPost
 } = require('../controllers/postController');
 
 router.get('/user/saved', auth, getSavedPosts); // Needs to be above /:id
@@ -39,5 +41,7 @@ router.delete('/:id/comment/:commentId', auth, deleteComment);
 router.put('/:id/comment/:commentId/like', auth, likeComment);
 router.post('/:id/comment/:commentId/reply', auth, replyToComment);
 router.put('/:id/save', auth, toggleSavePost);
+router.post('/:id/collaborator', auth, handleCollaborator);
+router.post('/:id/boost', auth, boostPost);
 
 module.exports = router;

@@ -9,7 +9,7 @@
 
 const express = require('express');
 const router = express.Router();
-const auth = require('../middleware/auth');
+const { auth } = require('../middleware/auth');
 const { createStory, getFeedStories, deleteStory, reactToStory, replyToStory } = require('../controllers/storyController');
 
 router.post('/', auth, createStory);

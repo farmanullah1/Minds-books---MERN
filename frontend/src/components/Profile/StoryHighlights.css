@@ -1,0 +1,135 @@
+.story-highlights-container {
+  margin-top: 16px;
+  padding: 0 16px;
+  width: 100%;
+}
+
+.highlights-track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: none; /* Firefox */
+}
+
+.highlights-track::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.highlight-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  min-width: 72px;
+}
+
+.highlight-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 2px solid var(--border-color);
+  padding: 2px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+}
+
+.highlight-circle img, .highlight-circle video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.outline-circle {
+  border: 2px dashed var(--text-secondary);
+  color: var(--text-secondary);
+}
+
+.highlight-placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--bg-hover);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--text-secondary);
+}
+
+.highlight-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-primary);
+  max-width: 72px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.highlights-modal {
+  max-width: 400px;
+  width: 100%;
+  padding: 24px;
+}
+
+.stories-selection-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.story-select-item {
+  aspect-ratio: 9/16;
+  background: var(--bg-hover);
+  border-radius: var(--radius-md);
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  border: 2px solid transparent;
+}
+
+.story-select-item.selected {
+  border-color: var(--brand-primary);
+}
+
+.story-select-item img, .story-select-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.story-text-preview {
+  padding: 8px;
+  font-size: 10px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-primary);
+}
+
+.selection-checkmark {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 20px;
+  height: 20px;
+  background: var(--brand-primary);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}

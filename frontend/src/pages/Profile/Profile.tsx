@@ -21,6 +21,10 @@ import Navbar from '../../components/Navbar/Navbar';
 import CreatePost from '../../components/CreatePost/CreatePost';
 import Post from '../../components/Post/Post';
 import EditProfileModal from '../../components/EditProfileModal/EditProfileModal';
+import StoryHighlights from '../../components/Profile/StoryHighlights';
+import AnonymousAsk from '../../components/Profile/AnonymousAsk';
+import AnonymousInbox from '../../components/Profile/AnonymousInbox';
+import PortfolioTab from '../../components/Profile/PortfolioTab';
 import { useConversation } from '../../hooks/useConversation';
 import './Profile.css';
 
@@ -39,7 +43,7 @@ const Profile: React.FC = () => {
   const [showEditModal, setShowEditModal] = React.useState(false);
   const [mutualFriends, setMutualFriends] = React.useState<IUser[]>([]);
   const [userMedia, setUserMedia] = React.useState<any[]>([]);
-  const [activeTab, setActiveTab] = React.useState<'posts' | 'photos'>('posts');
+  const [activeTab, setActiveTab] = React.useState<'posts' | 'photos' | 'about' | 'portfolio'>('posts');
   
   const coverInputRef = React.useRef<HTMLInputElement>(null);
   const avatarInputRef = React.useRef<HTMLInputElement>(null);
@@ -280,6 +284,8 @@ const Profile: React.FC = () => {
             </div>
           </div>
 
+          <StoryHighlights userId={id!} isOwnProfile={isOwnProfile} />
+
           <div className="profile-tabs-wrapper">
             <div className="profile-tabs">
               <button 
@@ -294,8 +300,18 @@ const Profile: React.FC = () => {
               >
                 Photos
               </button>
-              <button className="profile-tab">Friends</button>
-              <button className="profile-tab">About</button>
+              <button 
+                className={`profile-tab ${activeTab === 'about' ? 'active' : ''}`}
+                onClick={() => setActiveTab('about')}
+              >
+                About
+              </button>
+              <button 
+                className={`profile-tab ${activeTab === 'portfolio' ? 'active' : ''}`}
+                onClick={() => setActiveTab('portfolio')}
+              >
+                Portfolio
+              </button>
             </div>
           </div>
         </div>
@@ -304,6 +320,7 @@ const Profile: React.FC = () => {
         <div className="profile-body">
           {/* Left Column */}
           <div className="profile-left-col">
+            {!isOwnProfile && <AnonymousAsk targetUserId={profileUser._id} targetUserName={profileUser.name} />}
             {/* Intro Card */}
             <div className="card profile-intro-card">
               <h3 className="card-title">Intro</h3>
@@ -438,7 +455,7 @@ const Profile: React.FC = () => {
                   userPosts.map((post) => <Post key={post._id} post={post} />)
                 )}
               </>
-            ) : (
+            ) : activeTab === 'photos' ? (
               <div className="card profile-media-card">
                 <div className="card-header">
                   <h3 className="card-title">Photos</h3>
@@ -461,7 +478,17 @@ const Profile: React.FC = () => {
                   )}
                 </div>
               </div>
-            )}
+            ) : activeTab === 'about' ? (
+              <div className="profile-about-tab">
+                <div className="card p-4">
+                  <h3 className="mb-3">About {profileUser.name}</h3>
+                  <p>{profileUser.bio || 'No bio provided yet.'}</p>
+                </div>
+                {isOwnProfile && <AnonymousInbox />}
+              </div>
+            ) : activeTab === 'portfolio' ? (
+              <PortfolioTab userId={id!} isOwnProfile={isOwnProfile} />
+            ) : null}
           </div>
         </div>
       </div>

@@ -19,7 +19,9 @@ class SocketService {
   connect(userId: string) {
     if (this.socket?.connected) return;
 
-    this.socket = io('http://localhost:5000');
+    const apiRoot = import.meta.env.VITE_API_URL ?? 'http://localhost:5000';
+    const socketUrl = import.meta.env.VITE_SOCKET_URL ?? apiRoot.replace(/\/$/, '');
+    this.socket = io(socketUrl);
 
     this.socket.on('connect', () => {
       console.log('Connected to socket server');

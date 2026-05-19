@@ -41,6 +41,12 @@ export interface IUser {
   updatedAt?: string;
   isOnline?: boolean;
   lastActive?: string;
+  role?: 'user' | 'admin';
+  status?: 'active' | 'suspended' | 'banned';
+  suspensionEnd?: string | null;
+  reportCount?: number;
+  coins?: number;
+  portfolio?: IPortfolio;
 }
 
 export interface ICommentReply {
@@ -81,7 +87,7 @@ export interface IMessage {
   sender: IUser;
   text: string;
   mediaUrl: string;
-  mediaType: 'image' | 'video' | 'audio' | 'voice' | 'file' | 'story_reply' | '';
+  mediaType: 'image' | 'video' | 'audio' | 'voice' | 'file' | 'document' | 'story_reply' | '';
   mediaMetadata?: {
     mimeType?: string;
     width?: number;
@@ -89,6 +95,7 @@ export interface IMessage {
     duration?: number;
     size?: number;
     fileName?: string;
+    originalName?: string;
     fileSize?: number;
   };
   thumbnailUrl?: string;
@@ -148,6 +155,8 @@ export interface IGroup {
   slug: string;
   description: string;
   coverPhoto: string;
+  groupIcon?: string;
+  channels?: { _id: string; name: string; description: string }[];
   privacy: 'public' | 'private';
   rules: string[];
   creator: Pick<IUser, '_id' | 'name' | 'profilePicture'>;
@@ -192,6 +201,10 @@ export interface IPost {
   createdAt: string;
   updatedAt?: string;
   isPinned?: boolean;
+  isBoosted?: boolean;
+  isCapsule?: boolean;
+  unlockDate?: string;
+  collaborators?: { user: IUser; status: 'pending' | 'accepted' | 'declined' }[];
 }
 
 export interface AuthState {
@@ -222,4 +235,31 @@ export interface RegisterCredentials {
   password: string;
   birthdate?: string;
   gender?: string;
+}
+
+export interface IPortfolio {
+  workSamples: { title: string; description: string; imageUrl: string; projectUrl: string; githubUrl: string }[];
+  skills: { name: string; endorsements: string[] }[];
+  certifications: { title: string; organization: string; issueDate: string; expiryDate: string; certificateUrl: string }[];
+  recommendations: { from: IUser; text: string; date: string }[];
+  resumeUrl: string;
+  isOpenToWork: boolean;
+  visibility: 'Public' | 'Connections Only' | 'Recruiters Only';
+}
+
+export interface IJobPosting {
+  _id: string;
+  employer: IUser;
+  title: string;
+  description: string;
+  requirements: string[];
+  location: string;
+  salaryRange: { min: number; max: number; currency: string };
+  deadline?: string;
+  isRemote: boolean;
+  isPromoted: boolean;
+  category: string;
+  type: 'Full-time' | 'Part-time' | 'Contract' | 'Freelance' | 'Internship';
+  applicants: { user: IUser; appliedAt: string; status: string }[];
+  createdAt: string;
 }

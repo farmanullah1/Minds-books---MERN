@@ -152,6 +152,18 @@ export const toggleSavePost = createAsyncThunk(
   }
 );
 
+export const boostPost = createAsyncThunk(
+  'posts/boost',
+  async (postId: string, { rejectWithValue }) => {
+    try {
+      const response = await api.post(`/posts/${postId}/boost`);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to boost post');
+    }
+  }
+);
+
 const updatePostInList = (posts: IPost[], updatedPost: IPost): IPost[] => {
   return posts.map((p) => (p._id === updatedPost._id ? updatedPost : p));
 };
@@ -270,6 +282,11 @@ const postsSlice = createSlice({
       .addCase(toggleSavePost.fulfilled, (state, action) => {
         // We don't necessarily need to update the post object itself unless it has a 'saved' flag
         // But we might want to update the local user state if it's available
+      })
+      .addCase(boostPost.fulfilled, (state, action) => {
+        const { post } = action.payload;
+        state.posts = updatePostInList(state.posts, post);
+        state.userPosts = updatePostInList(state.userPosts, post);
       });
   },
 });

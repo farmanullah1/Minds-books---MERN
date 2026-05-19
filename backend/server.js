@@ -106,6 +106,18 @@ app.use('/uploads', express.static(uploadsPath));
 console.log(`📂 Serving static files from: ${uploadsPath}`);
 
 const conversationRoutes = require('./routes/conversations');
+const adminRoutes = require('./routes/admin');
+const reportRoutes = require('./routes/reports');
+const aiRoutes = require('./routes/ai');
+const highlightRoutes = require('./routes/highlights');
+const discussionRoutes = require('./routes/discussions');
+const anonymousRoutes = require('./routes/anonymous');
+const articleRoutes = require('./routes/articles');
+const playlistRoutes = require('./routes/playlists');
+const giftRoutes = require('./routes/gifts');
+const challengeRoutes = require('./routes/challenges');
+const memoryRoutes = require('./routes/memories');
+
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
@@ -113,10 +125,24 @@ app.use('/api/posts', postRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/stories', storyRoutes);
+app.use('/api/highlights', highlightRoutes);
 app.use('/api/groups', groupRoutes);
+app.use('/api/discussions', discussionRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/search', searchRoutes);
 app.use('/api/conversations', conversationRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/reports', reportRoutes);
+app.use('/api/ai', aiRoutes);
+app.use('/api/anonymous', anonymousRoutes);
+app.use('/api/articles', articleRoutes);
+app.use('/api/playlists', playlistRoutes);
+app.use('/api/gifts', giftRoutes);
+app.use('/api/challenges', challengeRoutes);
+app.use('/api/memories', memoryRoutes);
+app.use('/api/jobs', require('./routes/jobs'));
+app.use('/api/data-export', require('./routes/dataExport'));
+
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'MindBook API is running' });

@@ -21,15 +21,29 @@ import GroupsHome from './pages/Groups/GroupsHome';
 import GroupDiscover from './pages/Groups/GroupDiscover';
 import GroupPage from './pages/Groups/GroupPage';
 import Events from './pages/Events/Events';
+import ArticlesHome from './pages/Articles/ArticlesHome';
+import CreateArticle from './pages/Articles/CreateArticle';
+import ArticleView from './pages/Articles/ArticleView';
+import Playlists from './pages/Playlists/Playlists';
+import CreatePlaylist from './pages/Playlists/CreatePlaylist';
+import PlaylistDetail from './pages/Playlists/PlaylistDetail';
 import Search from './pages/Search/Search';
 import Friends from './pages/Friends/Friends';
 import Saved from './pages/Saved/Saved';
 import Settings from './pages/Settings/Settings';
+import AdminDashboard from './pages/Admin/AdminDashboard';
+import Store from './pages/Store/Store';
+import Memories from './pages/Memories/Memories';
+import Jobs from './pages/Jobs/Jobs';
+import CreateJob from './pages/Jobs/CreateJob';
+import JobDetail from './pages/Jobs/JobDetail';
+import Security from './pages/Settings/Security';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import MobileBottomNav from './components/Navbar/MobileBottomNav';
 import { FiArrowUp } from 'react-icons/fi';
 import { socketService } from './services/socketService';
 import NotificationToast from './components/NotificationToast/NotificationToast';
+import MindBot from './components/MindBot/MindBot';
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { token } = useAppSelector((state) => state.auth);
@@ -201,6 +215,54 @@ const App: React.FC = () => {
           }
         />
         <Route
+          path="/articles"
+          element={
+            <ProtectedRoute>
+              <ArticlesHome />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/articles/new"
+          element={
+            <ProtectedRoute>
+              <CreateArticle />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/articles/:id"
+          element={
+            <ProtectedRoute>
+              <ArticleView />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/playlists"
+          element={
+            <ProtectedRoute>
+              <Playlists />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/playlists/create"
+          element={
+            <ProtectedRoute>
+              <CreatePlaylist />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/playlists/:id"
+          element={
+            <ProtectedRoute>
+              <PlaylistDetail />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/search"
           element={
             <ProtectedRoute>
@@ -217,6 +279,22 @@ const App: React.FC = () => {
           }
         />
         <Route
+          path="/marketplace"
+          element={
+            <ProtectedRoute>
+              <Store />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/memories"
+          element={
+            <ProtectedRoute>
+              <Memories />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/settings"
           element={
             <ProtectedRoute>
@@ -224,9 +302,50 @@ const App: React.FC = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/jobs"
+          element={
+            <ProtectedRoute>
+              <Jobs />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/jobs/create"
+          element={
+            <ProtectedRoute>
+              <CreateJob />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/jobs/:id"
+          element={
+            <ProtectedRoute>
+              <JobDetail />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/security"
+          element={
+            <ProtectedRoute>
+              <Security />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       {token && <MobileBottomNav />}
+      {token && <MindBot />}
       {showScroll && (
         <button 
           className="back-to-top" 
@@ -234,7 +353,7 @@ const App: React.FC = () => {
           style={{
             position: 'fixed',
             bottom: '20px',
-            right: '20px',
+            left: '20px',
             width: '45px',
             height: '45px',
             borderRadius: '50%',

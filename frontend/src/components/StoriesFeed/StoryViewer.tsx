@@ -35,8 +35,8 @@ const StoryViewer: React.FC<StoryViewerProps> = ({
   const [storyIndex, setStoryIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const requestRef = useRef<number>();
-  const startTimeRef = useRef<number>();
+  const requestRef = useRef<number | null>(null);
+  const startTimeRef = useRef<number | null>(null);
 
   const currentGroup = groups[groupIndex];
   const currentStory = currentGroup?.stories[storyIndex];
@@ -45,12 +45,12 @@ const StoryViewer: React.FC<StoryViewerProps> = ({
     if (storyIndex < currentGroup.stories.length - 1) {
       setStoryIndex(prev => prev + 1);
       setProgress(0);
-      startTimeRef.current = undefined;
+      startTimeRef.current = null;
     } else if (groupIndex < groups.length - 1) {
       setGroupIndex(prev => prev + 1);
       setStoryIndex(0);
       setProgress(0);
-      startTimeRef.current = undefined;
+      startTimeRef.current = null;
     } else {
       onClose();
     }
@@ -60,12 +60,12 @@ const StoryViewer: React.FC<StoryViewerProps> = ({
     if (storyIndex > 0) {
       setStoryIndex(prev => prev - 1);
       setProgress(0);
-      startTimeRef.current = undefined;
+      startTimeRef.current = null;
     } else if (groupIndex > 0) {
       setGroupIndex(prev => prev - 1);
       setStoryIndex(groups[groupIndex - 1].stories.length - 1);
       setProgress(0);
-      startTimeRef.current = undefined;
+      startTimeRef.current = null;
     }
   };
 
@@ -100,7 +100,7 @@ const StoryViewer: React.FC<StoryViewerProps> = ({
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    startTimeRef.current = undefined;
+    startTimeRef.current = null;
     setProgress(0);
     requestRef.current = requestAnimationFrame(animate);
     return () => {

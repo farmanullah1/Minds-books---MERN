@@ -88,6 +88,10 @@ const userSchema = new mongoose.Schema(
       messageRequests: { type: String, enum: ['Everyone', 'Friends', 'No one'], default: 'Everyone' },
       friendRequests: { type: String, enum: ['Everyone', 'Friends of Friends'], default: 'Everyone' }
     },
+    anonymousQnA: {
+      enabled: { type: Boolean, default: false },
+      autoPost: { type: Boolean, default: false }
+    },
     notifications: {
       newMessages: { type: Boolean, default: true },
       friendRequests: { type: Boolean, default: true },
@@ -143,6 +147,47 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    role: {
+      type: String,
+      enum: ['user', 'admin'],
+      default: 'user'
+    },
+    status: {
+      type: String,
+      enum: ['active', 'suspended', 'banned'],
+      default: 'active'
+    },
+    suspensionEnd: {
+      type: Date,
+      default: null
+    },
+    reportCount: {
+      type: Number,
+      default: 0
+    },
+    coins: {
+      type: Number,
+      default: 0
+    },
+    lastLoginReward: {
+      type: Date,
+      default: null
+    },
+    dailyActivity: {
+      posts: { type: Number, default: 0 },
+      comments: { type: Number, default: 0 },
+      lastReset: { type: Date, default: Date.now }
+    },
+    portfolio: {
+      workSamples: [{ title: String, description: String, imageUrl: String, projectUrl: String, githubUrl: String }],
+      skills: [{ name: String, endorsements: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] }],
+      certifications: [{ title: String, organization: String, issueDate: Date, expiryDate: Date, certificateUrl: String }],
+      recommendations: [{ from: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, text: String, date: { type: Date, default: Date.now } }],
+      resumeUrl: { type: String, default: '' },
+      isOpenToWork: { type: Boolean, default: false },
+      isVerified: { type: Boolean, default: false },
+      visibility: { type: String, enum: ['Public', 'Connections Only', 'Recruiters Only'], default: 'Public' }
+    }
   },
   {
     timestamps: true,

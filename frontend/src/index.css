@@ -836,3 +836,138 @@ textarea.input-field {
   white-space: nowrap;
   border-width: 0;
 }
+
+/* ===========================
+   PROMPT-29 — Micro-Interactions
+   =========================== */
+
+/* Online dot pulse */
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.35); opacity: 0.7; }
+}
+.online-dot {
+  width: 10px;
+  height: 10px;
+  background: #31a24c;
+  border-radius: 50%;
+  border: 2px solid var(--bg-card);
+  animation: pulse-dot 2.4s ease-in-out infinite;
+}
+
+/* Card hover lift */
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Button hover glow */
+.btn-primary:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 20px rgba(247, 185, 40, 0.3);
+}
+
+/* Avatar hover ring */
+.avatar:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 0 3px var(--brand-primary);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Input focus yellow glow */
+.input-field:focus,
+.form-control:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--brand-primary) !important;
+  box-shadow: 0 0 0 3px rgba(247, 185, 40, 0.15) !important;
+}
+
+/* Notification bell swing */
+@keyframes bell-swing {
+  0%, 100% { transform: rotate(0deg); }
+  10% { transform: rotate(14deg); }
+  20% { transform: rotate(-12deg); }
+  30% { transform: rotate(8deg); }
+  40% { transform: rotate(-5deg); }
+  50% { transform: rotate(2deg); }
+}
+.bell-swing {
+  animation: bell-swing 0.8s ease-in-out;
+  transform-origin: top center;
+}
+
+/* Auth page animated blobs */
+.auth-bg-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.15;
+  animation: blob-drift 8s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+.blob-1 { width: 500px; height: 500px; background: #F7B928; top: -100px; left: -100px; animation-delay: 0s; }
+.blob-2 { width: 400px; height: 400px; background: #FFD700; top: 200px; right: -80px; animation-delay: -3s; }
+.blob-3 { width: 350px; height: 350px; background: #FFEC8B; bottom: -50px; left: 40%; animation-delay: -6s; }
+
+@keyframes blob-drift {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(30px, -30px) scale(1.08); }
+  100% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+/* Navbar scroll shadow */
+.navbar.scrolled {
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+  backdrop-filter: blur(8px);
+}
+
+/* Image blur-up loading */
+.img-blur-up {
+  filter: blur(20px);
+  transition: filter 0.5s ease;
+}
+.img-blur-up.loaded {
+  filter: blur(0);
+}
+
+/* Like animation burst */
+@keyframes like-burst {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.6); }
+  60% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+.like-burst {
+  animation: like-burst 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Ripple effect */
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+.ripple::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(247,185,40,0.25) 10%, transparent 10.01%);
+  transform: scale(0);
+  opacity: 0;
+  transition: transform 0.4s ease, opacity 0.6s ease;
+}
+.ripple:active::after {
+  transform: scale(10);
+  opacity: 1;
+  transition: 0s;
+}
+
+/* Checkmark draw animation */
+@keyframes draw-check {
+  0% { stroke-dashoffset: 40; }
+  100% { stroke-dashoffset: 0; }
+}
+.draw-check {
+  stroke-dasharray: 40;
+  animation: draw-check 0.4s ease-out forwards;
+}

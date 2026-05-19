@@ -76,7 +76,7 @@ const GroupDetails: React.FC = () => {
   };
 
   const isMember = group?.members.some(m => m._id === user?._id);
-  const isAdmin = group?.admin._id === user?._id;
+  const isAdmin = Boolean(group?.admins?.some((admin) => admin._id === user?._id));
 
   if (loading) {
     return (
@@ -146,7 +146,7 @@ const GroupDetails: React.FC = () => {
                 <h3>About</h3>
                 <p>{group?.description}</p>
                 <div className="admin-info mt-4">
-                  <strong>Admin:</strong> {group?.admin.name}
+                  <strong>Admin:</strong> {group?.admins?.[0]?.name || 'Group Admin'}
                 </div>
               </div>
             </div>

@@ -20,8 +20,12 @@ import {
   FiTrash2, 
   FiMapPin,
   FiSend,
-  FiPlay
+  FiPlay,
+  FiAlertTriangle,
+  FiCpu,
+  FiGift
 } from 'react-icons/fi';
+import api from '../../services/api';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { 
   reactToPost, 
@@ -32,11 +36,14 @@ import {
   toggleSavePost,
   likeComment,
   replyToComment,
-  createPost
+  createPost,
+  boostPost
 } from '../../store/slices/postsSlice';
 import { IPost } from '../../types';
 import { formatTimeAgo, getInitials } from '../../utils/helpers';
 import MediaViewer from '../MediaViewer/MediaViewer';
+import ReportModal from '../ReportModal/ReportModal';
+import GiftModal from '../GiftModal/GiftModal';
 import './Post.css';
 
 interface PostProps {
@@ -53,6 +60,10 @@ const REACTION_TYPES = [
   { type: 'wow', label: 'Wow', icon: '😮', color: '#f7b928' },
   { type: 'sad', label: 'Sad', icon: '😢', color: '#1877f2' },
   { type: 'angry', label: 'Angry', icon: '😠', color: '#f02849' },
+  { type: 'same', label: 'Same!', icon: '🙌', color: '#17a2b8' },
+  { type: 'proud', label: 'Proud', icon: '🏆', color: '#ffc107' },
+  { type: 'thinking', label: 'Thinking', icon: '🤔', color: '#6c757d' },
+  { type: 'bookmark', label: 'Bookmark', icon: '🔖', color: '#20c997' },
 ] as const;
 
 const Post: React.FC<PostProps> = ({ post, onPin, onUnpin, canManage }) => {
@@ -83,6 +94,11 @@ const Post: React.FC<PostProps> = ({ post, onPin, onUnpin, canManage }) => {
   const [showShareModal, setShowShareModal] = React.useState(false);
   const [shareText, setShareText] = React.useState('');
   const [isSharing, setIsSharing] = React.useState(false);
+  const [showReportModal, setShowReportModal] = React.useState(false);
+  const [showGiftModal, setShowGiftModal] = React.useState(false);
+  
+  const [aiSuggestingReply, setAiSuggestingReply] = React.useState<string | null>(null);
+  const [aiSuggestions, setAiSuggestions] = React.useState<{commentId: string, suggestions: string[]} | null>(null);
 
   React.useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -181,6 +197,31 @@ const Post: React.FC<PostProps> = ({ post, onPin, onUnpin, canManage }) => {
     alert('Post shared successfully!');
   };
 
+  const handleSuggestReply = async (commentId: string, text: string) => {
+    if (aiSuggestingReply) return;
+    setAiSuggestingReply(commentId);
+    try {
+      const res = await api.post('/ai/suggest-replies', { commentText: text });
+      setAiSuggestions({ commentId, suggestions: res.data.suggestions || [] });
+    } catch (err) {
+      console.error('Failed to get suggestions', err);
+    } finally {
+      setAiSuggestingReply(null);
+    }
+  };
+
+  const handleBoost = async () => {
+    if (window.confirm('Boost this post for 20 coins? It will appear at the top of the feed.')) {
+      try {
+        await dispatch(boostPost(post._id)).unwrap();
+        alert('Post boosted successfully!');
+      } catch (err: any) {
+        alert(err || 'Failed to boost post');
+      }
+      setShowMenu(false);
+    }
+  };
+
   const linkifyContent = (text: string) => {
     const urlRegex = /(https?:\/\/[^\s]+)/g;
     return text.split(urlRegex).map((part, i) => {
@@ -212,6 +253,11 @@ const Post: React.FC<PostProps> = ({ post, onPin, onUnpin, canManage }) => {
           <div className="post-user-meta">
             <span className="post-user-name">
               {post.user.name}
+              {post.collaborators?.filter((c: any) => c.status === 'accepted').map((c: any) => (
+                <span key={c.user._id || c.user} className="collaborator-name">
+                  , {c.user.name}
+                </span>
+              ))}
               {post.feeling && (
                 <span className="post-user-feeling">
                   {' '}is feeling <strong>{post.feeling}</strong>
@@ -219,7 +265,23 @@ const Post: React.FC<PostProps> = ({ post, onPin, onUnpin, canManage }) => {
               )}
             </span>
             <div className="post-time-location">
+              {post.isCapsule && (
+                <>
+                  <span className="post-capsule-badge" style={{ color: 'var(--brand)', fontWeight: 600, fontSize: '0.8rem', marginRight: '8px' }}>
+                    🌱 {new Date() >= new Date(post.unlockDate!) ? 'Time Capsule Unlocked' : 'Locked Time Capsule'}
+                  </span>
+                  <span className="dot">•</span>
+                </>
+              )}
               <span className="post-time">{formatTimeAgo(post.createdAt)}</span>
+              {post.isBoosted && (
+                <>
+                  <span className="dot">•</span>
+                  <span className="post-boosted-badge" style={{ color: 'var(--brand)', fontWeight: 600 }}>
+                    <FiCpu size={12} /> Boosted
+                  </span>
+                </>
+              )}
               {post.location && (
                 <>
                   <span className="dot">•</span>
@@ -262,6 +324,12 @@ const Post: React.FC<PostProps> = ({ post, onPin, onUnpin, canManage }) => {
                         <FiEdit2 size={16} />
                         <span>Edit post</span>
                       </button>
+                      {!post.isBoosted && (
+                        <button className="post-menu-item" onClick={handleBoost}>
+                          <FiCpu size={16} />
+                          <span>Boost post (20 coins)</span>
+                        </button>
+                      )}
                       <button className="post-menu-item delete-item" onClick={handleDelete}>
                         <FiTrash2 size={16} />
                         <span>Delete post</span>
@@ -278,11 +346,47 @@ const Post: React.FC<PostProps> = ({ post, onPin, onUnpin, canManage }) => {
                       <span>{post.isPinned ? 'Unpin post' : 'Pin post'}</span>
                     </button>
                   )}
+                  {!isOwner && (
+                    <>
+                      <button className="post-menu-item" onClick={() => { setShowGiftModal(true); setShowMenu(false); }}>
+                        <FiGift size={16} />
+                        <span>Send Gift</span>
+                      </button>
+                      <button className="post-menu-item" onClick={() => { setShowReportModal(true); setShowMenu(false); }}>
+                        <FiAlertTriangle size={16} />
+                        <span>Report post</span>
+                      </button>
+                    </>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
       </div>
+
+      {/* Collaboration Invite Banner */}
+      {post.collaborators?.some((c: any) => c.user === user?._id && c.status === 'pending') && (
+        <div className="collab-invite-banner" style={{ background: 'var(--bg-secondary)', padding: '12px', margin: '0 16px 12px', borderRadius: 'var(--radius-md)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ fontSize: '0.9rem' }}>You were invited to collaborate on this post.</span>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button className="btn btn-primary btn-sm" onClick={async () => {
+              try {
+                const api = (await import('../../services/api')).default;
+                await api.post(`/posts/${post._id}/collaborator`, { action: 'accept' });
+                // Need a way to update local post state or trigger refetch. For now just reload.
+                window.location.reload();
+              } catch (e) {}
+            }}>Accept</button>
+            <button className="btn btn-secondary btn-sm" onClick={async () => {
+              try {
+                const api = (await import('../../services/api')).default;
+                await api.post(`/posts/${post._id}/collaborator`, { action: 'decline' });
+                window.location.reload();
+              } catch (e) {}
+            }}>Decline</button>
+          </div>
+        </div>
+      )}
 
       {/* Post Content */}
       {isEditing ? (
@@ -525,29 +629,55 @@ const Post: React.FC<PostProps> = ({ post, onPin, onUnpin, canManage }) => {
 
                   {/* Reply Input */}
                   {replyToCommentId === comment._id && (
-                    <form className="comment-form reply-form" onSubmit={(e) => handleReplySubmit(e, comment._id)} style={{ marginTop: '8px' }}>
-                      {user?.profilePicture ? (
-                        <img src={user.profilePicture} alt={user.name} className="avatar avatar-xs" style={{ width: '24px', height: '24px' }} />
-                      ) : (
-                        <div className="avatar avatar-xs" style={{ width: '24px', height: '24px', fontSize: '10px' }}>{user ? getInitials(user.name) : '?'}</div>
+                    <div className="reply-section-wrapper" style={{ marginTop: '8px' }}>
+                      {aiSuggestions?.commentId === comment._id && (
+                        <div className="ai-suggestions-pills" style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '8px', marginLeft: '34px' }}>
+                          {aiSuggestions.suggestions.map((s, i) => (
+                            <button 
+                              key={i} 
+                              className="badge badge-medium" 
+                              style={{ cursor: 'pointer', border: 'none' }}
+                              onClick={() => { setReplyText(s); setAiSuggestions(null); }}
+                            >
+                              {s}
+                            </button>
+                          ))}
+                        </div>
                       )}
-                      <div className="comment-input-wrapper">
-                        <input
-                          type="text"
-                          className="comment-input"
-                          style={{ padding: '6px 12px', fontSize: '0.85rem' }}
-                          placeholder="Write a reply..."
-                          value={replyText}
-                          onChange={(e) => setReplyText(e.target.value)}
-                          autoFocus
-                        />
-                        {replyText.trim() && (
-                          <button type="submit" className="comment-send-btn">
-                            <FiSend size={14} />
-                          </button>
+                      <form className="comment-form reply-form" onSubmit={(e) => handleReplySubmit(e, comment._id)}>
+                        {user?.profilePicture ? (
+                          <img src={user.profilePicture} alt={user.name} className="avatar avatar-xs" style={{ width: '24px', height: '24px' }} />
+                        ) : (
+                          <div className="avatar avatar-xs" style={{ width: '24px', height: '24px', fontSize: '10px' }}>{user ? getInitials(user.name) : '?'}</div>
                         )}
-                      </div>
-                    </form>
+                        <div className="comment-input-wrapper">
+                          <input
+                            type="text"
+                            className="comment-input"
+                            style={{ padding: '6px 12px', fontSize: '0.85rem' }}
+                            placeholder="Write a reply..."
+                            value={replyText}
+                            onChange={(e) => setReplyText(e.target.value)}
+                            autoFocus
+                          />
+                          <button 
+                            type="button" 
+                            className="comment-ai-btn" 
+                            title="AI Suggest Reply"
+                            disabled={aiSuggestingReply === comment._id}
+                            onClick={() => handleSuggestReply(comment._id, comment.text)}
+                            style={{ background: 'none', border: 'none', color: aiSuggestingReply === comment._id ? 'var(--text-secondary)' : 'var(--brand-primary)', cursor: 'pointer', padding: '0 8px' }}
+                          >
+                            <FiCpu size={14} className={aiSuggestingReply === comment._id ? 'spin-animation' : ''} />
+                          </button>
+                          {replyText.trim() && (
+                            <button type="submit" className="comment-send-btn">
+                              <FiSend size={14} />
+                            </button>
+                          )}
+                        </div>
+                      </form>
+                    </div>
                   )}
                 </div>
               </div>
@@ -656,6 +786,24 @@ const Post: React.FC<PostProps> = ({ post, onPin, onUnpin, canManage }) => {
           </div>
         )}
       </AnimatePresence>
+      
+      {showReportModal && (
+        <ReportModal
+          targetId={post._id}
+          targetType="Post"
+          onClose={() => setShowReportModal(false)}
+        />
+      )}
+
+      {showGiftModal && (
+        <GiftModal
+          recipientId={post.user._id}
+          recipientName={post.user.name}
+          postId={post._id}
+          onClose={() => setShowGiftModal(false)}
+        />
+      )}
+
       {viewerData && (
         <MediaViewer 
           url={viewerData.url} 

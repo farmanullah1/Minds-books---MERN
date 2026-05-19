@@ -10,6 +10,7 @@
 import React from 'react';
 import { FiBell, FiCheck } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { markAsRead, markAllAsRead, fetchNotifications } from '../../store/slices/notificationsSlice';
 import { getInitials } from '../../utils/helpers';
@@ -85,61 +86,76 @@ const NotificationsDropdown: React.FC = () => {
         )}
       </button>
 
-      {isOpen && (
-        <div className="notifications-dropdown">
-          <div className="notifications-header">
-            <h3>Notifications</h3>
-            {unreadCount > 0 && (
-              <button className="mark-all-btn" onClick={handleMarkAll}>
-                Mark all as read
-              </button>
-            )}
-          </div>
-          
-          <div className="notifications-body">
-            {items.length === 0 ? (
-              <div className="no-notifications">
-                <p>No notifications yet.</p>
-              </div>
-            ) : (
-              items.map((notif) => (
-                <Link 
-                  key={notif._id} 
-                  to={getNotificationLink(notif.type, notif.fromUser._id)} 
-                  className={`notification-item ${!notif.read ? 'unread' : ''}`}
-                  onClick={() => { if (!notif.read) dispatch(markAsRead(notif._id)) }}
-                >
-                  <div className="notification-avatar">
-                    {notif.fromUser.profilePicture ? (
-                      <img src={notif.fromUser.profilePicture} alt={notif.fromUser.name} />
-                    ) : (
-                      <div className="avatar-initials">{getInitials(notif.fromUser.name)}</div>
-                    )}
-                  </div>
-                  <div className="notification-content">
-                    <p>
-                      <strong>{notif.fromUser.name}</strong>{' '}
-                      {getNotificationText(notif.type, notif.post, notif.text)}
-                    </p>
-                    <span className="notification-time">
-                      {new Date(notif.createdAt).toLocaleDateString()}
-                    </span>
-                  </div>
-                  {!notif.read && (
-                    <button 
-                      className="mark-read-icon" 
-                      onClick={(e) => handleMarkAsRead(notif._id, e)}
-                      title="Mark as read"
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            className="notifications-dropdown"
+            initial={{ opacity: 0, scale: 0.95, y: -10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: -10 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+            style={{ transformOrigin: 'top right' }}
+          >
+            <div className="notifications-header">
+              <h3>Notifications</h3>
+              {unreadCount > 0 && (
+                <button className="mark-all-btn" onClick={handleMarkAll}>
+                  Mark all as read
+                </button>
+              )}
+            </div>
+            
+            <div className="notifications-body">
+              {items.length === 0 ? (
+                <div className="no-notifications">
+                  <p>No notifications yet.</p>
+                </div>
+              ) : (
+                items.map((notif, index) => (
+                  <motion.div
+                    key={notif._id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.04, duration: 0.2 }}
+                  >
+                    <Link 
+                      to={getNotificationLink(notif.type, notif.fromUser._id)} 
+                      className={`notification-item ${!notif.read ? 'unread' : ''}`}
+                      onClick={() => { if (!notif.read) dispatch(markAsRead(notif._id)) }}
                     >
-                      <FiCheck />
-                    </button>
-                  )}
-                </Link>
-              ))
-            )}
-          </div>
-        </div>
-      )}
+                      <div className="notification-avatar">
+                        {notif.fromUser.profilePicture ? (
+                          <img src={notif.fromUser.profilePicture} alt={notif.fromUser.name} />
+                        ) : (
+                          <div className="avatar-initials">{getInitials(notif.fromUser.name)}</div>
+                        )}
+                      </div>
+                      <div className="notification-content">
+                        <p>
+                          <strong>{notif.fromUser.name}</strong>{' '}
+                          {getNotificationText(notif.type, notif.post, notif.text)}
+                        </p>
+                        <span className="notification-time">
+                          {new Date(notif.createdAt).toLocaleDateString()}
+                        </span>
+                      </div>
+                      {!notif.read && (
+                        <button 
+                          className="mark-read-icon" 
+                          onClick={(e) => handleMarkAsRead(notif._id, e)}
+                          title="Mark as read"
+                        >
+                          <FiCheck />
+                        </button>
+                      )}
+                    </Link>
+                  </motion.div>
+                ))
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

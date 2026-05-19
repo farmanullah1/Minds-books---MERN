@@ -238,10 +238,10 @@ const Friends: React.FC = () => {
                       <div className="friend-info">
                         <Link to={`/profile/${friend._id}`} className="friend-name">{friend.name}</Link>
                         <div className="friend-card-actions">
-                          <button className="btn btn-primary btn-sm" onClick={() => handleMessage(friend._id)}>
+                          <button className="btn btn-primary btn-sm btn-message" onClick={() => handleMessage(friend._id)}>
                             <FiMessageCircle size={14} /> Message
                           </button>
-                          <button className="btn btn-secondary btn-sm" onClick={() => handleRemoveFriend(friend._id, friend.name)}>
+                          <button className="btn btn-secondary btn-sm btn-unfriend" onClick={() => handleRemoveFriend(friend._id, friend.name)}>
                             <FiUserX size={14} /> Unfriend
                           </button>
                         </div>

@@ -1,0 +1,114 @@
+/* ─── Shimmer keyframe ───────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -100vw 0; }
+  100% { background-position:  100vw 0; }
+}
+
+.skeleton-base {
+  background: linear-gradient(90deg,
+    var(--border-color) 25%,
+    var(--bg-card-hover, #f0f2f5) 37%,
+    var(--border-color) 63%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+}
+
+body.dark .skeleton-base {
+  background: linear-gradient(90deg, #3a3b3c 25%, #4a4b4c 37%, #3a3b3c 63%);
+  background-size: 400% 100%;
+}
+
+.skeleton-avatar {
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.skeleton-line {
+  border-radius: 6px;
+}
+
+/* ─── Skeleton Post ────────────────────────────────── */
+.skeleton-post {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.skeleton-post-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.skeleton-post-meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skeleton-post-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.skeleton-post-actions {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-color);
+}
+
+/* ─── Skeleton Conversation ────────────────────────── */
+.skeleton-conversation {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+}
+.skeleton-conv-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ─── Skeleton Profile ─────────────────────────────── */
+.skeleton-profile {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.skeleton-profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: -60px;
+}
+
+/* ─── Skeleton Notification ────────────────────────── */
+.skeleton-notification {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+}
+
+/* ─── Skeleton Story ───────────────────────────────── */
+.skeleton-story {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ─── Skeleton Group Card ──────────────────────────── */
+.skeleton-group-card {
+  overflow: hidden;
+}
+
+/* ─── Skeleton Video Card ──────────────────────────── */
+.skeleton-video-card {
+  overflow: hidden;
+}

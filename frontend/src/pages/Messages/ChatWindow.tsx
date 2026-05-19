@@ -21,10 +21,12 @@ import MediaViewer from '../../components/MediaViewer/MediaViewer';
 import VoiceRecorder from './VoiceRecorder';
 import AttachmentMenu from './AttachmentMenu';
 import MediaPreviewModal from './MediaPreviewModal';
+import VideoCallModal from './VideoCallModal';
+import TypingIndicator from './TypingIndicator';
 import api from '../../services/api';
 import './Messages.css';
 import { AnimatePresence } from 'framer-motion';
-import Picker, { EmojiClickData } from 'emoji-picker-react';
+import Picker, { EmojiClickData, Theme } from 'emoji-picker-react';
 
 interface ChatWindowProps {
   conversation: IConversation;
@@ -50,6 +52,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ conversation, currentUser, onBa
   const attachmentBtnRef = useRef<HTMLButtonElement>(null);
   const emojiBtnRef = useRef<HTMLButtonElement>(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [activeCall, setActiveCall] = useState<'voice' | 'video' | null>(null);
 
   const otherUser = conversation.participants.find(p => p._id !== currentUser._id);
   const recipients = conversation.participants.map(p => p._id).filter(id => id !== currentUser._id);
@@ -274,8 +277,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ conversation, currentUser, onBa
           </div>
         </div>
         <div className="chat-header-right">
-          <button className="icon-btn-modern" title="Start a voice call"><FiPhone size={20} /></button>
-          <button className="icon-btn-modern" title="Start a video call"><FiVideo size={20} /></button>
+          <button className="icon-btn-modern" onClick={() => setActiveCall('voice')} title="Start a voice call"><FiPhone size={20} /></button>
+          <button className="icon-btn-modern" onClick={() => setActiveCall('video')} title="Start a video call"><FiVideo size={20} /></button>
           <button className="icon-btn-modern" onClick={() => setShowInfo(!showInfo)} title="Conversation information">
             <FiInfo size={20} color={showInfo ? 'var(--brand-primary)' : 'inherit'} />
           </button>
@@ -295,16 +298,14 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ conversation, currentUser, onBa
                 onForward={() => setForwardingMsg(msg)}
                 onDelete={() => dispatch(deleteMessage(msg._id))}
                 onDeleteEveryone={msg.sender._id === currentUser._id ? () => dispatch(deleteForEveryone(msg._id)) : undefined}
-                onMediaClick={(url, type) => setViewerMedia({ url, type })}
+                onMediaClick={(url: string, type: string) => setViewerMedia({ url, type })}
               />
             ))}
             {currentTyping.length > 0 && (
-              <div className="typing-indicator">
-                <div className="dot" />
-                <div className="dot" />
-                <div className="dot" />
-                <span>{currentTyping.join(', ')} is typing...</span>
-              </div>
+              <TypingIndicator 
+                name={currentTyping[0]} 
+                isGroup={conversation.isGroup} 
+              />
             )}
             <div ref={messagesEndRef} />
           </div>
@@ -378,7 +379,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ conversation, currentUser, onBa
                       <Picker 
                         onEmojiClick={onEmojiClick}
                         autoFocusSearch={false}
-                        theme={document.body.classList.contains('dark') ? 'dark' : 'light'}
+                        theme={document.body.classList.contains('dark') ? Theme.DARK : Theme.LIGHT}
                       />
                     </div>
                   )}
@@ -422,7 +423,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ conversation, currentUser, onBa
       {viewerMedia && (
         <MediaViewer 
           url={viewerMedia.url} 
-          type={viewerMedia.type} 
+          type={viewerMedia.type as 'image' | 'video'} 
           onClose={() => setViewerMedia(null)} 
         />
       )}
@@ -431,6 +432,12 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ conversation, currentUser, onBa
           files={selectedFiles}
           onSend={handleSendMedia}
           onCancel={() => setSelectedFiles([])}
+        />
+      )}
+      {activeCall && (
+        <VideoCallModal 
+          otherUser={otherUser} 
+          onClose={() => setActiveCall(null)} 
         />
       )}
     </div>

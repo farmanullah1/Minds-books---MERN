@@ -75,12 +75,29 @@ const postSchema = new mongoose.Schema(
     reactions: [
       {
         user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-        type: { type: String, enum: ['like', 'love', 'haha', 'wow', 'sad', 'angry'], default: 'like' }
+        type: { 
+          type: String, 
+          enum: ['like', 'love', 'haha', 'wow', 'sad', 'angry', 'same', 'proud', 'thinking', 'bookmark'], 
+          default: 'like' 
+        },
+        optionalComment: { type: String, default: '' }
       }
     ],
+    collaborators: [
+      {
+        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+        status: { type: String, enum: ['pending', 'accepted'], default: 'pending' }
+      }
+    ],
+    isCapsule: { type: Boolean, default: false },
+    unlockDate: { type: Date },
+    capsuleAudience: { type: String, enum: ['public', 'friends', 'private'], default: 'friends' },
     group: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Group',
+    },
+    groupChannel: {
+      type: mongoose.Schema.Types.ObjectId,
     },
     location: {
       type: String,
@@ -93,6 +110,15 @@ const postSchema = new mongoose.Schema(
     sharedPost: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Post',
+    },
+    privacy: {
+      type: { type: String, enum: ['public', 'friends', 'custom', 'private'], default: 'friends' },
+      allowList: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+      blockList: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+    },
+    isBoosted: {
+      type: Boolean,
+      default: false
     },
     comments: [commentSchema],
   },

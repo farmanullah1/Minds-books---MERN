@@ -66,6 +66,13 @@ const groupSchema = new mongoose.Schema(
         ref: 'User',
       },
     ],
+    channels: [
+      {
+        name: { type: String, required: true },
+        description: { type: String, default: '' },
+        createdAt: { type: Date, default: Date.now }
+      }
+    ],
     bannedMembers: [
       {
         type: mongoose.Schema.Types.ObjectId,

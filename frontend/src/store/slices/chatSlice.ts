@@ -133,7 +133,7 @@ const chatSlice = createSlice({
         if (conv) {
           conv.status = 'accepted';
         }
-        if (state.activeConversation?._id === action.payload.conversationId) {
+        if (state.activeConversation && state.activeConversation._id === action.payload.conversationId) {
           state.activeConversation.status = 'accepted';
         }
       })

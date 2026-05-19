@@ -98,7 +98,8 @@
 }
 
 .notification-item.unread {
-  background: var(--brand-primary-light);
+  background: var(--brand-primary-light, rgba(247, 185, 40, 0.05));
+  border-left: 3px solid var(--brand-primary);
 }
 
 .notification-item.unread:hover {

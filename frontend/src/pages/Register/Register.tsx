@@ -81,6 +81,10 @@ const Register: React.FC = () => {
 
   return (
     <div className="auth-page">
+      {/* Animated background blobs */}
+      <div className="auth-bg-blob blob-1" />
+      <div className="auth-bg-blob blob-2" />
+      <div className="auth-bg-blob blob-3" />
       <div className="auth-container">
         {/* Branding Section */}
         <div className="auth-branding-center">
@@ -194,10 +198,10 @@ const Register: React.FC = () => {
                       onChange={(e) => setGender(e.target.value)}
                     >
                       <option value="">Gender (optional)</option>
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                      <option value="other">Other</option>
-                      <option value="prefer-not-to-say">Prefer not to say</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Non-binary">Non-binary</option>
+                      <option value="Prefer not to say">Prefer not to say</option>
                     </select>
                   </div>
                   <div className="input-group">

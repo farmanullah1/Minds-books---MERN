@@ -9,6 +9,7 @@
 
 import { FiFile, FiCornerUpLeft, FiShare2, FiCheck, FiMoreHorizontal, FiTrash2, FiDownload } from 'react-icons/fi';
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { IMessage } from '../../types';
 import { getInitials } from '../../utils/helpers';
 import './Messages.css';
@@ -35,6 +36,14 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
   onMediaClick
 }) => {
   const [showMenu, setShowMenu] = useState(false);
+  const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+
+  const handleContextMenu = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setMenuPosition({ x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY });
+    setShowMenu(true);
+  };
+
   const renderMedia = () => {
     if (!message.mediaUrl) return null;
 
@@ -57,10 +66,10 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
         return (
           <div className="message-audio">
             <audio src={message.mediaUrl} controls />
-            {(message.mediaMetadata?.duration || message.mediaMetadata?.length) && (
+            {message.mediaMetadata?.duration && (
               <span className="audio-duration">
                 {message.mediaType === 'voice' ? 'Voice message • ' : ''}
-                {Math.round(message.mediaMetadata.duration || message.mediaMetadata.length)}s
+                {Math.round(message.mediaMetadata.duration)}s
               </span>
             )}
           </div>
@@ -117,7 +126,12 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
             <span>{message.repliedTo.text || 'Media'}</span>
           </div>
         )}
-        <div className="message-bubble" title={new Date(message.createdAt).toLocaleString()}>
+        <div 
+          className="message-bubble" 
+          title={new Date(message.createdAt).toLocaleString()}
+          onContextMenu={handleContextMenu}
+          style={{ position: 'relative' }}
+        >
           {message.isDeleted ? (
             <span className="deleted-text">This message was deleted</span>
           ) : (
@@ -126,42 +140,52 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
               {message.text && message.mediaType !== 'story_reply' && <p className="message-text">{message.text}</p>}
             </>
           )}
-        </div>
-        <div className="message-actions-overlay">
-          <button className="message-action-btn reply" onClick={onReply} title="Reply">
-            <FiCornerUpLeft size={16} />
-          </button>
-          <button className="message-action-btn forward" onClick={onForward} title="Forward">
-            <FiShare2 size={16} />
-          </button>
-          <div className="message-more-container">
-            <button className="message-action-btn more" onClick={() => setShowMenu(!showMenu)} title="More">
-              <FiMoreHorizontal size={16} />
-            </button>
-            {showMenu && (
-              <div className="message-context-menu">
-                <button onClick={() => { onDelete(); setShowMenu(false); }}>
-                  <FiTrash2 size={14} /> Remove for you
+
+          <AnimatePresence>
+            {showMenu && !message.isDeleted && (
+              <motion.div 
+                className="message-context-menu"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ type: 'spring', bounce: 0.4, duration: 0.3 }}
+                style={{ 
+                  top: menuPosition.y, 
+                  [isMe ? 'right' : 'left']: '50%',
+                  position: 'absolute',
+                  zIndex: 50
+                }}
+                onMouseLeave={() => setShowMenu(false)}
+              >
+                <div className="menu-reactions">
+                  {['👍', '❤️', '😂', '😮', '😢', '😡'].map(emoji => (
+                    <button key={emoji} className="emoji-btn" onClick={() => setShowMenu(false)}>{emoji}</button>
+                  ))}
+                </div>
+                <button onClick={() => { onReply(); setShowMenu(false); }}>
+                  <FiCornerUpLeft size={14} /> Reply
                 </button>
-                {message.mediaUrl && (
-                  <a 
-                    href={message.mediaUrl} 
-                    download={message.mediaMetadata?.fileName || 'download'} 
-                    className="menu-item-link"
-                    onClick={() => setShowMenu(false)}
-                  >
-                    <FiDownload size={14} /> Download
-                  </a>
-                )}
-                {isMe && onDeleteEveryone && !message.isDeleted && (
-                  <button className="danger" onClick={() => { onDeleteEveryone(); setShowMenu(false); }}>
-                    <FiTrash2 size={14} /> Unsend for everyone
+                <button onClick={() => { onForward(); setShowMenu(false); }}>
+                  <FiShare2 size={14} /> Forward
+                </button>
+                {message.text && (
+                  <button onClick={() => { navigator.clipboard.writeText(message.text!); setShowMenu(false); }}>
+                    <FiFile size={14} /> Copy text
                   </button>
                 )}
-              </div>
+                <button onClick={() => { onDelete(); setShowMenu(false); }}>
+                  <FiTrash2 size={14} /> Delete for me
+                </button>
+                {isMe && onDeleteEveryone && (
+                  <button className="danger" onClick={() => { onDeleteEveryone(); setShowMenu(false); }}>
+                    <FiTrash2 size={14} /> Delete for all
+                  </button>
+                )}
+              </motion.div>
             )}
-          </div>
+          </AnimatePresence>
         </div>
+        <div className="message-actions-overlay">
         {isMe && (
           <div className="message-status">
             {message.readBy && message.readBy.length > 1 ? (
@@ -177,6 +201,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
             )}
           </div>
         )}
+        </div>
       </div>
     </div>
   );

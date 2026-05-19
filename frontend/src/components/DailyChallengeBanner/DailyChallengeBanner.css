@@ -1,0 +1,75 @@
+.daily-challenge-banner {
+  background: linear-gradient(135deg, var(--brand), #ffce54);
+  color: #000;
+  padding: 16px 20px;
+  border-radius: var(--radius-lg);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 4px 15px rgba(247, 185, 40, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.daily-challenge-banner:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(247, 185, 40, 0.4);
+}
+
+.daily-challenge-banner.completed {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  box-shadow: none;
+  border: 1px solid var(--border-color);
+}
+
+.challenge-icon {
+  background: rgba(255, 255, 255, 0.3);
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.completed .challenge-icon {
+  background: var(--bg-input);
+  color: var(--brand);
+}
+
+.challenge-content {
+  flex: 1;
+}
+
+.challenge-title {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  margin-bottom: 2px;
+  opacity: 0.8;
+}
+
+.challenge-prompt {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.challenge-reward {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.challenge-status {
+  color: var(--brand);
+  font-weight: 700;
+  font-size: 0.9rem;
+}

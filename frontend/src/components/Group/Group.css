@@ -15,6 +15,12 @@
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+}
+
+.group-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
 }
 
 .group-card-link {

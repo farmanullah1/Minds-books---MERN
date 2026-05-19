@@ -42,6 +42,10 @@ const createGroup = async (req, res) => {
       creator: req.user.id,
       admins: [req.user.id],
       members: [req.user.id],
+      channels: [
+        { name: 'general', description: 'General discussion' },
+        { name: 'announcements', description: 'Important updates' }
+      ]
     });
 
     res.status(201).json(group);
@@ -379,6 +383,36 @@ const unpinPost = async (req, res) => {
   }
 };
 
+const createChannel = async (req, res) => {
+  try {
+    const { name, description } = req.body;
+    const group = await Group.findById(req.params.id);
+    if (!group) return res.status(404).json({ message: 'Group not found' });
+    
+    if (!group.admins.includes(req.user.id)) {
+      return res.status(403).json({ message: 'Only admins can create channels' });
+    }
+
+    group.channels.push({ name, description });
+    await group.save();
+    
+    res.status(201).json(group.channels);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+const getChannels = async (req, res) => {
+  try {
+    const group = await Group.findById(req.params.id);
+    if (!group) return res.status(404).json({ message: 'Group not found' });
+    
+    res.json(group.channels);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 module.exports = {
   createGroup,
   getGroups,
@@ -393,6 +427,8 @@ module.exports = {
   pinPost,
   unpinPost,
   getDiscoverGroups,
+  createChannel,
+  getChannels,
   getGroupMedia: async (req, res) => {
     try {
       const posts = await Post.find({ 

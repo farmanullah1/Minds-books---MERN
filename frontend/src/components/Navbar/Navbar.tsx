@@ -61,7 +61,7 @@ const Navbar: React.FC = () => {
       } else {
         setSearchResults({users: [], groups: [], posts: []});
       }
-    }, 500);
+    }, 250);
 
     return () => clearTimeout(delayDebounceFn);
   }, [searchQuery]);
@@ -214,6 +214,16 @@ const Navbar: React.FC = () => {
                   </div>
                 </Link>
                 <div className="dropdown-divider" />
+                {user?.role === 'admin' && (
+                  <Link
+                    to="/admin"
+                    className="dropdown-item"
+                    onClick={() => setShowProfileMenu(false)}
+                  >
+                    <div className="dropdown-icon">🛡️</div>
+                    <span>Admin Dashboard</span>
+                  </Link>
+                )}
                 <Link
                   to="/settings"
                   className="dropdown-item"

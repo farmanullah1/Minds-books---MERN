@@ -9,7 +9,7 @@
 
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { FiHome, FiUsers, FiBookmark, FiCalendar, FiFlag, FiShoppingBag, FiChevronDown, FiLogOut } from 'react-icons/fi';
+import { FiHome, FiUsers, FiBookmark, FiCalendar, FiFlag, FiShoppingBag, FiChevronDown, FiLogOut, FiBriefcase, FiMusic, FiShield } from 'react-icons/fi';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { logout } from '../../store/slices/authSlice';
 import { getInitials } from '../../utils/helpers';
@@ -29,11 +29,15 @@ const LeftSidebar: React.FC = () => {
     { icon: <FiBookmark size={20} />, label: 'Saved', to: '/saved' },
     { icon: <FiFlag size={20} />, label: 'Pages', to: '/' },
     { icon: <FiCalendar size={20} />, label: 'Events', to: '/events' },
+    { icon: <FiFlag size={20} />, label: 'Articles', to: '/articles' },
+    { icon: <FiBriefcase size={20} />, label: 'Jobs', to: '/jobs' },
   ];
 
   const moreLinks = [
     { icon: <FiShoppingBag size={20} />, label: 'Marketplace', to: '/marketplace' },
     { icon: <FiFlag size={20} />, label: 'Memories', to: '/memories' },
+    { icon: <FiMusic size={20} />, label: 'Playlists', to: '/playlists' },
+    { icon: <FiShield size={20} />, label: 'Security', to: '/security' },
   ];
 
   const handleLogout = () => {
@@ -55,6 +59,36 @@ const LeftSidebar: React.FC = () => {
           )}
           <span className="sidebar-username">{user?.name || 'User'}</span>
         </Link>
+        {/* Coin Balance */}
+        {user && (
+          <div className="sidebar-coins-card" style={{ 
+            margin: '12px 0', 
+            padding: '12px', 
+            background: 'var(--bg-secondary)', 
+            borderRadius: 'var(--radius-md)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            border: '1px solid var(--border-color)'
+          }}>
+            <div style={{ 
+              width: '36px', 
+              height: '36px', 
+              borderRadius: '50%', 
+              background: 'var(--brand)', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              color: '#000'
+            }}>
+              <FiShoppingBag size={18} />
+            </div>
+            <div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>MindBook Coins</div>
+              <div style={{ fontWeight: 700, fontSize: '1.1rem', color: 'var(--brand)' }}>{user.coins || 0}</div>
+            </div>
+          </div>
+        )}
 
         {/* Navigation Links */}
         <nav className="sidebar-nav">

@@ -33,7 +33,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ user, onClose, onUp
   const [city, setCity] = React.useState(user.location?.city || '');
   const [country, setCountry] = React.useState(user.location?.country || '');
   const [hometown, setHometown] = React.useState(user.hometown || '');
-  const [relationshipStatus, setRelationshipStatus] = React.useState(user.relationshipStatus || '');
+  const [relationshipStatus, setRelationshipStatus] = React.useState<IUser['relationshipStatus']>(user.relationshipStatus || '');
   const [website, setWebsite] = React.useState(user.website || '');
   const [birthdate, setBirthdate] = React.useState(user.birthdate ? new Date(user.birthdate).toISOString().split('T')[0] : '');
 
@@ -172,7 +172,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ user, onClose, onUp
                 </div>
                 <div className="form-group">
                   <label>Relationship Status</label>
-                  <select className="input-field" value={relationshipStatus} onChange={e => setRelationshipStatus(e.target.value)}>
+                  <select className="input-field" value={relationshipStatus} onChange={e => setRelationshipStatus(e.target.value as IUser['relationshipStatus'])}>
                     <option value="">Select Status</option>
                     <option value="Single">Single</option>
                     <option value="In a relationship">In a relationship</option>

@@ -10,13 +10,46 @@
 const Post = require('../models/Post');
 const User = require('../models/User');
 const { createNotification } = require('./notificationController');
+const { scanTextInternal } = require('./aiController');
 
 const createPost = async (req, res) => {
   try {
-    const { content, image, video, location, feeling, sharedPostId } = req.body;
+    const { 
+      content, 
+      image, 
+      video, 
+      location, 
+      feeling, 
+      group, 
+      groupChannel,
+      sharedPostId,
+      collaborators,
+      isCapsule,
+      unlockDate,
+      capsuleAudience
+    } = req.body;
 
     if (!content && !image && !video && !sharedPostId) {
       return res.status(400).json({ message: 'Post must have content, media, or be a share' });
+    }
+
+    if (content) {
+      const safetyCheck = await scanTextInternal(content);
+      if (!safetyCheck.isSafe) {
+        return res.status(400).json({ 
+          message: 'Content violates community guidelines.', 
+          reasons: safetyCheck.flaggedReasons 
+        });
+      }
+    }
+
+    // Process collaborators
+    let processedCollaborators = [];
+    if (collaborators && Array.isArray(collaborators)) {
+      processedCollaborators = collaborators.map(cId => ({
+        user: cId,
+        status: 'pending'
+      }));
     }
 
     const post = await Post.create({
@@ -27,8 +60,19 @@ const createPost = async (req, res) => {
       location: location || '',
       feeling: feeling || '',
       sharedPost: sharedPostId || null,
-      group: req.body.group || null,
+      group: group || null,
+      collaborators: processedCollaborators,
+      isCapsule: !!isCapsule,
+      unlockDate: unlockDate || null,
+      capsuleAudience: capsuleAudience || 'friends'
     });
+
+    // Notify collaborators
+    if (processedCollaborators.length > 0) {
+      for (const collab of processedCollaborators) {
+        await createNotification(collab.user, req.user.id, 'post_collab_invite', post._id, 'invited you to collaborate on a post');
+      }
+    }
 
     const populatedPost = await Post.findById(post._id)
       .populate('user', 'name profilePicture')
@@ -38,6 +82,14 @@ const createPost = async (req, res) => {
       })
       .populate('comments.user', 'name profilePicture')
       .populate('comments.replies.user', 'name profilePicture');
+
+    // Reward coins (2 per post, max 3 posts/day)
+    const user = await User.findById(req.user.id);
+    if (user && user.dailyActivity.posts < 3) {
+      user.coins += 2;
+      user.dailyActivity.posts += 1;
+      await user.save();
+    }
 
     res.status(201).json(populatedPost);
   } catch (error) {
@@ -61,9 +113,21 @@ const getFeedPosts = async (req, res) => {
     const groupIds = memberGroups.map(g => g._id);
 
     const query = {
-      $or: [
-        { user: { $in: feedUsers }, group: null },
-        { group: { $in: groupIds } }
+      $and: [
+        {
+          $or: [
+            { user: { $in: feedUsers }, group: null },
+            { group: { $in: groupIds } },
+            { 'collaborators.user': { $in: feedUsers }, 'collaborators.status': 'accepted' }
+          ]
+        },
+        {
+          $or: [
+            { isCapsule: false },
+            { isCapsule: true, unlockDate: { $lte: new Date() } },
+            { isCapsule: true, user: req.user.id } // Creator can always see their capsule
+          ]
+        }
       ]
     };
 
@@ -75,7 +139,7 @@ const getFeedPosts = async (req, res) => {
       })
       .populate('comments.user', 'name profilePicture')
       .populate('comments.replies.user', 'name profilePicture')
-      .sort({ createdAt: -1 })
+      .sort({ isBoosted: -1, createdAt: -1 })
       .skip(skip)
       .limit(limit);
 
@@ -193,7 +257,7 @@ const deletePost = async (req, res) => {
 
 const reactToPost = async (req, res) => {
   try {
-    const { type = 'like' } = req.body;
+    const { type = 'like', optionalComment = '' } = req.body;
     const post = await Post.findById(req.params.id);
 
     if (!post) {
@@ -206,16 +270,19 @@ const reactToPost = async (req, res) => {
     );
 
     if (existingReactionIndex !== -1) {
-      // If same type, remove it (toggle off)
-      if (post.reactions[existingReactionIndex].type === type) {
+      // If same type and no new comment, remove it (toggle off)
+      if (post.reactions[existingReactionIndex].type === type && !optionalComment) {
         post.reactions.splice(existingReactionIndex, 1);
       } else {
-        // Change reaction type
+        // Change reaction type and/or comment
         post.reactions[existingReactionIndex].type = type;
+        if (optionalComment) {
+          post.reactions[existingReactionIndex].optionalComment = optionalComment;
+        }
       }
     } else {
       // Add new reaction
-      post.reactions.push({ user: req.user.id, type });
+      post.reactions.push({ user: req.user.id, type, optionalComment });
       
       // Notify only on new reaction
       if (post.user.toString() !== req.user.id) {
@@ -257,6 +324,14 @@ const commentOnPost = async (req, res) => {
     });
 
     await post.save();
+    
+    // Reward coins (1 per comment, max 5/day)
+    const userObj = await User.findById(req.user.id);
+    if (userObj && userObj.dailyActivity.comments < 5) {
+      userObj.coins += 1;
+      userObj.dailyActivity.comments += 1;
+      await userObj.save();
+    }
     
     if (post.user.toString() !== req.user.id) {
       await createNotification(req.app.get('io'), post.user, req.user.id, 'comment', post._id, text.substring(0, 50));
@@ -421,6 +496,72 @@ const replyToComment = async (req, res) => {
   }
 };
 
+const boostPost = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) return res.status(404).json({ message: 'Post not found' });
+
+    if (post.user.toString() !== req.user.id) {
+      return res.status(403).json({ message: 'You can only boost your own posts' });
+    }
+
+    if (post.isBoosted) {
+      return res.status(400).json({ message: 'Post is already boosted' });
+    }
+
+    const user = await User.findById(req.user.id);
+    if (user.coins < 20) {
+      return res.status(400).json({ message: 'Not enough coins. Need 20 coins to boost.' });
+    }
+
+    user.coins -= 20;
+    post.isBoosted = true;
+
+    await user.save();
+    await post.save();
+
+    res.json({ message: 'Post boosted successfully!', coins: user.coins, post });
+  } catch (error) {
+    console.error('BoostPost error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+const handleCollaborator = async (req, res) => {
+  try {
+    const { action } = req.body; // 'accept', 'decline', 'remove'
+    const post = await Post.findById(req.params.id);
+
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    const collabIndex = post.collaborators.findIndex(c => c.user.toString() === req.user.id);
+
+    if (collabIndex === -1) {
+      return res.status(403).json({ message: 'You are not a collaborator on this post' });
+    }
+
+    if (action === 'accept') {
+      post.collaborators[collabIndex].status = 'accepted';
+    } else if (action === 'decline' || action === 'remove') {
+      post.collaborators.splice(collabIndex, 1);
+    }
+
+    await post.save();
+
+    const updatedPost = await Post.findById(post._id)
+      .populate('user', 'name profilePicture')
+      .populate('comments.user', 'name profilePicture')
+      .populate('comments.replies.user', 'name profilePicture');
+
+    res.json(updatedPost);
+  } catch (error) {
+    console.error('HandleCollaborator error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 module.exports = {
   createPost,
   getFeedPosts,
@@ -435,4 +576,6 @@ module.exports = {
   toggleSavePost,
   likeComment,
   replyToComment,
+  handleCollaborator,
+  boostPost,
 };

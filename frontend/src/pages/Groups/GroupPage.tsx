@@ -19,6 +19,8 @@ import Post from '../../components/Post/Post';
 import CreatePost from '../../components/CreatePost/CreatePost';
 import Navbar from '../../components/Navbar/Navbar';
 import EditGroupModal from './EditGroupModal';
+import GroupDiscussions from './GroupDiscussions';
+import { useAppSelector } from '../../store/hooks';
 import './GroupPage.css';
 
 const GroupPage: React.FC = () => {
@@ -31,6 +33,7 @@ const GroupPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('home');
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [activeChannel, setActiveChannel] = React.useState<string | null>(null);
   const iconInputRef = React.useRef<HTMLInputElement>(null);
 
   const handleIconUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,6 +78,7 @@ const GroupPage: React.FC = () => {
     if (path === 'about') setActiveTab('about');
     else if (path === 'members') setActiveTab('members');
     else if (path === 'media') setActiveTab('media');
+    else if (path === 'discussions') setActiveTab('discussions');
     else if (path === 'manage') setActiveTab('manage');
     else setActiveTab('home');
   }, [location]);
@@ -201,6 +205,7 @@ const GroupPage: React.FC = () => {
           <nav className="group-tabs">
             <Link to={`/groups/${group._id}`} className={`tab ${activeTab === 'home' ? 'active' : ''}`}>Home</Link>
             <Link to={`/groups/${group._id}/about`} className={`tab ${activeTab === 'about' ? 'active' : ''}`}>About</Link>
+            <Link to={`/groups/${group._id}/discussions`} className={`tab ${activeTab === 'discussions' ? 'active' : ''}`}>Discussions</Link>
             <Link to={`/groups/${group._id}/members`} className={`tab ${activeTab === 'members' ? 'active' : ''}`}>Members</Link>
             <Link to={`/groups/${group._id}/media`} className={`tab ${activeTab === 'media' ? 'active' : ''}`}>Media</Link>
             {(group.isAdmin || group.isModerator) && (
@@ -218,6 +223,7 @@ const GroupPage: React.FC = () => {
               {group.isMember ? (
                 <CreatePost 
                   groupId={group._id} 
+                  activeChannel={activeChannel}
                   onPostCreated={fetchGroupData} 
                   placeholder={`Write something to ${group.name}...`}
                 />
@@ -238,8 +244,15 @@ const GroupPage: React.FC = () => {
                 </div>
               )}
 
+              {activeChannel && group.channels && (
+                <div className="channel-header-banner mb-3 p-3 card bg-light">
+                  <h4 className="mb-1"># {group.channels.find((c:any) => c._id === activeChannel)?.name}</h4>
+                  <p className="text-secondary mb-0">{group.channels.find((c:any) => c._id === activeChannel)?.description}</p>
+                </div>
+              )}
+
               {/* Pinned Posts */}
-              {pinnedPosts.length > 0 && (
+              {pinnedPosts.length > 0 && !activeChannel && (
                 <div className="pinned-section">
                   <h3 className="section-title">Pinned Posts</h3>
                   {pinnedPosts.map(post => (
@@ -256,11 +269,12 @@ const GroupPage: React.FC = () => {
               {/* Feed */}
               {(group.isMember || group.privacy === 'public') && (
                 <div className="group-feed">
-                  {posts.map(post => (
+                  {posts.filter((post: any) => activeChannel ? post.groupChannel === activeChannel : true).map(post => (
                     <Post 
                       key={post._id} 
                       post={post} 
                       onPin={handlePin} 
+                      onUnpin={handleUnpin}
                       canManage={group.isAdmin || group.isModerator} 
                     />
                   ))}
@@ -306,6 +320,22 @@ const GroupPage: React.FC = () => {
                 </div>
               </div>
             </div>
+          )}
+
+          {activeTab === 'discussions' && (
+            group.isMember || group.privacy === 'public' ? (
+              <GroupDiscussions 
+                groupId={group._id} 
+                isAdmin={Boolean(group.isAdmin || group.isModerator)} 
+                currentUser={null} 
+              />
+            ) : (
+              <div className="private-prompt card">
+                <FiLock size={48} />
+                <h2>Join to see discussions</h2>
+                <p>You must be a member to view or participate in group discussions.</p>
+              </div>
+            )
           )}
 
           {activeTab === 'members' && (

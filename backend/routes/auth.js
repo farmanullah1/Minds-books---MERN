@@ -9,12 +9,14 @@
 
 const express = require('express');
 const router = express.Router();
-const { register, login, getMe, changePassword } = require('../controllers/authController');
-const auth = require('../middleware/auth');
+const { register, login, getMe, changePassword, getSessions, revokeSession } = require('../controllers/authController');
+const { auth } = require('../middleware/auth');
 
 router.post('/register', register);
 router.post('/login', login);
 router.get('/me', auth, getMe);
 router.post('/change-password', auth, changePassword);
+router.get('/sessions', auth, getSessions);
+router.delete('/sessions/:id', auth, revokeSession);
 
 module.exports = router;

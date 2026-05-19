@@ -16,6 +16,7 @@ import LeftSidebar from '../../components/LeftSidebar/LeftSidebar';
 import RightSidebar from '../../components/RightSidebar/RightSidebar';
 import StoriesFeed from '../../components/StoriesFeed/StoriesFeed';
 import CreatePost from '../../components/CreatePost/CreatePost';
+import DailyChallengeBanner from '../../components/DailyChallengeBanner/DailyChallengeBanner';
 import Post from '../../components/Post/Post';
 import SkeletonPost from '../../components/Post/SkeletonPost';
 import './Home.css';
@@ -48,6 +49,7 @@ const Home: React.FC = () => {
           <div className="feed-container">
             <StoriesFeed />
             <CreatePost />
+            <DailyChallengeBanner />
 
             {posts.length === 0 && loading ? (
               <div className="feed-loading">

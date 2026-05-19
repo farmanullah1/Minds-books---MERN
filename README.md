@@ -15,24 +15,24 @@ Built on the **MERN stack**, MindBook provides a robust set of features for comm
 
 ## ✨ Core Features
 
-- **24-Hour Stories:** Disappearing photo/video stories with full-screen viewer, auto-advancement, and management.
-- **Infinite News Feed:** True infinite scrolling using `react-intersection-observer` for seamless content consumption.
-- **Multi-Media Posts:** Create posts with text, high-quality image/video uploads, and location tagging.
-- **Global Search:** Consolidated search across users, posts, and groups with real-time suggestions.
-- **URL Auto-Linking:** Automatically detects and converts URLs in posts into clickable links.
-- **Engagement System:** Real-time feel notifications for likes, comments, and friend activities.
-- **Friend Ecosystem:** Full friend request lifecycle (Send, Accept, Decline, Cancel) and mutual friend discovery.
-- **Groups & Events:** Dedicated hubs for community interaction and event planning (accessible via Navbar).
-- **Rich Profiles:** Personalized user profiles with cover photos, bios, work/education history, and post history.
-- **Smart Sidebars:** Quick access to contacts, friend suggestions, and trending topics.
-- **Mobile First:** Fully responsive design with optimized touch interactions and layouts.
+- **24-Hour Stories:** Disappearing photo/video stories with full-screen viewer, auto-advancement, reactions, and threaded replies.
+- **Infinite News Feed:** True infinite scrolling using `react-intersection-observer` with support for collaborative and time-capsule posts.
+- **AI-Powered Social:** Smart Content Assistant (Gemini) for post enhancement, AI safety scanning, and automated reply suggestions.
+- **Professional Suite:** Comprehensive portfolio builder with skill endorsements, certifications, and a full-featured job board for employers and candidates.
+- **Secure Messaging:** Real-time 1-on-1 and group chats with rich media support, voice messages, and built-in WebRTC video calling.
+- **Privacy & Safety:** Granular post audience controls, active login session management, and GDPR-compliant account data export.
+- **Knowledge Hub:** Long-form article platform and micro-communities (channels) within groups for structured discussions.
+- **Administrative Control:** Advanced admin dashboard with user management, content moderation queues, and system-wide analytics.
+- **Progressive Web App:** Fully installable PWA with offline capabilities and a mobile-first responsive design.
 
 ## 🛠️ Technology Stack
 
-- **Frontend:** React 18, Vite, TypeScript, Redux Toolkit, React Router 6.
-- **Backend:** Node.js, Express, Mongoose (MongoDB), Multer (uploads).
-- **Authentication:** JWT with secure token management and protected routes.
-- **Design:** Custom CSS Variable-based design system for unified branding.
+- **Frontend:** React 19, Vite, TypeScript, Redux Toolkit, Framer Motion.
+- **Backend:** Node.js, Express, Mongoose (MongoDB), Socket.IO, Multer.
+- **AI Integration:** Google Gemini Pro for smart content and safety.
+- **Real-Time:** WebRTC for high-fidelity video/voice calling.
+- **PWA:** Service Workers and Web Manifest for offline support.
+- **Authentication:** JWT with secure session management and role-based access.
 
 ---
 

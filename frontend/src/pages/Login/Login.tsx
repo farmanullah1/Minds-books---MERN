@@ -46,6 +46,10 @@ const Login: React.FC = () => {
 
   return (
     <div className="auth-page">
+      {/* Animated background blobs */}
+      <div className="auth-bg-blob blob-1" />
+      <div className="auth-bg-blob blob-2" />
+      <div className="auth-bg-blob blob-3" />
       <div className="auth-container">
         {/* Branding Section */}
         <div className="auth-branding-center">

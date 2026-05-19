@@ -8,7 +8,7 @@
  */
 
 import React from 'react';
-import { FiImage, FiSmile, FiVideo, FiMapPin, FiX } from 'react-icons/fi';
+import { FiImage, FiSmile, FiVideo, FiMapPin, FiX, FiCpu, FiUsers, FiClock, FiGlobe, FiLock, FiChevronDown } from 'react-icons/fi';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { createPost } from '../../store/slices/postsSlice';
 import api, { uploadFile } from '../../services/api';
@@ -27,10 +27,12 @@ const FEELINGS = [
 
 interface CreatePostProps {
   groupId?: string;
+  activeChannel?: string | null;
   onPostCreated?: (post: any) => void;
+  placeholder?: string;
 }
 
-const CreatePost: React.FC<CreatePostProps> = ({ groupId, onPostCreated }) => {
+const CreatePost: React.FC<CreatePostProps> = ({ groupId, activeChannel, onPostCreated, placeholder }) => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
   
@@ -44,6 +46,16 @@ const CreatePost: React.FC<CreatePostProps> = ({ groupId, onPostCreated }) => {
   const [showFeelingPicker, setShowFeelingPicker] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [addToStory, setAddToStory] = React.useState(false);
+  const [aiEnhancing, setAiEnhancing] = React.useState(false);
+  
+  // Collaborative & Time Capsule state
+  const [collaborators, setCollaborators] = React.useState<string[]>([]);
+  const [showCollabPicker, setShowCollabPicker] = React.useState(false);
+  const [isCapsule, setIsCapsule] = React.useState(false);
+  const [unlockDate, setUnlockDate] = React.useState('');
+  const [privacy, setPrivacy] = React.useState<'public' | 'friends' | 'private'>('friends');
+  const [showPrivacyPicker, setShowPrivacyPicker] = React.useState(false);
+  
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
 
@@ -84,7 +96,12 @@ const CreatePost: React.FC<CreatePostProps> = ({ groupId, onPostCreated }) => {
         content: content.trim(),
         location: location,
         feeling: feeling?.name,
-        group: groupId || null
+        group: groupId || null,
+        groupChannel: activeChannel || null,
+        collaborators,
+        isCapsule,
+        unlockDate: isCapsule && unlockDate ? new Date(unlockDate).toISOString() : null,
+        privacy: { type: privacy }
       };
       if (type === 'video') {
         postData.video = uploadedUrl;
@@ -115,6 +132,12 @@ const CreatePost: React.FC<CreatePostProps> = ({ groupId, onPostCreated }) => {
       setAddToStory(false);
       setShowFeelingPicker(false);
       setShowLocationInput(false);
+      setShowCollabPicker(false);
+      setCollaborators([]);
+      setIsCapsule(false);
+      setUnlockDate('');
+      setPrivacy('friends');
+      setShowPrivacyPicker(false);
       removeMedia();
     } catch (error) {
       console.error('Failed to create post:', error);
@@ -131,6 +154,23 @@ const CreatePost: React.FC<CreatePostProps> = ({ groupId, onPostCreated }) => {
     }
   };
 
+  const handleAIEnhance = async () => {
+    if (!content.trim()) return;
+    setAiEnhancing(true);
+    try {
+      const res = await api.post('/ai/enhance-post', { content });
+      setContent(res.data.enhancedContent);
+      if (textareaRef.current) {
+        textareaRef.current.style.height = 'auto';
+        textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
+      }
+    } catch (err) {
+      console.error('Failed to enhance post', err);
+    } finally {
+      setAiEnhancing(false);
+    }
+  };
+
   return (
     <div className="create-post card">
       <form onSubmit={handleSubmit}>
@@ -141,6 +181,56 @@ const CreatePost: React.FC<CreatePostProps> = ({ groupId, onPostCreated }) => {
             ) : (
               <div className="avatar">{user ? getInitials(user.name) : '?'}</div>
             )}
+          </div>
+          <div className="create-post-info-meta" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <span style={{ fontWeight: 600 }}>{user?.name}</span>
+            <div className="privacy-selector-wrapper" style={{ position: 'relative' }}>
+              <button 
+                type="button" 
+                className="privacy-btn" 
+                onClick={() => setShowPrivacyPicker(!showPrivacyPicker)}
+                style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '4px', 
+                  fontSize: '12px', 
+                  background: 'var(--bg-body)', 
+                  border: 'none', 
+                  padding: '2px 8px', 
+                  borderRadius: '4px',
+                  color: 'var(--text-secondary)',
+                  cursor: 'pointer'
+                }}
+              >
+                {privacy === 'public' && <FiGlobe size={12} />}
+                {privacy === 'friends' && <FiUsers size={12} />}
+                {privacy === 'private' && <FiLock size={12} />}
+                <span style={{ textTransform: 'capitalize' }}>{privacy}</span>
+                <FiChevronDown size={12} />
+              </button>
+              {showPrivacyPicker && (
+                <div className="privacy-dropdown card" style={{ 
+                  position: 'absolute', 
+                  top: '100%', 
+                  left: 0, 
+                  zIndex: 100, 
+                  padding: '8px', 
+                  minWidth: '150px',
+                  boxShadow: 'var(--shadow-md)',
+                  marginTop: '4px'
+                }}>
+                  <button type="button" className="dropdown-item" onClick={() => { setPrivacy('public'); setShowPrivacyPicker(false); }}>
+                    <FiGlobe /> Public
+                  </button>
+                  <button type="button" className="dropdown-item" onClick={() => { setPrivacy('friends'); setShowPrivacyPicker(false); }}>
+                    <FiUsers /> Friends Only
+                  </button>
+                  <button type="button" className="dropdown-item" onClick={() => { setPrivacy('private'); setShowPrivacyPicker(false); }}>
+                    <FiLock /> Only Me
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
           <div className="create-post-input-container">
             {feeling && (
@@ -232,6 +322,47 @@ const CreatePost: React.FC<CreatePostProps> = ({ groupId, onPostCreated }) => {
             </label>
           </div>
         )}
+
+        {showCollabPicker && user?.friends && (
+          <div className="collaborator-picker card p-3 mt-2 mb-2">
+            <h4 className="mb-2">Add Collaborators</h4>
+            <div className="friends-list-compact" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              {user.friends.map((friend: any) => {
+                const friendId = friend._id || friend;
+                const isSelected = collaborators.includes(friendId);
+                return (
+                  <button 
+                    key={friendId}
+                    type="button"
+                    className={`btn btn-sm ${isSelected ? 'btn-primary' : 'btn-secondary'}`}
+                    onClick={() => {
+                      if (isSelected) setCollaborators(collaborators.filter(id => id !== friendId));
+                      else setCollaborators([...collaborators, friendId]);
+                    }}
+                  >
+                    {friend.name || 'Friend'} {isSelected && '✓'}
+                  </button>
+                )
+              })}
+            </div>
+            <button type="button" className="btn btn-sm mt-2 btn-secondary" onClick={() => setShowCollabPicker(false)}>Done</button>
+          </div>
+        )}
+
+        {isCapsule && (
+          <div className="time-capsule-picker card p-3 mt-2 mb-2">
+            <h4 className="mb-2 text-brand"><FiClock /> Time Capsule Post</h4>
+            <p className="text-secondary mb-2" style={{ fontSize: '12px' }}>This post will be hidden from everyone except you until the unlock date.</p>
+            <input 
+              type="date" 
+              className="form-control"
+              value={unlockDate}
+              onChange={(e) => setUnlockDate(e.target.value)}
+              min={new Date().toISOString().split('T')[0]}
+              required={isCapsule}
+            />
+          </div>
+        )}
         
         <div className="create-post-footer">
           <div className="create-post-actions">
@@ -241,15 +372,33 @@ const CreatePost: React.FC<CreatePostProps> = ({ groupId, onPostCreated }) => {
               onClick={() => fileInputRef.current?.click()}
             >
               <FiImage size={20} className="action-icon text-success" />
-              <span>Photo/Video</span>
+              <span className="hide-mobile">Photo/Video</span>
             </button>
             <button type="button" className="action-btn" onClick={() => setShowLocationInput(!showLocationInput)}>
               <FiMapPin size={20} className="action-icon text-danger" />
-              <span>Location</span>
+              <span className="hide-mobile">Location</span>
             </button>
             <button type="button" className="action-btn" onClick={() => setShowFeelingPicker(!showFeelingPicker)}>
               <FiSmile size={20} className="action-icon text-warning" />
-              <span>Feeling</span>
+              <span className="hide-mobile">Feeling</span>
+            </button>
+            <button type="button" className="action-btn" onClick={() => setShowCollabPicker(!showCollabPicker)}>
+              <FiUsers size={20} className="action-icon text-info" />
+              <span className="hide-mobile">Collab</span>
+            </button>
+            <button type="button" className="action-btn" onClick={() => setIsCapsule(!isCapsule)}>
+              <FiClock size={20} className={`action-icon ${isCapsule ? 'text-brand' : 'text-secondary'}`} />
+              <span className="hide-mobile">Capsule</span>
+            </button>
+            <button 
+              type="button" 
+              className="action-btn" 
+              onClick={handleAIEnhance}
+              disabled={!content.trim() || aiEnhancing}
+              title="Enhance with AI"
+            >
+              <FiCpu size={20} className={`action-icon ${aiEnhancing ? 'text-primary spin-animation' : 'text-brand'}`} />
+              <span className="hide-mobile">{aiEnhancing ? '...' : 'AI'}</span>
             </button>
           </div>
           
