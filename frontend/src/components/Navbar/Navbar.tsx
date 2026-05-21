@@ -10,12 +10,14 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FiSearch, FiHome, FiUsers, FiMessageSquare, FiBell, FiLogOut, FiMenu, FiCalendar, FiGrid, FiSun, FiMoon, FiPlayCircle, FiFilm, FiShoppingBag, FiPlus } from 'react-icons/fi';
+import { AnimatePresence } from 'framer-motion';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { logout } from '../../store/slices/authSlice';
 import api from '../../services/api';
 import { IUser } from '../../types';
 import { getInitials } from '../../utils/helpers';
 import NotificationsDropdown from '../NotificationsDropdown/NotificationsDropdown';
+import CreatePostHub from '../CreatePost/CreatePostHub';
 import { useTheme } from '../../context/ThemeContext';
 import './Navbar.css';
 
@@ -25,12 +27,13 @@ const Navbar: React.FC = () => {
   const location = useLocation();
   const { user } = useAppSelector((state) => state.auth);
   const { theme, toggleTheme } = useTheme();
-  
+
   const [searchQuery, setSearchQuery] = React.useState('');
-  const [searchResults, setSearchResults] = React.useState<{users: IUser[], groups: any[], posts: any[]}>({users: [], groups: [], posts: []});
+  const [searchResults, setSearchResults] = React.useState<{ users: IUser[], groups: any[], posts: any[] }>({ users: [], groups: [], posts: [] });
   const [isSearching, setIsSearching] = React.useState(false);
   const [showProfileMenu, setShowProfileMenu] = React.useState(false);
-  
+  const [showCreateHub, setShowCreateHub] = React.useState(false);
+
   const menuRef = React.useRef<HTMLDivElement>(null);
   const searchRef = React.useRef<HTMLDivElement>(null);
 
@@ -40,7 +43,7 @@ const Navbar: React.FC = () => {
         setShowProfileMenu(false);
       }
       if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
-        setSearchResults({users: [], groups: [], posts: []});
+        setSearchResults({ users: [], groups: [], posts: [] });
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -59,7 +62,7 @@ const Navbar: React.FC = () => {
         }
         setIsSearching(false);
       } else {
-        setSearchResults({users: [], groups: [], posts: []});
+        setSearchResults({ users: [], groups: [], posts: [] });
       }
     }, 250);
 
@@ -75,7 +78,7 @@ const Navbar: React.FC = () => {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/search?q=${searchQuery}`);
-      setSearchResults({users: [], groups: [], posts: []});
+      setSearchResults({ users: [], groups: [], posts: [] });
       setSearchQuery('');
     }
   };
@@ -167,7 +170,7 @@ const Navbar: React.FC = () => {
             <button className="nav-icon-btn theme-toggle guest-theme-toggle" onClick={toggleTheme} title="Toggle Theme">
               {theme === 'light' ? <FiMoon size={20} /> : <FiSun size={20} />}
             </button>
-            
+
             {!isLoginPage && (
               <Link to="/login" className="btn-login-ghost">Log In</Link>
             )}
@@ -181,13 +184,14 @@ const Navbar: React.FC = () => {
   }
 
   return (
+    <>
     <nav className={getNavbarClass()}>
       <div className="navbar-inner">
         {/* Left Section */}
         <div className="navbar-left">
-          <button 
-            type="button" 
-            className="mobile-menu-btn" 
+          <button
+            type="button"
+            className="mobile-menu-btn"
             onClick={() => window.dispatchEvent(new CustomEvent('toggle-mobile-sidebar'))}
             aria-label="Toggle Navigation Drawer"
           >
@@ -213,7 +217,7 @@ const Navbar: React.FC = () => {
               <FiSearch className="search-icon" />
               <input
                 type="text"
-                placeholder="Search MindBook"
+                placeholder="     Search MindBook"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -224,11 +228,11 @@ const Navbar: React.FC = () => {
                   <div className="search-group">
                     <div className="search-group-title">People</div>
                     {searchResults.users.map(resUser => (
-                      <Link 
-                        key={resUser._id} 
-                        to={`/profile/${resUser._id}`} 
+                      <Link
+                        key={resUser._id}
+                        to={`/profile/${resUser._id}`}
                         className="dropdown-item"
-                        onClick={() => { setSearchResults({users: [], groups: [], posts: []}); setSearchQuery(''); }}
+                        onClick={() => { setSearchResults({ users: [], groups: [], posts: [] }); setSearchQuery(''); }}
                       >
                         <div className="dropdown-avatar">
                           {resUser.profilePicture ? (
@@ -246,11 +250,11 @@ const Navbar: React.FC = () => {
                   <div className="search-group">
                     <div className="search-group-title">Groups</div>
                     {searchResults.groups.map(group => (
-                      <Link 
-                        key={group._id} 
-                        to={`/groups/${group._id}`} 
+                      <Link
+                        key={group._id}
+                        to={`/groups/${group._id}`}
                         className="dropdown-item"
-                        onClick={() => { setSearchResults({users: [], groups: [], posts: []}); setSearchQuery(''); }}
+                        onClick={() => { setSearchResults({ users: [], groups: [], posts: [] }); setSearchQuery(''); }}
                       >
                         <div className="dropdown-icon">👥</div>
                         <span>{group.name}</span>
@@ -288,16 +292,20 @@ const Navbar: React.FC = () => {
             {theme === 'light' ? <FiMoon size={20} /> : <FiSun size={20} />}
           </button>
 
-          <Link to="/" className="nav-icon-btn facebook-create-btn" title="Create Post">
+          <button
+            className="nav-icon-btn facebook-create-btn"
+            title="Create Post / Reel / Story"
+            onClick={() => setShowCreateHub(true)}
+          >
             <FiPlus size={20} />
-          </Link>
+          </button>
 
           <Link to="/messages" className="nav-icon-btn facebook-messenger-btn" title="Messenger">
             <FiMessageSquare size={20} />
           </Link>
-          
+
           <NotificationsDropdown />
-          
+
           <div className="profile-menu-container" ref={menuRef}>
             <button
               className="nav-profile-btn"
@@ -370,6 +378,13 @@ const Navbar: React.FC = () => {
         </div>
       </div>
     </nav>
+
+    <AnimatePresence>
+      {showCreateHub && (
+        <CreatePostHub onClose={() => setShowCreateHub(false)} />
+      )}
+    </AnimatePresence>
+    </>
   );
 };
 

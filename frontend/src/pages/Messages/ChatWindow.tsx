@@ -437,6 +437,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ conversation, currentUser, onBa
       {activeCall && (
         <VideoCallModal 
           otherUser={otherUser} 
+          callType={activeCall}
           onClose={() => setActiveCall(null)} 
         />
       )}

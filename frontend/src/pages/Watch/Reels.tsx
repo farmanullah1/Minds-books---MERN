@@ -43,45 +43,6 @@ const Reels: React.FC = () => {
   const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
 
   const fetchReels = useCallback(async () => {
-    const mockReels: ReelItem[] = [
-      {
-        id: 'reel_1',
-        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
-        creatorName: 'elena_dev',
-        creatorAvatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&h=100&q=80',
-        description: 'Building my first MERN stack social network from scratch! The yellow theme looks absolutely premium! 💻🚀 #coding #javascript #react',
-        musicName: 'Original Audio - elena_dev',
-        likes: 1240,
-        comments: 89,
-        shares: 45,
-        isFollowed: false
-      },
-      {
-        id: 'reel_2',
-        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
-        creatorName: 'creative_mind',
-        creatorAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&h=100&q=80',
-        description: 'Vite compiles insanely fast, literally in less than 100ms. If you are not using Vite + TS in 2026, you are missing out! 🔥 #webdev #frontend',
-        musicName: 'Future Bass Vibes - ChillOut',
-        likes: 852,
-        comments: 42,
-        shares: 12,
-        isFollowed: true
-      },
-      {
-        id: 'reel_3',
-        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
-        creatorName: 'ansari_design',
-        creatorAvatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&h=100&q=80',
-        description: 'Designing premium visual systems requires micro-interactions, responsive CSS layouts, and Harmonious gold accents (#F7B928). ✨👑 #uidesign #figma',
-        musicName: 'Aesthetic Lo-fi Lounge - Sunset Vibe',
-        likes: 2410,
-        comments: 312,
-        shares: 198,
-        isFollowed: false
-      }
-    ];
-
     try {
       const res = await api.get('/reels');
       if (res.data && res.data.length > 0) {
@@ -100,11 +61,12 @@ const Reels: React.FC = () => {
         }));
         setReels(apiReels);
       } else {
-        setReels(mockReels);
+        // No reels from API — show empty state (no dummy data)
+        setReels([]);
       }
     } catch (err) {
-      console.error('Failed to fetch reels from backend, using fallbacks', err);
-      setReels(mockReels);
+      console.error('Failed to fetch reels:', err);
+      setReels([]);
     }
   }, []);
 
@@ -268,12 +230,32 @@ const Reels: React.FC = () => {
 
       <div className="reels-outer-scroller" ref={containerRef}>
         <div className="reels-feed-content">
-          {reels.map((reel) => (
-            <div 
-              key={reel.id}
-              className="reel-stage"
-              onDoubleClick={(e) => handleVideoDoubleClick(e, reel.id)}
-            >
+          {reels.length === 0 ? (
+            /* ─── Real Empty State ─── */
+            <div className="reels-empty-state">
+              <div className="reels-empty-ring ring-1" />
+              <div className="reels-empty-ring ring-2" />
+              <div className="reels-empty-ring ring-3" />
+              <div className="reels-empty-content">
+                <div className="reels-empty-icon">🎬</div>
+                <h2 className="reels-empty-title">No Reels Yet</h2>
+                <p className="reels-empty-sub">Be the first to create a reel and inspire the community!</p>
+                <button
+                  className="reels-empty-create-btn"
+                  onClick={() => setIsCreateOpen(true)}
+                >
+                  <FiPlus size={18} />
+                  <span>Create Your First Reel</span>
+                </button>
+              </div>
+            </div>
+          ) : (
+            reels.map((reel) => (
+              <div 
+                key={reel.id}
+                className="reel-stage"
+                onDoubleClick={(e) => handleVideoDoubleClick(e, reel.id)}
+              >
               <video 
                 ref={el => { videoRefs.current[reel.id] = el; }}
                 src={reel.videoUrl}
@@ -388,9 +370,11 @@ const Reels: React.FC = () => {
                 </div>
               </div>
             </div>
-          ))}
+          ))
+          )}
         </div>
       </div>
+
 
       <CreateReel 
         isOpen={isCreateOpen} 

@@ -189,7 +189,25 @@ const Register: React.FC = () => {
             </div>
           ) : (
             <>
-              <div className="auth-card-header">
+              {/* Step Progress Bar */}
+              <div className="register-step-bar">
+                <div className={`register-step ${firstName || lastName ? 'done' : 'active'}`}>
+                  <div className="register-step-circle">1</div>
+                  <span className="register-step-label">Account</span>
+                </div>
+                <div className={`register-step-line ${email && password ? 'done' : ''}`} />
+                <div className={`register-step ${(email && password) ? (gender || birthdate ? 'done' : 'active') : ''}`}>
+                  <div className="register-step-circle">2</div>
+                  <span className="register-step-label">Security</span>
+                </div>
+                <div className={`register-step-line ${detailsExpanded ? 'done' : ''}`} />
+                <div className={`register-step ${detailsExpanded ? 'active' : ''}`}>
+                  <div className="register-step-circle">3</div>
+                  <span className="register-step-label">Profile</span>
+                </div>
+              </div>
+
+              <div className="auth-card-header" style={{ marginBottom: '16px' }}>
                 <h2>Create Account</h2>
                 <p>It's quick, easy, and always will be.</p>
               </div>

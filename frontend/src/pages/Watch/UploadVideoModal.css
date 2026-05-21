@@ -1,0 +1,337 @@
+/* UploadVideoModal.css */
+
+.uvm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.uvm-modal {
+  width: 100%;
+  max-width: 800px;
+  max-height: 92vh;
+  overflow-y: auto;
+  border-radius: 20px;
+  box-shadow: 0 32px 96px rgba(0,0,0,0.5);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+
+.uvm-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 0;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 16px;
+}
+
+.uvm-header h3 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.uvm-close-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: var(--bg-hover);
+  border-radius: 50%;
+  color: var(--text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.uvm-close-btn:hover { background: var(--border); }
+
+/* Step indicator */
+.uvm-step-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.uvm-step {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 4px 12px;
+  border-radius: 999px;
+  transition: all 0.2s;
+}
+
+.uvm-step.done,
+.uvm-step.active {
+  background: var(--brand-gradient);
+  color: #000;
+}
+
+.uvm-step-divider {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.uvm-body {
+  padding: 24px;
+}
+
+/* Dropzone */
+.uvm-dropzone-wrap {
+  padding: 8px 0;
+}
+
+.uvm-dropzone {
+  border: 2px dashed var(--border);
+  border-radius: 16px;
+  padding: 60px 40px;
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s;
+  background: var(--bg-body);
+}
+
+.uvm-dropzone:hover,
+.uvm-dropzone.drag-active {
+  border-color: var(--brand);
+  background: var(--bg-hover);
+}
+
+.uvm-dz-icon {
+  color: var(--brand);
+  margin-bottom: 8px;
+}
+
+.uvm-dropzone h4 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.uvm-dropzone p {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* Details form */
+.uvm-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 600px) {
+  .uvm-split { grid-template-columns: 1fr; }
+}
+
+.uvm-preview-col,
+.uvm-form-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.uvm-change-btn {
+  margin-top: 8px;
+  background: transparent;
+  border: none;
+  color: var(--brand);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  text-align: center;
+}
+
+.uvm-thumb-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.uvm-thumb-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  background: var(--bg-body);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+.uvm-thumb-btn:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+
+.uvm-remove-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.uvm-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.uvm-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.uvm-input {
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.uvm-input:focus { border-color: var(--brand); }
+
+.uvm-textarea {
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  outline: none;
+  resize: vertical;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.uvm-textarea:focus { border-color: var(--brand); }
+
+/* Privacy */
+.uvm-privacy-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.uvm-privacy-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-body);
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.uvm-privacy-btn:hover {
+  border-color: var(--brand);
+}
+
+.uvm-privacy-btn.active {
+  border-color: var(--brand);
+  background: color-mix(in srgb, var(--brand) 10%, transparent);
+}
+
+.uvm-priv-icon {
+  font-size: 1.1rem;
+  color: var(--brand);
+}
+
+.uvm-privacy-btn span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.uvm-privacy-btn strong {
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.uvm-privacy-btn small {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.uvm-check {
+  margin-left: auto;
+  color: var(--brand);
+}
+
+/* Progress */
+.uvm-progress-wrap {
+  margin-top: 16px;
+  position: relative;
+  background: var(--bg-hover);
+  border-radius: 999px;
+  height: 6px;
+  overflow: hidden;
+}
+
+.uvm-progress-bar {
+  height: 100%;
+  background: var(--brand-gradient);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.uvm-progress-label {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.uvm-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}

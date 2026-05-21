@@ -18,6 +18,7 @@ import './VideoHub.css';
 import { useAppSelector } from '../../store/hooks';
 import SourceBadge from '../../components/VideoHub/SourceBadge';
 import Navbar from '../../components/Navbar/Navbar';
+import UploadVideoModal from './UploadVideoModal';
 
 interface VideoHubItem {
   id: string;
@@ -55,6 +56,7 @@ const VideoHub: React.FC = () => {
   const [likedVideoIds, setLikedVideoIds] = useState<string[]>([]);
   const [comments, setComments] = useState<{ [key: string]: { user: string; text: string; time: string }[] }>({});
   const [newCommentText, setNewCommentText] = useState('');
+  const [showUploadModal, setShowUploadModal] = useState(false);
 
   // Auto-preview timeout ref
   const previewTimerRef = useRef<any>(null);
@@ -287,7 +289,7 @@ const VideoHub: React.FC = () => {
 
           <div className="nav-group-section border-top">
             <h4 className="section-subtitle">Creator Studio</h4>
-            <button className="nav-item-btn promo-studio">
+            <button className="nav-item-btn promo-studio" onClick={() => setShowUploadModal(true)}>
               <FiUploadCloud size={18} />
               <span>Upload Video</span>
             </button>
@@ -572,6 +574,17 @@ const VideoHub: React.FC = () => {
         </div>
 
       </div>
+      </div>
+
+      {/* Upload Video Modal */}
+      <AnimatePresence>
+        {showUploadModal && (
+          <UploadVideoModal
+            onClose={() => setShowUploadModal(false)}
+            onSuccess={() => { setShowUploadModal(false); }}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };

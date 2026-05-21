@@ -8,12 +8,25 @@
  */
 
 import React from 'react';
-import { FiSearch, FiUserPlus, FiCheck, FiX } from 'react-icons/fi';
+import { FiSearch, FiUserPlus, FiCheck, FiX, FiGift } from 'react-icons/fi';
 import { useAppSelector } from '../../store/hooks';
 import { getInitials } from '../../utils/helpers';
 import api from '../../services/api';
 import { IUser } from '../../types';
 import './RightSidebar.css';
+
+/** Returns list of friends whose birthday (month+day) matches today */
+const getTodaysBirthdays = (friends: any[]): string[] => {
+  if (!friends || friends.length === 0) return [];
+  const today = new Date();
+  const todayMonth = today.getMonth() + 1; // 1-indexed
+  const todayDay = today.getDate();
+  return friends.filter((f: any) => {
+    if (!f.birthdate) return false;
+    const d = new Date(f.birthdate);
+    return (d.getMonth() + 1) === todayMonth && d.getDate() === todayDay;
+  }).map((f: any) => f.name || 'A friend');
+};
 
 const RightSidebar: React.FC = () => {
   const { user } = useAppSelector((state) => state.auth);
@@ -22,6 +35,12 @@ const RightSidebar: React.FC = () => {
   const [friendRequests, setFriendRequests] = React.useState<IUser[]>([]);
   const [actionLoading, setActionLoading] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState(true);
+
+  // Compute today's birthdays from friend list
+  const todaysBirthdays = React.useMemo(
+    () => getTodaysBirthdays(user?.friends || []),
+    [user?.friends]
+  );
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -127,13 +146,29 @@ const RightSidebar: React.FC = () => {
 
         {/* Birthdays */}
         <div className="rs-section">
-          <h3 className="rs-section-title">Birthdays</h3>
-          <div className="rs-birthday-item">
-            <span className="rs-birthday-icon">🎁</span>
-            <span className="rs-birthday-text">
-              <strong>John Doe</strong> and <strong>2 others</strong> have birthdays today.
-            </span>
-          </div>
+          <h3 className="rs-section-title">Birthdays 🎁</h3>
+          {todaysBirthdays.length > 0 ? (
+            <div className="rs-birthday-item">
+              <span className="rs-birthday-icon"><FiGift /></span>
+              <span className="rs-birthday-text">
+                {todaysBirthdays.length === 1 ? (
+                  <><strong>{todaysBirthdays[0]}</strong> has a birthday today! 🎂</>
+                ) : (
+                  <>
+                    <strong>{todaysBirthdays[0]}</strong> and{' '}
+                    <strong>{todaysBirthdays.length - 1} others</strong> have birthdays today! 🎂
+                  </>
+                )}
+              </span>
+            </div>
+          ) : (
+            <div className="rs-birthday-item">
+              <span className="rs-birthday-icon"><FiGift /></span>
+              <span className="rs-birthday-text" style={{ color: 'var(--text-secondary)' }}>
+                No friend birthdays today.
+              </span>
+            </div>
+          )}
           <div className="rs-divider" />
         </div>
 
