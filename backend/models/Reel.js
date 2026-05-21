@@ -28,6 +28,20 @@ const reelSchema = new mongoose.Schema(
       type: String,
       default: 'Original Audio',
     },
+    startTrim: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    endTrim: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    filterName: {
+      type: String,
+      default: 'Original',
+    },
     likes: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
@@ -57,5 +71,7 @@ const reelSchema = new mongoose.Schema(
     }
   }
 );
+
+reelSchema.index({ createdAt: -1 });
 
 module.exports = mongoose.model('Reel', reelSchema);

@@ -8,7 +8,8 @@
  */
 
 import React from 'react';
-import { FiPlus } from 'react-icons/fi';
+import { FiChevronLeft, FiChevronRight, FiPlus } from 'react-icons/fi';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useAppSelector } from '../../store/hooks';
 import api, { uploadFile } from '../../services/api';
 import { IUserStoryGroup } from '../../types';
@@ -23,7 +24,10 @@ const StoriesFeed: React.FC = () => {
   const [groupedStories, setGroupedStories] = React.useState<IUserStoryGroup[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [viewerGroupIndex, setViewerGroupIndex] = React.useState<number | null>(null);
+  const [canScrollLeft, setCanScrollLeft] = React.useState(false);
+  const [canScrollRight, setCanScrollRight] = React.useState(false);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const scrollRef = React.useRef<HTMLDivElement>(null);
 
   const fetchStories = async () => {
     try {
@@ -37,6 +41,21 @@ const StoriesFeed: React.FC = () => {
   React.useEffect(() => {
     fetchStories();
   }, []);
+
+  const updateScrollButtons = React.useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 10);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 10);
+  }, []);
+
+  React.useEffect(() => {
+    updateScrollButtons();
+  }, [groupedStories, updateScrollButtons]);
+
+  const scrollStories = (direction: -1 | 1) => {
+    scrollRef.current?.scrollBy({ left: direction * 220, behavior: 'smooth' });
+  };
 
   const handleCreateStoryClick = () => {
     fileInputRef.current?.click();
@@ -90,7 +109,24 @@ const StoriesFeed: React.FC = () => {
 
   return (
     <div className="stories-feed-container">
-      <div className="stories-scroll-wrapper">
+      <AnimatePresence>
+        {canScrollLeft && (
+          <motion.button
+            className="stories-scroll-arrow stories-scroll-left"
+            onClick={() => scrollStories(-1)}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.94 }}
+            aria-label="Scroll stories left"
+          >
+            <FiChevronLeft size={20} />
+          </motion.button>
+        )}
+      </AnimatePresence>
+
+      <div className="stories-scroll-wrapper" ref={scrollRef} onScroll={updateScrollButtons}>
         
         {/* Create Story / Current User Story Card */}
         {currentUserGroup ? (
@@ -149,6 +185,23 @@ const StoriesFeed: React.FC = () => {
           );
         })}
       </div>
+
+      <AnimatePresence>
+        {canScrollRight && (
+          <motion.button
+            className="stories-scroll-arrow stories-scroll-right"
+            onClick={() => scrollStories(1)}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.94 }}
+            aria-label="Scroll stories right"
+          >
+            <FiChevronRight size={20} />
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {viewerGroupIndex !== null && (
         <StoryViewer

@@ -11,10 +11,10 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const path = require('path');
-const User = require('./models/User');
 require('dotenv').config();
 
 const connectDB = require('./config/db');
+const initSocket = require('./sockets');
 const { initCleanupJob } = require('./utils/cleanup');
 const errorHandler = require('./middleware/errorHandler');
 const { authLimiter, apiLimiter } = require('./middleware/rateLimiter');
@@ -32,69 +32,12 @@ const reelRoutes = require('./routes/reels');
 
 const app = express();
 const server = require('http').createServer(app);
-const io = require('socket.io')(server, {
-  cors: {
-    origin: ['http://localhost:5173', 'http://localhost:3000'],
-    credentials: true,
-  },
-});
+const io = initSocket(server);
 
 app.set('io', io);
 
 connectDB();
 initCleanupJob();
-
-// Track online users
-const onlineUsers = new Map(); // userId -> socketId
-
-io.on('connection', (socket) => {
-  console.log('New client connected:', socket.id);
-
-  socket.on('join', (userId) => {
-    socket.join(userId);
-    onlineUsers.set(userId, socket.id);
-    socket.userId = userId; // Store userId on socket for disconnect handler
-    
-    console.log(`User ${userId} joined their room`);
-    
-    // Update online status in DB
-    User.findByIdAndUpdate(userId, { isOnline: true }).exec();
-    
-    // Broadcast status to everyone
-    io.emit('status-updated', { userId, isOnline: true });
-    
-    // Send current online users to the joining user
-    const onlineList = Array.from(onlineUsers.keys());
-    socket.emit('online-users-list', onlineList);
-  });
-
-  socket.on('send-message', (data) => {
-    data.recipients.forEach(recipientId => {
-      io.to(recipientId).emit('receive-message', data.message);
-    });
-  });
-
-  socket.on('typing-start', (data) => {
-    data.recipients.forEach(recipientId => {
-      io.to(recipientId).emit('user-typing', data);
-    });
-  });
-
-  socket.on('typing-stop', (data) => {
-    data.recipients.forEach(recipientId => {
-      io.to(recipientId).emit('user-stopped-typing', data);
-    });
-  });
-
-  socket.on('disconnect', () => {
-    console.log('Client disconnected:', socket.id);
-    if (socket.userId) {
-      onlineUsers.delete(socket.userId);
-      User.findByIdAndUpdate(socket.userId, { isOnline: false }).exec();
-      io.emit('status-updated', { userId: socket.userId, isOnline: false });
-    }
-  });
-});
 
 app.use(cors({
   origin: ['http://localhost:5173', 'http://localhost:3000'],
@@ -113,6 +56,7 @@ const conversationRoutes = require('./routes/conversations');
 const adminRoutes = require('./routes/admin');
 const reportRoutes = require('./routes/reports');
 const aiRoutes = require('./routes/ai');
+const mindbotRoutes = require('./routes/mindbot');
 const highlightRoutes = require('./routes/highlights');
 const discussionRoutes = require('./routes/discussions');
 const anonymousRoutes = require('./routes/anonymous');
@@ -139,6 +83,7 @@ app.use('/api/conversations', conversationRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/ai', aiRoutes);
+app.use('/api/mindbot', mindbotRoutes);
 app.use('/api/anonymous', anonymousRoutes);
 app.use('/api/articles', articleRoutes);
 app.use('/api/playlists', playlistRoutes);

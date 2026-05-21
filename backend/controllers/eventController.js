@@ -60,13 +60,41 @@ exports.getEvent = async (req, res) => {
   }
 };
 
+// Update event
+exports.updateEvent = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+    if (!event) return res.status(404).json({ message: 'Event not found' });
+
+    if (event.creator.toString() !== req.user.id) {
+      return res.status(403).json({ message: 'Not authorized to update this event' });
+    }
+
+    const allowedFields = ['title', 'description', 'date', 'location', 'coverImage'];
+    allowedFields.forEach((field) => {
+      if (req.body[field] !== undefined) {
+        event[field] = req.body[field];
+      }
+    });
+
+    await event.save();
+    const populatedEvent = await Event.findById(event._id)
+      .populate('creator', 'name profilePicture')
+      .populate('attendees', 'name profilePicture');
+
+    res.json(populatedEvent);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating event', error: error.message });
+  }
+};
+
 // RSVP to event
 exports.rsvpEvent = async (req, res) => {
   try {
     const event = await Event.findById(req.params.id);
     if (!event) return res.status(404).json({ message: 'Event not found' });
 
-    const isAttending = event.attendees.includes(req.user.id);
+    const isAttending = event.attendees.some(attendee => attendee.toString() === req.user.id);
 
     if (isAttending) {
       event.attendees.pull(req.user.id);
@@ -80,7 +108,11 @@ exports.rsvpEvent = async (req, res) => {
     }
 
     await event.save();
-    res.json(event.attendees);
+    const populatedEvent = await Event.findById(event._id)
+      .populate('creator', 'name profilePicture')
+      .populate('attendees', 'name profilePicture');
+
+    res.json(populatedEvent);
   } catch (error) {
     res.status(500).json({ message: 'Error RSVPing to event', error: error.message });
   }

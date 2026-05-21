@@ -75,9 +75,10 @@ export interface INotification {
   _id: string;
   user: string;
   fromUser: IUser;
-  type: 'like' | 'love' | 'haha' | 'wow' | 'sad' | 'angry' | 'comment' | 'reply' | 'friend_request' | 'friend_accept' | 'marketplace';
+  type: 'like' | 'love' | 'haha' | 'wow' | 'sad' | 'angry' | 'same' | 'proud' | 'thinking' | 'bookmark' | 'comment' | 'reply' | 'mention' | 'friend_request' | 'friend_accept' | 'marketplace' | 'endorsement' | 'reel_like' | 'reel_comment' | 'story_reaction' | 'story_reply' | 'group_invite' | 'post_collab_invite' | 'anonymous_question' | 'event_rsvp' | 'gift' | 'coin_tip' | 'system';
   post?: { _id: string; content: string };
   text?: string;
+  targetUrl?: string;
   read: boolean;
   createdAt: string;
 }

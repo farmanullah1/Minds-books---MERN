@@ -2,11 +2,14 @@ import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
 import { FiGithub, FiLinkedin, FiMail, FiBriefcase, FiArrowRight } from 'react-icons/fi';
+import Navbar from '../../components/Navbar/Navbar';
 import gsap from 'gsap';
 import './WhyMindbook.css';
 
 const StorySection = ({ title, content, visual, alignRight }: any) => {
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
+  const const_InView = useInView({ triggerOnce: true, threshold: 0.2 });
+  const ref = const_InView.ref;
+  const inView = const_InView.inView;
 
   return (
     <div ref={ref} className={`story-section ${alignRight ? 'align-right' : ''} ${inView ? 'in-view' : ''}`}>
@@ -47,12 +50,7 @@ const WhyMindbook: React.FC = () => {
       <div className="why-bg"></div>
 
       {/* Nav */}
-      <nav className="about-nav">
-        <Link to="/" className="back-to-home">
-          <div className="logo-circle small">M</div>
-          MindBook
-        </Link>
-      </nav>
+      <Navbar />
 
       {/* Opening Section */}
       <header className="why-header">
@@ -60,9 +58,8 @@ const WhyMindbook: React.FC = () => {
           "I set out to prove that a solo developer can build a world-class social platform."
         </h1>
         <div className="author-info">
-          <div className="author-photo">
-            {/* Using a sleek initials avatar since no exact image URL is provided */}
-            FA
+          <div className="author-photo" style={{ overflow: 'hidden', padding: 0 }}>
+            <img src="/Profile%20Picture.jpg" alt="Farmanullah Ansari" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
           <div className="author-details">
             <h3>Farmanullah Ansari</h3>

@@ -2,13 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
 import { FiArrowRight, FiGithub, FiMessageCircle, FiYoutube, FiVideo, FiCpu, FiMonitor, FiShield, FiLinkedin } from 'react-icons/fi';
+import { DeveloperLinksFull } from '../../components/ui/DeveloperLinks';
+import Navbar from '../../components/Navbar/Navbar';
 import './AboutMindbook.css';
 
 const FeatureCard = ({ icon: Icon, title, description, link, alignRight }: any) => {
-  const { ref, inView } = useInView({
+  const const_InView = useInView({
     triggerOnce: true,
     threshold: 0.2,
   });
+  const ref = const_InView.ref;
+  const inView = const_InView.inView;
 
   return (
     <div ref={ref} className={`about-feature-card ${alignRight ? 'align-right' : ''} ${inView ? 'animate-in' : ''}`}>
@@ -34,8 +38,13 @@ const TechIcon = ({ label, color }: any) => (
 );
 
 const AboutMindbook: React.FC = () => {
-  const { ref: heroRef, inView: heroInView } = useInView({ triggerOnce: true });
-  const { ref: archRef, inView: archInView } = useInView({ triggerOnce: true, threshold: 0.3 });
+  const const_HeroInView = useInView({ triggerOnce: true });
+  const heroRef = const_HeroInView.ref;
+  const heroInView = const_HeroInView.inView;
+
+  const const_ArchInView = useInView({ triggerOnce: true, threshold: 0.3 });
+  const archRef = const_ArchInView.ref;
+  const archInView = const_ArchInView.inView;
 
   return (
     <div className="about-page">
@@ -46,18 +55,16 @@ const AboutMindbook: React.FC = () => {
       </div>
 
       {/* Navbar Integration */}
-      <nav className="about-nav">
-        <Link to="/" className="back-to-home">
-          <div className="logo-circle small">M</div>
-          MindBook
-        </Link>
-      </nav>
+      <Navbar />
 
       {/* Hero Section */}
       <header className={`about-hero ${heroInView ? 'animate-in' : ''}`} ref={heroRef}>
         <div className="hero-text">
           <h1 className="gradient-text">The Social Platform Reimagined.</h1>
-          <p className="hero-subtitle">Built by Farmanullah Ansari, Full Stack Software Engineer</p>
+          <div className="creator-badge-wrapper">
+            <img src="/Profile%20Picture.jpg" alt="Farmanullah Ansari" className="creator-badge-img" />
+            <p className="hero-subtitle" style={{ margin: 0 }}>Built by Farmanullah Ansari, Full Stack Software Engineer</p>
+          </div>
           <div className="hero-ctas">
             <Link to="/register" className="btn-explore">Explore MindBook <FiArrowRight/></Link>
             <a href="https://github.com/farmanullah1" target="_blank" rel="noreferrer" className="btn-github">
@@ -126,6 +133,7 @@ const AboutMindbook: React.FC = () => {
               </div>
             </a>
           </div>
+          <DeveloperLinksFull />
         </div>
         
         {/* CSS 3D "M" Logo */}

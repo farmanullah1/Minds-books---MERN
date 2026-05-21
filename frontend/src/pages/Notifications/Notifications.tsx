@@ -6,18 +6,23 @@
  * rules: Premium design, grouping notifications of multiple likes on same post, stagger entrance animations with Framer Motion, unread rows with yellow left border.
  */
 
-import React, { useEffect } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { fetchNotifications, markAsRead, markAllAsRead } from '../../store/slices/notificationsSlice';
 import { getInitials } from '../../utils/helpers';
 import { motion } from 'framer-motion';
-import { FiCheck, FiBell, FiTrash2, FiClock } from 'react-icons/fi';
+import { FiAtSign, FiBell, FiCheck, FiClock, FiUserPlus, FiWifi } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
+import { registerPushNotifications } from '../../services/pushNotifications';
 import './Notifications.css';
+
+type NotificationFilter = 'all' | 'unread' | 'mentions' | 'friend_requests';
 
 const Notifications: React.FC = () => {
   const dispatch = useAppDispatch();
   const { items, unreadCount, loading } = useAppSelector((state) => state.notifications);
+  const [activeFilter, setActiveFilter] = useState<NotificationFilter>('all');
+  const [pushStatus, setPushStatus] = useState<'idle' | 'saving' | 'enabled' | 'unavailable'>('idle');
 
   useEffect(() => {
     dispatch(fetchNotifications());
@@ -29,6 +34,16 @@ const Notifications: React.FC = () => {
 
   const handleMarkAllAsRead = () => {
     dispatch(markAllAsRead());
+  };
+
+  const handleEnablePush = async () => {
+    setPushStatus('saving');
+    try {
+      const result = await registerPushNotifications();
+      setPushStatus(result.enabled ? 'enabled' : 'unavailable');
+    } catch (error) {
+      setPushStatus('unavailable');
+    }
   };
 
   // Grouping notifications: Multiple likes on same post -> "Name1, Name2, and X others liked your post."
@@ -84,22 +99,76 @@ const Notifications: React.FC = () => {
     }
     switch (notif.type) {
       case 'like': return 'liked your post';
+      case 'love':
+      case 'haha':
+      case 'wow':
+      case 'sad':
+      case 'angry':
+      case 'same':
+      case 'proud':
+      case 'thinking':
+      case 'bookmark':
+        return `reacted ${notif.type} to your post`;
       case 'comment': return `commented "${notif.text}" on your post`;
+      case 'reply': return `replied "${notif.text}"`;
+      case 'mention': return notif.text || 'mentioned you';
       case 'friend_request': return 'sent you a friend request';
       case 'friend_accept': return 'accepted your friend request';
+      case 'story_reaction': return notif.text || 'reacted to your story';
+      case 'story_reply': return notif.text || 'replied to your story';
+      case 'group_invite': return notif.text || 'invited you to a group';
+      case 'post_collab_invite': return notif.text || 'invited you to collaborate on a post';
+      case 'anonymous_question': return notif.text || 'sent you an anonymous question';
+      case 'event_rsvp': return notif.text || 'RSVPed to your event';
+      case 'gift':
+      case 'coin_tip':
+      case 'endorsement':
       case 'marketplace': return notif.text;
       default: return notif.text || 'interacted with you';
     }
   };
 
-  const sanitizedItems = items.map((n: any) => ({
+  const sanitizedItems = useMemo(() => items.map((n: any) => ({
     ...n,
     fromUser: n.fromUser || { _id: 'deleted', name: 'Deleted User', profilePicture: '' }
-  }));
+  })), [items]);
 
-  const groupedNotifications = groupNotifications(sanitizedItems);
+  const filteredItems = useMemo(() => {
+    switch (activeFilter) {
+      case 'unread':
+        return sanitizedItems.filter((n: any) => !n.read);
+      case 'mentions':
+        return sanitizedItems.filter((n: any) => n.type === 'mention' || /(^|\s)@/i.test(n.text || ''));
+      case 'friend_requests':
+        return sanitizedItems.filter((n: any) => n.type === 'friend_request' || n.type === 'friend_accept');
+      default:
+        return sanitizedItems;
+    }
+  }, [activeFilter, sanitizedItems]);
+
+  const groupedNotifications = groupNotifications(filteredItems);
+
+  const filterOptions: { key: NotificationFilter; label: string; count: number; icon: React.ReactNode }[] = [
+    { key: 'all', label: 'All', count: sanitizedItems.length, icon: <FiBell /> },
+    { key: 'unread', label: 'Unread', count: unreadCount, icon: <FiClock /> },
+    {
+      key: 'mentions',
+      label: 'Mentions',
+      count: sanitizedItems.filter((n: any) => n.type === 'mention' || /(^|\s)@/i.test(n.text || '')).length,
+      icon: <FiAtSign />
+    },
+    {
+      key: 'friend_requests',
+      label: 'Friend Requests',
+      count: sanitizedItems.filter((n: any) => n.type === 'friend_request' || n.type === 'friend_accept').length,
+      icon: <FiUserPlus />
+    },
+  ];
 
   const getNotifLink = (notif: any) => {
+    if (notif.targetUrl) {
+      return notif.targetUrl;
+    }
     if (notif.type === 'friend_request' || notif.type === 'friend_accept') {
       return `/profile/${notif.fromUser._id}`;
     }
@@ -120,6 +189,32 @@ const Notifications: React.FC = () => {
               <FiCheck /> Mark all as read
             </button>
           )}
+        </div>
+
+        <div className="notifications-toolbar">
+          <div className="notification-filter-tabs" role="tablist" aria-label="Notification filters">
+            {filterOptions.map((filter) => (
+              <button
+                key={filter.key}
+                type="button"
+                className={`notification-filter-tab ${activeFilter === filter.key ? 'active' : ''}`}
+                onClick={() => setActiveFilter(filter.key)}
+              >
+                {filter.icon}
+                <span>{filter.label}</span>
+                <strong>{filter.count}</strong>
+              </button>
+            ))}
+          </div>
+          <button
+            type="button"
+            className={`push-enable-btn ${pushStatus === 'enabled' ? 'enabled' : ''}`}
+            onClick={handleEnablePush}
+            disabled={pushStatus === 'saving' || pushStatus === 'enabled'}
+          >
+            <FiWifi />
+            {pushStatus === 'enabled' ? 'Push enabled' : pushStatus === 'saving' ? 'Enabling...' : 'Enable push'}
+          </button>
         </div>
 
         <div className="notifications-list">

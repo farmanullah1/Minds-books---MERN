@@ -3,7 +3,21 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    {
+      name: 'remove-console-production',
+      apply: 'build',
+      transform(code, id) {
+        if (id.includes('node_modules')) return null;
+        if (!/\.(js|ts|jsx|tsx)$/.test(id)) return null;
+        return {
+          code: code.replace(/console\.(log|warn|error|info|debug|dir)\([\s\S]*?\);?/g, '/* console stripped */'),
+          map: null
+        };
+      }
+    }
+  ],
 
   resolve: {
     alias: {

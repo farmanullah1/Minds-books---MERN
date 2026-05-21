@@ -15,8 +15,8 @@
   position: absolute;
   top: -4px;
   right: -4px;
-  background-color: #e41e3f;
-  color: white;
+  background-color: var(--text-danger);
+  color: var(--text-inverse);
   font-size: 11px;
   font-weight: 700;
   height: 18px;
@@ -26,7 +26,7 @@
   align-items: center;
   justify-content: center;
   padding: 0 4px;
-  border: 2px solid var(--navbar-background);
+  border: 2px solid var(--bg-card);
 }
 
 .notifications-dropdown {
@@ -34,136 +34,194 @@
   top: calc(100% + 10px);
   right: -10px;
   width: 360px;
-  background: var(--card-background);
+  background: var(--bg-card) !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   border-radius: var(--radius-lg);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-xl) !important;
   display: flex;
   flex-direction: column;
   max-height: 80vh;
   z-index: 1000;
-  border: 1px solid var(--divider-color);
+  border: 1px solid var(--border) !important;
   overflow: hidden;
+  animation: notifSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes notifSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .notifications-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-3) var(--space-4);
-  border-bottom: 1px solid var(--divider-color);
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-card);
 }
 
 .notifications-header h3 {
   margin: 0;
-  font-size: var(--font-size-xl);
+  font-size: var(--fs-lg);
   font-weight: 700;
+  color: var(--text-primary);
 }
 
 .mark-all-btn {
   background: none;
   border: none;
-  color: var(--brand-primary);
+  color: var(--brand);
   font-weight: 600;
   cursor: pointer;
-  font-size: var(--font-size-sm);
+  font-size: var(--fs-xs);
+  transition: all var(--t-fast);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
 }
 
 .mark-all-btn:hover {
-  text-decoration: underline;
+  background: var(--brand-light);
+  color: var(--brand-hover);
 }
 
 .notifications-body {
   overflow-y: auto;
   flex: 1;
+  background: var(--bg-card);
+}
+
+/* Custom scrollbar for notifications dropdown */
+.notifications-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.notifications-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.notifications-body::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: var(--radius-full);
+}
+
+.notifications-body::-webkit-scrollbar-thumb:hover {
+  background: var(--brand);
 }
 
 .no-notifications {
-  padding: var(--space-6) var(--space-4);
+  padding: var(--sp-6) var(--sp-4);
   text-align: center;
-  color: var(--text-secondary);
+  color: var(--text-tertiary);
 }
 
 .notification-item {
   display: flex;
   align-items: flex-start;
-  padding: var(--space-3) var(--space-4);
+  padding: var(--sp-3) var(--sp-4);
   text-decoration: none;
   color: var(--text-primary);
-  transition: background var(--transition-fast);
+  transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
   position: relative;
+  border-left: 3px solid transparent;
 }
 
 .notification-item:hover {
-  background: var(--hover-overlay);
+  background: var(--bg-card-hover) !important;
+  border-left-color: var(--brand) !important;
+  transform: translateX(4px);
 }
 
 .notification-item.unread {
-  background: var(--brand-primary-light, rgba(247, 185, 40, 0.05));
-  border-left: 3px solid var(--brand-primary);
+  background: var(--brand-lighter) !important;
+  border-left-color: var(--brand) !important;
 }
 
 .notification-item.unread:hover {
-  background: #fdf2d0; /* slightly darker yellow hover */
+  background: var(--brand-light) !important;
 }
 
 .notification-avatar {
-  margin-right: var(--space-3);
+  margin-right: var(--sp-3);
   flex-shrink: 0;
+  position: relative;
 }
 
 .notification-avatar img {
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   object-fit: cover;
+  border: 1px solid var(--border);
 }
 
 .notification-avatar .avatar-initials {
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  background: var(--brand-primary);
-  color: var(--text-primary);
+  background: var(--brand-gradient);
+  color: #0b0f19;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
-  font-size: 16px;
+  font-weight: 700;
+  font-size: 14px;
 }
 
 .notification-content {
   flex: 1;
-  font-size: var(--font-size-sm);
+  font-size: var(--fs-base);
   line-height: 1.4;
-  padding-right: var(--space-4);
+  padding-right: var(--sp-4);
 }
 
 .notification-content p {
   margin: 0 0 4px 0;
+  color: var(--text-primary);
+}
+
+.notification-content strong {
+  font-weight: 600;
 }
 
 .notification-time {
-  color: var(--text-secondary);
+  color: var(--text-tertiary);
   font-size: 12px;
+  font-weight: 500;
 }
 
 .mark-read-icon {
-  background: none;
-  border: none;
-  color: var(--brand-primary);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--brand);
   cursor: pointer;
-  padding: 4px;
+  padding: 6px;
   position: absolute;
-  right: var(--space-2);
+  right: var(--sp-3);
   top: 50%;
   transform: translateY(-50%);
   opacity: 0;
-  transition: opacity var(--transition-fast);
+  transition: all var(--t-fast);
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
 }
 
 .mark-read-icon:hover {
-  background: rgba(246, 187, 6, 0.2);
+  background: var(--brand);
+  color: #0b0f19;
+  border-color: var(--brand);
+  transform: translateY(-50%) scale(1.1);
 }
 
 .notification-item:hover .mark-read-icon {
@@ -179,11 +237,13 @@
     width: 100%;
     max-height: calc(100vh - var(--navbar-height));
     border-radius: 0;
+    border-left: none !important;
+    border-right: none !important;
   }
 }
 
 .swing-bell svg {
-  animation: swingBellAnimation 1.5s ease-in-out 3; /* 3 swings */
+  animation: swingBellAnimation 1.5s ease-in-out 3;
   transform-origin: top center;
 }
 
@@ -199,21 +259,25 @@
 }
 
 .notifications-dropdown-footer {
-  padding: var(--space-3) var(--space-4);
+  padding: var(--sp-3) var(--sp-4);
   text-align: center;
-  border-top: 1px solid var(--divider-color);
-  background: rgba(255, 255, 255, 0.01);
+  border-top: 1px solid var(--border);
+  background: var(--bg-card);
 }
 
 .notifications-dropdown-footer a {
-  color: var(--brand-primary);
+  color: var(--brand);
   text-decoration: none;
   font-weight: 600;
-  font-size: var(--font-size-sm);
-  transition: opacity var(--transition-fast);
+  font-size: var(--fs-base);
+  transition: all var(--t-fast);
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: var(--radius-sm);
 }
 
 .notifications-dropdown-footer a:hover {
-  opacity: 0.85;
-  text-decoration: underline;
+  background: var(--brand-light);
+  color: var(--brand-hover);
 }
+

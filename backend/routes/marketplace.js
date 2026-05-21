@@ -119,6 +119,59 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
+// @route   PUT /api/marketplace/:id
+// @desc    Update a listing owned by the logged-in user
+router.put('/:id', auth, async (req, res) => {
+  try {
+    const listing = await Listing.findById(req.params.id);
+    if (!listing) {
+      return res.status(404).json({ message: 'Listing not found' });
+    }
+
+    if (listing.seller.toString() !== req.user.id.toString()) {
+      return res.status(403).json({ message: 'Only the seller can update this listing' });
+    }
+
+    const allowedFields = ['title', 'description', 'price', 'category', 'imageUrl', 'condition', 'status'];
+    allowedFields.forEach((field) => {
+      if (req.body[field] !== undefined) {
+        listing[field] = field === 'price' ? Number(req.body[field]) : req.body[field];
+      }
+    });
+
+    await listing.save();
+    const populatedListing = await Listing.findById(listing._id)
+      .populate('seller', 'name profilePicture')
+      .populate('offers.buyer', 'name profilePicture');
+
+    res.json(populatedListing);
+  } catch (error) {
+    console.error('Update listing error:', error);
+    res.status(500).json({ message: 'Server error updating listing' });
+  }
+});
+
+// @route   DELETE /api/marketplace/:id
+// @desc    Delete a listing owned by the logged-in user
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    const listing = await Listing.findById(req.params.id);
+    if (!listing) {
+      return res.status(404).json({ message: 'Listing not found' });
+    }
+
+    if (listing.seller.toString() !== req.user.id.toString()) {
+      return res.status(403).json({ message: 'Only the seller can delete this listing' });
+    }
+
+    await listing.deleteOne();
+    res.json({ message: 'Listing deleted successfully', listingId: req.params.id });
+  } catch (error) {
+    console.error('Delete listing error:', error);
+    res.status(500).json({ message: 'Server error deleting listing' });
+  }
+});
+
 // @route   POST /api/marketplace/:id/save
 // @desc    Bookmark or unsave a listing
 router.post('/:id/save', auth, async (req, res) => {

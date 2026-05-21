@@ -11,6 +11,7 @@
   width: 100%;
   margin-bottom: 8px;
   overflow: hidden;
+  position: relative;
 }
 
 .stories-scroll-wrapper {
@@ -23,6 +24,30 @@
 
 .stories-scroll-wrapper::-webkit-scrollbar {
   display: none; /* Chrome/Safari */
+}
+
+.stories-scroll-arrow {
+  position: absolute;
+  top: 32px;
+  z-index: var(--z-raised);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-full);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-md);
+}
+
+.stories-scroll-left {
+  left: 4px;
+}
+
+.stories-scroll-right {
+  right: 4px;
 }
 
 .story-circle-wrapper {

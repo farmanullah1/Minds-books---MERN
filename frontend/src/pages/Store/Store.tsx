@@ -10,6 +10,7 @@ import RightSidebar from '../../components/RightSidebar/RightSidebar';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { useToast } from '../../components/Toast/ToastContext';
 import { updateUserInState } from '../../store/slices/authSlice';
+import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 import confetti from 'canvas-confetti';
 import ThreeHero from './ThreeHero';
@@ -53,14 +54,19 @@ interface IListing {
 
 const CATEGORIES = ['All', 'Digital Perks', 'Electronics', 'Books', 'Fashion', 'Services'];
 
-const Store: React.FC = () => {
+interface StoreProps {
+  initialTab?: 'browse' | 'mine' | 'saved';
+}
+
+const Store: React.FC<StoreProps> = ({ initialTab = 'browse' }) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { user } = useAppSelector((state) => state.auth);
   const { showToast } = useToast();
 
   const [listings, setListings] = useState<IListing[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'browse' | 'mine' | 'saved'>('browse');
+  const [activeTab, setActiveTab] = useState<'browse' | 'mine' | 'saved'>(initialTab);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('newest');
@@ -107,6 +113,10 @@ const Store: React.FC = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    setActiveTab(initialTab);
+  }, [initialTab]);
 
   useEffect(() => {
     fetchListings();
@@ -272,6 +282,17 @@ const Store: React.FC = () => {
     } catch (error) {
       console.error('Process offer error:', error);
       showToast('Failed to update offer status.', 'error');
+    }
+  };
+
+  const handleDeleteListing = async (listingId: string) => {
+    try {
+      await api.delete(`/marketplace/${listingId}`);
+      setListings(prev => prev.filter(item => item._id !== listingId));
+      showToast('Listing deleted successfully.', 'success');
+    } catch (error) {
+      console.error('Delete listing error:', error);
+      showToast('Failed to delete listing.', 'error');
     }
   };
 
@@ -443,20 +464,39 @@ const Store: React.FC = () => {
                         {/* Action buttons */}
                         <div className="card-actions-row">
                           {isOwnListing ? (
-                            <div className="own-listing-indicator w-100 text-center text-brand font-weight-bold">
-                              ★ Your Listing
+                            <div className="own-listing-actions">
+                              <button
+                                className="btn btn-secondary btn-sm"
+                                onClick={() => navigate(`/marketplace/${item._id}`)}
+                              >
+                                View Details
+                              </button>
+                              <button
+                                className="btn btn-danger btn-sm"
+                                onClick={() => handleDeleteListing(item._id)}
+                              >
+                                <FiTrash2 /> Delete
+                              </button>
                             </div>
                           ) : item.status === 'Sold' ? (
                             <button className="btn btn-secondary btn-full btn-sm" disabled>
                               Sold Out
                             </button>
                           ) : (
-                            <button 
-                              className="btn btn-primary btn-full btn-sm"
-                              onClick={() => handleOpenOfferModal(item)}
-                            >
-                              <FiSend /> Make Coin Offer
-                            </button>
+                            <div className="listing-action-stack">
+                              <button 
+                                className="btn btn-primary btn-full btn-sm"
+                                onClick={() => handleOpenOfferModal(item)}
+                              >
+                                <FiSend /> Make Coin Offer
+                              </button>
+                              <button
+                                className="btn btn-secondary btn-full btn-sm"
+                                onClick={() => navigate(`/marketplace/${item._id}`)}
+                              >
+                                View Details
+                              </button>
+                            </div>
                           )}
                         </div>
                       </div>

@@ -6,7 +6,7 @@
  * rules: Dark sleek stage, gold live underlines, animated speaker rings, hand-raise prompts, whisper scaffolds
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   FiMic, FiMicOff, FiUsers, FiPlus, FiSmile, 
@@ -76,6 +76,10 @@ const AudioRooms: React.FC = () => {
   const [isHost, setIsHost] = useState(false);
   const [handRaised, setHandRaised] = useState(false);
   const [spaceReaction, setSpaceReaction] = useState<string | null>(null);
+  const [localSpeaking, setLocalSpeaking] = useState(false);
+  const audioStreamRef = useRef<MediaStream | null>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const analyserFrameRef = useRef<number | null>(null);
 
   // New room modal
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -109,6 +113,75 @@ const AudioRooms: React.FC = () => {
     { name: 'Evan', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&h=100&q=80' },
     { name: 'Fiona', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&h=100&q=80' }
   ];
+
+  useEffect(() => {
+    const stopLocalAudio = () => {
+      if (analyserFrameRef.current) {
+        cancelAnimationFrame(analyserFrameRef.current);
+        analyserFrameRef.current = null;
+      }
+      if (audioStreamRef.current) {
+        audioStreamRef.current.getTracks().forEach(track => track.stop());
+        audioStreamRef.current = null;
+      }
+      if (audioContextRef.current) {
+        audioContextRef.current.close().catch(() => {});
+        audioContextRef.current = null;
+      }
+      setLocalSpeaking(false);
+    };
+
+    if (activeTab !== 'active-room' || !isSpeaker) {
+      stopLocalAudio();
+      return;
+    }
+
+    let mounted = true;
+
+    const startLocalAudio = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+        if (!mounted) {
+          stream.getTracks().forEach(track => track.stop());
+          return;
+        }
+
+        audioStreamRef.current = stream;
+        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+        const audioContext = new AudioContextClass();
+        audioContextRef.current = audioContext;
+        const source = audioContext.createMediaStreamSource(stream);
+        const analyser = audioContext.createAnalyser();
+        analyser.fftSize = 256;
+        source.connect(analyser);
+        const data = new Uint8Array(analyser.frequencyBinCount);
+
+        const detectSpeaking = () => {
+          analyser.getByteFrequencyData(data);
+          const average = data.reduce((sum, value) => sum + value, 0) / data.length;
+          setLocalSpeaking(!isMuted && average > 18);
+          analyserFrameRef.current = requestAnimationFrame(detectSpeaking);
+        };
+
+        detectSpeaking();
+      } catch (error) {
+        setLocalSpeaking(false);
+      }
+    };
+
+    startLocalAudio();
+
+    return () => {
+      mounted = false;
+      stopLocalAudio();
+    };
+  }, [activeTab, isSpeaker, isMuted]);
+
+  useEffect(() => {
+    audioStreamRef.current?.getAudioTracks().forEach(track => {
+      track.enabled = !isMuted;
+    });
+  }, [isMuted]);
 
   const triggerReaction = (emoji: string) => {
     setSpaceReaction(emoji);
@@ -297,7 +370,8 @@ const AudioRooms: React.FC = () => {
                 <h3>🎙️ Speakers ({mockSpeakers.length})</h3>
                 <div className="speakers-bubble-grid">
                   {mockSpeakers.map((speaker, idx) => {
-                    const isSpeakingNow = speaker.isSpeaking && !isMuted;
+                    const isLocalSpeaker = idx === 0 && (isHost || isSpeaker);
+                    const isSpeakingNow = isLocalSpeaker ? localSpeaking : speaker.isSpeaking && !isMuted;
                     return (
                       <div key={idx} className="speaker-avatar-wrap">
                         <div className={`avatar-border-ring ${isSpeakingNow ? 'speaking' : ''}`}>

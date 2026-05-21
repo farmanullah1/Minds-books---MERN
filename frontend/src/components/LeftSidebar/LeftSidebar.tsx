@@ -13,6 +13,7 @@ import { FiHome, FiUsers, FiBookmark, FiCalendar, FiFlag, FiShoppingBag, FiChevr
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { logout } from '../../store/slices/authSlice';
 import { getInitials } from '../../utils/helpers';
+import { DeveloperLinksCompact } from '../ui/DeveloperLinks';
 import './LeftSidebar.css';
 
 const LeftSidebar: React.FC = () => {
@@ -194,6 +195,7 @@ const LeftSidebar: React.FC = () => {
                 <a href="https://github.com/farmanullah1" target="_blank" rel="noopener noreferrer" className="footer-link" style={{ color: 'var(--brand)', fontWeight: 600 }}>GitHub</a>
               </div>
             </div>
+            <DeveloperLinksCompact />
           </footer>
 
         </div>

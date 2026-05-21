@@ -6,6 +6,7 @@ import { registerUser, clearError, updateUserInState } from '../../store/slices/
 import { FiEye, FiEyeOff, FiCheckCircle, FiChevronDown, FiChevronUp, FiCamera, FiImage, FiTrash2 } from 'react-icons/fi';
 import PasswordStrengthMeter from '../../components/ui/PasswordStrengthMeter';
 import ProfilePicModal from '../../components/Profile/ProfilePicModal';
+import Navbar from '../../components/Navbar/Navbar';
 import api from '../../services/api';
 import './Auth.css';
 
@@ -149,6 +150,9 @@ const Register: React.FC = () => {
 
   return (
     <div className="auth-page">
+      {/* Navbar Integration */}
+      <Navbar />
+
       {/* Animated background blobs */}
       <div className="auth-bg-blob blob-1" />
       <div className="auth-bg-blob blob-2" />

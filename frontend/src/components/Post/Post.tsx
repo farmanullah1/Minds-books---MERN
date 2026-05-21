@@ -45,6 +45,7 @@ import MediaViewer from '../MediaViewer/MediaViewer';
 import ReportModal from '../ReportModal/ReportModal';
 import GiftModal from '../GiftModal/GiftModal';
 import Emoji3D from '../ui/Emoji3D';
+import ReactionPicker from './ReactionPicker';
 import './Post.css';
 
 interface PostProps {
@@ -486,27 +487,7 @@ const Post: React.FC<PostProps> = ({ post, onPin, onUnpin, canManage }) => {
         >
           <AnimatePresence>
             {showReactions && (
-              <motion.div 
-                className="reactions-popover card"
-                initial={{ opacity: 0, y: 10, scale: 0.8 }}
-                animate={{ opacity: 1, y: -50, scale: 1 }}
-                exit={{ opacity: 0, y: 10, scale: 0.8 }}
-              >
-                {REACTION_TYPES.map((r, i) => (
-                  <motion.button
-                    key={r.type}
-                    className="reaction-btn"
-                    whileHover={{ scale: 1.3, y: -5 }}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                    onClick={() => handleReact(r.type)}
-                    title={r.label}
-                  >
-                    <span className="reaction-emoji"><Emoji3D emoji={r.icon} size={28} /></span>
-                  </motion.button>
-                ))}
-              </motion.div>
+              <ReactionPicker reactions={REACTION_TYPES} onReact={handleReact} />
             )}
           </AnimatePresence>
 

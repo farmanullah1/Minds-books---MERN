@@ -318,3 +318,336 @@
   }
   .navbar-search-container { display: none; }
 }
+
+/* Guest Navigation Layouts (PROMPT-22) */
+.guest-nav {
+  height: 80px;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: all 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.guest-nav.scrolled {
+  background: var(--bg-navbar);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+  height: 70px;
+  box-shadow: var(--shadow-navbar);
+}
+
+.guest-navbar-inner {
+  grid-template-columns: auto 1fr auto;
+}
+
+.guest-navbar-center {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+}
+
+.guest-nav-link {
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: color var(--t-fast);
+  position: relative;
+  padding: 8px 0;
+  display: inline-flex;
+  align-items: center;
+}
+
+.guest-nav-link:hover,
+.guest-nav-link.active {
+  color: var(--brand);
+}
+
+.guest-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--brand);
+  transition: width var(--t-fast);
+}
+
+.guest-nav-link:hover::after,
+.guest-nav-link.active::after {
+  width: 100%;
+}
+
+.guest-navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.guest-theme-toggle {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+}
+
+.guest-theme-toggle:hover {
+  transform: rotate(45deg) scale(1.05);
+  border-color: var(--brand);
+  color: var(--brand);
+  box-shadow: 0 0 12px rgba(247, 185, 40, 0.25);
+  background: rgba(247, 185, 40, 0.05);
+}
+
+.btn-login-ghost {
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 10px 22px;
+  border-radius: var(--r-full);
+  text-decoration: none;
+  transition: all var(--t-fast);
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.btn-login-ghost:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border);
+}
+
+.btn-signup-primary {
+  background: linear-gradient(135deg, var(--brand) 0%, #ffc034 100%);
+  color: #0b0f19 !important;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 12px 28px;
+  border-radius: var(--r-full);
+  text-decoration: none;
+  transition: all var(--t-spring);
+  box-shadow: 0 4px 20px rgba(247, 185, 40, 0.3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-signup-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(247, 185, 40, 0.45);
+}
+
+.btn-signup-primary:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .guest-navbar-inner {
+    grid-template-columns: 1fr auto;
+  }
+  .guest-navbar-center {
+    display: none;
+  }
+  .guest-nav {
+    height: 70px;
+    background: var(--bg-navbar);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+/* ==========================================================================
+   Dynamic Page-Based Navbar Styles
+   ========================================================================== */
+
+/* 1. Immersive Cinema Mode (Reels, WatchParty, LiveStream) */
+.navbar.navbar-immersive {
+  background: rgba(10, 12, 18, 0.72) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4) !important;
+  transition: all 0.3s ease;
+}
+
+.navbar-immersive .logo-text {
+  color: #F7B928 !important; /* Premium stardust brand gold */
+  text-shadow: 0 0 10px rgba(247, 185, 40, 0.3);
+}
+
+.navbar-immersive .nav-tab,
+.navbar-immersive .nav-icon-btn,
+.navbar-immersive .mobile-menu-btn,
+.navbar-immersive .search-icon {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.navbar-immersive .nav-tab:hover,
+.navbar-immersive .nav-icon-btn:hover {
+  color: #F7B928 !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  transform: scale(1.05);
+}
+
+.navbar-immersive .nav-tab.active {
+  color: #F7B928 !important;
+}
+
+.navbar-immersive .nav-tab.active::after {
+  background: #F7B928 !important;
+}
+
+.navbar-immersive .navbar-search {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.navbar-immersive .navbar-search input {
+  color: #ffffff !important;
+}
+
+.navbar-immersive .navbar-search input::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.navbar-immersive .nav-profile-btn {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.navbar-immersive .nav-profile-btn:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* 2. Flat Messenger Mode (/messages) */
+.navbar.navbar-messages {
+  background: var(--bg-card) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: 1px solid var(--divider-color) !important;
+  box-shadow: none !important;
+  transition: all 0.3s ease;
+}
+
+/* 3. Sleek Cover-Blending Profile Mode (/profile/*) */
+.navbar.navbar-profile {
+  background: rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03) !important;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .navbar.navbar-profile {
+  background: rgba(15, 22, 36, 0.18) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* 4. Elegant Home & Landing Mode (/, /home) */
+.navbar.navbar-home {
+  background: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  border-bottom: var(--glass-border) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02) !important;
+  transition: all 0.3s ease;
+}
+
+.navbar-home .nav-tab:hover {
+  box-shadow: 0 0 15px rgba(247, 185, 40, 0.18);
+  background: rgba(247, 185, 40, 0.05) !important;
+}
+
+.navbar-home .nav-icon-btn:hover {
+  box-shadow: 0 0 12px rgba(247, 185, 40, 0.2);
+  background: rgba(247, 185, 40, 0.05) !important;
+}
+
+/* ==========================================================================
+   Guest & Auth Page Visual Adaptation Override Classes
+   ========================================================================= */
+
+/* 1. Landing Page Navbar Override (.navbar-guest-landing) */
+.navbar.navbar-guest-landing {
+  background: rgba(11, 15, 25, 0.4) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border-bottom: 1px solid rgba(247, 185, 40, 0.15) !important;
+  box-shadow: 0 8px 32px 0 rgba(247, 185, 40, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+  height: 80px;
+}
+
+body.light .navbar.navbar-guest-landing {
+  background: rgba(255, 255, 255, 0.5) !important;
+  border-bottom: 1px solid rgba(247, 185, 40, 0.2) !important;
+  box-shadow: 0 8px 32px 0 rgba(247, 185, 40, 0.08) !important;
+}
+
+.navbar.navbar-guest-landing.scrolled {
+  background: rgba(11, 15, 25, 0.85) !important;
+  height: 70px;
+  border-bottom: 1px solid rgba(247, 185, 40, 0.25) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+body.light .navbar.navbar-guest-landing.scrolled {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-bottom: 1px solid rgba(247, 185, 40, 0.3) !important;
+  box-shadow: 0 10px 40px rgba(247, 185, 40, 0.1) !important;
+}
+
+/* 2. Informational Pages (About, Why MindBook, Meet Creator) */
+.navbar.navbar-guest-info {
+  background: rgba(15, 23, 42, 0.7) !important;
+  backdrop-filter: blur(25px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(25px) saturate(160%) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2) !important;
+  height: 80px;
+}
+
+body.light .navbar.navbar-guest-info {
+  background: rgba(248, 250, 252, 0.8) !important;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05) !important;
+}
+
+.navbar.navbar-guest-info.scrolled {
+  height: 70px;
+  background: var(--bg-navbar) !important;
+  border-bottom: 1px solid var(--border) !important;
+  box-shadow: var(--shadow-navbar) !important;
+}
+
+/* 3. Authentication Pages (Log In, Sign Up - .navbar-auth) */
+.navbar.navbar-auth {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  height: 80px;
+}
+
+.navbar.navbar-auth.scrolled {
+  background: var(--bg-navbar) !important;
+  backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid var(--border) !important;
+  height: 70px;
+}
+
+

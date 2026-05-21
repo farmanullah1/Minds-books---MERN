@@ -13,7 +13,7 @@ const { createNotification } = require('./notificationController');
 // Create a new Reel short-video
 const createReel = async (req, res) => {
   try {
-    const { videoUrl, caption, musicName } = req.body;
+    const { videoUrl, caption, musicName, startTrim, endTrim, filterName } = req.body;
     if (!videoUrl) {
       return res.status(400).json({ message: 'Video URL is required to create a reel' });
     }
@@ -22,7 +22,10 @@ const createReel = async (req, res) => {
       user: req.user.id,
       videoUrl,
       caption: caption || '',
-      musicName: musicName || 'Original Audio'
+      musicName: musicName || 'Original Audio',
+      startTrim: Number(startTrim) || 0,
+      endTrim: Number(endTrim) || 0,
+      filterName: filterName || 'Original'
     });
 
     const populatedReel = await reel.populate('user', 'name profilePicture');
@@ -55,7 +58,7 @@ const likeReel = async (req, res) => {
     }
 
     const userId = req.user.id;
-    const isLiked = reel.likes.includes(userId);
+    const isLiked = reel.likes.some(id => id.toString() === userId.toString());
 
     if (isLiked) {
       // Unlike

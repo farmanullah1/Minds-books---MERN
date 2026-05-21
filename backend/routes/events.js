@@ -14,6 +14,7 @@ const {
   createEvent,
   getEvents,
   getEvent,
+  updateEvent,
   rsvpEvent,
   deleteEvent
 } = require('../controllers/eventController');
@@ -21,6 +22,7 @@ const {
 router.post('/', auth, createEvent);
 router.get('/', auth, getEvents);
 router.get('/:id', auth, getEvent);
+router.put('/:id', auth, updateEvent);
 router.put('/:id/rsvp', auth, rsvpEvent);
 router.delete('/:id', auth, deleteEvent);
 

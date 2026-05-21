@@ -19,13 +19,13 @@ const {
   endorseSkill
 } = require('../controllers/jobController');
 
+router.get('/portfolio/:id', auth, getPortfolio);
+router.put('/portfolio', auth, updatePortfolio);
+router.post('/portfolio/skill-endorse', auth, endorseSkill);
+
 router.get('/', auth, getJobs);
 router.post('/', auth, createJob);
 router.get('/:id', auth, getJob);
 router.post('/:id/apply', auth, applyToJob);
-
-router.get('/portfolio/:id', auth, getPortfolio);
-router.put('/portfolio', auth, updatePortfolio);
-router.post('/portfolio/skill-endorse', auth, endorseSkill);
 
 module.exports = router;

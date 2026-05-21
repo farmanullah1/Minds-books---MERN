@@ -3,6 +3,7 @@ import Navbar from '../../components/Navbar/Navbar';
 import LeftSidebar from '../../components/LeftSidebar/LeftSidebar';
 import { FiDownload, FiGithub, FiLinkedin, FiMail, FiGlobe, FiAward, FiLayers, FiCode, FiSmartphone, FiCpu } from 'react-icons/fi';
 import { jsPDF } from 'jspdf';
+import { DeveloperLinksFull } from '../../components/ui/DeveloperLinks';
 import './MeetCreator.css';
 
 const MeetCreator: React.FC = () => {
@@ -148,7 +149,7 @@ const MeetCreator: React.FC = () => {
               <div className="creator-avatar-wrapper">
                 <div className="creator-avatar-glow" />
                 <div className="creator-avatar-inner">
-                  <span>FA</span>
+                  <img src="/Profile%20Picture.jpg" alt="Farmanullah Ansari" className="creator-avatar-img" />
                 </div>
               </div>
 
@@ -176,6 +177,8 @@ const MeetCreator: React.FC = () => {
                 <FiDownload size={18} />
                 <span>Download Professional Resume (PDF)</span>
               </button>
+
+              <DeveloperLinksFull />
             </div>
 
             {/* Core Project Demonstration Details */}

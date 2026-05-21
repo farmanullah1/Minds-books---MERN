@@ -13,6 +13,7 @@ import {
   FiVolume2, FiVolumeX, FiMaximize2, FiX, FiRadio, FiSmile, FiMic, FiMicOff
 } from 'react-icons/fi';
 import './LiveStream.css';
+import Navbar from '../../components/Navbar/Navbar';
 import { socketService } from '../../services/socketService';
 import { useAppSelector } from '../../store/hooks';
 import Emoji3D, { EMOJI_3D_MAP } from '../../components/ui/Emoji3D';
@@ -381,6 +382,7 @@ const LiveStream: React.FC = () => {
 
   return (
     <div className="livestream-page-container">
+      <Navbar />
       {/* Dynamic Emoji Rain Container overlay across screen during live stream */}
       <div ref={emojiRainContainerRef} className="emoji-rain-container" />
 

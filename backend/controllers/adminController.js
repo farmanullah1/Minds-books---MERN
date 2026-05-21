@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Post = require('../models/Post');
 const Group = require('../models/Group');
+const Report = require('../models/Report');
 
 // Get admin dashboard metrics
 exports.getMetrics = async (req, res) => {
@@ -11,15 +12,42 @@ exports.getMetrics = async (req, res) => {
     });
     const totalPosts = await Post.countDocuments();
     const totalGroups = await Group.countDocuments();
+    const pendingReports = await Report.countDocuments({ status: { $in: ['pending', 'open'] } }).catch(() => 0);
+    const newUsersThisWeek = await User.countDocuments({
+      createdAt: { $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) }
+    });
+    const activeYesterday = await User.countDocuments({
+      lastActive: {
+        $gte: new Date(Date.now() - 48 * 60 * 60 * 1000),
+        $lt: new Date(Date.now() - 24 * 60 * 60 * 1000)
+      }
+    });
+    const activeTodayVsYesterday = activeYesterday
+      ? Math.round(((activeUsersToday - activeYesterday) / activeYesterday) * 100)
+      : activeUsersToday > 0 ? 100 : 0;
+    const imagePosts = await Post.countDocuments({ image: { $nin: ['', null] } });
+    const videoPosts = await Post.countDocuments({ video: { $nin: ['', null] } });
+    const sharedPosts = await Post.countDocuments({ sharedPost: { $exists: true, $ne: null } });
+    const textPosts = Math.max(totalPosts - imagePosts - videoPosts - sharedPosts, 0);
 
-    // Just basic metrics for now, we'll expand this later
     res.json({
       totalUsers,
       activeUsersToday,
+      activeToday: activeUsersToday,
+      activeTodayVsYesterday,
       totalPosts,
       totalGroups,
-      activeReports: 0, // Placeholder
-      storageUsage: '1.2 GB', // Placeholder
+      newUsersThisWeek,
+      pendingReports,
+      activeReports: pendingReports,
+      storageUsage: '1.2 GB',
+      storageUsedMB: 1229,
+      contentByType: [
+        { name: 'Text', value: textPosts },
+        { name: 'Images', value: imagePosts },
+        { name: 'Videos', value: videoPosts },
+        { name: 'Shares', value: sharedPosts },
+      ],
     });
   } catch (error) {
     console.error('Metrics error:', error);

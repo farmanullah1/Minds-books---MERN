@@ -12,6 +12,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { loginUser, clearError } from '../../store/slices/authSlice';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
+import Navbar from '../../components/Navbar/Navbar';
 import './Auth.css';
 
 const Login: React.FC = () => {
@@ -46,6 +47,9 @@ const Login: React.FC = () => {
 
   return (
     <div className="auth-page">
+      {/* Navbar Integration */}
+      <Navbar />
+
       {/* Animated background blobs */}
       <div className="auth-bg-blob blob-1" />
       <div className="auth-bg-blob blob-2" />

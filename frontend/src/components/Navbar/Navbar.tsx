@@ -82,8 +82,106 @@ const Navbar: React.FC = () => {
 
   const isActive = (path: string) => location.pathname === path;
 
+  const getNavbarClass = () => {
+    const path = location.pathname;
+    let classes = ['navbar'];
+    if (path.startsWith('/watch/reels') || path.startsWith('/reels')) {
+      classes.push('navbar-immersive', 'navbar-reels');
+    } else if (path.startsWith('/watch/party')) {
+      classes.push('navbar-immersive', 'navbar-watchparty');
+    } else if (path.startsWith('/watch/live')) {
+      classes.push('navbar-immersive', 'navbar-livestream');
+    } else if (path === '/messages') {
+      classes.push('navbar-messages');
+    } else if (path.startsWith('/profile/')) {
+      classes.push('navbar-profile');
+    } else if (path === '/' || path === '/home') {
+      classes.push('navbar-home');
+    } else if (path === '/watch') {
+      classes.push('navbar-videohub');
+    }
+    return classes.join(' ');
+  };
+
+  if (!user) {
+    const isLoginPage = location.pathname === '/login';
+    const isRegisterPage = location.pathname === '/register';
+    const isLandingPage = location.pathname === '/landing' || location.pathname === '/';
+    const isAboutPage = location.pathname === '/about-mindbook';
+    const isWhyPage = location.pathname === '/why-mindbook';
+    const isCreatorPage = location.pathname === '/meet-the-creator';
+
+    const getGuestNavbarClass = () => {
+      let classes = ['navbar', 'guest-nav'];
+      if (isLandingPage) {
+        classes.push('navbar-guest-landing');
+      } else if (isLoginPage) {
+        classes.push('navbar-guest-login', 'navbar-auth');
+      } else if (isRegisterPage) {
+        classes.push('navbar-guest-signup', 'navbar-auth');
+      } else if (isAboutPage) {
+        classes.push('navbar-guest-about', 'navbar-guest-info');
+      } else if (isWhyPage) {
+        classes.push('navbar-guest-why', 'navbar-guest-info');
+      } else if (isCreatorPage) {
+        classes.push('navbar-guest-creator', 'navbar-guest-info');
+      } else {
+        classes.push('scrolled');
+      }
+      return classes.join(' ');
+    };
+
+    return (
+      <nav className={getGuestNavbarClass()}>
+        <div className="navbar-inner guest-navbar-inner">
+          {/* Left Section */}
+          <div className="navbar-left">
+            <Link to="/" className="navbar-logo">
+              <div className="logo-icon">
+                <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
+                  <defs>
+                    <linearGradient id="logoGrad" x1="0" y1="0" x2="40" y2="40">
+                      <stop offset="0%" stopColor="#F7B928" />
+                      <stop offset="100%" stopColor="#FFD700" />
+                    </linearGradient>
+                  </defs>
+                  <circle cx="20" cy="20" r="20" fill="url(#logoGrad)" />
+                  <text x="50%" y="62%" dominantBaseline="middle" textAnchor="middle" fill="white" fontSize="24" fontWeight="900">M</text>
+                </svg>
+              </div>
+              <span className="logo-text">MindBook</span>
+            </Link>
+          </div>
+
+          {/* Center Section */}
+          {!isLoginPage && !isRegisterPage && (
+            <div className="navbar-center guest-navbar-center">
+              <Link to="/about-mindbook" className={`guest-nav-link ${isActive('/about-mindbook') ? 'active' : ''}`}>About</Link>
+              <Link to="/why-mindbook" className={`guest-nav-link ${isActive('/why-mindbook') ? 'active' : ''}`}>Why MindBook</Link>
+              <Link to="/meet-the-creator" className={`guest-nav-link ${isActive('/meet-the-creator') ? 'active' : ''}`}>Creator</Link>
+            </div>
+          )}
+
+          {/* Right Section */}
+          <div className="navbar-right guest-navbar-right">
+            <button className="nav-icon-btn theme-toggle guest-theme-toggle" onClick={toggleTheme} title="Toggle Theme">
+              {theme === 'light' ? <FiMoon size={20} /> : <FiSun size={20} />}
+            </button>
+            
+            {!isLoginPage && (
+              <Link to="/login" className="btn-login-ghost">Log In</Link>
+            )}
+            {!isRegisterPage && (
+              <Link to="/register" className="btn-signup-primary">Get Started</Link>
+            )}
+          </div>
+        </div>
+      </nav>
+    );
+  }
+
   return (
-    <nav className="navbar">
+    <nav className={getNavbarClass()}>
       <div className="navbar-inner">
         {/* Left Section */}
         <div className="navbar-left">

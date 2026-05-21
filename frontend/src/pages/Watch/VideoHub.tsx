@@ -16,6 +16,8 @@ import {
 } from 'react-icons/fi';
 import './VideoHub.css';
 import { useAppSelector } from '../../store/hooks';
+import SourceBadge from '../../components/VideoHub/SourceBadge';
+import Navbar from '../../components/Navbar/Navbar';
 
 interface VideoHubItem {
   id: string;
@@ -224,24 +226,12 @@ const VideoHub: React.FC = () => {
 
   // Render Source Badge top-right
   const renderSourceBadge = (source: 'youtube' | 'mindbook') => {
-    if (source === 'youtube') {
-      return (
-        <span className="source-badge youtube">
-          <FiYoutube size={12} className="badge-icon-youtube" />
-          <span>YouTube</span>
-        </span>
-      );
-    }
-    return (
-      <span className="source-badge mindbook">
-        <span className="badge-dot-yellow" />
-        <span>MindBook</span>
-      </span>
-    );
+    return <SourceBadge source={source} className="source-badge" />;
   };
 
   return (
     <div className="videohub-page-container">
+      <Navbar />
       <div className="videohub-grid-layout">
         
         {/* Left Interactive Sidebar Hub (240px locked desktop) */}

@@ -5,6 +5,7 @@ import { useAppSelector } from '../../store/hooks';
 import HorizontalScrollRow from '../HorizontalScrollRow/HorizontalScrollRow';
 import CreateReel from '../CreateReel/CreateReel';
 import api from '../../services/api';
+import { filters } from '../../utils/photoFilters';
 import './ReelsPreviewRow.css';
 
 interface ReelPreviewItem {
@@ -14,6 +15,7 @@ interface ReelPreviewItem {
   creatorAvatar: string;
   caption: string;
   likesCount: number;
+  filterName?: string;
 }
 
 const ReelsPreviewRow: React.FC = () => {
@@ -62,7 +64,8 @@ const ReelsPreviewRow: React.FC = () => {
           creatorName: item.user?.name || 'Anonymous',
           creatorAvatar: item.user?.profilePicture || '',
           caption: item.caption || '',
-          likesCount: item.likes?.length || 0
+          likesCount: item.likes?.length || 0,
+          filterName: item.filterName || 'Original'
         }));
         setReels(apiPreviews);
       } else {
@@ -123,7 +126,13 @@ const ReelsPreviewRow: React.FC = () => {
             >
               {/* Fake/static representation of video background in a card frame */}
               <div className="card-video-placeholder">
-                <video src={reel.videoUrl} muted playsInline className="card-bg-video-preview" />
+                <video
+                  src={reel.videoUrl}
+                  muted
+                  playsInline
+                  className="card-bg-video-preview"
+                  style={{ filter: filters[reel.filterName || 'Original'] || '' }}
+                />
                 <div className="card-play-hud">
                   <FiPlay size={18} />
                 </div>

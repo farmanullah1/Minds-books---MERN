@@ -35,6 +35,7 @@ import Saved from './pages/Saved/Saved';
 import Settings from './pages/Settings/Settings';
 import AdminDashboard from './pages/Admin/AdminDashboard';
 import Store from './pages/Store/Store';
+import MarketplaceListingDetail from './pages/Store/MarketplaceListingDetail';
 import Memories from './pages/Memories/Memories';
 import LiveStream from './pages/Watch/LiveStream';
 import WatchParty from './pages/Watch/WatchParty';
@@ -342,6 +343,22 @@ const App: React.FC = () => {
           element={
             <ProtectedRoute>
               <Store />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/marketplace/my-listings"
+          element={
+            <ProtectedRoute>
+              <Store initialTab="mine" />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/marketplace/:id"
+          element={
+            <ProtectedRoute>
+              <MarketplaceListingDetail />
             </ProtectedRoute>
           }
         />

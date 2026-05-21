@@ -44,7 +44,7 @@ const MindBot: React.FC = () => {
     setLoading(true);
 
     try {
-      const res = await api.post('/ai/mindbot', {
+      const res = await api.post('/mindbot/chat', {
         message: userMsg.text,
         history: messages.slice(-10).map(m => ({ role: m.role === 'bot' ? 'assistant' : 'user', content: m.text }))
       });

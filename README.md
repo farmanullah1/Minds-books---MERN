@@ -82,5 +82,14 @@ MindBook uses a premium "Gold Standard" design system. The primary palette revol
 - Dark Mode / Glassmorphism Login
 
 
+## 👨‍💻 Developer & Attribution
+
+MindBook was crafted with absolute attention to detail by **Farmanullah Ansari**.
+
+- **Portfolio:** [farmanullah1.github.io/My-Portfolio](https://farmanullah1.github.io/My-Portfolio)
+- **LinkedIn:** [linkedin.com/in/farmanullah-ansari](https://www.linkedin.com/in/farmanullah-ansari/)
+- **GitHub:** [github.com/farmanullah1](https://github.com/farmanullah1)
+- **Email:** [farmanullahansari999@gmail.com](mailto:farmanullahansari999@gmail.com)
+
 ## 📜 License
 Developed as a premium social media demonstration. All rights reserved.

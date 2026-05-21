@@ -13,6 +13,7 @@ import {
   FiPlay, FiPause, FiMessageSquare, FiCompass, FiVolume2, FiInfo 
 } from 'react-icons/fi';
 import VideoPlayer from '../../components/VideoPlayer/VideoPlayer';
+import Navbar from '../../components/Navbar/Navbar';
 import './WatchParty.css';
 import { useAppSelector } from '../../store/hooks';
 
@@ -243,6 +244,7 @@ const WatchParty: React.FC = () => {
 
   return (
     <div className="watchparty-page-container">
+      <Navbar />
       {/* Lobby Tab */}
       {activeTab === 'lobby' && (
         <div className="party-lobby-layout">

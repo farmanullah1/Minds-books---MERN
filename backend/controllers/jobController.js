@@ -111,11 +111,14 @@ const endorseSkill = async (req, res) => {
     const { userId, skillName } = req.body;
     const targetUser = await User.findById(userId);
     if (!targetUser) return res.status(404).json({ message: 'User not found' });
+    if (!targetUser.portfolio?.skills) {
+      return res.status(404).json({ message: 'Skill not found' });
+    }
 
-    const skill = targetUser.portfolio.skills.find(s => s.name === skillName);
+    const skill = targetUser.portfolio.skills.find(s => s.name.toLowerCase() === skillName.toLowerCase());
     if (!skill) return res.status(404).json({ message: 'Skill not found' });
 
-    if (skill.endorsements.includes(req.user.id)) {
+    if (skill.endorsements.some(id => id.toString() === req.user.id)) {
       skill.endorsements.pull(req.user.id);
     } else {
       skill.endorsements.push(req.user.id);

@@ -9,6 +9,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiPlay, FiPlus, FiHeart, FiMoreHorizontal, FiClock, FiCheck } from 'react-icons/fi';
+import SourceBadge from '../VideoHub/SourceBadge';
 import './VideoCard.css';
 
 export interface VideoItem {
@@ -153,9 +154,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
           )}
 
           {/* Source badge */}
-          <span className={`source-badge ${video.source}`}>
-            {video.source.toUpperCase()}
-          </span>
+          <SourceBadge source={video.source} className="source-badge" />
         </div>
 
         <div className="video-info-summary">

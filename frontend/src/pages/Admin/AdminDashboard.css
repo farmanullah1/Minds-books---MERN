@@ -86,6 +86,36 @@
   gap: 12px;
 }
 
+.metric-card-premium {
+  min-height: 178px;
+}
+
+.metric-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.metric-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--r-md);
+}
+
+.metric-trend {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--r-full);
+  background: var(--bg-input);
+  padding: 4px 8px;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+}
+
 .metric-card h3 {
   font-size: 0.875rem;
   color: var(--text-secondary);
@@ -93,10 +123,54 @@
   letter-spacing: 0.5px;
 }
 
+.metric-card p {
+  margin: 0;
+  color: var(--text-tertiary);
+  font-size: var(--fs-sm);
+}
+
 .metric-value {
   font-size: 2.5rem;
   font-weight: 800;
   color: var(--brand-primary);
+}
+
+.admin-charts-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 420px);
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.admin-chart-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.admin-chart-header h3 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: var(--fs-lg);
+}
+
+.admin-chart-header span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--brand-primary);
+  font-size: var(--fs-sm);
+  font-weight: 700;
 }
 
 .admin-table {

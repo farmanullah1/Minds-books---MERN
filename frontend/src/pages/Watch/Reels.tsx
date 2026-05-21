@@ -7,6 +7,8 @@ import {
 import Lenis from '@studio-freight/lenis';
 import api from '../../services/api';
 import CreateReel from '../../components/CreateReel/CreateReel';
+import Navbar from '../../components/Navbar/Navbar';
+import { filters } from '../../utils/photoFilters';
 import './Reels.css';
 
 interface ReelItem {
@@ -20,6 +22,7 @@ interface ReelItem {
   comments: number;
   shares: number;
   isFollowed?: boolean;
+  filterName?: string;
 }
 
 interface HeartTap {
@@ -92,7 +95,8 @@ const Reels: React.FC = () => {
           likes: item.likes?.length || 0,
           comments: item.comments?.length || 0,
           shares: item.sharesCount || 0,
-          isFollowed: false
+          isFollowed: false,
+          filterName: item.filterName || 'Original'
         }));
         setReels(apiReels);
       } else {
@@ -252,6 +256,7 @@ const Reels: React.FC = () => {
 
   return (
     <div className="reels-page-container">
+      <Navbar />
       <button 
         className="reels-create-trigger" 
         onClick={() => setIsCreateOpen(true)}
@@ -273,6 +278,7 @@ const Reels: React.FC = () => {
                 ref={el => { videoRefs.current[reel.id] = el; }}
                 src={reel.videoUrl}
                 className="reel-video-element"
+                style={{ filter: filters[reel.filterName || 'Original'] || '' }}
                 loop
                 playsInline
                 muted={isMuted}

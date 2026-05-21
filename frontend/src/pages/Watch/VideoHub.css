@@ -1,5 +1,7 @@
 .videohub-page-container {
-  min-height: calc(100vh - 70px);
+  min-height: 100vh;
+  padding-top: var(--navbar-height);
+  box-sizing: border-box;
   background-color: var(--bg-background, #f5f6f8);
   color: var(--text-primary, #333333);
   font-family: 'Inter', sans-serif;
@@ -14,7 +16,7 @@
 .videohub-grid-layout {
   display: grid;
   grid-template-columns: 240px 1fr;
-  min-height: calc(100vh - 70px);
+  min-height: calc(100vh - var(--navbar-height));
 }
 
 @media (max-width: 900px) {

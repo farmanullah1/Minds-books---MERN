@@ -201,6 +201,9 @@ const CreateReel: React.FC<CreateReelProps> = ({ isOpen, onClose, onSuccess }) =
         videoUrl: uploadedUrl,
         caption: caption,
         musicName: musicName,
+        startTrim,
+        endTrim,
+        filterName: selectedFilter,
       });
 
       setUploadProgress(100);

@@ -16,7 +16,7 @@
   background: radial-gradient(circle at top right, rgba(247, 185, 40, 0.15), transparent),
               radial-gradient(circle at bottom left, rgba(247, 185, 40, 0.1), transparent),
               var(--bg-body);
-  padding: 20px;
+  padding: 100px 20px 40px;
   position: relative;
   overflow: hidden;
 }
@@ -547,4 +547,36 @@
   color: var(--brand-hover);
   transform: translateY(-1px);
 }
+
+/* Floating theme toggle for Login and Register pages */
+.auth-theme-toggle-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 100;
+}
+
+.auth-theme-toggle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+}
+
+.auth-theme-toggle:hover {
+  transform: rotate(45deg) scale(1.05);
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 12px var(--brand-primary-transparent);
+  color: var(--brand-primary);
+}
+
 
