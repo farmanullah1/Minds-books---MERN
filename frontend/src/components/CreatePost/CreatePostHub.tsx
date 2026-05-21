@@ -68,12 +68,17 @@ const CreatePostHub: React.FC<CreatePostHubProps> = ({ onClose, defaultTab = 'po
         mediaUrl = res.url;
         mediaType = storyFileType as 'image' | 'video';
       }
-      await api.post('/stories', {
-        media: mediaUrl || '',
-        type: mediaType,
-        text: storyText,
-        background: !storyFile ? storyBg : '',
-      });
+      const storyPayload: { caption?: string; image?: string; video?: string } = {
+        caption: storyText.trim() || undefined,
+      };
+      if (mediaType === 'video' && mediaUrl) {
+        storyPayload.video = mediaUrl;
+      } else if (mediaUrl) {
+        storyPayload.image = mediaUrl;
+      }
+      if (storyPayload.image || storyPayload.video) {
+        await api.post('/stories', storyPayload);
+      }
       onClose();
     } catch (err) {
       console.error('Story upload failed:', err);

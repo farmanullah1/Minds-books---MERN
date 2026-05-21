@@ -13,6 +13,7 @@ const { auth } = require('../middleware/auth');
 const {
   createPost,
   getFeedPosts,
+  getVideoPosts,
   getUserPosts,
   getPost,
   updatePost,
@@ -30,6 +31,7 @@ const {
 
 router.get('/user/saved', auth, getSavedPosts); // Needs to be above /:id
 router.get('/feed', auth, getFeedPosts);
+router.get('/videos', auth, getVideoPosts);
 router.get('/user/:userId', auth, getUserPosts);
 router.post('/', auth, createPost);
 router.get('/:id', auth, getPost);

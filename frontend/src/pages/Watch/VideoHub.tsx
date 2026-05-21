@@ -19,24 +19,9 @@ import { useAppSelector } from '../../store/hooks';
 import SourceBadge from '../../components/VideoHub/SourceBadge';
 import Navbar from '../../components/Navbar/Navbar';
 import UploadVideoModal from './UploadVideoModal';
-
-interface VideoHubItem {
-  id: string;
-  source: 'youtube' | 'mindbook';
-  title: string;
-  description: string;
-  thumbnailUrl: string;
-  videoUrl?: string; // for MindBook
-  youtubeId?: string; // for YouTube
-  creator: string;
-  creatorAvatar: string;
-  isVerified?: boolean;
-  views: number;
-  duration: string; // e.g. "12:34" or "4:15"
-  relativeTime: string;
-  watchProgress?: number; // e.g. 45 for 45%
-  isLive?: boolean;
-}
+import api from '../../services/api';
+import { resolveMediaUrl } from '../../utils/helpers';
+import { VideoHubItem, YOUTUBE_CURATED, postToVideoHubItem } from './videoHubUtils';
 
 const VideoHub: React.FC = () => {
   const { user } = useAppSelector((state) => state.auth);
@@ -57,100 +42,39 @@ const VideoHub: React.FC = () => {
   const [comments, setComments] = useState<{ [key: string]: { user: string; text: string; time: string }[] }>({});
   const [newCommentText, setNewCommentText] = useState('');
   const [showUploadModal, setShowUploadModal] = useState(false);
+  const [loadingVideos, setLoadingVideos] = useState(true);
 
-  // Auto-preview timeout ref
-  const previewTimerRef = useRef<any>(null);
+  const previewTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Load Mock Video Feed
+  const loadVideos = async () => {
+    setLoadingVideos(true);
+    try {
+      const res = await api.get('/posts/videos?limit=50');
+      const mindbookVideos = (res.data || []).map(postToVideoHubItem);
+      setVideos([...mindbookVideos, ...YOUTUBE_CURATED]);
+    } catch (err) {
+      console.error('Failed to load videos', err);
+      setVideos([...YOUTUBE_CURATED]);
+    } finally {
+      setLoadingVideos(false);
+    }
+  };
+
   useEffect(() => {
-    const mockVideos: VideoHubItem[] = [
-      {
-        id: 'vid_1',
-        source: 'youtube',
-        title: 'Building Next.js 15 Apps with Tailwind & TypeScript in 2026',
-        description: 'A deep dive into advanced server actions, visual route transition states, and micro-framing animations for professional developers.',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1587620962725-abab7fe55159?auto=format&fit=crop&w=640&h=360&q=80',
-        youtubeId: 'Ke90Tje7VS0',
-        creator: 'NextJS Insiders',
-        creatorAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&h=100&q=80',
-        isVerified: true,
-        views: 85200,
-        duration: '14:25',
-        relativeTime: '2 hours ago',
-        watchProgress: 60
-      },
-      {
-        id: 'vid_2',
-        source: 'mindbook',
-        title: '❤️ MindBook Premium Design System & Gold Accents Showcase',
-        description: 'Introducing our bespoke user experience system. Features fluid transitions, dark theme parameters, and micro-spring elements.',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1541462608143-67571c6738dd?auto=format&fit=crop&w=640&h=360&q=80',
-        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
-        creator: 'Farmanullah Ansari',
-        creatorAvatar: user?.profilePicture || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&h=100&q=80',
-        isVerified: true,
-        views: 1240,
-        duration: '04:15',
-        relativeTime: '1 day ago',
-        watchProgress: 15
-      },
-      {
-        id: 'vid_3',
-        source: 'youtube',
-        title: '🔴 Lofi Hip Hop Radio - Beats to Study/Relax to (2026 Live)',
-        description: 'Chilled lofi beats streaming live from the golden mountains. Perfect for typing, designing, and coding in deep dark modes.',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=640&h=360&q=80',
-        youtubeId: 'jfKfPfyJRdk',
-        creator: 'Lofi Chill Room',
-        creatorAvatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&h=100&q=80',
-        isVerified: false,
-        views: 245000,
-        duration: 'LIVE',
-        relativeTime: 'Live',
-        isLive: true
-      },
-      {
-        id: 'vid_4',
-        source: 'mindbook',
-        title: '🐱 Paws & Claws Rescue House - Meet our Happy Cats!',
-        description: 'A visual diary of our recent rescued cats and kittens playing around their cozy warm fireplace.',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=640&h=360&q=80',
-        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
-        creator: 'Animal Rescue League',
-        creatorAvatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&h=100&q=80',
-        isVerified: true,
-        views: 890,
-        duration: '02:40',
-        relativeTime: '4 days ago'
-      },
-      {
-        id: 'vid_5',
-        source: 'youtube',
-        title: 'TypeScript 5.8: New Features You Must Know!',
-        description: 'Exploring return type inference, module resolution improvements, and strict compilation checks in the latest typescript build system.',
-        thumbnailUrl: 'https://images.unsplash.com/photo-1516116211223-5c359a36298a?auto=format&fit=crop&w=640&h=360&q=80',
-        youtubeId: '5lC6A9_o9qI',
-        creator: 'TS Experts Academy',
-        creatorAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&h=100&q=80',
-        isVerified: true,
-        views: 45000,
-        duration: '08:52',
-        relativeTime: '1 week ago'
-      }
-    ];
-    setVideos(mockVideos);
-
-    // Initial mock comments
+    loadVideos();
     setComments({
-      'vid_1': [
+      yt_1: [
         { user: 'Sarah Jenkins', text: 'This Tailwind grid config is literally life saving!', time: '1 hour ago' },
-        { user: 'Mike Rover', text: 'Absolutely stellar production quality!', time: '30 mins ago' }
       ],
-      'vid_2': [
-        { user: 'Alice Cooper', text: 'Wow, the gold highlights are gorgeous!', time: '2 hours ago' }
-      ]
     });
-  }, [user]);
+  }, []);
+
+  const handleUploadSuccess = (newVideo: VideoHubItem) => {
+    setVideos((prev) => [newVideo, ...prev.filter((v) => v.id !== newVideo.id)]);
+    setSelectedVideo(newVideo);
+    setActiveFilterChip('MindBook');
+    setActiveSidebar('home');
+  };
 
   // Hover play timer trigger
   const handleMouseEnter = (videoId: string) => {
@@ -377,7 +301,7 @@ const VideoHub: React.FC = () => {
 
                   <div className="detail-creator-description">
                     <div className="creator-profile-row">
-                      <img src={selectedVideo.creatorAvatar} alt={selectedVideo.creator} className="detail-creator-avatar" />
+                      <img src={resolveMediaUrl(selectedVideo.creatorAvatar)} alt={selectedVideo.creator} className="detail-creator-avatar" />
                       <div>
                         <h4>{selectedVideo.creator} {selectedVideo.isVerified && <FiCheckCircle size={12} className="verified-yellow-check" />}</h4>
                         <p>128K subscribers</p>
@@ -422,14 +346,20 @@ const VideoHub: React.FC = () => {
 
           {/* Standard Hub Directory (Grid + Filter Trays) */}
           <div className="videohub-search-filters">
-            <div className="hub-search-box">
-              <FiSearch className="search-icon" />
-              <input 
-                type="text" 
-                placeholder="Search unified MindBook + YouTube video catalog..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
+            <div className="hub-search-row">
+              <div className="hub-search-box">
+                <FiSearch className="search-icon" />
+                <input
+                  type="text"
+                  placeholder="Search MindBook + YouTube videos..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+              <button type="button" className="hub-upload-header-btn" onClick={() => setShowUploadModal(true)}>
+                <FiUploadCloud size={18} />
+                Upload Video
+              </button>
             </div>
 
             <div className="filter-chips-tray">
@@ -504,6 +434,29 @@ const VideoHub: React.FC = () => {
           {/* Mixed Full Grid (Mixed Sources with Hover Previews) */}
           <div className="hub-full-grid-section">
             <h2 className="section-title">📺 All Recommendations</h2>
+            {loadingVideos ? (
+              <div className="hub-loading-state">
+                <div className="spinner" />
+                <p>Loading videos…</p>
+              </div>
+            ) : getFilteredVideos().length === 0 ? (
+              <div className="hub-empty-state">
+                <FiUploadCloud size={40} />
+                <h3>No videos found</h3>
+                <p>
+                  {activeSidebar === 'saved'
+                    ? 'Save videos to watch them later.'
+                    : activeSidebar === 'liked'
+                      ? 'Like videos to see them here.'
+                      : 'Try a different filter or upload your first video.'}
+                </p>
+                {activeFilterChip !== 'YouTube' && (
+                  <button type="button" className="btn btn-primary" onClick={() => setShowUploadModal(true)}>
+                    Upload Video
+                  </button>
+                )}
+              </div>
+            ) : (
             <div className="hub-videos-grid">
               {getFilteredVideos().map((video) => {
                 const isHovered = hoveredVideoId === video.id;
@@ -550,7 +503,7 @@ const VideoHub: React.FC = () => {
                     </div>
 
                     <div className="video-card-meta-row">
-                      <img src={video.creatorAvatar} alt={video.creator} className="card-channel-avatar" />
+                      <img src={resolveMediaUrl(video.creatorAvatar)} alt={video.creator} className="card-channel-avatar" />
                       <div className="meta-info-block">
                         <h3 className="video-card-title">{video.title}</h3>
                         <span className="channel-title-row">
@@ -569,11 +522,11 @@ const VideoHub: React.FC = () => {
                 );
               })}
             </div>
+            )}
           </div>
 
         </div>
 
-      </div>
       </div>
 
       {/* Upload Video Modal */}
@@ -581,7 +534,7 @@ const VideoHub: React.FC = () => {
         {showUploadModal && (
           <UploadVideoModal
             onClose={() => setShowUploadModal(false)}
-            onSuccess={() => { setShowUploadModal(false); }}
+            onSuccess={handleUploadSuccess}
           />
         )}
       </AnimatePresence>

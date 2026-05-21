@@ -562,9 +562,27 @@ const handleCollaborator = async (req, res) => {
   }
 };
 
+/** Public video catalog for Watch / VideoHub */
+const getVideoPosts = async (req, res) => {
+  try {
+    const limit = Math.min(parseInt(req.query.limit, 10) || 50, 100);
+    const posts = await Post.find({ video: { $exists: true, $ne: '' } })
+      .populate('user', 'name profilePicture')
+      .populate('comments.user', 'name profilePicture')
+      .sort({ createdAt: -1 })
+      .limit(limit);
+
+    res.json(posts);
+  } catch (error) {
+    console.error('GetVideoPosts error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 module.exports = {
   createPost,
   getFeedPosts,
+  getVideoPosts,
   getUserPosts,
   getPost,
   updatePost,

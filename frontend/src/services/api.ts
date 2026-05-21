@@ -39,15 +39,34 @@ api.interceptors.response.use(
   }
 );
 
-export const uploadFile = async (file: File) => {
+export const uploadFile = async (file: File, onProgress?: (pct: number) => void) => {
   const formData = new FormData();
   formData.append('media', file);
   const response = await api.post('/upload', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
+    headers: { 'Content-Type': 'multipart/form-data' },
+    onUploadProgress: onProgress
+      ? (e) => {
+          if (e.total) onProgress(Math.round((e.loaded * 100) / e.total));
+        }
+      : undefined,
   });
-  return response.data; // returns { url, type }
+  return response.data;
+};
+
+/** Video uploads use dedicated route — up to 500MB */
+export const uploadVideoFile = async (file: File, onProgress?: (pct: number) => void) => {
+  const formData = new FormData();
+  formData.append('video', file);
+  const response = await api.post('/upload/video', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+    timeout: 600000,
+    onUploadProgress: onProgress
+      ? (e) => {
+          if (e.total) onProgress(Math.round((e.loaded * 100) / e.total));
+        }
+      : undefined,
+  });
+  return response.data;
 };
 
 export default api;

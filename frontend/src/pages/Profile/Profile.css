@@ -57,6 +57,10 @@
 
 .profile-avatar-section {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .avatar-wrapper {
@@ -84,8 +88,90 @@
   color: white;
 }
 
-.avatar-wrapper:hover .avatar-edit-actions {
-  opacity: 1 !important;
+.profile-avatar-actions {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  max-width: 200px;
+}
+
+.profile-edit-photo-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--r-full);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-1);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--t-fast);
+  width: 100%;
+}
+
+.profile-edit-photo-link:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+  background: var(--brand-lighter);
+}
+
+.profile-edit-photo-link.subtle {
+  padding: 6px 10px;
+  font-size: 0.75rem;
+  background: transparent;
+}
+
+.profile-edit-photo-link.subtle.danger:hover {
+  border-color: var(--danger, #e74c3c);
+  color: var(--danger, #e74c3c);
+  background: rgba(231, 76, 60, 0.08);
+}
+
+.profile-avatar-secondary-actions {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+}
+
+.cover-edit-actions {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.profile-photo-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--r-full);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--t-fast);
+}
+
+.profile-photo-action-btn:hover {
+  background: rgba(0, 0, 0, 0.65);
+  border-color: var(--brand);
+}
+
+.profile-photo-action-danger:hover {
+  border-color: #ff6b6b;
 }
 
 .profile-info-section {
@@ -280,6 +366,30 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.media-item-profile,
+.media-item-cover {
+  position: relative;
+}
+
+.media-item-cover {
+  grid-column: span 2;
+  aspect-ratio: 820 / 312;
+}
+
+.media-item-badge {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  padding: 4px 10px;
+  border-radius: var(--r-full);
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 /* Responsive */

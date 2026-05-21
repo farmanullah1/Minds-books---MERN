@@ -18,8 +18,16 @@ export const getInitials = (name: string): string => {
     .slice(0, 2);
 };
 
+/** Resolve relative upload paths to full URLs for img src */
+export const resolveMediaUrl = (url?: string | null): string => {
+  if (!url) return '';
+  if (/^(https?:|blob:|data:)/i.test(url)) return url;
+  const root = (import.meta.env.VITE_API_URL ?? 'http://localhost:5000').replace(/\/$/, '');
+  return `${root}${url.startsWith('/') ? url : `/${url}`}`;
+};
+
 export const getAvatarUrl = (user: IUser | null | undefined): string => {
-  if (user?.profilePicture) return user.profilePicture;
+  if (user?.profilePicture) return resolveMediaUrl(user.profilePicture);
   return '';
 };
 

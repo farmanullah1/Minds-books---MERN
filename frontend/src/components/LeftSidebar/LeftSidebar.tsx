@@ -12,7 +12,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FiHome, FiUsers, FiBookmark, FiCalendar, FiFlag, FiShoppingBag, FiChevronDown, FiLogOut, FiBriefcase, FiMusic, FiShield, FiVideo, FiTv, FiHeart, FiFilm, FiCompass, FiPlayCircle, FiActivity, FiRadio, FiMapPin, FiAward, FiEye, FiUser, FiInfo, FiHelpCircle } from 'react-icons/fi';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { logout } from '../../store/slices/authSlice';
-import { getInitials } from '../../utils/helpers';
+import { getInitials, resolveMediaUrl } from '../../utils/helpers';
 import { DeveloperLinksCompact } from '../ui/DeveloperLinks';
 import './LeftSidebar.css';
 
@@ -84,7 +84,7 @@ const LeftSidebar: React.FC = () => {
           {/* Profile Link */}
           <Link to={`/profile/${user?._id}`} className="sidebar-profile-link" id="sidebar-profile">
             {user?.profilePicture ? (
-              <img src={user.profilePicture} alt={user.name} className="sidebar-avatar" />
+              <img src={resolveMediaUrl(user.profilePicture)} alt={user.name} className="sidebar-avatar" />
             ) : (
               <div className="sidebar-avatar sidebar-avatar-initials">
                 {user ? getInitials(user.name) : '?'}

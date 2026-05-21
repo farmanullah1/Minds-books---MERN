@@ -9,18 +9,19 @@
 
 import React from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { FiMapPin, FiBriefcase, FiCalendar, FiEdit3, FiUserPlus, FiUserCheck, FiClock, FiMessageSquare, FiHeart, FiHome, FiGlobe } from 'react-icons/fi';
+import { FiMapPin, FiBriefcase, FiCalendar, FiEdit3, FiUserPlus, FiUserCheck, FiClock, FiMessageSquare, FiHeart, FiHome, FiGlobe, FiGift, FiCamera, FiShare2, FiTrash2 } from 'react-icons/fi';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchUserPosts, clearUserPosts } from '../../store/slices/postsSlice';
 import { updateUserInState } from '../../store/slices/authSlice';
 import api from '../../services/api';
 import { IUser } from '../../types';
-import { getInitials, formatDate } from '../../utils/helpers';
-import { uploadFile } from '../../services/api';
+import { getInitials, formatDate, resolveMediaUrl } from '../../utils/helpers';
 import Navbar from '../../components/Navbar/Navbar';
 import CreatePost from '../../components/CreatePost/CreatePost';
 import Post from '../../components/Post/Post';
 import EditProfileModal from '../../components/EditProfileModal/EditProfileModal';
+import ProfilePicModal from '../../components/Profile/ProfilePicModal';
+import ProfilePhotoShareModal, { ProfilePhotoType } from '../../components/Profile/ProfilePhotoShareModal';
 import StoryHighlights from '../../components/Profile/StoryHighlights';
 import AnonymousAsk from '../../components/Profile/AnonymousAsk';
 import AnonymousInbox from '../../components/Profile/AnonymousInbox';
@@ -46,9 +47,9 @@ const Profile: React.FC = () => {
   const [mutualFriends, setMutualFriends] = React.useState<IUser[]>([]);
   const [userMedia, setUserMedia] = React.useState<any[]>([]);
   const [activeTab, setActiveTab] = React.useState<'posts' | 'photos' | 'about' | 'portfolio'>('posts');
-  
-  const coverInputRef = React.useRef<HTMLInputElement>(null);
-  const avatarInputRef = React.useRef<HTMLInputElement>(null);
+  const [sharePromptImage, setSharePromptImage] = React.useState<{ url: string; type: ProfilePhotoType } | null>(null);
+  const [showProfilePicModal, setShowProfilePicModal] = React.useState(false);
+  const [showCoverPicModal, setShowCoverPicModal] = React.useState(false);
 
   const isOwnProfile = currentUser?._id === id;
 
@@ -132,21 +133,18 @@ const Profile: React.FC = () => {
     }
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'coverPicture' | 'profilePicture') => {
-    if (e.target.files && e.target.files[0]) {
-      try {
-        const res = await uploadFile(e.target.files[0]);
-        const url = res.url;
-        await api.put(`/users/profile`, { [type]: url });
-        setProfileUser((prev) => prev ? { ...prev, [type]: url } : prev);
-        dispatch(updateUserInState({ [type]: url }));
-      } catch (error) {
-        console.error('Failed to update image:', error);
-      }
-    }
+  const handlePhotoSaved = (url: string, type: ProfilePhotoType) => {
+    setProfileUser((prev) => (prev ? { ...prev, [type]: url } : prev));
+    dispatch(updateUserInState({ [type]: url }));
+    setSharePromptImage({ url, type });
   };
 
-  const handleRemoveImage = async (type: 'coverPicture' | 'profilePicture') => {
+  const openShareForExisting = (type: ProfilePhotoType) => {
+    const url = type === 'profilePicture' ? profileUser?.profilePicture : profileUser?.coverPicture;
+    if (url) setSharePromptImage({ url, type });
+  };
+
+  const handleRemoveImage = async (type: ProfilePhotoType) => {
     if (window.confirm(`Are you sure you want to remove your ${type === 'coverPicture' ? 'cover' : 'profile'} photo?`)) {
       try {
         await api.put(`/users/profile`, { [type]: '' });
@@ -193,21 +191,25 @@ const Profile: React.FC = () => {
         <div className="profile-header-wrapper">
           <div className="profile-cover">
             {profileUser.coverPicture ? (
-              <img src={profileUser.coverPicture} alt="Cover" className="cover-image" />
+              <img src={resolveMediaUrl(profileUser.coverPicture)} alt="Cover" className="cover-image" />
             ) : (
               <div className="cover-placeholder" />
             )}
             {isOwnProfile && (
-              <div className="cover-edit-actions" style={{ position: 'absolute', bottom: '16px', right: '16px', display: 'flex', gap: '8px' }}>
-                {profileUser.coverPicture && (
-                  <button className="btn btn-secondary btn-sm" onClick={() => handleRemoveImage('coverPicture')}>
-                    Remove Cover
-                  </button>
-                )}
-                <button className="btn btn-secondary btn-sm" onClick={() => coverInputRef.current?.click()}>
-                  <FiEdit3 size={16} /> Edit Cover
+              <div className="cover-edit-actions">
+                <button type="button" className="profile-photo-action-btn" onClick={() => setShowCoverPicModal(true)}>
+                  <FiCamera size={15} /> {profileUser.coverPicture ? 'Edit cover' : 'Add cover'}
                 </button>
-                <input type="file" hidden ref={coverInputRef} onChange={(e) => handleImageUpload(e, 'coverPicture')} accept="image/*" />
+                {profileUser.coverPicture && (
+                  <>
+                    <button type="button" className="profile-photo-action-btn" onClick={() => openShareForExisting('coverPicture')}>
+                      <FiShare2 size={15} /> Share
+                    </button>
+                    <button type="button" className="profile-photo-action-btn profile-photo-action-danger" onClick={() => handleRemoveImage('coverPicture')}>
+                      <FiTrash2 size={15} /> Remove
+                    </button>
+                  </>
+                )}
               </div>
             )}
           </div>
@@ -216,24 +218,29 @@ const Profile: React.FC = () => {
             <div className="profile-avatar-section">
               <div className="avatar-wrapper">
                 {profileUser.profilePicture ? (
-                  <img src={profileUser.profilePicture} alt={profileUser.name} className="avatar avatar-xl" />
+                  <img src={resolveMediaUrl(profileUser.profilePicture)} alt={profileUser.name} className="avatar avatar-xl" />
                 ) : (
                   <div className="avatar avatar-xl">{getInitials(profileUser.name)}</div>
                 )}
-                {isOwnProfile && (
-                  <div className="avatar-edit-actions" style={{ position: 'absolute', bottom: '-40px', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '8px', opacity: 0, transition: 'opacity 0.2s', width: 'max-content' }}>
-                    <button className="edit-avatar-btn" style={{ position: 'static' }} onClick={() => avatarInputRef.current?.click()}>
-                      <FiEdit3 size={14} />
-                    </button>
-                    {profileUser.profilePicture && (
-                      <button className="edit-avatar-btn" style={{ position: 'static' }} onClick={() => handleRemoveImage('profilePicture')}>
-                        <span style={{ fontSize: '10px' }}>Remove</span>
-                      </button>
-                    )}
-                    <input type="file" hidden ref={avatarInputRef} onChange={(e) => handleImageUpload(e, 'profilePicture')} accept="image/*" />
-                  </div>
-                )}
               </div>
+              {isOwnProfile && (
+                <div className="profile-avatar-actions">
+                  <button type="button" className="profile-edit-photo-link" onClick={() => setShowProfilePicModal(true)}>
+                    <FiCamera size={14} />
+                    {profileUser.profilePicture ? 'Edit profile picture' : 'Add profile picture'}
+                  </button>
+                  {profileUser.profilePicture && (
+                    <div className="profile-avatar-secondary-actions">
+                      <button type="button" className="profile-edit-photo-link subtle" onClick={() => openShareForExisting('profilePicture')}>
+                        <FiShare2 size={13} /> Share
+                      </button>
+                      <button type="button" className="profile-edit-photo-link subtle danger" onClick={() => handleRemoveImage('profilePicture')}>
+                        <FiTrash2 size={13} /> Remove
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             <div className="profile-info-section">
@@ -246,7 +253,7 @@ const Profile: React.FC = () => {
                   {profileUser.friends.slice(0, 8).map((friend: any) => (
                     <Link key={friend._id} to={`/profile/${friend._id}`} className="friend-mini-avatar" title={friend.name}>
                       {friend.profilePicture ? (
-                        <img src={friend.profilePicture} alt={friend.name} />
+                        <img src={resolveMediaUrl(friend.profilePicture)} alt={friend.name} />
                       ) : (
                         <div className="mini-avatar-initials">{getInitials(friend.name)}</div>
                       )}
@@ -391,6 +398,18 @@ const Profile: React.FC = () => {
                     </a>
                   </div>
                 )}
+                {profileUser.birthdate && (
+                  <div className="profile-detail-item">
+                    <FiGift size={18} className="detail-icon" />
+                    <span>Born on <strong>{new Date(profileUser.birthdate).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}</strong></span>
+                  </div>
+                )}
+                {profileUser.gender && (
+                  <div className="profile-detail-item">
+                    <FiUserPlus size={18} className="detail-icon" />
+                    <span>Gender: <strong>{profileUser.gender}</strong></span>
+                  </div>
+                )}
                 <div className="profile-detail-item">
                   <FiCalendar size={18} className="detail-icon" />
                   <span>Joined {formatDate(profileUser.createdAt)}</span>
@@ -414,7 +433,7 @@ const Profile: React.FC = () => {
                   {profileUser.friends.slice(0, 9).map((friend: any) => (
                     <Link key={friend._id} to={`/profile/${friend._id}`} className="friend-grid-item">
                       {friend.profilePicture ? (
-                        <img src={friend.profilePicture} alt={friend.name} className="friend-grid-avatar" />
+                        <img src={resolveMediaUrl(friend.profilePicture)} alt={friend.name} className="friend-grid-avatar" />
                       ) : (
                         <div className="friend-grid-avatar friend-grid-initials">
                           {getInitials(friend.name)}
@@ -463,21 +482,33 @@ const Profile: React.FC = () => {
                   <h3 className="card-title">Photos</h3>
                 </div>
                 <div className="profile-media-grid">
+                  {profileUser.profilePicture && (
+                    <div className="media-item media-item-profile">
+                      <img src={resolveMediaUrl(profileUser.profilePicture)} alt="Profile picture" />
+                      <span className="media-item-badge">Profile</span>
+                    </div>
+                  )}
+                  {profileUser.coverPicture && (
+                    <div className="media-item media-item-cover">
+                      <img src={resolveMediaUrl(profileUser.coverPicture)} alt="Cover photo" />
+                      <span className="media-item-badge">Cover</span>
+                    </div>
+                  )}
                   {userMedia.length > 0 ? (
                     userMedia.map((media, idx) => (
                       <div key={idx} className="media-item">
                         {media.mediaType === 'video' ? (
-                          <video src={media.mediaUrl} />
+                          <video src={resolveMediaUrl(media.mediaUrl)} />
                         ) : (
-                          <img src={media.mediaUrl} alt="User upload" />
+                          <img src={resolveMediaUrl(media.mediaUrl)} alt="User upload" />
                         )}
                       </div>
                     ))
-                  ) : (
+                  ) : !profileUser.profilePicture && !profileUser.coverPicture ? (
                     <div className="empty-state">
                       <p>No photos or videos yet.</p>
                     </div>
-                  )}
+                  ) : null}
                 </div>
               </div>
             ) : activeTab === 'about' ? (
@@ -517,6 +548,34 @@ const Profile: React.FC = () => {
           user={profileUser}
           onClose={() => setShowEditModal(false)}
           onUpdate={(updatedUser) => setProfileUser(updatedUser)}
+        />
+      )}
+
+      {isOwnProfile && (
+        <>
+          <ProfilePicModal
+            open={showProfilePicModal}
+            onClose={() => setShowProfilePicModal(false)}
+            type="profile"
+            mode="upload"
+            onSave={(url) => handlePhotoSaved(url, 'profilePicture')}
+          />
+          <ProfilePicModal
+            open={showCoverPicModal}
+            onClose={() => setShowCoverPicModal(false)}
+            type="cover"
+            mode="upload"
+            onSave={(url) => handlePhotoSaved(url, 'coverPicture')}
+          />
+        </>
+      )}
+
+      {sharePromptImage && (
+        <ProfilePhotoShareModal
+          open={!!sharePromptImage}
+          imageUrl={sharePromptImage.url}
+          photoType={sharePromptImage.type}
+          onClose={() => setSharePromptImage(null)}
         />
       )}
     </>

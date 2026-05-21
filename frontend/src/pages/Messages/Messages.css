@@ -13,12 +13,14 @@
   flex-direction: column;
   background: var(--bg-body);
   overflow: hidden;
+  padding-top: var(--navbar-height, 60px);
+  box-sizing: border-box;
 }
 
 .messages-container {
   flex: 1;
   display: flex;
-  height: calc(100vh - 60px); /* Subtract navbar height */
+  height: calc(100vh - var(--navbar-height, 60px)); /* Subtract navbar height */
   overflow: hidden;
   width: 100%;
 }
@@ -314,7 +316,35 @@
 
 .chat-header-right {
   display: flex;
-  gap: 8px;
+  gap: 10px;
+  align-items: center;
+}
+
+.icon-btn-modern {
+  background: var(--bg-input, rgba(255, 255, 255, 0.03));
+  border: 1px solid var(--border, var(--divider-color, rgba(255, 255, 255, 0.08)));
+  color: var(--text-primary);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+}
+
+.icon-btn-modern:hover {
+  background: var(--brand, var(--brand-primary, #F7B928));
+  color: #0b0c10 !important;
+  border-color: var(--brand, var(--brand-primary, #F7B928));
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(247, 185, 40, 0.35);
+}
+
+.icon-btn-modern:active {
+  transform: translateY(0);
 }
 
 .chat-window-main {
@@ -365,9 +395,11 @@
 }
 
 .message-row.me .message-bubble {
-  background: var(--brand-primary);
-  color: white;
+  background: var(--brand, var(--brand-primary, #F7B928));
+  color: #0b0c10;
+  font-weight: 500;
   border-bottom-right-radius: 4px;
+  box-shadow: 0 2px 8px rgba(247, 185, 40, 0.15);
 }
 
 .video-container {
@@ -428,8 +460,8 @@
 }
 
 .message-row.them .message-bubble {
-  background: #E4E6EB;
-  color: #050505;
+  background: var(--bg-input, #E4E6EB);
+  color: var(--text-primary, #050505);
   border-bottom-left-radius: 4px;
 }
 
@@ -439,12 +471,12 @@
   align-items: center;
   gap: 4px;
   padding: 8px 12px;
-  background: #E4E6EB;
+  background: var(--bg-input, #E4E6EB);
   border-radius: 18px;
   width: fit-content;
   margin: 4px 0;
   font-size: 0.8125rem;
-  color: #65676b;
+  color: var(--text-secondary, #65676b);
 }
 
 .typing-indicator .dot {
@@ -518,7 +550,7 @@
 @media (max-width: 768px) {
   .messages-sidebar {
     position: fixed;
-    top: 60px;
+    top: var(--navbar-height, 60px);
     left: 0;
     bottom: 0;
     width: 280px;
@@ -583,7 +615,6 @@
   gap: 8px;
   z-index: 1000;
   border: 1px solid var(--divider-color);
-  backdrop-filter: blur(10px);
 }
 
 .attachment-options {
@@ -1471,7 +1502,7 @@
     transition: left 0.3s ease;
     z-index: 1000;
     background: var(--bg-card);
-    height: calc(100vh - 60px);
+    height: calc(100vh - var(--navbar-height, 60px));
   }
   .messages-sidebar.open { 
     left: 0; 

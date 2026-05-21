@@ -17,8 +17,9 @@ import {
 } from 'react-icons/fi';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { createPost } from '../../store/slices/postsSlice';
-import api, { uploadFile } from '../../services/api';
-import { getInitials } from '../../utils/helpers';
+import api, { uploadFile, uploadVideoFile } from '../../services/api';
+import { getInitials, resolveMediaUrl } from '../../utils/helpers';
+import { useToast } from '../Toast/ToastContext';
 import confetti from 'canvas-confetti';
 import './CreatePost.css';
 
@@ -69,6 +70,7 @@ interface CreatePostProps {
 const CreatePost: React.FC<CreatePostProps> = ({ groupId, activeChannel, onPostCreated, placeholder, initiallyOpen, onClose }) => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
+  const { showToast } = useToast();
   
   // State to control popup modal view
   const [isModalOpen, setIsModalOpen] = useState(initiallyOpen || false);
@@ -233,12 +235,32 @@ const CreatePost: React.FC<CreatePostProps> = ({ groupId, activeChannel, onPostC
     }
   };
 
+  const openComposer = (focus?: 'media' | 'feeling' | 'location') => {
+    setIsModalOpen(true);
+    if (focus === 'media') {
+      setTimeout(() => fileInputRef.current?.click(), 150);
+    } else if (focus === 'feeling') {
+      setShowFeelingPicker(true);
+    } else if (focus === 'location') {
+      setShowLocationInput(true);
+    }
+  };
+
   const handleMediaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
+      if (file.type.startsWith('video/') && file.size > 500 * 1024 * 1024) {
+        showToast('Video must be under 500MB. Use Watch → Upload Video for larger files.', 'error');
+        return;
+      }
+      if (!file.type.startsWith('video/') && file.size > 50 * 1024 * 1024) {
+        showToast('Image must be under 50MB.', 'error');
+        return;
+      }
       setMediaFile(file);
       setMediaPreview(URL.createObjectURL(file));
       setMediaType(file.type.startsWith('video') ? 'video' : 'image');
+      setIsModalOpen(true);
     }
   };
 
@@ -279,9 +301,15 @@ const CreatePost: React.FC<CreatePostProps> = ({ groupId, activeChannel, onPostC
       let uploadedUrl = '';
       let type = '';
       if (mediaFile) {
-        const res = await uploadFile(mediaFile);
-        uploadedUrl = res.url;
-        type = res.type;
+        if (mediaFile.type.startsWith('video/')) {
+          const res = await uploadVideoFile(mediaFile);
+          uploadedUrl = res.url;
+          type = 'video';
+        } else {
+          const res = await uploadFile(mediaFile);
+          uploadedUrl = res.url;
+          type = res.type;
+        }
       }
 
       // Build rich metadata for custom post types
@@ -336,11 +364,15 @@ const CreatePost: React.FC<CreatePostProps> = ({ groupId, activeChannel, onPostC
 
       // Handle Story creation if checked
       if (addToStory && uploadedUrl) {
-        await api.post('/stories', {
-          media: uploadedUrl,
-          type: type === 'video' ? 'video' : 'image',
-          text: content.trim()
-        });
+        const storyPayload: { caption?: string; image?: string; video?: string } = {
+          caption: content.trim() || undefined,
+        };
+        if (type === 'video') {
+          storyPayload.video = uploadedUrl;
+        } else {
+          storyPayload.image = uploadedUrl;
+        }
+        await api.post('/stories', storyPayload);
       }
 
       // Success visual feedback
@@ -370,8 +402,11 @@ const CreatePost: React.FC<CreatePostProps> = ({ groupId, activeChannel, onPostC
       setIsScheduled(false);
       setScheduledDate('');
       removeMedia();
+      showToast(isScheduled ? 'Post scheduled!' : 'Post shared successfully!', 'success');
       handleClose();
-    } catch (error) {
+    } catch (error: any) {
+      const msg = error.response?.data?.message || error.message || 'Failed to create post';
+      showToast(msg, 'error');
       console.error('Failed to create post:', error);
     } finally {
       setLoading(false);
@@ -382,21 +417,39 @@ const CreatePost: React.FC<CreatePostProps> = ({ groupId, activeChannel, onPostC
     <div className="create-post-trigger-wrapper">
       
       {/* TRIGGER BOX: Clicking this opens the full Advanced Composer Modal */}
-      <div className="create-post-trigger card clickable-box" onClick={() => setIsModalOpen(true)}>
+      <div className="create-post-trigger card clickable-box" onClick={() => openComposer()}>
         <div className="trigger-top">
           {user?.profilePicture ? (
-            <img src={user.profilePicture} alt={user.name} className="avatar-trigger" />
+            <img src={resolveMediaUrl(user.profilePicture)} alt={user.name} className="avatar-trigger" />
           ) : (
-            <div className="avatar-trigger">{user ? getInitials(user.name) : '?'}</div>
+            <div className="avatar-trigger initials">{user ? getInitials(user.name) : '?'}</div>
           )}
           <div className="trigger-input-mock">
             {placeholder || `What's on your mind, ${user?.name?.split(' ')[0] || 'User'}?`}
           </div>
         </div>
         <div className="trigger-bottom">
-          <div className="trigger-action-pill"><FiImage className="text-success" /> Photo/Video</div>
-          <div className="trigger-action-pill"><FiSmile className="text-warning" /> Feeling</div>
-          <div className="trigger-action-pill"><FiMapPin className="text-danger" /> Check in</div>
+          <button
+            type="button"
+            className="trigger-action-pill"
+            onClick={(e) => { e.stopPropagation(); openComposer('media'); }}
+          >
+            <FiImage className="pill-icon success" /> Photo/Video
+          </button>
+          <button
+            type="button"
+            className="trigger-action-pill"
+            onClick={(e) => { e.stopPropagation(); openComposer('feeling'); }}
+          >
+            <FiSmile className="pill-icon warning" /> Feeling
+          </button>
+          <button
+            type="button"
+            className="trigger-action-pill"
+            onClick={(e) => { e.stopPropagation(); openComposer('location'); }}
+          >
+            <FiMapPin className="pill-icon danger" /> Check in
+          </button>
         </div>
       </div>
 
@@ -423,7 +476,7 @@ const CreatePost: React.FC<CreatePostProps> = ({ groupId, activeChannel, onPostC
                 {/* Author row & Privacy Selector */}
                 <div className="composer-author-row">
                   {user?.profilePicture ? (
-                    <img src={user.profilePicture} alt={user.name} className="composer-avatar" />
+                    <img src={resolveMediaUrl(user.profilePicture)} alt={user.name} className="composer-avatar" />
                   ) : (
                     <div className="composer-avatar">{user ? getInitials(user.name) : '?'}</div>
                   )}

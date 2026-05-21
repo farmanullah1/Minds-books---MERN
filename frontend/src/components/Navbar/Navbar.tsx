@@ -15,7 +15,7 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { logout } from '../../store/slices/authSlice';
 import api from '../../services/api';
 import { IUser } from '../../types';
-import { getInitials } from '../../utils/helpers';
+import { getInitials, resolveMediaUrl } from '../../utils/helpers';
 import NotificationsDropdown from '../NotificationsDropdown/NotificationsDropdown';
 import CreatePostHub from '../CreatePost/CreatePostHub';
 import { useTheme } from '../../context/ThemeContext';
@@ -236,7 +236,7 @@ const Navbar: React.FC = () => {
                       >
                         <div className="dropdown-avatar">
                           {resUser.profilePicture ? (
-                            <img src={resUser.profilePicture} alt={resUser.name} />
+                            <img src={resolveMediaUrl(resUser.profilePicture)} alt={resUser.name} />
                           ) : (
                             <div className="avatar-initials">{getInitials(resUser.name)}</div>
                           )}
@@ -312,7 +312,7 @@ const Navbar: React.FC = () => {
               onClick={() => setShowProfileMenu(!showProfileMenu)}
             >
               {user?.profilePicture ? (
-                <img src={user.profilePicture} alt={user.name} className="nav-avatar" />
+                <img src={resolveMediaUrl(user.profilePicture)} alt={user.name} className="nav-avatar" />
               ) : (
                 <div className="nav-avatar nav-avatar-initials">
                   {user ? getInitials(user.name) : '?'}
@@ -328,7 +328,7 @@ const Navbar: React.FC = () => {
                 >
                   <div className="dropdown-avatar">
                     {user?.profilePicture ? (
-                      <img src={user.profilePicture} alt={user.name} />
+                      <img src={resolveMediaUrl(user.profilePicture)} alt={user.name} />
                     ) : (
                       <div className="avatar-initials">{user ? getInitials(user.name) : '?'}</div>
                     )}

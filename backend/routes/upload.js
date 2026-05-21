@@ -31,4 +31,17 @@ router.post('/', auth, upload.single('media'), (req, res) => {
   });
 });
 
+/** Dedicated video upload — up to 500MB, stored in uploads/videos/ */
+router.post('/video', auth, upload.uploadVideo, (req, res, next) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'No video file uploaded' });
+    }
+    const url = `${req.protocol}://${req.get('host')}/uploads/videos/${req.file.filename}`;
+    res.json({ url, type: 'video', filename: req.file.filename });
+  } catch (err) {
+    next(err);
+  }
+});
+
 module.exports = router;

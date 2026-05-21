@@ -40,7 +40,7 @@ import {
   boostPost
 } from '../../store/slices/postsSlice';
 import { IPost } from '../../types';
-import { formatTimeAgo, getInitials } from '../../utils/helpers';
+import { formatTimeAgo, getInitials, resolveMediaUrl } from '../../utils/helpers';
 import MediaViewer from '../MediaViewer/MediaViewer';
 import ReportModal from '../ReportModal/ReportModal';
 import GiftModal from '../GiftModal/GiftModal';
@@ -248,7 +248,7 @@ const Post: React.FC<PostProps> = ({ post, onPin, onUnpin, canManage }) => {
       <div className="post-header">
         <Link to={`/profile/${post.user._id}`} className="post-user-info">
           {post.user.profilePicture ? (
-            <img src={post.user.profilePicture} alt={post.user.name} className="avatar" />
+            <img src={resolveMediaUrl(post.user.profilePicture)} alt={post.user.name} className="avatar" />
           ) : (
             <div className="avatar">{getInitials(post.user.name)}</div>
           )}
@@ -433,7 +433,7 @@ const Post: React.FC<PostProps> = ({ post, onPin, onUnpin, canManage }) => {
           <div className="shared-post-header">
             <Link to={`/profile/${post.sharedPost.user._id}`} className="shared-post-user">
               {post.sharedPost.user.profilePicture ? (
-                <img src={post.sharedPost.user.profilePicture} alt={post.sharedPost.user.name} className="avatar avatar-xs" />
+                <img src={resolveMediaUrl(post.sharedPost.user.profilePicture)} alt={post.sharedPost.user.name} className="avatar avatar-xs" />
               ) : (
                 <div className="avatar avatar-xs">{getInitials(post.sharedPost.user.name)}</div>
               )}
@@ -540,7 +540,7 @@ const Post: React.FC<PostProps> = ({ post, onPin, onUnpin, canManage }) => {
               <div key={comment._id} className="comment" id={`comment-${comment._id}`}>
                 <Link to={`/profile/${comment.user._id}`}>
                   {comment.user.profilePicture ? (
-                    <img src={comment.user.profilePicture} alt={comment.user.name} className="avatar avatar-sm" />
+                    <img src={resolveMediaUrl(comment.user.profilePicture)} alt={comment.user.name} className="avatar avatar-sm" />
                   ) : (
                     <div className="avatar avatar-sm">{getInitials(comment.user.name)}</div>
                   )}
@@ -588,7 +588,7 @@ const Post: React.FC<PostProps> = ({ post, onPin, onUnpin, canManage }) => {
                         <div key={reply._id} className="comment reply" style={{ marginTop: '8px' }}>
                           <Link to={`/profile/${reply.user._id}`}>
                             {reply.user.profilePicture ? (
-                              <img src={reply.user.profilePicture} alt={reply.user.name} className="avatar avatar-xs" style={{ width: '24px', height: '24px' }} />
+                              <img src={resolveMediaUrl(reply.user.profilePicture)} alt={reply.user.name} className="avatar avatar-xs" style={{ width: '24px', height: '24px' }} />
                             ) : (
                               <div className="avatar avatar-xs" style={{ width: '24px', height: '24px', fontSize: '10px' }}>{getInitials(reply.user.name)}</div>
                             )}
@@ -628,7 +628,7 @@ const Post: React.FC<PostProps> = ({ post, onPin, onUnpin, canManage }) => {
                       )}
                       <form className="comment-form reply-form" onSubmit={(e) => handleReplySubmit(e, comment._id)}>
                         {user?.profilePicture ? (
-                          <img src={user.profilePicture} alt={user.name} className="avatar avatar-xs" style={{ width: '24px', height: '24px' }} />
+                          <img src={resolveMediaUrl(user.profilePicture)} alt={user.name} className="avatar avatar-xs" style={{ width: '24px', height: '24px' }} />
                         ) : (
                           <div className="avatar avatar-xs" style={{ width: '24px', height: '24px', fontSize: '10px' }}>{user ? getInitials(user.name) : '?'}</div>
                         )}
@@ -668,7 +668,7 @@ const Post: React.FC<PostProps> = ({ post, onPin, onUnpin, canManage }) => {
             {/* Comment Input */}
             <form className="comment-form" onSubmit={handleComment}>
               {user?.profilePicture ? (
-                <img src={user.profilePicture} alt={user.name} className="avatar avatar-sm" />
+                <img src={resolveMediaUrl(user.profilePicture)} alt={user.name} className="avatar avatar-sm" />
               ) : (
                 <div className="avatar avatar-sm">{user ? getInitials(user.name) : '?'}</div>
               )}
@@ -710,7 +710,7 @@ const Post: React.FC<PostProps> = ({ post, onPin, onUnpin, canManage }) => {
               <div className="modal-body" style={{ padding: '16px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
                   {user?.profilePicture ? (
-                    <img src={user.profilePicture} alt={user.name} className="avatar avatar-sm" />
+                    <img src={resolveMediaUrl(user.profilePicture)} alt={user.name} className="avatar avatar-sm" />
                   ) : (
                     <div className="avatar avatar-sm">{user ? getInitials(user.name) : '?'}</div>
                   )}
@@ -740,7 +740,7 @@ const Post: React.FC<PostProps> = ({ post, onPin, onUnpin, canManage }) => {
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
                     {post.user?.profilePicture ? (
-                      <img src={post.user.profilePicture} alt={post.user.name} className="avatar" style={{ width: '24px', height: '24px' }} />
+                      <img src={resolveMediaUrl(post.user.profilePicture)} alt={post.user.name} className="avatar" style={{ width: '24px', height: '24px' }} />
                     ) : (
                       <div className="avatar" style={{ width: '24px', height: '24px', fontSize: '10px' }}>{post.user ? getInitials(post.user.name) : '?'}</div>
                     )}

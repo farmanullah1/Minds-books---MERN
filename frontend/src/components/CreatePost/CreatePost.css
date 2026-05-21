@@ -12,18 +12,32 @@
 }
 
 .create-post-trigger.card {
-  padding: 16px;
-  border-radius: var(--radius-lg);
-  background: var(--glass-bg);
-  border: var(--glass-border);
+  padding: 18px 20px;
+  border-radius: var(--r-xl);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.create-post-trigger.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--brand-gradient);
+  opacity: 0.85;
 }
 
 .create-post-trigger.card:hover {
-  background: var(--bg-hover);
+  border-color: rgba(247, 185, 40, 0.4);
   transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(247, 185, 40, 0.1);
+  box-shadow: 0 8px 28px rgba(247, 185, 40, 0.15);
 }
 
 .trigger-top {
@@ -36,58 +50,107 @@
 }
 
 .avatar-trigger {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
-  border: 2px solid var(--brand-primary);
+  border: 2px solid var(--brand);
+  box-shadow: 0 0 0 3px var(--brand-lighter);
+}
+
+.avatar-trigger.initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--brand-gradient);
+  color: #000;
+  font-weight: 800;
+  font-size: 0.95rem;
 }
 
 .trigger-input-mock {
   flex: 1;
-  background: var(--bg-input);
-  padding: 10px 16px;
-  border-radius: 20px;
-  color: var(--text-secondary);
-  font-size: 0.9rem;
+  background: var(--bg-body);
+  padding: 12px 18px;
+  border-radius: var(--r-full);
+  color: var(--text-2);
+  font-size: 0.95rem;
+  border: 1px solid var(--border);
+  transition: border-color 0.2s ease;
+}
+
+.create-post-trigger.card:hover .trigger-input-mock {
+  border-color: rgba(247, 185, 40, 0.35);
+  color: var(--text-1);
 }
 
 .trigger-bottom {
   display: flex;
-  gap: 16px;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-top: 4px;
 }
 
 .trigger-action-pill {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 0.8rem;
+  gap: 8px;
+  font-size: 0.8125rem;
   font-weight: 600;
-  color: var(--text-secondary);
-  background: rgba(255, 255, 255, 0.05);
-  padding: 6px 12px;
-  border-radius: 16px;
+  color: var(--text-2);
+  background: var(--bg-body);
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  border-radius: var(--r-full);
   transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 .trigger-action-pill:hover {
-  background: var(--bg-input);
-  color: #fff;
+  border-color: var(--brand);
+  color: var(--brand);
+  background: var(--brand-lighter);
+}
+
+.trigger-action-pill .pill-icon.success { color: #42b72a; }
+.trigger-action-pill .pill-icon.warning { color: var(--brand); }
+.trigger-action-pill .pill-icon.danger { color: #e74c3c; }
+
+.trigger-action-pill:hover .pill-icon.success,
+.trigger-action-pill:hover .pill-icon.warning,
+.trigger-action-pill:hover .pill-icon.danger {
+  color: inherit;
 }
 
 /* Modal Composer Layout */
 .composer-modal.card {
-  max-width: 600px !important;
-  padding: 24px;
-  background: rgba(15, 15, 15, 0.95) !important;
-  border: 1px solid rgba(247, 185, 40, 0.25) !important;
+  max-width: 620px !important;
+  width: 95vw;
+  padding: 0;
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--r-xl) !important;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.composer-modal .modal-header {
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--brand-lighter) 0%, transparent 100%);
+}
+
+.composer-modal .modal-header h3 {
+  font-size: 1.2rem;
+  font-weight: 800;
 }
 
 .composer-form {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  padding: 20px 22px 22px;
 }
 
 .composer-author-row {

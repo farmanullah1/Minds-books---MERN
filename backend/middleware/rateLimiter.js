@@ -2,14 +2,14 @@ const rateLimit = require('express-rate-limit');
 
 /**
  * authLimiter — apply to /api/auth/* routes.
- * Allows 10 requests per 15 minutes per IP.
+ * Allows 10 requests per 3 minutes per IP.
  */
 const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
+  windowMs: 3 * 60 * 1000, // 3 minutes
   max: 10,
   standardHeaders: true,
   legacyHeaders: false,
-  message: { message: 'Too many login attempts, please try again after 15 minutes' },
+  message: { message: 'Too many login attempts, please try again after 3 minutes' },
   skip: (req) => process.env.NODE_ENV === 'test',
 });
 

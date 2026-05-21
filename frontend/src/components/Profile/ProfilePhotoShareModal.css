@@ -1,0 +1,135 @@
+.photo-share-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.photo-share-modal {
+  width: 100%;
+  max-width: 420px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-lg);
+  padding: 28px 24px 24px;
+  text-align: center;
+  animation: photoShareIn 0.25s ease;
+}
+
+@keyframes photoShareIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.photo-share-header h2 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: var(--text-1);
+}
+
+.photo-share-header p {
+  font-size: 0.95rem;
+  color: var(--text-2);
+  margin-bottom: 20px;
+}
+
+.photo-share-preview {
+  margin: 0 auto 24px;
+  overflow: hidden;
+  border: 3px solid var(--brand);
+  box-shadow: var(--shadow-md);
+}
+
+.photo-share-preview.round {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+}
+
+.photo-share-preview.wide {
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 820 / 312;
+  border-radius: var(--r-lg);
+}
+
+.photo-share-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.photo-share-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.photo-share-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: var(--r-lg);
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: all var(--t-fast);
+}
+
+.photo-share-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.photo-share-btn-primary {
+  background: var(--brand);
+  color: #000;
+}
+
+.photo-share-btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--brand-shadow);
+}
+
+.photo-share-btn-secondary {
+  background: var(--bg-body);
+  color: var(--text-1);
+  border: 1px solid var(--border);
+}
+
+.photo-share-btn-secondary:hover:not(:disabled) {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+
+.photo-share-skip {
+  background: transparent;
+  border: none;
+  color: var(--text-2);
+  font-size: 0.9rem;
+  padding: 8px;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.photo-share-skip:hover:not(:disabled) {
+  color: var(--text-1);
+}

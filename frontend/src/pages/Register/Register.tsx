@@ -35,8 +35,10 @@ const Register: React.FC = () => {
   // Photo uploads state (during registration)
   const [profilePicPreview, setProfilePicPreview] = useState<string | null>(null);
   const [profilePicBlob, setProfilePicBlob] = useState<Blob | null>(null);
+  const [profilePicUrl, setProfilePicUrl] = useState<string | null>(null);
   const [coverPhotoPreview, setCoverPhotoPreview] = useState<string | null>(null);
   const [coverPhotoBlob, setCoverPhotoBlob] = useState<Blob | null>(null);
+  const [coverPhotoUrl, setCoverPhotoUrl] = useState<string | null>(null);
 
   // Modals visibility states
   const [showProfilePicModal, setShowProfilePicModal] = useState(false);
@@ -101,7 +103,7 @@ const Register: React.FC = () => {
     if (registerUser.fulfilled.match(result)) {
       // 2. Successful registration sets token in session/cookies. 
       // If user selected profile pic or cover photo locally, upload them immediately now!
-      if (profilePicBlob || coverPhotoBlob) {
+      if (profilePicBlob || coverPhotoBlob || profilePicUrl || coverPhotoUrl) {
         setUploadingPhotos(true);
         try {
           if (profilePicBlob) {
@@ -113,6 +115,10 @@ const Register: React.FC = () => {
             });
             const picUrl = res.data.profilePicture;
             dispatch(updateUserInState({ profilePicture: picUrl }));
+          } else if (profilePicUrl) {
+            setUploadStatus('Saving profile picture...');
+            const res = await api.post('/users/update-photo-url', { type: 'profile', url: profilePicUrl });
+            dispatch(updateUserInState({ profilePicture: res.data.profilePicture }));
           }
 
           if (coverPhotoBlob) {
@@ -124,6 +130,10 @@ const Register: React.FC = () => {
             });
             const coverUrl = res.data.coverPhoto;
             dispatch(updateUserInState({ coverPicture: coverUrl }));
+          } else if (coverPhotoUrl) {
+            setUploadStatus('Saving cover photo...');
+            const res = await api.post('/users/update-photo-url', { type: 'cover', url: coverPhotoUrl });
+            dispatch(updateUserInState({ coverPicture: res.data.coverPicture || res.data.coverPhoto }));
           }
         } catch (photoErr: any) {
           console.error('Error uploading registration photos:', photoErr);
@@ -370,6 +380,7 @@ const Register: React.FC = () => {
                                         e.stopPropagation();
                                         setProfilePicPreview(null);
                                         setProfilePicBlob(null);
+                                        setProfilePicUrl(null);
                                       }}
                                       style={{ position: 'absolute', top: 0, right: 0, background: 'var(--danger)', padding: '2px', borderBottomLeftRadius: '5px', zIndex: 10 }}
                                       aria-label="Remove profile pic"
@@ -404,6 +415,7 @@ const Register: React.FC = () => {
                                         e.stopPropagation();
                                         setCoverPhotoPreview(null);
                                         setCoverPhotoBlob(null);
+                                        setCoverPhotoUrl(null);
                                       }}
                                       style={{ position: 'absolute', top: 0, right: 0, background: 'var(--danger)', padding: '2px', borderBottomLeftRadius: '5px', zIndex: 10 }}
                                       aria-label="Remove cover photo"
@@ -502,10 +514,15 @@ const Register: React.FC = () => {
         onClose={() => setShowProfilePicModal(false)}
         type="profile"
         mode="signup"
-        onSave={(_url, previewUrl, blob) => {
-          if (previewUrl && blob) {
+        onSave={(url, previewUrl, blob) => {
+          if (blob && previewUrl) {
             setProfilePicPreview(previewUrl);
             setProfilePicBlob(blob);
+            setProfilePicUrl(null);
+          } else if (url) {
+            setProfilePicPreview(url);
+            setProfilePicUrl(url);
+            setProfilePicBlob(null);
           }
         }}
       />
@@ -515,10 +532,15 @@ const Register: React.FC = () => {
         onClose={() => setShowCoverPhotoModal(false)}
         type="cover"
         mode="signup"
-        onSave={(_url, previewUrl, blob) => {
-          if (previewUrl && blob) {
+        onSave={(url, previewUrl, blob) => {
+          if (blob && previewUrl) {
             setCoverPhotoPreview(previewUrl);
             setCoverPhotoBlob(blob);
+            setCoverPhotoUrl(null);
+          } else if (url) {
+            setCoverPhotoPreview(url);
+            setCoverPhotoUrl(url);
+            setCoverPhotoBlob(null);
           }
         }}
       />
