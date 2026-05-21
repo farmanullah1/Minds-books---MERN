@@ -1,0 +1,90 @@
+/* Toast.module.css — PROMPT-01.C */
+.container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: var(--z-toast);
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--sp-2);
+  pointer-events: none;
+  max-width: 420px;
+  width: calc(100vw - 48px);
+}
+
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-lg);
+  pointer-events: auto;
+  position: relative;
+  overflow: hidden;
+  min-width: 280px;
+}
+
+/* Accent left border per type */
+.success { border-left: 4px solid var(--online); }
+.error   { border-left: 4px solid var(--text-danger); }
+.warning { border-left: 4px solid var(--warning); }
+.info    { border-left: 4px solid var(--info); }
+
+.icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.success .icon { color: var(--online); }
+.error   .icon { color: var(--text-danger); }
+.warning .icon { color: var(--warning); }
+.info    .icon { color: var(--info); }
+
+.content { flex: 1; min-width: 0; }
+.title   { font-size: var(--fs-sm); font-weight: var(--fw-semibold); color: var(--text-primary); margin-bottom: 2px; }
+.message { font-size: var(--fs-sm); color: var(--text-secondary); line-height: var(--lh-snug); }
+
+.action {
+  flex-shrink: 0;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--brand);
+  padding: 2px 8px;
+  border-radius: var(--r-sm);
+  transition: background var(--t-fast);
+}
+.action:hover { background: var(--brand-lighter); }
+
+.close {
+  flex-shrink: 0;
+  width: 22px; height: 22px;
+  border-radius: var(--r-full);
+  color: var(--text-tertiary);
+  display: flex; align-items: center; justify-content: center;
+  transition: background var(--t-fast), color var(--t-fast);
+  margin-top: 1px;
+}
+.close:hover { background: var(--bg-input); color: var(--text-primary); }
+
+/* Progress bar */
+.progress {
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 3px;
+  background: var(--brand);
+  animation: shrink linear forwards;
+  width: 100%;
+  transform-origin: left;
+}
+@keyframes shrink { from { width: 100%; } to { width: 0; } }
+
+@media (max-width: 480px) {
+  .container {
+    bottom: calc(var(--bottom-nav-h) + 12px);
+    right: var(--sp-3);
+    left: var(--sp-3);
+    width: auto;
+  }
+}

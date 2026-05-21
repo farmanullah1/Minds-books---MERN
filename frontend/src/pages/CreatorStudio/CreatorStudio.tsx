@@ -6,14 +6,48 @@
  * rules: Yellow theme primary, advanced layout grids, analytics tabs, dynamic forms, scheduling calendars, Recharts graphs, jsPDF report builders
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { gsap } from 'gsap';
 import { 
   FiCompass, FiTrendingUp, FiUploadCloud, FiBarChart2, 
   FiDollarSign, FiCalendar, FiPlus, FiMoreVertical, 
   FiTrash2, FiArchive, FiLock, FiCheckCircle, FiUsers, 
   FiEye, FiClock, FiActivity, FiAward, FiSettings, FiDownload
 } from 'react-icons/fi';
+
+interface CounterProps {
+  value: number;
+  duration?: number;
+  format?: (val: number) => string;
+}
+
+const AnimatedCounter: React.FC<CounterProps> = ({ 
+  value, 
+  duration = 1.5, 
+  format = (v) => Math.round(v).toLocaleString() 
+}) => {
+  const [displayValue, setDisplayValue] = useState(0);
+  const elementRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    const obj = { val: 0 };
+    const tween = gsap.to(obj, {
+      val: value,
+      duration: duration,
+      ease: 'power2.out',
+      onUpdate: () => {
+        setDisplayValue(obj.val);
+      }
+    });
+
+    return () => {
+      tween.kill();
+    };
+  }, [value, duration]);
+
+  return <h2 ref={elementRef} style={{ fontSize: '2rem', fontWeight: 800, margin: '8px 0', color: 'var(--text-primary)' }}>{format(displayValue)}</h2>;
+};
 import {
   ResponsiveContainer,
   AreaChart,
@@ -33,6 +67,7 @@ import {
 } from 'recharts';
 import { jsPDF } from 'jspdf';
 import api from '../../services/api';
+import CreateReel from '../../components/CreateReel/CreateReel';
 import './CreatorStudio.css';
 
 interface ContentItem {
@@ -49,6 +84,7 @@ interface ContentItem {
 const CreatorStudio: React.FC = () => {
   // Tabs: overview | content | analytics | monetization | schedule
   const [activeTab, setActiveTab] = useState<'overview' | 'content' | 'analytics' | 'monetization' | 'schedule'>('overview');
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
   
   // Period filter
   const [period, setPeriod] = useState<'7d' | '30d' | '90d'>('30d');
@@ -203,6 +239,20 @@ const CreatorStudio: React.FC = () => {
 
   const deleteContent = (id: string) => {
     setContents(prev => prev.filter(c => c.id !== id));
+  };
+
+  const handleReelSuccess = () => {
+    const newReel: ContentItem = {
+      id: `reel_${Math.random().toString()}`,
+      title: 'Newly created interactive Reel publication',
+      type: 'reel',
+      reach: 0,
+      impressions: 0,
+      engagement: '0%',
+      date: new Date().toISOString().split('T')[0],
+      status: 'published'
+    };
+    setContents(prev => [newReel, ...prev]);
   };
 
   const scheduleNewPost = (e: React.FormEvent) => {
@@ -411,7 +461,7 @@ const CreatorStudio: React.FC = () => {
                     <span>Total Reach</span>
                     <FiUsers size={16} className="text-brand" />
                   </div>
-                  <h2>{overviewStats.reach.toLocaleString()}</h2>
+                  <AnimatedCounter value={overviewStats.reach} />
                   <span className="box-trend positive">+12% (vs last period)</span>
                 </div>
 
@@ -420,7 +470,10 @@ const CreatorStudio: React.FC = () => {
                     <span>Average Watch Time</span>
                     <FiClock size={16} className="text-brand" />
                   </div>
-                  <h2>{(overviewStats.watchTime / 1000).toFixed(1)} mins</h2>
+                  <AnimatedCounter 
+                    value={overviewStats.watchTime / 1000} 
+                    format={(v) => v.toFixed(1) + ' mins'} 
+                  />
                   <span className="box-trend positive">+8% (vs last period)</span>
                 </div>
 
@@ -429,7 +482,7 @@ const CreatorStudio: React.FC = () => {
                     <span>Video Views</span>
                     <FiEye size={16} className="text-brand" />
                   </div>
-                  <h2>{overviewStats.videoViews.toLocaleString()}</h2>
+                  <AnimatedCounter value={overviewStats.videoViews} />
                   <span className="box-trend positive">+{overviewStats.engagementRate}% engagement</span>
                 </div>
 
@@ -438,7 +491,10 @@ const CreatorStudio: React.FC = () => {
                     <span>Estimated Revenue</span>
                     <FiDollarSign size={16} className="text-brand" />
                   </div>
-                  <h2>${(overviewStats.watchTime * 0.3).toFixed(2)}</h2>
+                  <AnimatedCounter 
+                    value={overviewStats.watchTime * 0.3} 
+                    format={(v) => '$' + v.toFixed(2)} 
+                  />
                   <span className="box-trend positive">{(overviewStats.watchTime * 3).toLocaleString()} Gold Coins</span>
                 </div>
               </div>
@@ -489,9 +545,32 @@ const CreatorStudio: React.FC = () => {
               exit={{ opacity: 0 }}
               className="content-tab-view card"
             >
-              <div className="card-header-row">
-                <h2>Content Manager</h2>
-                <span className="sub-count">{contents.length} Total items</span>
+              <div className="card-header-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>
+                  <h2>Content Manager</h2>
+                  <span className="sub-count">{contents.length} Total items</span>
+                </div>
+                <button 
+                  className="studio-create-reel-btn"
+                  onClick={() => setIsCreateOpen(true)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    backgroundColor: 'var(--brand-primary, #F7B928)',
+                    color: '#000000',
+                    border: 'none',
+                    padding: '8px 16px',
+                    borderRadius: '8px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease-in-out',
+                    boxShadow: '0 4px 12px rgba(247, 185, 40, 0.2)'
+                  }}
+                >
+                  <FiPlus size={16} />
+                  <span>Create Reel</span>
+                </button>
               </div>
 
               <div className="table-responsive-wrapper">
@@ -960,6 +1039,11 @@ const CreatorStudio: React.FC = () => {
         </AnimatePresence>
       </div>
 
+      <CreateReel 
+        isOpen={isCreateOpen} 
+        onClose={() => setIsCreateOpen(false)} 
+        onSuccess={handleReelSuccess}
+      />
     </div>
   );
 };

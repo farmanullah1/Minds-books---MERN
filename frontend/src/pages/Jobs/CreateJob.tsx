@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiBriefcase, FiMapPin, FiDollarSign, FiClock, FiPlus, FiTrash2 } from 'react-icons/fi';
+import Navbar from '../../components/Navbar/Navbar';
+import LeftSidebar from '../../components/LeftSidebar/LeftSidebar';
+import RightSidebar from '../../components/RightSidebar/RightSidebar';
 import api from '../../services/api';
 import './CreateJob.css';
 
@@ -47,132 +50,143 @@ const CreateJob: React.FC = () => {
   };
 
   return (
-    <div className="create-job-container">
-      <div className="create-job-card">
-        <h2>Post a New Job</h2>
-        <p>Fill in the details to find your next great hire</p>
+    <div className="app-container">
+      <Navbar />
+      <div className="main-content-layout">
+        <LeftSidebar />
+        
+        <main className="main-feed-area">
+          <div className="create-job-container">
+            <div className="create-job-card">
+              <h2>Post a New Job</h2>
+              <p>Fill in the details to find your next great hire</p>
 
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Job Title</label>
-            <input 
-              type="text" 
-              required 
-              placeholder="e.g. Senior Frontend Developer"
-              value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            />
-          </div>
+              <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label>Job Title</label>
+                  <input 
+                    type="text" 
+                    required 
+                    placeholder="e.g. Senior Frontend Developer"
+                    value={formData.title}
+                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  />
+                </div>
 
-          <div className="form-row">
-            <div className="form-group">
-              <label>Category</label>
-              <select 
-                value={formData.category}
-                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-              >
-                <option value="Technology">Technology</option>
-                <option value="Design">Design</option>
-                <option value="Marketing">Marketing</option>
-                <option value="Engineering">Engineering</option>
-              </select>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Category</label>
+                    <select 
+                      value={formData.category}
+                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    >
+                      <option value="Technology">Technology</option>
+                      <option value="Design">Design</option>
+                      <option value="Marketing">Marketing</option>
+                      <option value="Engineering">Engineering</option>
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label>Job Type</label>
+                    <select 
+                      value={formData.type}
+                      onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                    >
+                      <option value="Full-time">Full-time</option>
+                      <option value="Part-time">Part-time</option>
+                      <option value="Contract">Contract</option>
+                      <option value="Internship">Internship</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label>Location</label>
+                  <div className="input-with-icon">
+                    <FiMapPin />
+                    <input 
+                      type="text" 
+                      required 
+                      placeholder="e.g. San Francisco, CA"
+                      value={formData.location}
+                      onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                    />
+                  </div>
+                  <div className="checkbox-group">
+                    <input 
+                      type="checkbox" 
+                      id="isRemote" 
+                      checked={formData.isRemote}
+                      onChange={(e) => setFormData({ ...formData, isRemote: e.target.checked })}
+                    />
+                    <label htmlFor="isRemote">This is a remote position</label>
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label>Salary Range (Annual k)</label>
+                  <div className="salary-inputs">
+                    <div className="input-with-icon">
+                      <FiDollarSign />
+                      <input 
+                        type="number" 
+                        placeholder="Min"
+                        value={formData.salaryRange.min}
+                        onChange={(e) => setFormData({ ...formData, salaryRange: { ...formData.salaryRange, min: parseInt(e.target.value) } })}
+                      />
+                    </div>
+                    <span>to</span>
+                    <div className="input-with-icon">
+                      <FiDollarSign />
+                      <input 
+                        type="number" 
+                        placeholder="Max"
+                        value={formData.salaryRange.max}
+                        onChange={(e) => setFormData({ ...formData, salaryRange: { ...formData.salaryRange, max: parseInt(e.target.value) } })}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label>Description</label>
+                  <textarea 
+                    required 
+                    rows={6}
+                    placeholder="Describe the role, responsibilities, and company culture..."
+                    value={formData.description}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Requirements</label>
+                  {formData.requirements.map((req, idx) => (
+                    <div key={idx} className="requirement-input">
+                      <input 
+                        type="text" 
+                        placeholder="e.g. 5+ years of React experience"
+                        value={req}
+                        onChange={(e) => handleRequirementChange(idx, e.target.value)}
+                      />
+                      <button type="button" onClick={() => removeRequirement(idx)}><FiTrash2 /></button>
+                    </div>
+                  ))}
+                  <button type="button" className="btn-add-req" onClick={addRequirement}>
+                    <FiPlus /> Add Requirement
+                  </button>
+                </div>
+
+                <div className="form-actions">
+                  <button type="button" className="btn-secondary" onClick={() => navigate('/jobs')}>Cancel</button>
+                  <button type="submit" className="btn-primary">Post Job</button>
+                </div>
+              </form>
             </div>
-            <div className="form-group">
-              <label>Job Type</label>
-              <select 
-                value={formData.type}
-                onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-              >
-                <option value="Full-time">Full-time</option>
-                <option value="Part-time">Part-time</option>
-                <option value="Contract">Contract</option>
-                <option value="Internship">Internship</option>
-              </select>
-            </div>
           </div>
-
-          <div className="form-group">
-            <label>Location</label>
-            <div className="input-with-icon">
-              <FiMapPin />
-              <input 
-                type="text" 
-                required 
-                placeholder="e.g. San Francisco, CA"
-                value={formData.location}
-                onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-              />
-            </div>
-            <div className="checkbox-group">
-              <input 
-                type="checkbox" 
-                id="isRemote" 
-                checked={formData.isRemote}
-                onChange={(e) => setFormData({ ...formData, isRemote: e.target.checked })}
-              />
-              <label htmlFor="isRemote">This is a remote position</label>
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label>Salary Range (Annual k)</label>
-            <div className="salary-inputs">
-              <div className="input-with-icon">
-                <FiDollarSign />
-                <input 
-                  type="number" 
-                  placeholder="Min"
-                  value={formData.salaryRange.min}
-                  onChange={(e) => setFormData({ ...formData, salaryRange: { ...formData.salaryRange, min: parseInt(e.target.value) } })}
-                />
-              </div>
-              <span>to</span>
-              <div className="input-with-icon">
-                <FiDollarSign />
-                <input 
-                  type="number" 
-                  placeholder="Max"
-                  value={formData.salaryRange.max}
-                  onChange={(e) => setFormData({ ...formData, salaryRange: { ...formData.salaryRange, max: parseInt(e.target.value) } })}
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label>Description</label>
-            <textarea 
-              required 
-              rows={6}
-              placeholder="Describe the role, responsibilities, and company culture..."
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Requirements</label>
-            {formData.requirements.map((req, idx) => (
-              <div key={idx} className="requirement-input">
-                <input 
-                  type="text" 
-                  placeholder="e.g. 5+ years of React experience"
-                  value={req}
-                  onChange={(e) => handleRequirementChange(idx, e.target.value)}
-                />
-                <button type="button" onClick={() => removeRequirement(idx)}><FiTrash2 /></button>
-              </div>
-            ))}
-            <button type="button" className="btn-add-req" onClick={addRequirement}>
-              <FiPlus /> Add Requirement
-            </button>
-          </div>
-
-          <div className="form-actions">
-            <button type="button" className="btn-secondary" onClick={() => navigate('/jobs')}>Cancel</button>
-            <button type="submit" className="btn-primary">Post Job</button>
-          </div>
-        </form>
+        </main>
+        
+        <RightSidebar />
       </div>
     </div>
   );

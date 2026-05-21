@@ -9,8 +9,10 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/node": "^25.9.1",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.2",
     "typescript": "~6.0.2",
     "vite": "^8.0.10"
   },
@@ -21,6 +23,7 @@
     "@react-spring/web": "^10.0.3",
     "@reduxjs/toolkit": "^2.11.2",
     "@studio-freight/lenis": "^1.0.42",
+    "@types/three": "^0.184.1",
     "axios": "^1.15.2",
     "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",
@@ -39,6 +42,7 @@
     "react-router-dom": "^7.14.2",
     "recharts": "^3.8.1",
     "socket.io-client": "^4.8.3",
-    "tailwind-merge": "^3.5.0"
+    "tailwind-merge": "^3.5.0",
+    "three": "^0.184.0"
   }
 }

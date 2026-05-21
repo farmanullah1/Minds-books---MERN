@@ -15,6 +15,7 @@ import {
 } from 'react-icons/fi';
 import './AudioRooms.css';
 import { useAppSelector } from '../../store/hooks';
+import Emoji3D from '../../components/ui/Emoji3D';
 
 interface AudioRoom {
   id: string;
@@ -333,7 +334,7 @@ const AudioRooms: React.FC = () => {
                     animate={{ opacity: 1, y: -150, scale: 1.5 }}
                     exit={{ opacity: 0 }}
                   >
-                    {spaceReaction}
+                    <Emoji3D emoji={spaceReaction} size={48} animate={false} />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -362,7 +363,7 @@ const AudioRooms: React.FC = () => {
                   <div className="emoji-preset-tray">
                     {['👍', '🔥', '👏', '😂', '💯', '❤️'].map(e => (
                       <button key={e} className="reaction-trigger-btn" onClick={() => triggerReaction(e)}>
-                        {e}
+                        <Emoji3D emoji={e} size={20} />
                       </button>
                     ))}
                   </div>

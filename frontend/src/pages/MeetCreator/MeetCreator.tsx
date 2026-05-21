@@ -7,10 +7,10 @@ import './MeetCreator.css';
 
 const MeetCreator: React.FC = () => {
   const devDetails = {
-    name: 'Farman Ullah Ansari',
+    name: 'Farmanullah Ansari',
     title: 'Full Stack Software Engineer',
     bio: 'Passionate and results-driven Full Stack Developer specialized in building scalable, real-time web applications with next-generation premium user experiences. Expert in modern JavaScript/TypeScript ecosystems, responsive glassmorphic layouts, and cloud architectures.',
-    email: 'ansarif52@gmail.com',
+    email: 'farmanullahansari999@gmail.com',
     portfolio: 'https://farmanullah1.github.io/My-Portfolio',
     linkedin: 'https://www.linkedin.com/in/farmanullah-ansari/',
     github: 'https://github.com/farmanullah1',
@@ -132,7 +132,7 @@ const MeetCreator: React.FC = () => {
     doc.setTextColor(150, 150, 150);
     doc.text('Generated dynamically from MindBook creator dashboard.', margin, yPos);
     
-    doc.save('Farman_Ullah_Ansari_Resume.pdf');
+    doc.save('Farmanullah_Ansari_Resume.pdf');
   };
 
   return (

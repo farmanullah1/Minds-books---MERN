@@ -14,6 +14,7 @@ import {
   FiSmile, FiAlertCircle, FiPlus 
 } from 'react-icons/fi';
 import confetti from 'canvas-confetti';
+import Emoji3D from '../../components/ui/Emoji3D';
 import './Gaming.css';
 
 // MEMORY GAME SETUP
@@ -360,7 +361,7 @@ const Gaming: React.FC = () => {
                         onClick={() => handleCardClick(card.id)}
                         disabled={card.matched}
                       >
-                        <span className="tile-content">{isFlipped ? card.emoji : '❓'}</span>
+                        <span className="tile-content">{isFlipped ? <Emoji3D emoji={card.emoji} size={36} animate={true} /> : '❓'}</span>
                       </button>
                     );
                   })}

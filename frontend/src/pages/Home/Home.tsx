@@ -15,6 +15,7 @@ import Navbar from '../../components/Navbar/Navbar';
 import LeftSidebar from '../../components/LeftSidebar/LeftSidebar';
 import RightSidebar from '../../components/RightSidebar/RightSidebar';
 import StoriesFeed from '../../components/StoriesFeed/StoriesFeed';
+import ReelsPreviewRow from '../../components/ReelsPreviewRow/ReelsPreviewRow';
 import CreatePost from '../../components/CreatePost/CreatePost';
 import DailyChallengeBanner from '../../components/DailyChallengeBanner/DailyChallengeBanner';
 import Post from '../../components/Post/Post';
@@ -115,6 +116,7 @@ const Home: React.FC = () => {
             )}
 
             <StoriesFeed />
+            <ReelsPreviewRow />
             <CreatePost />
             <DailyChallengeBanner />
 

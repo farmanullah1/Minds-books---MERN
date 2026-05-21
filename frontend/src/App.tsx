@@ -49,6 +49,7 @@ import Gaming from './pages/Gaming/Gaming';
 import Jobs from './pages/Jobs/Jobs';
 import CreateJob from './pages/Jobs/CreateJob';
 import JobDetail from './pages/Jobs/JobDetail';
+import Network from './pages/Network/Network';
 import Security from './pages/Settings/Security';
 import Accessibility from './pages/Settings/Accessibility';
 import Shops from './pages/Shops/Shops';
@@ -60,12 +61,18 @@ import MeetCreator from './pages/MeetCreator/MeetCreator';
 import AboutMindbook from './pages/AboutMindbook/AboutMindbook';
 import WhyMindbook from './pages/WhyMindbook/WhyMindbook';
 import Notifications from './pages/Notifications/Notifications';
+import Wallet from './pages/Wallet/Wallet';
+import HashtagPage from './pages/Hashtag/Hashtag';
+import YourTime from './pages/YourTime/YourTime';
+import MyReports from './pages/MyReports/MyReports';
+import DownloadData from './pages/DownloadData/DownloadData';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import MobileBottomNav from './components/Navbar/MobileBottomNav';
 import { FiArrowUp } from 'react-icons/fi';
 import { socketService } from './services/socketService';
 import NotificationToast from './components/NotificationToast/NotificationToast';
 import MindBot from './components/MindBot/MindBot';
+import { SocketProvider } from './context/SocketContext';
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { token } = useAppSelector((state) => state.auth);
@@ -467,6 +474,22 @@ const App: React.FC = () => {
           }
         />
         <Route
+          path="/network"
+          element={
+            <ProtectedRoute>
+              <Network />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/wallet"
+          element={
+            <ProtectedRoute>
+              <Wallet />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/jobs/create"
           element={
             <ProtectedRoute>
@@ -538,6 +561,11 @@ const App: React.FC = () => {
             </ProtectedRoute>
           }
         />
+        <Route path="/reels" element={<ProtectedRoute><Reels /></ProtectedRoute>} />
+        <Route path="/hashtag/:tag" element={<ProtectedRoute><HashtagPage /></ProtectedRoute>} />
+        <Route path="/your-time" element={<ProtectedRoute><YourTime /></ProtectedRoute>} />
+        <Route path="/my-reports" element={<ProtectedRoute><MyReports /></ProtectedRoute>} />
+        <Route path="/download-your-data" element={<ProtectedRoute><DownloadData /></ProtectedRoute>} />
         <Route path="/landing" element={<Landing />} />
         <Route path="/about-mindbook" element={<AboutMindbook />} />
         <Route path="/why-mindbook" element={<WhyMindbook />} />

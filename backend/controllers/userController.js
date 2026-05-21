@@ -377,6 +377,53 @@ const deleteAccount = async (req, res) => {
   }
 };
 
+const endorseSkill = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { skillName } = req.body;
+    const endorserId = req.user.id;
+
+    if (id === endorserId) {
+      return res.status(400).json({ message: 'You cannot endorse your own skills' });
+    }
+
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (!user.portfolio) {
+      user.portfolio = { skills: [] };
+    }
+    if (!user.portfolio.skills) {
+      user.portfolio.skills = [];
+    }
+
+    let skill = user.portfolio.skills.find(s => s.name.toLowerCase() === skillName.toLowerCase());
+
+    if (!skill) {
+      // If skill doesn't exist, create it with initial endorsement
+      skill = { name: skillName, endorsements: [endorserId] };
+      user.portfolio.skills.push(skill);
+    } else {
+      if (skill.endorsements.some(uid => uid.toString() === endorserId)) {
+        return res.status(400).json({ message: 'You have already endorsed this skill' });
+      }
+      skill.endorsements.push(endorserId);
+    }
+
+    await user.save();
+
+    // Create notification
+    await createNotification(req.app.get('io'), id, endorserId, 'endorsement', null, `endorsed your skill: ${skillName}`);
+
+    res.json({ message: 'Skill endorsed successfully', skills: user.portfolio.skills });
+  } catch (error) {
+    console.error('EndorseSkill error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 module.exports = {
   getUser,
   getAllUsers,
@@ -393,4 +440,5 @@ module.exports = {
   getMutualFriends,
   getUserMedia,
   deleteAccount,
+  endorseSkill,
 };

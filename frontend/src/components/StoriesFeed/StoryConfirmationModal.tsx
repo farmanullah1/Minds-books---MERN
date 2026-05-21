@@ -8,6 +8,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { FiEdit2, FiType, FiSmile, FiClock, FiTrash2, FiCamera } from 'react-icons/fi';
+import Emoji3D from '../ui/Emoji3D';
 import './StoryConfirmationModal.css';
 
 interface StoryConfirmationModalProps {
@@ -222,7 +223,7 @@ const StoryConfirmationModal: React.FC<StoryConfirmationModalProps> = ({ file, p
                   pointerEvents: 'none'
                 }}
               >
-                {stk.emoji}
+                <Emoji3D emoji={stk.emoji} size={40} />
               </div>
             ))}
 
@@ -336,7 +337,7 @@ const StoryConfirmationModal: React.FC<StoryConfirmationModalProps> = ({ file, p
                     className="sticker-btn-emoji"
                     onClick={() => handleAddSticker(emoji)}
                   >
-                    {emoji}
+                    <Emoji3D emoji={emoji} size={32} />
                   </button>
                 ))}
               </div>

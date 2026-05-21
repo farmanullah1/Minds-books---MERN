@@ -174,7 +174,7 @@ const HelpCenter: React.FC = () => {
                   <div className="support-card-header">
                     <FiMail size={24} className="support-header-icon" />
                     <h3>Contact Developer Support</h3>
-                    <p>Have an issue or a bug to report? Send a direct dispatch to Farman Ullah Ansari.</p>
+                    <p>Have an issue or a bug to report? Send a direct dispatch to Farmanullah Ansari.</p>
                   </div>
                   
                   <form onSubmit={handleSupportSubmit} className="support-form">

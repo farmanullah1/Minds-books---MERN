@@ -1,0 +1,41 @@
+.shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-html);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── ANIMATED GRADIENT BLOBS ─────────────────────────────── */
+.blob1, .blob2, .blob3 {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.10;
+  pointer-events: none;
+  z-index: var(--z-below);
+}
+.blob1 { width: 560px; height: 560px; background: #F7B928; top: -120px; left: -100px; animation: blobDrift 9s ease-in-out infinite alternate; }
+.blob2 { width: 480px; height: 480px; background: #FFD700; top: 200px; right: -80px; animation: blobDrift 7s ease-in-out infinite alternate-reverse; }
+.blob3 { width: 400px; height: 400px; background: #FFEC8B; bottom: -60px; left: 35%; animation: blobDrift 11s ease-in-out infinite alternate; animation-delay: -4s; }
+
+@keyframes blobDrift {
+  0%   { transform: translate(0px, 0px)   scale(1.00); }
+  33%  { transform: translate(24px, -18px) scale(1.06); }
+  66%  { transform: translate(-16px, 20px) scale(0.94); }
+  100% { transform: translate(12px, -8px)  scale(1.03); }
+}
+
+.content {
+  width: 100%;
+  max-width: 480px;
+  padding: var(--sp-6) var(--sp-4);
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 480px) {
+  .content { padding: var(--sp-4) var(--sp-3); }
+}

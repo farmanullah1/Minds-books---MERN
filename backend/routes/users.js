@@ -26,6 +26,7 @@ const {
   getUserMedia,
   deleteAccount,
   cancelFriendRequest,
+  endorseSkill,
 } = require('../controllers/userController');
 const { toggleSavePost } = require('../controllers/postController');
 
@@ -48,6 +49,7 @@ router.post('/friend-request/decline', auth, declineFriendRequest);
 router.post('/friend-request/cancel', auth, cancelFriendRequest);
 router.post('/unfriend', auth, removeFriend);
 router.post('/save-post/:postId', auth, toggleSavePost);
+router.post('/:id/endorse', auth, endorseSkill);
 router.delete('/account', auth, deleteAccount);
 
 module.exports = router;

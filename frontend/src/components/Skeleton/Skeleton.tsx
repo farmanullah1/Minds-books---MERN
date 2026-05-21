@@ -1,16 +1,16 @@
 import React from 'react';
 import './Skeleton.css';
 
-export const SkeletonAvatar = ({ size = 40 }) => (
-  <div className="skeleton-base skeleton-avatar" style={{ width: size, height: size }} />
+export const SkeletonAvatar = ({ size = 40, style = {} }: { size?: number; style?: React.CSSProperties }) => (
+  <div className="skeleton-base skeleton-avatar" style={{ width: size, height: size, ...style }} />
 );
 
-export const SkeletonLine = ({ width = '100%', height = 14 }) => (
-  <div className="skeleton-base skeleton-line" style={{ width, height }} />
+export const SkeletonLine = ({ width = '100%', height = 14, style = {} }: { width?: string | number; height?: number; style?: React.CSSProperties }) => (
+  <div className="skeleton-base skeleton-line" style={{ width, height, ...style }} />
 );
 
-export const SkeletonRect = ({ width = '100%', height = 100, borderRadius = 'var(--radius-sm)' }) => (
-  <div className="skeleton-base" style={{ width, height, borderRadius }} />
+export const SkeletonRect = ({ width = '100%', height = 100, borderRadius = 'var(--radius-sm)', style = {} }: { width?: string | number; height?: number; borderRadius?: string; style?: React.CSSProperties }) => (
+  <div className="skeleton-base" style={{ width, height, borderRadius, ...style }} />
 );
 
 export const SkeletonPost = () => (

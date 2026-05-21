@@ -46,6 +46,7 @@ export interface IUser {
   suspensionEnd?: string | null;
   reportCount?: number;
   coins?: number;
+  lastLoginReward?: string;
   portfolio?: IPortfolio;
 }
 
@@ -74,7 +75,7 @@ export interface INotification {
   _id: string;
   user: string;
   fromUser: IUser;
-  type: 'like' | 'love' | 'haha' | 'wow' | 'sad' | 'angry' | 'comment' | 'reply' | 'friend_request' | 'friend_accept';
+  type: 'like' | 'love' | 'haha' | 'wow' | 'sad' | 'angry' | 'comment' | 'reply' | 'friend_request' | 'friend_accept' | 'marketplace';
   post?: { _id: string; content: string };
   text?: string;
   read: boolean;

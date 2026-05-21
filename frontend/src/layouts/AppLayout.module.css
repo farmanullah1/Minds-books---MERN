@@ -1,0 +1,90 @@
+.shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── GRID LAYOUTS ────────────────────────────────────────── */
+.grid {
+  display: grid;
+  gap: var(--sp-4);
+  max-width: var(--page-max-width);
+  width: 100%;
+  margin: 0 auto;
+  padding: calc(var(--navbar-height) + var(--sp-4)) var(--sp-4) var(--sp-4);
+  flex: 1;
+  align-items: start;
+}
+
+.threeCol {
+  grid-template-columns: var(--sidebar-left) 1fr var(--sidebar-right);
+  grid-template-areas: "left center right";
+}
+
+.twoCol {
+  grid-template-columns: var(--sidebar-left) 1fr;
+  grid-template-areas: "left center";
+}
+
+.fullscreen {
+  grid-template-columns: 1fr;
+  grid-template-areas: "center";
+  padding: var(--navbar-height) 0 0;
+  max-width: 100%;
+  gap: 0;
+}
+
+/* ── SIDEBAR COLUMNS ─────────────────────────────────────── */
+.sidebarLeft {
+  grid-area: left;
+  position: sticky;
+  top: calc(var(--navbar-height) + var(--sp-4));
+  height: calc(100vh - var(--navbar-height) - var(--sp-8));
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.sidebarRight {
+  grid-area: right;
+  position: sticky;
+  top: calc(var(--navbar-height) + var(--sp-4));
+  height: calc(100vh - var(--navbar-height) - var(--sp-8));
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* ── MAIN FEED ───────────────────────────────────────────── */
+.feed {
+  grid-area: center;
+  min-width: 0;           /* Critical: prevents flex/grid overflow */
+  overflow-x: hidden;
+  max-width: min(var(--feed-max-width), 100%);
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 1279px) {
+  .threeCol {
+    grid-template-columns: var(--sidebar-left) 1fr;
+    grid-template-areas: "left center";
+  }
+}
+
+@media (max-width: 1023px) {
+  .threeCol, .twoCol {
+    grid-template-columns: var(--sidebar-left-sm) 1fr;
+    grid-template-areas: "left center";
+  }
+}
+
+@media (max-width: 767px) {
+  .threeCol, .twoCol {
+    grid-template-columns: 1fr;
+    grid-template-areas: "center";
+    padding-bottom: calc(var(--bottom-nav-h) + var(--sp-4));
+    padding-left: var(--sp-3);
+    padding-right: var(--sp-3);
+  }
+  .feed { max-width: 100%; }
+}

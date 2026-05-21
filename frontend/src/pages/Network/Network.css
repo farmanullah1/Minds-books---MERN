@@ -1,0 +1,521 @@
+/* 
+ * CodeDNA 
+ * Network.css — Professional Network Styling 
+ * exports: css classes 
+ * used_by: Network.tsx 
+ * rules: Follow project theme tokens 
+ */
+
+.network-container {
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Hero dashboard banner */
+.network-hero-dashboard {
+  background: linear-gradient(135deg, rgba(247, 185, 40, 0.12) 0%, rgba(247, 185, 40, 0.03) 100%);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(8px);
+}
+
+.network-hero-dashboard .hero-text h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.5px;
+}
+
+.network-hero-dashboard .hero-text p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  max-width: 500px;
+}
+
+.network-metrics-row {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.metric-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.metric-box:hover {
+  transform: translateY(-2px);
+  border-color: var(--brand-primary);
+  box-shadow: 0 8px 16px rgba(247, 185, 40, 0.1);
+}
+
+.metric-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(247, 185, 40, 0.15);
+  color: var(--brand-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.metric-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-num {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.metric-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+}
+
+/* Filters bar styling */
+.network-filters-bar {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.network-search-input {
+  position: relative;
+  width: 100%;
+}
+
+.network-search-input svg {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+.network-search-input input {
+  width: 100%;
+  padding: 0.85rem 1rem 0.85rem 2.8rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.network-search-input input:focus {
+  outline: 3px solid var(--brand-primary);
+  border-color: transparent;
+  box-shadow: 0 0 10px rgba(247, 185, 40, 0.25);
+}
+
+.network-tabs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.net-tab {
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 0.6rem 1.2rem;
+  border-radius: 99px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.net-tab:hover {
+  background: rgba(247, 185, 40, 0.08);
+  color: var(--brand-primary);
+}
+
+.net-tab.active {
+  background: var(--brand-primary);
+  color: white;
+  border-color: var(--brand-primary);
+  box-shadow: 0 4px 10px rgba(247, 185, 40, 0.2);
+}
+
+/* Grid & peer recommendation cards */
+.network-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.peer-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.peer-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(247, 185, 40, 0.4);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+.peer-banner {
+  height: 68px;
+  width: 100%;
+  position: relative;
+}
+
+.mutual-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #1a1a1a;
+  padding: 0.25rem 0.6rem;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.peer-avatar-wrapper {
+  margin-top: -36px;
+  z-index: 2;
+  position: relative;
+}
+
+.peer-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 4px solid var(--bg-card);
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.peer-avatar-fallback {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 4px solid var(--bg-card);
+  background: var(--brand-primary);
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.peer-details {
+  padding: 1.25rem;
+  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.peer-details h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.peer-headline {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  min-height: 38px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.match-reason {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(247, 185, 40, 0.06);
+  padding: 0.5rem 0.85rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.match-reason svg {
+  color: var(--brand-primary);
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.match-reason span {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-align: left;
+  line-height: 1.35;
+}
+
+.peer-skills-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: auto;
+}
+
+.skill-chip {
+  background: var(--bg-body);
+  border: 1px solid var(--border-color);
+  padding: 0.25rem 0.6rem;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.skill-chip:hover {
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+}
+
+.peer-actions {
+  padding: 1.25rem;
+  width: 100%;
+  border-top: 1px solid var(--border-color);
+}
+
+.btn-connect {
+  width: 100%;
+  padding: 0.65rem;
+  border-radius: 10px;
+  border: 1px solid var(--brand-primary);
+  background: transparent;
+  color: var(--brand-primary);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-connect:hover {
+  background: var(--brand-primary);
+  color: white;
+  box-shadow: 0 4px 12px rgba(247, 185, 40, 0.2);
+}
+
+.btn-connect.pending {
+  background: var(--bg-body);
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+  cursor: not-allowed;
+}
+
+/* Empty recommendation page */
+.network-empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.empty-graphic {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+.network-empty-state h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.network-empty-state p {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+/* Skeleton Loading Grid Styling */
+.network-loading-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.peer-skeleton-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding-bottom: 1.25rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-banner {
+  height: 68px;
+  background: linear-gradient(90deg, var(--bg-body) 25%, var(--border-color) 50%, var(--bg-body) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, var(--bg-body) 25%, var(--border-color) 50%, var(--bg-body) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  margin: -36px auto 0;
+  border: 4px solid var(--bg-card);
+}
+
+.skeleton-line {
+  height: 12px;
+  background: linear-gradient(90deg, var(--bg-body) 25%, var(--border-color) 50%, var(--bg-body) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  margin: 12px auto;
+  border-radius: 4px;
+}
+
+.skeleton-line.title {
+  width: 60%;
+  height: 16px;
+}
+
+.skeleton-line.desc {
+  width: 80%;
+  height: 10px;
+}
+
+.skeleton-line.pills {
+  width: 50%;
+  height: 10px;
+  margin-bottom: 2rem;
+}
+
+.skeleton-button {
+  width: 80%;
+  height: 36px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--bg-body) 25%, var(--border-color) 50%, var(--bg-body) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  margin: 0 auto;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+
+/* Responsiveness down to 375px */
+@media (max-width: 991px) {
+  .network-hero-dashboard {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.5rem;
+  }
+
+  .network-metrics-row {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .metric-box {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 575px) {
+  .network-hero-dashboard .hero-text h1 {
+    font-size: 1.6rem;
+  }
+
+  .network-metrics-row {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .metric-box {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .network-tabs {
+    justify-content: flex-start;
+  }
+
+  .net-tab {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.85rem;
+  }
+}

@@ -65,7 +65,7 @@ const WhyMindbook: React.FC = () => {
             FA
           </div>
           <div className="author-details">
-            <h3>Farman Ullah Ansari</h3>
+            <h3>Farmanullah Ansari</h3>
             <p>Full Stack Software Engineer & Creator</p>
           </div>
         </div>
@@ -137,7 +137,7 @@ const WhyMindbook: React.FC = () => {
 
       {/* Footer */}
       <footer className="about-footer">
-        <p>MindBook © {new Date().getFullYear()}. Built with passion by Farman Ullah Ansari.</p>
+        <p>MindBook © {new Date().getFullYear()}. Built with passion by Farmanullah Ansari.</p>
       </footer>
     </div>
   );

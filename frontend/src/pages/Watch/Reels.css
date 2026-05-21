@@ -260,3 +260,45 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+/* Floating Create Reel Button (PROMPT-16.C Overlay Trigger) */
+.reels-create-trigger {
+  position: absolute;
+  top: 20px;
+  left: calc(50% - 220px);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(247, 185, 40, 0.4);
+  color: #ffffff;
+  padding: 10px 18px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 50;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reels-create-trigger:hover {
+  background: var(--brand-primary, #F7B928);
+  color: #000000;
+  border-color: var(--brand-primary, #F7B928);
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(247, 185, 40, 0.5), 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+.reels-create-trigger:focus-visible {
+  outline: 3px solid var(--brand-primary, #F7B928);
+  outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+  .reels-create-trigger {
+    left: 20px;
+  }
+}
+

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
-import { FiArrowRight, FiGithub, FiMessageCircle, FiYoutube, FiVideo, FiCpu, FiMonitor, FiShield } from 'react-icons/fi';
+import { FiArrowRight, FiGithub, FiMessageCircle, FiYoutube, FiVideo, FiCpu, FiMonitor, FiShield, FiLinkedin } from 'react-icons/fi';
 import './AboutMindbook.css';
 
 const FeatureCard = ({ icon: Icon, title, description, link, alignRight }: any) => {
@@ -57,11 +57,73 @@ const AboutMindbook: React.FC = () => {
       <header className={`about-hero ${heroInView ? 'animate-in' : ''}`} ref={heroRef}>
         <div className="hero-text">
           <h1 className="gradient-text">The Social Platform Reimagined.</h1>
-          <p className="hero-subtitle">Built by Farman Ullah Ansari, Full Stack Software Engineer</p>
+          <p className="hero-subtitle">Built by Farmanullah Ansari, Full Stack Software Engineer</p>
           <div className="hero-ctas">
             <Link to="/register" className="btn-explore">Explore MindBook <FiArrowRight/></Link>
             <a href="https://github.com/farmanullah1" target="_blank" rel="noreferrer" className="btn-github">
               <FiGithub size={20}/> View on GitHub
+            </a>
+          </div>
+          <div className="creator-links-cards" style={{ display: 'flex', gap: '16px', marginTop: '32px', flexWrap: 'wrap' }}>
+            <a href="https://farmanullah1.github.io/My-Portfolio" target="_blank" rel="noopener noreferrer" className="about-link-card" style={{
+              background: 'rgba(255, 255, 255, 0.04)',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              borderRadius: 'var(--radius-md)',
+              padding: '16px 20px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '14px',
+              color: 'white',
+              transition: 'all 0.3s ease',
+              flex: '1 1 200px',
+              backdropFilter: 'blur(10px)',
+              boxShadow: 'var(--shadow-sm)'
+            }}>
+              <span style={{ fontSize: '24px' }}>🌐</span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', alignItems: 'flex-start' }}>
+                <span style={{ fontWeight: 600, fontSize: '0.95rem', color: '#fff' }}>Portfolio</span>
+                <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)', textAlign: 'left' }}>View case studies & projects</span>
+              </div>
+            </a>
+            <a href="https://www.linkedin.com/in/farmanullah-ansari/" target="_blank" rel="noopener noreferrer" className="about-link-card" style={{
+              background: 'rgba(255, 255, 255, 0.04)',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              borderRadius: 'var(--radius-md)',
+              padding: '16px 20px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '14px',
+              color: 'white',
+              transition: 'all 0.3s ease',
+              flex: '1 1 200px',
+              backdropFilter: 'blur(10px)',
+              boxShadow: 'var(--shadow-sm)'
+            }}>
+              <span style={{ fontSize: '24px', color: '#0077b5', display: 'flex', alignItems: 'center' }}><FiLinkedin size={24}/></span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', alignItems: 'flex-start' }}>
+                <span style={{ fontWeight: 600, fontSize: '0.95rem', color: '#fff' }}>LinkedIn</span>
+                <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)', textAlign: 'left' }}>Connect professionally</span>
+              </div>
+            </a>
+            <a href="https://github.com/farmanullah1" target="_blank" rel="noopener noreferrer" className="about-link-card" style={{
+              background: 'rgba(255, 255, 255, 0.04)',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              borderRadius: 'var(--radius-md)',
+              padding: '16px 20px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '14px',
+              color: 'white',
+              transition: 'all 0.3s ease',
+              flex: '1 1 200px',
+              backdropFilter: 'blur(10px)',
+              boxShadow: 'var(--shadow-sm)'
+            }}>
+              <span style={{ fontSize: '24px', color: '#fff', display: 'flex', alignItems: 'center' }}><FiGithub size={24}/></span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', alignItems: 'flex-start' }}>
+                <span style={{ fontWeight: 600, fontSize: '0.95rem', color: '#fff' }}>GitHub</span>
+                <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)', textAlign: 'left' }}>Explore source code</span>
+              </div>
             </a>
           </div>
         </div>
@@ -180,7 +242,7 @@ const AboutMindbook: React.FC = () => {
 
       {/* Footer */}
       <footer className="about-footer">
-        <p>MindBook © {new Date().getFullYear()}. <a href="https://farmanullah1.github.io/My-Portfolio" target="_blank" rel="noreferrer">Built by Farman Ullah Ansari</a>.</p>
+        <p>MindBook © {new Date().getFullYear()}. <a href="https://farmanullah1.github.io/My-Portfolio" target="_blank" rel="noreferrer">Built by Farmanullah Ansari</a>.</p>
       </footer>
     </div>
   );

@@ -37,6 +37,7 @@ const LeftSidebar: React.FC = () => {
   const mainLinks = [
     { icon: <FiHome size={20} />, label: 'Home', to: '/' },
     { icon: <FiUsers size={20} />, label: 'Friends', to: '/friends' },
+    { icon: <FiUsers size={20} />, label: 'Network', to: '/network' },
     { icon: <FiUsers size={20} />, label: 'Groups', to: '/groups' },
     { icon: <FiBookmark size={20} />, label: 'Saved', to: '/saved' },
     { icon: <FiFlag size={20} />, label: 'Pages', to: '/' },
@@ -52,6 +53,7 @@ const LeftSidebar: React.FC = () => {
     { icon: <FiMusic size={20} />, label: 'Playlists', to: '/playlists' },
     { icon: <FiPlayCircle size={20} />, label: 'Video Hub', to: '/watch' },
     { icon: <FiActivity size={20} />, label: 'Creator Studio', to: '/creator-studio' },
+    { icon: <FiShoppingBag size={20} />, label: 'Wallet & Coins', to: '/wallet' },
     { icon: <FiRadio size={20} />, label: 'Audio Rooms', to: '/audio-rooms' },
     { icon: <FiMapPin size={20} />, label: 'Local Discovery', to: '/local-discovery' },
     { icon: <FiAward size={20} />, label: 'Gaming Arcade', to: '/gaming' },
@@ -177,9 +179,23 @@ const LeftSidebar: React.FC = () => {
           </div>
 
           {/* Footer */}
-          <footer className="sidebar-footer">
-            <span>MindBook © 2024</span>
+          <footer className="sidebar-footer" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <span>MindBook © 2026</span>
+            <div style={{ borderTop: '1px solid var(--border)', paddingTop: '8px', marginTop: '4px', fontSize: '0.75rem', width: '100%' }}>
+              Created by <strong style={{ color: 'var(--text-primary)' }}>Farmanullah Ansari</strong>
+              <div style={{ marginTop: '3px', color: 'var(--text-secondary)' }}>
+                <a href="mailto:farmanullahansari999@gmail.com" style={{ color: 'var(--text-secondary)' }}>
+                  farmanullahansari999@gmail.com
+                </a>
+              </div>
+              <div style={{ display: 'flex', gap: '8px', marginTop: '6px', flexWrap: 'wrap' }}>
+                <a href="https://farmanullah1.github.io/My-Portfolio" target="_blank" rel="noopener noreferrer" className="footer-link" style={{ color: 'var(--brand)', fontWeight: 600 }}>🌐 Portfolio</a>
+                <a href="https://www.linkedin.com/in/farmanullah-ansari/" target="_blank" rel="noopener noreferrer" className="footer-link" style={{ color: 'var(--brand)', fontWeight: 600 }}>LinkedIn</a>
+                <a href="https://github.com/farmanullah1" target="_blank" rel="noopener noreferrer" className="footer-link" style={{ color: 'var(--brand)', fontWeight: 600 }}>GitHub</a>
+              </div>
+            </div>
           </footer>
+
         </div>
       </aside>
       {isOpen && (

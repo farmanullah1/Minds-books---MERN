@@ -218,8 +218,15 @@ const Landing: React.FC = () => {
             <Link to="/help-center">Help Center</Link>
           </div>
         </div>
-        <div className="footer-bottom">
-          <p>MindBook © {new Date().getFullYear()}. Built by Farman Ullah Ansari.</p>
+        <div className="footer-bottom" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', width: '100%' }}>
+          <p>© 2026 MindBook · Created by Farmanullah Ansari</p>
+          <div className="footer-bottom-links" style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <a href="https://farmanullah1.github.io/My-Portfolio" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--brand)', fontWeight: 600 }}>Portfolio</a>
+            <span style={{ color: 'var(--text-tertiary)' }}>·</span>
+            <a href="https://www.linkedin.com/in/farmanullah-ansari/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--brand)', fontWeight: 600 }}>LinkedIn</a>
+            <span style={{ color: 'var(--text-tertiary)' }}>·</span>
+            <a href="https://github.com/farmanullah1" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--brand)', fontWeight: 600 }}>GitHub</a>
+          </div>
         </div>
       </footer>
     </div>

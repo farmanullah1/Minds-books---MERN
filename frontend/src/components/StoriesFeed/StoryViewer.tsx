@@ -13,6 +13,7 @@ import { motion, PanInfo } from 'framer-motion';
 import { IUserStoryGroup } from '../../types';
 import { getInitials, formatTimeAgo } from '../../utils/helpers';
 import api from '../../services/api';
+import Emoji3D from '../ui/Emoji3D';
 import './StoryViewer.css';
 
 interface StoryViewerProps {
@@ -318,7 +319,7 @@ const StoryViewer: React.FC<StoryViewerProps> = ({
                     className="story-emoji-btn"
                     onClick={() => handleReact(emoji)}
                   >
-                    {emoji}
+                    <Emoji3D emoji={emoji} size={24} />
                   </button>
                 ))}
               </div>

@@ -18,6 +18,7 @@ const Story = require('../models/Story');
 const Article = require('../models/Article');
 const JobPosting = require('../models/JobPosting');
 const Challenge = require('../models/Challenge');
+const Reel = require('../models/Reel');
 
 const MONGODB_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/mindbook';
 
@@ -40,6 +41,7 @@ const seedDatabase = async () => {
     await Article.deleteMany({});
     await JobPosting.deleteMany({});
     await Challenge.deleteMany({});
+    await Reel.deleteMany({});
     console.log('🧹 Purge complete.');
 
     // 1. Password Hashing
@@ -299,6 +301,69 @@ const seedDatabase = async () => {
       });
     }
 
+    // 9. Create Reels
+    console.log('🎬 Seeding Reels (5 premium short videos)...');
+    const reelVideos = [
+      {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+        caption: '🔥 Blazing hot Framer Motion springs layout. Custom HSL theme integration is key! #CSS #React #DesignSystem',
+        musicName: 'Ambient Chill Beats Vol. 1'
+      },
+      {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+        caption: '🎨 Escaping the defaults: 3D parallax tilt effects look incredibly premium. #UX #FramerMotion #WebDesign',
+        musicName: 'Synthwave Odyssey'
+      },
+      {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
+        caption: '🚀 Building real-time interactive dashboards with full CSV and PDF downloader bridges! #MERN #CreatorStudio',
+        musicName: 'Lofi Coding Study Music'
+      },
+      {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
+        caption: '🧠 AI Agent autonomy tests - 100% correct TypeScript checks achieved. Pairing up with AI! #TypeScript #Coding',
+        musicName: 'Neo-Jazz Lounge'
+      },
+      {
+        videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4',
+        caption: '💛 Golden hearts double-tap physics triggers! Smooth +1 floating animations. #Interactions #CSS #Animation',
+        musicName: 'Hyperpop Energy Mix'
+      }
+    ];
+
+    for (let i = 0; i < reelVideos.length; i++) {
+      const creator = creators[i % creators.length];
+      const video = reelVideos[i];
+      
+      const likes = [
+        creators[(i + 1) % creators.length]._id,
+        creators[(i + 2) % creators.length]._id
+      ];
+
+      const comments = [
+        {
+          user: creators[(i + 1) % creators.length]._id,
+          text: 'This is super premium! The aesthetics are wild! 🔥',
+          createdAt: new Date()
+        },
+        {
+          user: creators[(i + 2) % creators.length]._id,
+          text: 'Love the yellow color highlight styling!',
+          createdAt: new Date()
+        }
+      ];
+
+      await Reel.create({
+        user: creator._id,
+        videoUrl: video.videoUrl,
+        caption: video.caption,
+        musicName: video.musicName,
+        likes,
+        comments,
+        sharesCount: i * 3 + 2
+      });
+    }
+
     console.log('\n🌟 SUCCESS: Dynamic MindBook Database Bootstrapped Successfully!');
     console.log('📊 Stats summary:');
     console.log(` - Users: ${await User.countDocuments()}`);
@@ -308,6 +373,7 @@ const seedDatabase = async () => {
     console.log(` - Events: ${await Event.countDocuments()}`);
     console.log(` - Jobs: ${await JobPosting.countDocuments()}`);
     console.log(` - Challenges: ${await Challenge.countDocuments()}`);
+    console.log(` - Reels: ${await Reel.countDocuments()}`);
     console.log('\n🔌 Closing MongoDB connection...');
     await mongoose.disconnect();
     console.log('👋 Seeding session terminated.');

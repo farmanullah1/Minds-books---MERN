@@ -147,7 +147,7 @@ const PrivacyPolicy: React.FC = () => {
                 <section id="contact">
                   <h2>8. Contact Information</h2>
                   <p>
-                    If you have questions or comments about this policy, you may email us at <strong>privacy@mindbook.com</strong> or contact our developer Farman Ullah Ansari via his profile handles.
+                    If you have questions or comments about this policy, you may email us at <strong>privacy@mindbook.com</strong> or contact our developer Farmanullah Ansari via his profile handles.
                   </p>
                 </section>
               </div>

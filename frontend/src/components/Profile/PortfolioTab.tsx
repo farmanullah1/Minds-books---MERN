@@ -9,7 +9,9 @@ import {
   FiExternalLink,
   FiGithub,
   FiEdit2,
-  FiCheckCircle
+  FiCheckCircle,
+  FiGlobe,
+  FiLinkedin
 } from 'react-icons/fi';
 import api from '../../services/api';
 import { IPortfolio, IUser } from '../../types';
@@ -22,23 +24,42 @@ interface PortfolioTabProps {
 
 const PortfolioTab: React.FC<PortfolioTabProps> = ({ userId, isOwnProfile }) => {
   const [portfolio, setPortfolio] = useState<IPortfolio | null>(null);
+  const [userRole, setUserRole] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchPortfolio = async () => {
+    const fetchData = async () => {
       try {
-        const res = await api.get(`/jobs/portfolio/${userId}`);
-        setPortfolio(res.data);
+        const [portfolioRes, userRes] = await Promise.all([
+          api.get(`/jobs/portfolio/${userId}`).catch(err => {
+            console.error('Failed to fetch portfolio', err);
+            return { data: null };
+          }),
+          api.get(`/users/${userId}`).catch(err => {
+            console.error('Failed to fetch user', err);
+            return { data: null };
+          })
+        ]);
+        if (portfolioRes.data) setPortfolio(portfolioRes.data);
+        if (userRes.data) {
+          setUserRole(userRes.data.role || null);
+          setUserEmail(userRes.data.email || null);
+          setUserName(userRes.data.name || null);
+        }
       } catch (err) {
-        console.error('Failed to fetch portfolio', err);
+        console.error('Failed to fetch portfolio/user data', err);
       } finally {
         setLoading(false);
       }
     };
-    fetchPortfolio();
+    fetchData();
   }, [userId]);
 
   if (loading) return <div className="portfolio-loading">Loading portfolio...</div>;
+
+  const isAdminProfile = userRole === 'admin' || userEmail === 'admin@mindbook.com' || userName?.toLowerCase().includes('admin') || userName?.toLowerCase().includes('farman');
 
   return (
     <div className="portfolio-tab">
@@ -91,6 +112,24 @@ const PortfolioTab: React.FC<PortfolioTabProps> = ({ userId, isOwnProfile }) => 
         </section>
 
         <aside className="portfolio-sidebar">
+          {isAdminProfile && (
+            <div className="sidebar-widget creator-links-widget">
+              <h4 className="creator-widget-title"><FiGlobe /> Developer Profile</h4>
+              <p className="creator-attribution">Developed by <strong>Farmanullah Ansari</strong></p>
+              <div className="creator-links-buttons">
+                <a href="https://farmanullah1.github.io/My-Portfolio" target="_blank" rel="noreferrer" className="creator-link-btn portfolio-btn">
+                  <FiGlobe /> <span>🌐 Portfolio</span>
+                </a>
+                <a href="https://www.linkedin.com/in/farmanullah-ansari/" target="_blank" rel="noreferrer" className="creator-link-btn linkedin-btn">
+                  <FiLinkedin /> <span>LinkedIn</span>
+                </a>
+                <a href="https://github.com/farmanullah1" target="_blank" rel="noreferrer" className="creator-link-btn github-btn">
+                  <FiGithub /> <span>GitHub</span>
+                </a>
+              </div>
+            </div>
+          )}
+
           <div className="sidebar-widget skills-widget">
             <div className="widget-header">
               <h4>Skills</h4>

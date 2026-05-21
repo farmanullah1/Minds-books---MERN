@@ -497,9 +497,7 @@ const Profile: React.FC = () => {
                     isOwnProfile={isOwnProfile}
                     onEndorse={async (skillName) => {
                       if (!currentUser) return;
-                      // Optimistic update handled internally by component,
-                      // Actual API call would go here:
-                      // await api.post(`/users/${id}/endorse`, { skillName });
+                      await api.post(`/users/${id}/endorse`, { skillName });
                     }}
                     currentUserAvatar={currentUser?.profilePicture}
                   />

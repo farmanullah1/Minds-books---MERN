@@ -12,6 +12,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { IMessage } from '../../types';
 import { getInitials } from '../../utils/helpers';
+import Emoji3D from '../../components/ui/Emoji3D';
 import './Messages.css';
 
 interface MessageBubbleProps {
@@ -159,7 +160,9 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
               >
                 <div className="menu-reactions">
                   {['👍', '❤️', '😂', '😮', '😢', '😡'].map(emoji => (
-                    <button key={emoji} className="emoji-btn" onClick={() => setShowMenu(false)}>{emoji}</button>
+                    <button key={emoji} className="emoji-btn" onClick={() => setShowMenu(false)}>
+                      <Emoji3D emoji={emoji} size={22} />
+                    </button>
                   ))}
                 </div>
                 <button onClick={() => { onReply(); setShowMenu(false); }}>

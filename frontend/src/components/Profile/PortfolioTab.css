@@ -300,3 +300,88 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Creator links widget styling */
+.creator-links-widget {
+  background: linear-gradient(135deg, rgba(247, 185, 40, 0.08) 0%, rgba(255, 255, 255, 0.95) 100%);
+  border: 1px solid rgba(247, 185, 40, 0.25);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+}
+
+.creator-widget-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--brand-primary) !important;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  margin-top: 0;
+}
+
+.creator-attribution {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.creator-attribution strong {
+  color: var(--text-primary);
+}
+
+.creator-links-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.creator-link-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.portfolio-btn {
+  background: rgba(247, 185, 40, 0.15);
+  color: #c98800;
+}
+
+.portfolio-btn:hover {
+  background: var(--brand-primary);
+  color: white !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(247, 185, 40, 0.2);
+}
+
+.linkedin-btn {
+  background: rgba(10, 102, 194, 0.1);
+  color: #0a66c2;
+}
+
+.linkedin-btn:hover {
+  background: #0a66c2;
+  color: white !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(10, 102, 194, 0.2);
+}
+
+.github-btn {
+  background: rgba(36, 41, 47, 0.08);
+  color: #24292f;
+}
+
+.github-btn:hover {
+  background: #24292f;
+  color: white !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(36, 41, 47, 0.2);
+}
+

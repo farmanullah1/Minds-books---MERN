@@ -2,9 +2,11 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   FiHeart, FiMessageSquare, FiShare2, FiMusic, 
-  FiUserPlus, FiCheck, FiVolume2, FiVolumeX 
+  FiUserPlus, FiCheck, FiVolume2, FiVolumeX, FiPlus 
 } from 'react-icons/fi';
 import Lenis from '@studio-freight/lenis';
+import api from '../../services/api';
+import CreateReel from '../../components/CreateReel/CreateReel';
 import './Reels.css';
 
 interface ReelItem {
@@ -29,6 +31,7 @@ interface HeartTap {
 const Reels: React.FC = () => {
   const [reels, setReels] = useState<ReelItem[]>([]);
   const [isMuted, setIsMuted] = useState(true);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
 
   const [heartTaps, setHeartTaps] = useState<{ [reelId: string]: HeartTap[] }>({});
   const [plusOnes, setPlusOnes] = useState<{ [reelId: string]: { id: string; val: string }[] }>({});
@@ -36,7 +39,7 @@ const Reels: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
 
-  useEffect(() => {
+  const fetchReels = useCallback(async () => {
     const mockReels: ReelItem[] = [
       {
         id: 'reel_1',
@@ -75,8 +78,35 @@ const Reels: React.FC = () => {
         isFollowed: false
       }
     ];
-    setReels(mockReels);
+
+    try {
+      const res = await api.get('/reels');
+      if (res.data && res.data.length > 0) {
+        const apiReels: ReelItem[] = res.data.map((item: any) => ({
+          id: item._id,
+          videoUrl: item.videoUrl,
+          creatorName: item.user?.name || 'Anonymous User',
+          creatorAvatar: item.user?.profilePicture || '',
+          description: item.caption || '',
+          musicName: item.musicName || 'Original Audio',
+          likes: item.likes?.length || 0,
+          comments: item.comments?.length || 0,
+          shares: item.sharesCount || 0,
+          isFollowed: false
+        }));
+        setReels(apiReels);
+      } else {
+        setReels(mockReels);
+      }
+    } catch (err) {
+      console.error('Failed to fetch reels from backend, using fallbacks', err);
+      setReels(mockReels);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchReels();
+  }, [fetchReels]);
 
   // Initialize Lenis for smooth scrolling
   useEffect(() => {
@@ -159,7 +189,7 @@ const Reels: React.FC = () => {
   }, [reels]);
 
   // Handle Double-Tap Like
-  const handleVideoDoubleClick = (e: React.MouseEvent<HTMLDivElement>, reelId: string) => {
+  const handleVideoDoubleClick = async (e: React.MouseEvent<HTMLDivElement>, reelId: string) => {
     e.stopPropagation();
 
     const rect = e.currentTarget.getBoundingClientRect();
@@ -193,6 +223,15 @@ const Reels: React.FC = () => {
       }));
     }, 1200);
 
+    // Call live backend API if using real DB ObjectId
+    if (!reelId.startsWith('reel_')) {
+      try {
+        await api.post(`/reels/${reelId}/like`);
+      } catch (err) {
+        console.error('Failed to sync like with backend', err);
+      }
+    }
+
     setReels(prev => prev.map(r => {
       if (r.id === reelId) {
         return { ...r, likes: r.likes + 1 };
@@ -213,6 +252,15 @@ const Reels: React.FC = () => {
 
   return (
     <div className="reels-page-container">
+      <button 
+        className="reels-create-trigger" 
+        onClick={() => setIsCreateOpen(true)}
+        aria-label="Create Reel"
+      >
+        <FiPlus size={18} />
+        <span>Create Reel</span>
+      </button>
+
       <div className="reels-outer-scroller" ref={containerRef}>
         <div className="reels-feed-content">
           {reels.map((reel) => (
@@ -337,6 +385,12 @@ const Reels: React.FC = () => {
           ))}
         </div>
       </div>
+
+      <CreateReel 
+        isOpen={isCreateOpen} 
+        onClose={() => setIsCreateOpen(false)} 
+        onSuccess={fetchReels}
+      />
     </div>
   );
 };

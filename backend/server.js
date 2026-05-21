@@ -16,6 +16,8 @@ require('dotenv').config();
 
 const connectDB = require('./config/db');
 const { initCleanupJob } = require('./utils/cleanup');
+const errorHandler = require('./middleware/errorHandler');
+const { authLimiter, apiLimiter } = require('./middleware/rateLimiter');
 
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
@@ -26,6 +28,7 @@ const storyRoutes = require('./routes/stories');
 const groupRoutes = require('./routes/groups');
 const eventRoutes = require('./routes/events');
 const searchRoutes = require('./routes/search');
+const reelRoutes = require('./routes/reels');
 
 const app = express();
 const server = require('http').createServer(app);
@@ -100,6 +103,7 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(morgan('dev'));
+app.use(apiLimiter);
 
 const uploadsPath = path.join(__dirname, 'uploads');
 app.use('/uploads', express.static(uploadsPath));
@@ -120,7 +124,7 @@ const memoryRoutes = require('./routes/memories');
 const analyticsRoutes = require('./routes/analytics');
 
 
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/upload', uploadRoutes);
@@ -144,6 +148,9 @@ app.use('/api/memories', memoryRoutes);
 app.use('/api/jobs', require('./routes/jobs'));
 app.use('/api/data-export', require('./routes/dataExport'));
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/marketplace', require('./routes/marketplace'));
+app.use('/api/reels', reelRoutes);
+app.use('/api/wallet', require('./routes/wallet'));
 
 
 app.get('/api/health', (req, res) => {
@@ -154,13 +161,7 @@ app.use((req, res) => {
   res.status(404).json({ message: `Route ${req.originalUrl} not found` });
 });
 
-app.use((err, req, res, next) => {
-  console.error('Unhandled error:', err);
-  res.status(500).json({
-    message: 'Internal server error',
-    ...(process.env.NODE_ENV === 'development' && { error: err.message }),
-  });
-});
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 

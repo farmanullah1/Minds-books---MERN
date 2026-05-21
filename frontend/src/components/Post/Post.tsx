@@ -44,6 +44,7 @@ import { formatTimeAgo, getInitials } from '../../utils/helpers';
 import MediaViewer from '../MediaViewer/MediaViewer';
 import ReportModal from '../ReportModal/ReportModal';
 import GiftModal from '../GiftModal/GiftModal';
+import Emoji3D from '../ui/Emoji3D';
 import './Post.css';
 
 interface PostProps {
@@ -457,7 +458,7 @@ const Post: React.FC<PostProps> = ({ post, onPin, onUnpin, canManage }) => {
               <div className="reaction-icons-stacked">
                 {Array.from(new Set(post.reactions.map(r => r.type))).slice(0, 3).map(type => (
                   <span key={type} className="reaction-icon-mini">
-                    {REACTION_TYPES.find(r => r.type === type)?.icon}
+                    <Emoji3D emoji={REACTION_TYPES.find(r => r.type === type)?.icon || ''} size={14} animate={false} />
                   </span>
                 ))}
               </div>
@@ -502,7 +503,7 @@ const Post: React.FC<PostProps> = ({ post, onPin, onUnpin, canManage }) => {
                     onClick={() => handleReact(r.type)}
                     title={r.label}
                   >
-                    <span className="reaction-emoji">{r.icon}</span>
+                    <span className="reaction-emoji"><Emoji3D emoji={r.icon} size={28} /></span>
                   </motion.button>
                 ))}
               </motion.div>
@@ -520,7 +521,7 @@ const Post: React.FC<PostProps> = ({ post, onPin, onUnpin, canManage }) => {
               animate={isReacted ? { scale: [1, 1.4, 1] } : {}}
             >
               {isReacted ? (
-                <span className="current-reaction-icon">{currentReaction.icon}</span>
+                <span className="current-reaction-icon"><Emoji3D emoji={currentReaction.icon} size={18} animate={true} /></span>
               ) : (
                 <FiThumbsUp size={18} />
               )}

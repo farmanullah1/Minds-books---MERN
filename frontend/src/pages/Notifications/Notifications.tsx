@@ -87,6 +87,7 @@ const Notifications: React.FC = () => {
       case 'comment': return `commented "${notif.text}" on your post`;
       case 'friend_request': return 'sent you a friend request';
       case 'friend_accept': return 'accepted your friend request';
+      case 'marketplace': return notif.text;
       default: return notif.text || 'interacted with you';
     }
   };

@@ -15,6 +15,7 @@ import {
 import './LiveStream.css';
 import { socketService } from '../../services/socketService';
 import { useAppSelector } from '../../store/hooks';
+import Emoji3D, { EMOJI_3D_MAP } from '../../components/ui/Emoji3D';
 
 interface ChatMessage {
   id: string;
@@ -59,6 +60,10 @@ const LiveStream: React.FC = () => {
   const [isMicActive, setIsMicActive] = useState(true);
   const [creatorViewerCount, setCreatorViewerCount] = useState(0);
   const [creatorChat, setCreatorChat] = useState<ChatMessage[]>([]);
+  
+  // MediaRecorder States
+  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
+  const [isRecording, setIsRecording] = useState(false);
 
   // Refs
   const localVideoRef = useRef<HTMLVideoElement>(null);
@@ -66,6 +71,7 @@ const LiveStream: React.FC = () => {
   const mediaStreamRef = useRef<MediaStream | null>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const emojiRainContainerRef = useRef<HTMLDivElement>(null);
+  const recordedChunksRef = useRef<Blob[]>([]);
 
   // Mock Active Streams Directory
   const mockStreams: StreamItem[] = [
@@ -237,6 +243,48 @@ const LiveStream: React.FC = () => {
         }
       }, 300);
 
+      // Initialize MediaRecorder API (PROMPT-17.A)
+      recordedChunksRef.current = [];
+      let options = { mimeType: 'video/webm;codecs=vp9,opus' };
+      if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+        options = { mimeType: 'video/webm;codecs=vp8,opus' };
+        if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+          options = { mimeType: 'video/webm' };
+          if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+            options = { mimeType: '' };
+          }
+        }
+      }
+
+      const recorder = new MediaRecorder(stream, options);
+      
+      recorder.ondataavailable = (event) => {
+        if (event.data && event.data.size > 0) {
+          recordedChunksRef.current.push(event.data);
+        }
+      };
+
+      recorder.onstop = () => {
+        if (recordedChunksRef.current.length > 0) {
+          const blob = new Blob(recordedChunksRef.current, { type: 'video/webm' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.style.display = 'none';
+          a.href = url;
+          a.download = `mindbook-stream-${Date.now()}.webm`;
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(() => {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+          }, 100);
+        }
+      };
+
+      recorder.start(1000); // chunking interval of 1 second
+      setMediaRecorder(recorder);
+      setIsRecording(true);
+
     } catch (err) {
       console.error('Error accessing camera/mic:', err);
       alert('Camera and Microphone permissions are required to Go Live!');
@@ -245,11 +293,19 @@ const LiveStream: React.FC = () => {
 
   // Stop Streaming
   const stopLiveStreaming = () => {
+    // Stop MediaRecorder first to trigger download callback
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+      mediaRecorder.stop();
+    }
+    
     if (mediaStreamRef.current) {
       mediaStreamRef.current.getTracks().forEach(track => track.stop());
       mediaStreamRef.current = null;
     }
+    
     setIsCameraActive(false);
+    setIsRecording(false);
+    setMediaRecorder(null);
     setActiveTab('directory');
   };
 
@@ -280,10 +336,27 @@ const LiveStream: React.FC = () => {
     if (!container) return;
 
     const emojiCount = 15; // Rain burst
+    const cleanEmoji = emoji.trim();
+    const fluentEmojiUrl = EMOJI_3D_MAP[cleanEmoji];
+
     for (let i = 0; i < emojiCount; i++) {
-      const span = document.createElement('span');
-      span.innerText = emoji;
-      span.className = 'floating-rain-emoji';
+      let element: HTMLElement;
+      
+      if (fluentEmojiUrl) {
+        const img = document.createElement('img');
+        img.src = fluentEmojiUrl;
+        img.alt = emoji;
+        img.className = 'floating-rain-emoji 3d-rain';
+        img.style.objectFit = 'contain';
+        img.style.width = '32px';
+        img.style.height = '32px';
+        element = img;
+      } else {
+        const span = document.createElement('span');
+        span.innerText = emoji;
+        span.className = 'floating-rain-emoji';
+        element = span;
+      }
       
       // Random offset, duration, and delay for natural drift
       const leftOffset = Math.random() * 90; // percentage
@@ -291,16 +364,17 @@ const LiveStream: React.FC = () => {
       const delay = Math.random() * 0.5; // seconds
       const scale = 0.8 + Math.random() * 0.8;
       
-      span.style.left = `${leftOffset}%`;
-      span.style.animationDuration = `${floatDuration}s`;
-      span.style.animationDelay = `${delay}s`;
-      span.style.transform = `scale(${scale})`;
+      element.style.left = `${leftOffset}%`;
+      element.style.animationDuration = `${floatDuration}s`;
+      element.style.animationDelay = `${delay}s`;
+      element.style.transform = `scale(${scale})`;
+      element.style.position = 'absolute';
 
-      container.appendChild(span);
+      container.appendChild(element);
 
       // Clean up DOM after animation completes
       setTimeout(() => {
-        span.remove();
+        element.remove();
       }, (floatDuration + delay) * 1000);
     }
   };
@@ -458,7 +532,7 @@ const LiveStream: React.FC = () => {
                       className="quick-emoji-btn"
                       onClick={() => triggerEmojiRain(emoji)}
                     >
-                      {emoji}
+                      <Emoji3D emoji={emoji} size={20} />
                     </button>
                   ))}
                 </div>
@@ -632,7 +706,7 @@ const LiveStream: React.FC = () => {
                           className="quick-emoji-btn"
                           onClick={() => triggerEmojiRain(emoji)}
                         >
-                          {emoji}
+                          <Emoji3D emoji={emoji} size={20} />
                         </button>
                       ))}
                     </div>

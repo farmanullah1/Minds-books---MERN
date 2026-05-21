@@ -15,97 +15,287 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
 
 :root {
-  /* Colors - Light Mode */
-  --brand-primary: #F7B928;
-  --brand-primary-hover: #E4A11B;
-  --brand-gradient: linear-gradient(135deg, #F7B928, #FFD700);
-  --brand-glow: 0 0 15px rgba(247, 185, 40, 0.3);
-  
-  --bg-body: #f0f2f5;
-  --bg-card: #ffffff;
-  --bg-input: #f0f2f5;
-  --bg-hover: rgba(0, 0, 0, 0.05);
-  
-  --text-primary: #050505;
-  --text-secondary: #65676b;
-  --text-tertiary: #8a8d91;
-  
-  --border-color: #e4e6eb;
-  --divider-color: #ced0d4;
-  
-  /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
-  --shadow-elevated: 0 2px 12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.05);
-  
-  /* Standard Spacing */
-  --s-1: 4px;
-  --s-2: 8px;
-  --s-3: 12px;
-  --s-4: 16px;
-  --s-5: 24px;
-  --s-6: 32px;
-  --s-8: 48px;
-  --s-10: 64px;
-  
-  /* Radius */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
-  --radius-2xl: 32px;
-  --radius-full: 9999px;
-  
-  /* Layout */
-  --navbar-height: 56px;
-  --sidebar-width: 320px;
-  --sidebar-left-width: 320px;
-  --sidebar-right-width: 320px;
-  --content-max-width: 1400px;
-  --feed-width: 680px;
-  
-  /* Transitions */
-  --t-fast: 150ms ease;
-  --t-normal: 250ms ease;
-  --t-slow: 400ms ease;
-  --t-bounce: 500ms cubic-bezier(0.2, 0.9, 0.4, 1.1);
-  
-  /* Status Colors */
-  --success: #31a24c;
-  --danger: #e41e3f;
-  --warning: #f7b928;
-  --info: #1877f2;
+  /* ── BRAND COLORS ─────────────────────────────────────── */
+  --brand:              #F7B928;
+  --brand-primary:      #F7B928;   /* alias for legacy code */
+  --brand-hover:        #E4A11B;
+  --brand-primary-hover:#E4A11B;
+  --brand-active:       #C98A10;
+  --brand-light:        rgba(247, 185, 40, 0.12);
+  --brand-lighter:      rgba(247, 185, 40, 0.06);
+  --brand-glow-sm:      0 0 0 3px rgba(247, 185, 40, 0.30);
+  --brand-glow-md:      0 0 0 4px rgba(247, 185, 40, 0.40);
+  --brand-shadow:       0 4px 24px rgba(247, 185, 40, 0.28);
+  --brand-shadow-lg:    0 8px 40px rgba(247, 185, 40, 0.35);
+  --brand-gradient:     linear-gradient(135deg, #F7B928 0%, #FFD700 50%, #F59E0B 100%);
+  --brand-gradient-v:   linear-gradient(180deg, #FFD700 0%, #F7B928 100%);
+  --brand-text-on:      #ffffff;
+  --brand-glow:         0 0 15px rgba(247, 185, 40, 0.3); /* legacy alias */
+
+  /* ── SURFACE BACKGROUNDS ─────────────────────────────── */
+  --bg-html:            #f0f2f5;
+  --bg-body:            #f0f2f5;   /* alias */
+  --bg-card:            #ffffff;
+  --bg-card-hover:      #f7f8fa;
+  --bg-input:           #f0f2f5;
+  --bg-input-hover:     #e4e6eb;
+  --bg-hover:           rgba(0, 0, 0, 0.05);
+  --bg-navbar:          rgba(255, 255, 255, 0.92);
+  --bg-sidebar:         #ffffff;
+  --bg-modal:           #ffffff;
+  --bg-dropdown:        #ffffff;
+  --bg-tooltip:         #1c1e21;
+  --bg-overlay:         rgba(0, 0, 0, 0.60);
+  --bg-overlay-light:   rgba(0, 0, 0, 0.25);
+  --bg-skeleton-base:   #e4e6eb;
+  --bg-skeleton-shine:  #f0f2f5;
+
+  /* ── TEXT COLORS ─────────────────────────────────────── */
+  --text-primary:       #050505;
+  --text-secondary:     #65676b;
+  --text-tertiary:      #8a8d91;
+  --text-disabled:      #bcc0c4;
+  --text-inverse:       #ffffff;
+  --text-on-brand:      #ffffff;
+  --text-link:          #1a6ed8;
+  --text-link-hover:    #1558b0;
+  --text-danger:        #f02849;
+  --text-success:       #1a7f37;
+  --text-warning:       #9a6700;
+
+  /* ── BORDER COLORS ───────────────────────────────────── */
+  --border:             #e4e6eb;
+  --border-color:       #e4e6eb;   /* alias */
+  --border-strong:      #ccd0d5;
+  --border-light:       #f0f2f5;
+  --border-focus:       #F7B928;
+  --border-error:       #f02849;
+  --border-success:     #45bd62;
+  --divider-color:      #ced0d4;   /* legacy alias */
+
+  /* ── STATUS COLORS ───────────────────────────────────── */
+  --online:             #31a24c;
+  --offline:            #b0b3b8;
+  --away:               #f7b928;
+  --busy:               #f02849;
+  --error-bg:           #fff0f3;
+  --error-border:       #f02849;
+  --success-bg:         #f0fff4;
+  --success-border:     #45bd62;
+  --warning-bg:         #fffbe6;
+  --warning-border:     #f7b928;
+  --info-bg:            #f0f4ff;
+  --info-border:        #1877f2;
+  --success:            #31a24c;
+  --danger:             #e41e3f;
+  --warning:            #f7b928;
+  --info:               #1877f2;
+
+  /* ── SHADOW SYSTEM ───────────────────────────────────── */
+  --shadow-xs:          0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm:          0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md:          0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-lg:          0 10px 15px rgba(0, 0, 0, 0.08), 0 4px 6px rgba(0, 0, 0, 0.04);
+  --shadow-xl:          0 20px 25px rgba(0, 0, 0, 0.08), 0 10px 10px rgba(0, 0, 0, 0.03);
+  --shadow-2xl:         0 25px 50px rgba(0, 0, 0, 0.12);
+  --shadow-card:        0 1px 2px rgba(0, 0, 0, 0.10);
+  --shadow-card-hover:  0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-navbar:      0 1px 0 rgba(0, 0, 0, 0.10), 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-modal:       0 8px 30px rgba(0, 0, 0, 0.20), 0 2px 8px rgba(0, 0, 0, 0.10);
+  --shadow-dropdown:    0 4px 20px rgba(0, 0, 0, 0.15), 0 1px 4px rgba(0, 0, 0, 0.08);
+  --shadow-input:       inset 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-elevated:    0 2px 12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.05);
+
+  /* ── BORDER RADIUS ───────────────────────────────────── */
+  --r-2xs:              2px;
+  --r-xs:               4px;
+  --r-sm:               8px;
+  --r-md:               12px;
+  --r-lg:               16px;
+  --r-xl:               20px;
+  --r-2xl:              24px;
+  --r-3xl:              32px;
+  --r-full:             9999px;
+  /* legacy aliases */
+  --radius-sm:          8px;
+  --radius-md:          12px;
+  --radius-lg:          16px;
+  --radius-xl:          24px;
+  --radius-2xl:         32px;
+  --radius-full:        9999px;
+
+  /* ── SPACING SCALE ───────────────────────────────────── */
+  --sp-1:               4px;
+  --sp-2:               8px;
+  --sp-3:               12px;
+  --sp-4:               16px;
+  --sp-5:               20px;
+  --sp-6:               24px;
+  --sp-7:               28px;
+  --sp-8:               32px;
+  --sp-10:              40px;
+  --sp-12:              48px;
+  --sp-14:              56px;
+  --sp-16:              64px;
+  --sp-20:              80px;
+  --sp-24:              96px;
+  /* legacy aliases */
+  --s-1:                4px;
+  --s-2:                8px;
+  --s-3:                12px;
+  --s-4:                16px;
+  --s-5:                24px;
+  --s-6:                32px;
+  --s-8:                48px;
+  --s-10:               64px;
+
+  /* ── TYPOGRAPHY ──────────────────────────────────────── */
+  --font:               'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:          'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+
+  --fs-2xs:             10px;
+  --fs-xs:              11px;
+  --fs-sm:              12px;
+  --fs-base:            14px;
+  --fs-md:              15px;
+  --fs-lg:              16px;
+  --fs-xl:              18px;
+  --fs-2xl:             20px;
+  --fs-3xl:             24px;
+  --fs-4xl:             28px;
+  --fs-5xl:             32px;
+  --fs-6xl:             40px;
+  --fs-7xl:             48px;
+  --fs-8xl:             60px;
+
+  --fw-regular:         400;
+  --fw-medium:          500;
+  --fw-semibold:        600;
+  --fw-bold:            700;
+  --fw-extrabold:       800;
+  --fw-black:           900;
+
+  --lh-tight:           1.20;
+  --lh-snug:            1.35;
+  --lh-normal:          1.50;
+  --lh-relaxed:         1.65;
+  --lh-loose:           2.00;
+
+  /* ── TRANSITIONS & EASING ────────────────────────────── */
+  --ease-linear:        linear;
+  --ease-in:            cubic-bezier(0.4, 0, 1, 1);
+  --ease-out:           cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out:        cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-overshoot:     cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth:        cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-bounce:        cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-elastic:       cubic-bezier(0.68, -0.6, 0.32, 1.6);
+
+  --dur-instant:        80ms;
+  --dur-fast:           150ms;
+  --dur-base:           250ms;
+  --dur-slow:           350ms;
+  --dur-slower:         500ms;
+  --dur-slowest:        700ms;
+
+  --t-fast:             150ms var(--ease-smooth);
+  --t-base:             250ms var(--ease-smooth);
+  --t-normal:           250ms ease;   /* legacy alias */
+  --t-slow:             400ms ease;
+  --t-spring:           350ms var(--ease-overshoot);
+  --t-bounce:           500ms var(--ease-bounce);
+
+  /* ── Z-INDEX SCALE ───────────────────────────────────── */
+  --z-below:            -1;
+  --z-base:              1;
+  --z-raised:           10;
+  --z-dropdown:         100;
+  --z-sticky:           200;
+  --z-navbar:           300;
+  --z-drawer:           400;
+  --z-modal:            500;
+  --z-popover:          600;
+  --z-toast:            700;
+  --z-tooltip:          800;
+  --z-cursor:           900;
+  --z-top:              9999;
+
+  /* ── LAYOUT DIMENSIONS ───────────────────────────────── */
+  --navbar-height:      60px;
+  --navbar-height-mob:  56px;
+  --sidebar-left:       280px;
+  --sidebar-left-sm:    60px;
+  --sidebar-right:      320px;
+  --feed-max-width:     680px;
+  --page-max-width:     1400px;
+  --bottom-nav-h:       56px;
+  --bottom-nav-safe:    calc(56px + env(safe-area-inset-bottom, 0px));
+  /* legacy aliases */
+  --sidebar-width:      320px;
+  --sidebar-left-width: 280px;
+  --sidebar-right-width:320px;
+  --content-max-width:  1400px;
+  --feed-width:         680px;
+
+  /* ── REACTION COLORS ─────────────────────────────────── */
+  --react-like:         #F7B928;
+  --react-love:         #f33e58;
+  --react-haha:         #f7b928;
+  --react-wow:          #f7b928;
+  --react-sad:          #f7b928;
+  --react-angry:        #e9710f;
 
   /* Glass fallbacks — mapped to solid tokens per PROMPT-17 */
-  --glass-bg: var(--bg-card);
-  --glass-blur: none;
-  --glass-border: 1px solid var(--border-color);
+  --glass-bg:           var(--bg-card);
+  --glass-blur:         none;
+  --glass-border:       1px solid var(--border-color);
 }
+
 
 body.dark {
   --bg-body: #18191a;
   --bg-card: #242526;
-  --bg-input: #3a3b3c;
-  --bg-hover: rgba(255, 255, 255, 0.1);
-  
-  --text-primary: #e4e6eb;
-  --text-secondary: #b0b3b8;
-  --text-tertiary: #8a8d91;
-  
-  --border-color: #3e4042;
-  --divider-color: #3e4042;
-  
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.4);
-  --shadow-elevated: 0 2px 12px rgba(0, 0, 0, 0.3);
+  --bg-html:            #18191a;
+  --bg-body:            #18191a;
+  --bg-card:            #242526;
+  --bg-card-hover:      #3a3b3c;
+  --bg-input:           #3a3b3c;
+  --bg-input-hover:     #4a4b4c;
+  --bg-hover:           rgba(255, 255, 255, 0.10);
+  --bg-navbar:          rgba(36, 37, 38, 0.92);
+  --bg-sidebar:         #242526;
+  --bg-modal:           #242526;
+  --bg-dropdown:        #3a3b3c;
+  --bg-skeleton-base:   #3a3b3c;
+  --bg-skeleton-shine:  #4a4b4c;
+
+  --text-primary:       #e4e6eb;
+  --text-secondary:     #b0b3b8;
+  --text-tertiary:      #8a8d91;
+  --text-disabled:      #606770;
+
+  --border:             #3e4042;
+  --border-color:       #3e4042;
+  --border-strong:      #56585b;
+  --border-light:       #303133;
+  --divider-color:      #3e4042;
+
+  --shadow-card:        0 1px 2px rgba(0, 0, 0, 0.40);
+  --shadow-card-hover:  0 4px 12px rgba(0, 0, 0, 0.55);
+  --shadow-navbar:      0 1px 0 rgba(0, 0, 0, 0.30), 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-modal:       0 8px 30px rgba(0, 0, 0, 0.60);
+  --shadow-dropdown:    0 4px 20px rgba(0, 0, 0, 0.50);
+  --shadow-sm:          0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md:          0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-lg:          0 8px 30px rgba(0, 0, 0, 0.4);
+  --shadow-elevated:    0 2px 12px rgba(0, 0, 0, 0.3);
 
   /* Glass fallbacks — mapped to solid tokens per PROMPT-17 */
-  --glass-bg: var(--bg-card);
-  --glass-blur: none;
-  --glass-border: 1px solid var(--border-color);
+  --glass-bg:           var(--bg-card);
+  --glass-blur:         none;
+  --glass-border:       1px solid var(--border-color);
 }
+
 
 .text-brand {
   color: var(--brand-primary) !important;

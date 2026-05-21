@@ -1,0 +1,76 @@
+/* Avatar.module.css — PROMPT-01.C */
+.wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: var(--r-full);
+  overflow: visible;
+  transition: transform var(--t-fast);
+}
+.wrapper.clickable { cursor: pointer; }
+.wrapper.clickable:hover { transform: scale(1.06); }
+.wrapper.ring {
+  box-shadow: 0 0 0 3px var(--bg-html), 0 0 0 5px var(--brand);
+}
+
+.img {
+  width: 100%; height: 100%;
+  border-radius: var(--r-full);
+  object-fit: cover;
+  display: block;
+  background: var(--bg-input);
+}
+
+.fallback {
+  width: 100%; height: 100%;
+  border-radius: var(--r-full);
+  background: var(--brand-light);
+  color: var(--brand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--fw-bold);
+  user-select: none;
+  text-transform: uppercase;
+}
+
+/* ── STATUS DOT ──────────────────────────────────────────── */
+.dot {
+  position: absolute;
+  bottom: 1px; right: 1px;
+  width: 22%; height: 22%;
+  min-width: 8px; min-height: 8px;
+  border-radius: var(--r-full);
+  border: 2px solid var(--bg-html);
+}
+.online  { background: var(--online); }
+.offline { background: var(--offline); }
+.away    { background: var(--away); }
+
+/* Pulse for online */
+.online::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: var(--r-full);
+  background: var(--online);
+  animation: pulse-dot 2.4s ease-in-out infinite;
+  opacity: 0;
+}
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1);   opacity: 0; }
+  50%       { transform: scale(1.8); opacity: 0.3; }
+}
+
+/* ── VERIFIED RING ───────────────────────────────────────── */
+.verifiedRing {
+  position: absolute;
+  inset: -3px;
+  border-radius: var(--r-full);
+  border: 2.5px solid var(--brand);
+  animation: verified-spin 4s linear infinite;
+  pointer-events: none;
+}
+@keyframes verified-spin { to { transform: rotate(360deg); } }
