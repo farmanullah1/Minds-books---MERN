@@ -18,7 +18,7 @@ const generateToken = (userId) => {
 
 const register = async (req, res) => {
   try {
-    const { name, email, password, gender, birthdate } = req.body;
+    const { name, email, password, gender, birthdate, profilePicture } = req.body;
 
     if (!name || !email || !password) {
       return res.status(400).json({ message: 'Please provide name, email, and password' });
@@ -37,7 +37,8 @@ const register = async (req, res) => {
       email,
       password: hashedPassword,
       gender,
-      birthdate
+      birthdate,
+      profilePicture: profilePicture || ''
     });
 
     const token = generateToken(user._id);

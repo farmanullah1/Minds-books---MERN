@@ -297,3 +297,254 @@
     gap: 20px;
   }
 }
+
+/* ── Overhauled Signup Details Accordion ───────────────────── */
+.details-accordion {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.02);
+  transition: all var(--dur-base) ease;
+  margin-bottom: 8px;
+}
+
+.details-accordion.expanded {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 12px rgba(247, 185, 40, 0.08);
+}
+
+.accordion-trigger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 14px 16px;
+  background: none;
+  border: none;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background var(--t-fast);
+}
+
+.accordion-trigger:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.accordion-content {
+  padding: 16px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Signup Photo Pickers Row ────────────────────────────── */
+.photo-selectors-row {
+  display: flex;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.photo-selector-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.photo-selector-box label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.preview-circle-container {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px dashed var(--border);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--t-fast);
+}
+
+.preview-circle-container:hover {
+  border-color: var(--brand-primary);
+  transform: scale(1.02);
+}
+
+.preview-circle-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.preview-rect-container {
+  width: 130px;
+  height: 80px;
+  border-radius: var(--radius-md);
+  border: 2px dashed var(--border);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--t-fast);
+}
+
+.preview-rect-container:hover {
+  border-color: var(--brand-primary);
+  transform: scale(1.02);
+}
+
+.preview-rect-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.upload-btn-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-tertiary);
+  font-size: 0.6875rem;
+  text-align: center;
+}
+
+.upload-btn-placeholder svg {
+  color: var(--brand-primary);
+  margin-bottom: 2px;
+}
+
+.remove-photo-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity var(--t-fast);
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: bold;
+}
+
+.preview-circle-container:hover .remove-photo-overlay,
+.preview-rect-container:hover .remove-photo-overlay {
+  opacity: 1;
+}
+
+/* ── VIP Creator credit/attribution card ─────────────────── */
+.vip-creator-card {
+  margin-top: 24px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(36, 37, 38, 0.95), rgba(24, 25, 26, 0.98));
+  border: 1px solid rgba(247, 185, 40, 0.35);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--brand-shadow), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 120px;
+  text-align: left;
+}
+
+.vip-creator-card::before {
+  content: "";
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(247, 185, 40, 0.12), transparent 70%);
+  top: -20px;
+  right: -20px;
+  pointer-events: none;
+}
+
+.vip-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vip-card-badge {
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--brand-primary);
+  font-weight: 800;
+}
+
+.vip-card-chip {
+  width: 24px;
+  height: 18px;
+  background: linear-gradient(135deg, #ffd700, #b8860b);
+  border-radius: 3px;
+  position: relative;
+}
+
+.vip-card-chip::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 6px;
+  right: 6px;
+  bottom: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.vip-card-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.vip-card-holder {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.vip-card-label {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  letter-spacing: 0.5px;
+}
+
+.vip-card-name {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 1px;
+}
+
+.vip-card-link {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--brand-primary);
+  text-decoration: underline;
+  cursor: pointer;
+  transition: all var(--t-fast);
+}
+
+.vip-card-link:hover {
+  color: var(--brand-hover);
+  transform: translateY(-1px);
+}
+

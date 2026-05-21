@@ -10,6 +10,8 @@
 const express = require('express');
 const router = express.Router();
 const { auth } = require('../middleware/auth');
+const upload = require('../middleware/upload');
+const userPhotoController = require('../controllers/userPhotoController');
 const {
   getUser,
   getAllUsers,
@@ -50,6 +52,9 @@ router.post('/friend-request/cancel', auth, cancelFriendRequest);
 router.post('/unfriend', auth, removeFriend);
 router.post('/save-post/:postId', auth, toggleSavePost);
 router.post('/:id/endorse', auth, endorseSkill);
+router.post('/upload-profile-pic', auth, upload.uploadProfilePic, userPhotoController.uploadProfilePic);
+router.post('/upload-cover-photo', auth, upload.uploadCoverPhoto, userPhotoController.uploadCoverPhoto);
+router.post('/update-photo-url', auth, userPhotoController.updatePhotoFromUrl);
 router.delete('/account', auth, deleteAccount);
 
 module.exports = router;

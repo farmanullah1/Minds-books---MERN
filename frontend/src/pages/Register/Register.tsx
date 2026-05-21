@@ -1,17 +1,12 @@
-/**
- * CodeDNA
- * Register.tsx — register page
- * exports: none
- * used_by: internal
- * rules: Glassmorphism, centered layout, premium branding, legal checkboxes
- * agent: gemini-3-1-pro | google | 2026-04-30 | init | Redesigned with glassmorphism
- */
-
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { registerUser, clearError } from '../../store/slices/authSlice';
-import { FiEye, FiEyeOff, FiCheckCircle } from 'react-icons/fi';
+import { registerUser, clearError, updateUserInState } from '../../store/slices/authSlice';
+import { FiEye, FiEyeOff, FiCheckCircle, FiChevronDown, FiChevronUp, FiCamera, FiImage, FiTrash2 } from 'react-icons/fi';
+import PasswordStrengthMeter from '../../components/ui/PasswordStrengthMeter';
+import ProfilePicModal from '../../components/Profile/ProfilePicModal';
+import api from '../../services/api';
 import './Auth.css';
 
 const Register: React.FC = () => {
@@ -19,6 +14,7 @@ const Register: React.FC = () => {
   const navigate = useNavigate();
   const { loading, error } = useAppSelector((state) => state.auth);
 
+  // Core registration states
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -32,11 +28,41 @@ const Register: React.FC = () => {
   const [localError, setLocalError] = useState('');
   const [success, setSuccess] = useState(false);
 
+  // Accordion details state
+  const [detailsExpanded, setDetailsExpanded] = useState(false);
+
+  // Photo uploads state (during registration)
+  const [profilePicPreview, setProfilePicPreview] = useState<string | null>(null);
+  const [profilePicBlob, setProfilePicBlob] = useState<Blob | null>(null);
+  const [coverPhotoPreview, setCoverPhotoPreview] = useState<string | null>(null);
+  const [coverPhotoBlob, setCoverPhotoBlob] = useState<Blob | null>(null);
+
+  // Modals visibility states
+  const [showProfilePicModal, setShowProfilePicModal] = useState(false);
+  const [showCoverPhotoModal, setShowCoverPhotoModal] = useState(false);
+
+  // Upload progress message states
+  const [uploadingPhotos, setUploadingPhotos] = useState(false);
+  const [uploadStatus, setUploadStatus] = useState('');
+
   useEffect(() => {
     return () => {
       dispatch(clearError());
     };
   }, [dispatch]);
+
+  const calculatePasswordScore = (pass: string): number => {
+    let score = 0;
+    if (pass.length >= 8) score++;
+    if (/[A-Z]/.test(pass)) score++;
+    if (/[a-z]/.test(pass)) score++;
+    if (/[a-z]/.test(pass) && /[A-Z]/.test(pass)) score++; // standard visual score
+    if (/\d/.test(pass)) score++;
+    if (/[^A-Za-z0-9]/.test(pass)) score++;
+    return Math.min(score, 5);
+  };
+
+  const passwordScore = calculatePasswordScore(password);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,6 +88,7 @@ const Register: React.FC = () => {
       return;
     }
 
+    // 1. Dispatch standard registration details
     const result = await dispatch(registerUser({
       name: `${firstName.trim()} ${lastName.trim()}`,
       email: email.trim(),
@@ -71,13 +98,54 @@ const Register: React.FC = () => {
     }));
 
     if (registerUser.fulfilled.match(result)) {
+      // 2. Successful registration sets token in session/cookies. 
+      // If user selected profile pic or cover photo locally, upload them immediately now!
+      if (profilePicBlob || coverPhotoBlob) {
+        setUploadingPhotos(true);
+        try {
+          if (profilePicBlob) {
+            setUploadStatus('Uploading profile picture...');
+            const formData = new FormData();
+            formData.append('profilePicture', profilePicBlob, 'profile.webp');
+            const res = await api.post('/users/upload-profile-pic', formData, {
+              headers: { 'Content-Type': 'multipart/form-data' },
+            });
+            const picUrl = res.data.profilePicture;
+            dispatch(updateUserInState({ profilePicture: picUrl }));
+          }
+
+          if (coverPhotoBlob) {
+            setUploadStatus('Uploading cover photo...');
+            const formData = new FormData();
+            formData.append('coverPhoto', coverPhotoBlob, 'cover.webp');
+            const res = await api.post('/users/upload-cover-photo', formData, {
+              headers: { 'Content-Type': 'multipart/form-data' },
+            });
+            const coverUrl = res.data.coverPhoto;
+            dispatch(updateUserInState({ coverPicture: coverUrl }));
+          }
+        } catch (photoErr: any) {
+          console.error('Error uploading registration photos:', photoErr);
+          setLocalError('Account created, but photo uploads failed. You can configure them in Settings later.');
+        } finally {
+          setUploadingPhotos(false);
+        }
+      }
+
       setSuccess(true);
-      setTimeout(() => navigate('/login'), 2000);
+      setTimeout(() => navigate('/'), 2000); // Redirect directly to main feed dashboard since they are logged in!
     }
   };
 
-  const isFormValid = firstName.trim() && lastName.trim() && email.trim() &&
-    password.length >= 8 && confirmPassword && password === confirmPassword && agreeTerms && agreePrivacy;
+  const isFormValid =
+    firstName.trim() &&
+    lastName.trim() &&
+    email.trim() &&
+    password.length >= 8 &&
+    confirmPassword &&
+    password === confirmPassword &&
+    agreeTerms &&
+    agreePrivacy;
 
   return (
     <div className="auth-page">
@@ -113,7 +181,7 @@ const Register: React.FC = () => {
               <FiCheckCircle size={64} color="var(--success)" style={{ marginBottom: '20px' }} />
               <h2>Welcome Aboard!</h2>
               <p>Your account has been created successfully.</p>
-              <p style={{ marginTop: '12px', fontSize: '14px', color: 'var(--text-secondary)' }}>Redirecting to login...</p>
+              <p style={{ marginTop: '12px', fontSize: '14px', color: 'var(--text-secondary)' }}>Redirecting to home...</p>
             </div>
           ) : (
             <>
@@ -127,6 +195,12 @@ const Register: React.FC = () => {
                   <div className="auth-error">{error || localError}</div>
                 )}
 
+                {uploadingPhotos && (
+                  <div className="auth-success" style={{ padding: '8px 12px', fontSize: '14px', marginBottom: '8px' }}>
+                    {uploadStatus}
+                  </div>
+                )}
+
                 <div className="input-row">
                   <div className="input-group">
                     <input
@@ -136,6 +210,7 @@ const Register: React.FC = () => {
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
                       required
+                      disabled={loading || uploadingPhotos}
                     />
                   </div>
                   <div className="input-group">
@@ -146,6 +221,7 @@ const Register: React.FC = () => {
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
                       required
+                      disabled={loading || uploadingPhotos}
                     />
                   </div>
                 </div>
@@ -159,6 +235,7 @@ const Register: React.FC = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     autoComplete="email"
+                    disabled={loading || uploadingPhotos}
                   />
                 </div>
 
@@ -172,11 +249,22 @@ const Register: React.FC = () => {
                       onChange={(e) => setPassword(e.target.value)}
                       required
                       autoComplete="new-password"
+                      disabled={loading || uploadingPhotos}
                     />
-                    <button type="button" className="pw-eye-modern" onClick={() => setShowPassword(!showPassword)}>
+                    <button
+                      type="button"
+                      className="pw-eye-modern"
+                      onClick={() => setShowPassword(!showPassword)}
+                      disabled={loading || uploadingPhotos}
+                    >
                       {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
                     </button>
                   </div>
+
+                  {/* Password Strength Indicator */}
+                  {password && (
+                    <PasswordStrengthMeter score={passwordScore} password={password} />
+                  )}
                 </div>
 
                 <div className="input-group">
@@ -187,33 +275,133 @@ const Register: React.FC = () => {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     required
+                    disabled={loading || uploadingPhotos}
                   />
                 </div>
 
-                <div className="input-row">
-                  <div className="input-group">
-                    <select
-                      className="input-field-modern"
-                      value={gender}
-                      onChange={(e) => setGender(e.target.value)}
-                    >
-                      <option value="">Gender (optional)</option>
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
-                      <option value="Non-binary">Non-binary</option>
-                      <option value="Prefer not to say">Prefer not to say</option>
-                    </select>
-                  </div>
-                  <div className="input-group">
-                    <input
-                      type="date"
-                      className="input-field-modern"
-                      placeholder="Date of birth"
-                      value={birthdate}
-                      onChange={(e) => setBirthdate(e.target.value)}
-                      max={new Date().toISOString().split('T')[0]}
-                    />
-                  </div>
+                {/* ── DETAILS ACCORDION PANEL ──────────────────────────────── */}
+                <div className={`details-accordion ${detailsExpanded ? 'expanded' : ''}`}>
+                  <button
+                    type="button"
+                    className="accordion-trigger"
+                    onClick={() => setDetailsExpanded(!detailsExpanded)}
+                  >
+                    <span>Optional Personal Details</span>
+                    {detailsExpanded ? <FiChevronUp size={18} /> : <FiChevronDown size={18} />}
+                  </button>
+
+                  <AnimatePresence initial={false}>
+                    {detailsExpanded && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.25, ease: 'easeInOut' }}
+                        style={{ overflow: 'hidden' }}
+                      >
+                        <div className="accordion-content">
+                          <div className="input-row">
+                            <div className="input-group">
+                              <select
+                                className="input-field-modern"
+                                value={gender}
+                                onChange={(e) => setGender(e.target.value)}
+                                disabled={loading || uploadingPhotos}
+                              >
+                                <option value="">Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Non-binary">Non-binary</option>
+                                <option value="Prefer not to say">Prefer not to say</option>
+                              </select>
+                            </div>
+                            <div className="input-group">
+                              <input
+                                type="date"
+                                className="input-field-modern"
+                                placeholder="Date of birth"
+                                value={birthdate}
+                                onChange={(e) => setBirthdate(e.target.value)}
+                                max={new Date().toISOString().split('T')[0]}
+                                disabled={loading || uploadingPhotos}
+                              />
+                            </div>
+                          </div>
+
+                          {/* Profile & Cover Selection Cache previews */}
+                          <div className="photo-selectors-row">
+                            <div className="photo-selector-box">
+                              <label>Profile Pic</label>
+                              <div
+                                className="preview-circle-container"
+                                onClick={() => setShowProfilePicModal(true)}
+                              >
+                                {profilePicPreview ? (
+                                  <>
+                                    <img src={profilePicPreview} alt="Profile Cache Preview" />
+                                    <div className="remove-photo-overlay">
+                                      <FiCamera size={14} style={{ marginRight: '4px' }} /> Edit
+                                    </div>
+                                    <button
+                                      type="button"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setProfilePicPreview(null);
+                                        setProfilePicBlob(null);
+                                      }}
+                                      style={{ position: 'absolute', top: 0, right: 0, background: 'var(--danger)', padding: '2px', borderBottomLeftRadius: '5px', zIndex: 10 }}
+                                      aria-label="Remove profile pic"
+                                    >
+                                      <FiTrash2 size={10} color="#fff" />
+                                    </button>
+                                  </>
+                                ) : (
+                                  <div className="upload-btn-placeholder">
+                                    <FiCamera size={20} />
+                                    <span>Add</span>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="photo-selector-box">
+                              <label>Cover Photo</label>
+                              <div
+                                className="preview-rect-container"
+                                onClick={() => setShowCoverPhotoModal(true)}
+                              >
+                                {coverPhotoPreview ? (
+                                  <>
+                                    <img src={coverPhotoPreview} alt="Cover Cache Preview" />
+                                    <div className="remove-photo-overlay">
+                                      <FiImage size={14} style={{ marginRight: '4px' }} /> Edit
+                                    </div>
+                                    <button
+                                      type="button"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setCoverPhotoPreview(null);
+                                        setCoverPhotoBlob(null);
+                                      }}
+                                      style={{ position: 'absolute', top: 0, right: 0, background: 'var(--danger)', padding: '2px', borderBottomLeftRadius: '5px', zIndex: 10 }}
+                                      aria-label="Remove cover photo"
+                                    >
+                                      <FiTrash2 size={10} color="#fff" />
+                                    </button>
+                                  </>
+                                ) : (
+                                  <div className="upload-btn-placeholder">
+                                    <FiImage size={20} />
+                                    <span>Add</span>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
                 <div className="auth-legal-modern">
@@ -226,6 +414,7 @@ const Register: React.FC = () => {
                       type="checkbox"
                       checked={agreeTerms}
                       onChange={(e) => setAgreeTerms(e.target.checked)}
+                      disabled={loading || uploadingPhotos}
                     />
                     <span>I agree to the <a href="#terms">Terms of Service</a></span>
                   </label>
@@ -235,6 +424,7 @@ const Register: React.FC = () => {
                       type="checkbox"
                       checked={agreePrivacy}
                       onChange={(e) => setAgreePrivacy(e.target.checked)}
+                      disabled={loading || uploadingPhotos}
                     />
                     <span>I agree to the <a href="#privacy">Privacy & Data Policy</a></span>
                   </label>
@@ -243,14 +433,36 @@ const Register: React.FC = () => {
                 <button
                   type="submit"
                   className="auth-btn-primary"
-                  disabled={loading || !isFormValid}
+                  disabled={loading || uploadingPhotos || !isFormValid}
                   style={{ marginTop: '12px' }}
                 >
-                  {loading ? 'Creating account...' : 'Sign Up'}
+                  {loading || uploadingPhotos ? 'Creating account...' : 'Sign Up'}
                 </button>
 
                 <div className="auth-footer-links">
                   <Link to="/login">Already have an account?</Link>
+                </div>
+
+                {/* VIP CREATOR ATTRIBUTION CREDIT CARD MOCKUP */}
+                <div className="vip-creator-card">
+                  <div className="vip-card-header">
+                    <span className="vip-card-badge">MindBook VIP Creator</span>
+                    <div className="vip-card-chip" />
+                  </div>
+                  <div className="vip-card-info">
+                    <div className="vip-card-holder">
+                      <span className="vip-card-label">Developer</span>
+                      <span className="vip-card-name">Farmanullah Ansari</span>
+                    </div>
+                    <a
+                      href="https://farmanullah1.github.io/My-Portfolio"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="vip-card-link"
+                    >
+                      My Portfolio
+                    </a>
+                  </div>
                 </div>
               </form>
             </>
@@ -261,6 +473,33 @@ const Register: React.FC = () => {
       <footer className="auth-footer-brand">
         <p>MindBook © {new Date().getFullYear()}. Built for community.</p>
       </footer>
+
+      {/* CROP MODALS */}
+      <ProfilePicModal
+        open={showProfilePicModal}
+        onClose={() => setShowProfilePicModal(false)}
+        type="profile"
+        mode="signup"
+        onSave={(_url, previewUrl, blob) => {
+          if (previewUrl && blob) {
+            setProfilePicPreview(previewUrl);
+            setProfilePicBlob(blob);
+          }
+        }}
+      />
+
+      <ProfilePicModal
+        open={showCoverPhotoModal}
+        onClose={() => setShowCoverPhotoModal(false)}
+        type="cover"
+        mode="signup"
+        onSave={(_url, previewUrl, blob) => {
+          if (previewUrl && blob) {
+            setCoverPhotoPreview(previewUrl);
+            setCoverPhotoBlob(blob);
+          }
+        }}
+      />
     </div>
   );
 };

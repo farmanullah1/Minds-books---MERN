@@ -241,13 +241,25 @@
 - backend/scripts/seed.js — Hardened DB seed utilities cleanly seeding all collections for 1 Admin, 5 regular creators, 10 groups, 50 feed posts with full comments, 10 stories, 5 events, 5 jobs, and 5 reels.
 **Summary:** Executed strict quality assurance audits across all social modules. Optimized developer portfolio attributions in 6 major application locations. Audited build compiling pipelines, achieving a perfect, warning-free, and error-free production build bundle.
 **Notes:** Production ready. All playbook prompts (PROMPT-01 through PROMPT-20) are fully complete, verified, and stabilized.
+## [2026-05-21T07:11:00Z] — PROMPT-21: Profile/Cover Photo Cropper & Signup Overhaul
+**Status:** Completed
+**Files Modified:**
+- frontend/src/components/Profile/ProfilePicModal.tsx — Created modular profile picture and cover photo cropper modal using `react-easy-crop` with zoom/rotation slider controls and drag zones.
+- frontend/src/components/Profile/ProfilePicModal.module.css — Designed deep dark modal style classes matching the brand's AMOLED yellow/gold accent scheme.
+- frontend/src/pages/Register/Register.tsx — Refactored signup with password meter, expandable details accordion, legal checks, local image caching, and auto-upload on successful session initiation.
+- frontend/src/pages/Register/Auth.css — Added classes for custom crop grids, registration accordion panels, and VIP card animations.
+- frontend/src/components/ui/Button.d.ts — Created TypeScript definitions for Button JSX component.
+- frontend/src/components/ui/Modal.d.ts — Created TypeScript definitions for Modal JSX component.
+- frontend/src/components/ui/PasswordStrengthMeter.d.ts — Created TypeScript definitions for PasswordStrengthMeter JSX component.
+**Summary:** Built full-fidelity photo cropping modal using `react-easy-crop`, overhauled signup workflow integrating password strength, detail expansion drawers, VIP creator attributions, and local image caches that instantly sync with the backend. Made core JSX components type-safe for compiler checking.
+**Notes:** Production-verified under `npm run build` and `npx tsc --noEmit` with 0 warnings or errors.
 ---
 
-## [2026-05-21T03:08:11Z] — ALL PROMPTS COMPLETE: MindBook v7.0
+## [2026-05-21T07:12:00Z] — ALL PROMPTS COMPLETE: MindBook v7.1
 **Status:** ✅ Fully Completed
 
 **Total Implementation:**
-- 65+ Pages (routes)
+- 66+ Pages (routes)
 - 200+ React components
 - 120+ API endpoints
 - 22 MongoDB models
@@ -263,20 +275,20 @@
 - PWA manifest + service worker
 
 **Developer Links Placed In:**
-✅ Left sidebar footer (LeftSidebar.tsx)
-✅ Site footer (Landing.tsx)
-✅ /about-mindbook hero (AboutMindbook.tsx)
-✅ /meet-the-creator (MeetCreator.tsx)
-✅ /why-mindbook (WhyMindbook.tsx)
-✅ Demo account profile Portfolio tab (PortfolioTab.tsx)
+  ✅ Left sidebar footer (LeftSidebar.tsx)
+  ✅ Site footer (Landing.tsx)
+  ✅ /about-mindbook hero (AboutMindbook.tsx)
+  ✅ /meet-the-creator (MeetCreator.tsx)
+  ✅ /why-mindbook (WhyMindbook.tsx)
+  ✅ Demo account profile Portfolio tab (PortfolioTab.tsx)
 
 **Portfolio:** https://farmanullah1.github.io/My-Portfolio
 **LinkedIn:** https://www.linkedin.com/in/farmanullah-ansari/
 **GitHub:** https://github.com/farmanullah1
 
 **Build Verification:**
-- TypeScript compile (tsc --noEmit): ✅ Exit code 0 — 0 errors
-- Production build (npm run build): ✅ Built in 1.52s — 0 type errors, 0 compile warnings
+- TypeScript compile (tsc --noEmit): ✅ Exit code 0 — 0 errors (with type definitions)
+- Production build (npm run build): ✅ Built in 1.57s — 0 type errors, 0 compile warnings
 - Backend server: ✅ Running on port 5000, MongoDB connected
 - Database seeded: ✅ 1 Admin, 5 users, 50 posts, 10 groups, 10 stories, 5 events, 5 jobs, 5 reels
 
@@ -289,3 +301,4 @@
 **MindBook is ready for portfolio showcase. 🎉**
 **Developer: Farmanullah Ansari | Full Stack Software Engineer**
 ---
+
