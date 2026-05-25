@@ -13,17 +13,46 @@ MindBook is a high-fidelity, fully responsive social media platform. Designed wi
 
 Built on the **MERN stack**, MindBook provides a robust set of features for community building, content sharing, and real-time interaction.
 
-## ✨ Core Features
+## ✨ Comprehensive Feature Ecosystem
 
-- **24-Hour Stories:** Disappearing photo/video stories with full-screen viewer, auto-advancement, reactions, and threaded replies.
-- **Infinite News Feed:** True infinite scrolling using `react-intersection-observer` with support for collaborative and time-capsule posts.
-- **AI-Powered Social:** Smart Content Assistant (Gemini) for post enhancement, AI safety scanning, and automated reply suggestions.
-- **Professional Suite:** Comprehensive portfolio builder with skill endorsements, certifications, and a full-featured job board for employers and candidates.
-- **Secure Messaging:** Real-time 1-on-1 and group chats with rich media support, voice messages, and built-in WebRTC video calling.
-- **Privacy & Safety:** Granular post audience controls, active login session management, and GDPR-compliant account data export.
-- **Knowledge Hub:** Long-form article platform and micro-communities (channels) within groups for structured discussions.
-- **Administrative Control:** Advanced admin dashboard with user management, content moderation queues, and system-wide analytics.
-- **Progressive Web App:** Fully installable PWA with offline capabilities and a mobile-first responsive design.
+MindBook is packed with a massive suite of features designed for engagement, creation, and professional growth.
+
+### 🌐 Core Social & Engagement
+- **Infinite News Feed:** True infinite scrolling with support for collaborative, time-capsule, and high-fidelity media posts.
+- **24-Hour Stories:** Disappearing photo/video stories with full-screen viewer, reactions, and threaded replies.
+- **Advanced Interactions:** Multi-reaction system (Like, Love, Haha, etc.), nested comment threads, and post-sharing.
+- **Engagement Tools:** Anonymous questions, user highlights, and "Memories" to revisit past moments.
+
+### 🎬 Video & Live Entertainment
+- **Reels:** Dedicated short-form video feed with vertical scrolling and creator interactions.
+- **Video Hub:** A centralized space for long-form video content, categorized playlists, and trending videos.
+- **Live Streaming & Watch Parties:** Real-time synchronized video experiences for communities.
+
+### 🤝 Community & Connection
+- **Groups & Channels:** Robust community building with structured sub-channels for specific discussion topics.
+- **Events & Meetups:** Full event management system with RSVPs, location maps, and calendar integration.
+- **Real-Time Audio Rooms:** Drop-in audio conversations for immediate community interaction.
+- **Gaming & Discovery:** Integrated gaming hub and local discovery tools to find nearby users and interests.
+
+### 💰 Commerce & Monetization
+- **Marketplace:** Comprehensive local buy/sell platform with product listings, categories, and direct seller messaging.
+- **Digital Wallet:** Integrated wallet for managing credits, tracking transactions, and sending virtual gifts.
+- **Fundraisers:** Built-in platform for community-driven financial support and charity initiatives.
+
+### 🤖 AI-Powered Experience (Gemini Pro)
+- **MindBot Assistant:** A sophisticated AI chatbot for platform guidance and general assistance.
+- **Smart Content Engine:** AI-driven post enhancement, automated reply suggestions, and tone adjustment tools.
+- **Safety Scanning:** Real-time AI scanning of content for toxicity and safety compliance.
+
+### 💼 Professional & Creator Suite
+- **Job Board:** A full-featured career portal for employers to post jobs and candidates to manage applications.
+- **Creator Studio:** Advanced analytics and management tools for high-volume content creators.
+- **Knowledge Hub:** Long-form article platform with markdown support and professional endorsements.
+
+### 📞 Real-Time Communication
+- **HD Video & Voice Calls:** Secure, low-latency WebRTC calls directly within the browser.
+- **Rich Messaging:** Real-time 1-on-1 and group chats with file sharing, voice notes, and typing indicators.
+- **PWA Capabilities:** Fully installable mobile-first experience with push notifications and offline support.
 
 ## 🛠️ Technology Stack
 
